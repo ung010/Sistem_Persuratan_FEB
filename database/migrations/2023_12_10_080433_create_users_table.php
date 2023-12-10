@@ -14,19 +14,19 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->integer('nim')->unique();
-            $table->integer('nowa');
+            $table->bigInteger('nim')->unique();
+            $table->integer('nowa')->nullable();
             $table->string('email');
-            $table->string('ttl');
+            $table->string('ttl')->nullable();
             $table->string('almt_asl')->nullable();
-            $table->string('almt_smg');
+            $table->string('almt_smg')->nullable();
             $table->string('foto')->nullable();
             $table->string('password');
             $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan'])->default('mahasiswa');
-            $table->unsignedBigInteger('dpt_id');
-            $table->unsignedBigInteger('prd_id');
-            $table->foreign('dpt_id')->references('id')->on('departement')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('dpt_id')->nullable();
+            $table->unsignedBigInteger('prd_id')->nullable();
+            $table->foreign('dpt_id')->references('id')->on('departement')->onDelete('cascade')->onUpdate('cascade')->nullable();
+            $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

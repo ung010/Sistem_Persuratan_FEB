@@ -9,13 +9,13 @@ class departemen extends Model
 {
     use HasFactory;
 
-    protected $table = 'departemen';
+    protected $table = 'departement';
     protected $primaryKey = 'id';
     protected $fillable = [
         "nama_dpt"
     ];
 
-    public function Dosens(){
-        return $this->hasMany(User::class, 'dosen_id', 'id');
-    }
+    // public function Dosens(){
+    //     return $this->hasMany(User::class, 'dosen_id', 'id');
+    // }
 }
