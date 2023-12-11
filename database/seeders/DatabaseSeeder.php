@@ -27,6 +27,10 @@ class DatabaseSeeder extends Seeder
         $prodis = [
             [
 
+                'nama_prd' => '-'
+            ],
+            [
+
                 'nama_prd' => 'S1 - Digital Bisnis'
             ],
             [
@@ -63,6 +67,10 @@ class DatabaseSeeder extends Seeder
         }
 
         $departements = [
+            [
+
+                'nama_dpt' => '-'
+            ],
             [
 
                 'nama_dpt' => 'Manajemen'

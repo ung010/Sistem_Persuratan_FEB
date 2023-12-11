@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->bigInteger('nim')->unique();
-            $table->integer('nowa')->nullable();
+            $table->string('nowa')->nullable();
             $table->string('email');
             $table->string('ttl')->nullable();
             $table->string('almt_asl')->nullable();

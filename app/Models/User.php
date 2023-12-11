@@ -51,4 +51,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function departemen()
+    {
+        return $this->belongsTo(departemen::class, 'dpt_id', 'id');
+    }
+
+    public function prodi()
+    {
+        return $this->belongsTo(prodi::class, 'prd_id', 'id');
+    }
 }
