@@ -27,7 +27,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [LoginController::class, 'index'])->name('login');
+    Route::get('/login', [LoginController::class, 'index'])->name('auth.login');
     Route::post('/', [LoginController::class, 'login'])->name('auth.login');
+    // Route::get('/login_admin', [LoginController::class, 'index2'])->name('login');
+    // Route::post('/login_admin', [LoginController::class, 'login2'])->name('auth.login');
     Route::get('/register', [RegisterController::class, 'register']);
     Route::post('/register/create', [RegisterController::class, 'create'])->name('register.create');
 });
@@ -39,21 +42,22 @@ route::get('/home', function () {
 Route::middleware('auth')->group(function () {
     route::get('/users', [UsersController::class, 'users']);
     Route::get('/logout', [LoginController::class, 'logout']);
-    route::get('/users/mahasiswa', [UsersController::class, 'mahasiswa'])->name('mahasiswa.index')->
+    route::get('/mahasiswa', [UsersController::class, 'mahasiswa'])->name('mahasiswa.index')->
     middleware('UserAkses:mahasiswa');
-    route::get('/users/mahasiswa/my_account', [MahasiswaController::class, 'account'])->name('mahasiswa.account')->
+    route::get('/mahasiswa/my_account', [MahasiswaController::class, 'account'])->name('mahasiswa.account')->
     middleware('UserAkses:mahasiswa');
+    
+
+    route::get('/admin', [UsersController::class, 'admin'])->name('admin.index')->middleware('UserAkses:admin');
+    route::get('/admin/akun_user', [AdminController::class, 'user'])->name('admin.mahasiswa')->middleware('UserAkses:admin');
+    route::post('/admin/akun_user/delete/{id}', [RegisterController::class, 'delete'])->name('mahasiswa.delete')->middleware('UserAkses:admin');
 
 
-    route::get('/users/admin', [UsersController::class, 'admin'])->name('admin.index')->
-    middleware('UserAkses:admin');
-
-
-    route::get('/users/supervisor', [UsersController::class, 'supervisor'])->name('supervisor.index')->
+    route::get('/supervisor', [UsersController::class, 'supervisor'])->name('supervisor.index')->
     middleware('UserAkses:supervisor');
     
     
-    route::get('/users/wakildekan', [UsersController::class, 'wadek'])->name('wadek.index')->
+    route::get('/wakildekan', [UsersController::class, 'wadek'])->name('wadek.index')->
     middleware('UserAkses:wakildekan');
 
 

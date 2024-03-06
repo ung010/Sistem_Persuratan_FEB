@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('srt_aktif_asn', function (Blueprint $table) {
             $table->id();
+            $table->string('no_surat')->nullable();
             $table->string('gol_ortu');
             $table->string('nama_ortu');
             $table->integer('nip_ortu');
@@ -20,9 +21,11 @@ return new class extends Migration
             $table->year('thn_awl');
             $table->year('thn_akh');
             $table->tinyInteger('semester');
-            $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan'])->default('mahasiswa');
+            $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan', 'dekan'])->default('mahasiswa');
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('ket_surat')->nullable()->default('-');
+            $table->date('tgl_cetak_srt')->nullable();
             $table->timestamps();
         });
     }

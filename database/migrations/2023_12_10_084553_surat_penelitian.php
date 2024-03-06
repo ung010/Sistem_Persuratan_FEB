@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('srt_penelitian', function (Blueprint $table) {
             $table->id();
+            $table->string('no_surat')->nullable();
             $table->string('tjn_kegiatan');
             $table->string('lampiran');
             $table->string('jbt_dtju');
@@ -23,9 +24,11 @@ return new class extends Migration
             $table->tinyInteger('semester');
             $table->string('ipk');
             $table->string('sksk');
-            $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan'])->default('mahasiswa');
+            $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan', 'dekan'])->default('mahasiswa');
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('ket_surat')->nullable()->default('-');
+            $table->date('tgl_cetak_srt')->nullable();
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->bigInteger('nim')->unique();
+            $table->bigInteger('nim')->unique()->nullable();
             $table->string('nowa')->nullable();
             $table->string('email');
             $table->string('ttl')->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('almt_smg')->nullable();
             $table->string('foto')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan'])->default('mahasiswa');
+            $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan', 'dekan'])->default('mahasiswa');
             $table->unsignedBigInteger('dpt_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('dpt_id')->references('id')->on('departement')->onDelete('cascade')->onUpdate('cascade')->nullable();

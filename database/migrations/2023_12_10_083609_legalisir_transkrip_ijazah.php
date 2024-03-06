@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('legal_ijz_trs', function (Blueprint $table) {
             $table->id();
-            $table->string('alamat');
+            // Alamat Asal
+            // $table->string('alamat');
             $table->string('keperluan');
             $table->string('jnis_legal');
             $table->string('file_ijz');
             $table->string('file_trs');
-            $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan'])->default('mahasiswa');
-            $table->unsignedBigInteger('id_users');
-            $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan', 'dekan'])->default('mahasiswa');
+            $table->unsignedBigInteger('users_id');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('ket_legalisir')->nullable()->default('-');
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"> Halo {{ auth()->user()->nama }}</a>
+            <a class="navbar-brand"> Halo {{ auth()->user()->nama }}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -22,7 +22,7 @@
                             Dashboard
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/users/mahasiswa/my_account">My Account</a></li>
+                            <li><a class="dropdown-item" href="/mahasiswa/my_account">My Account</a></li>
                             <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         </ul>
                     </li>

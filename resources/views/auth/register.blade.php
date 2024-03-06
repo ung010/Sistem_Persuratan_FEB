@@ -1,10 +1,11 @@
 @extends('template/dasar')
 @section('inti_data')
+<title>Register Akun</title>
 <body class="panduan">
     <div class="container py-5 login">
         <div class="w-50 center border rounded px-3 py-3 mx-auto land">
             <h1>Register</h1>
-            <form action="{{ route('register.create') }}" method="post">
+            <form action="{{ route('register.create') }}" method="post" enctype="multipart/form-data">
                 @csrf                
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
@@ -29,15 +30,15 @@
                 <div class="mb-3">
                     <label for="nowa" class="form-label">No Handphone (WA Aktif)</label>
                     <input type="number" name="nowa" value="{{ Session::get('nowa') }}" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label for="almt_asl" class="form-label">Alamat Asal (Bila asli dari Semarang tidak wajib isi)</label>
-                    <input type="text" name="almt_asl" value="{{ Session::get('almt_asl', '-') }}" 
-                    class="form-control">
-                </div>
+                </div>                
                 <div class="mb-3">
                     <label for="almt_smg" class="form-label">Alamat di Semarang (Wajib isi)</label>
                     <input type="text" name="almt_smg" value="{{ Session::get('almt_smg') }}" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="almt_asl" class="form-label">Alamat Asal (Bila asli dari Semarang, masih wajib isi)</label>
+                    <input type="text" name="almt_asl" value="{{ Session::get('almt_asl') }}" 
+                    class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="dpt_id" class="col-sm-2 col-form-label">Departemen</label>
@@ -67,11 +68,16 @@
                         </select>
                     </div>
                 </div>
+                <div class="mb-3">
+                    <label for="foto" class="form-label">Foto</label>
+                    <input type="file" name="foto" value="#" id="foto"
+                    class="form-control">
+                </div>
                 <div class="mb-3 d-grid">
                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                 </div>
                 <div class="mb-3 d-grid">
-                    <a href='/login' class="btn btn-warning">Login</a>
+                    <a href='/' class="btn btn-warning">Login</a>
                 </div>
             </form>
         </div>

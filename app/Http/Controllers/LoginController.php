@@ -28,13 +28,13 @@ class LoginController extends Controller
         if(Auth::attempt($infologin)){
 
             if (Auth::user()->role == 'mahasiswa'){
-                return redirect('/users/mahasiswa');
+                return redirect('/mahasiswa');
             } elseif (Auth::user()->role == 'admin') {
-                return redirect('/users/admin');
+                return redirect('/admin');
             } elseif (Auth::user()->role == 'supervisor') {
-                return redirect('/users/supervisor');
+                return redirect('/supervisor');
             } elseif (Auth::user()->role == 'wakildekan') {
-                return redirect('/users/wakildekan');
+                return redirect('/wakildekan');
             }
         }else{
             return redirect('/')->withErrors('Penulisan email dan password ada kesalahan')->withInput();
