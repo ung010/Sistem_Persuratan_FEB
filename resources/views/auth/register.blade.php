@@ -5,16 +5,19 @@
     <div class="container py-5 login">
         <div class="w-50 center border rounded px-3 py-3 mx-auto land">
             <h1>Register</h1>
-            <form action="{{ route('register.create') }}" method="post" enctype="multipart/form-data">
+            <form id="register-form" action="{{ route('register.create') }}" method="post" enctype="multipart/form-data">
                 @csrf                
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" name="email" value="{{ Session::get('email') }}" class="form-control">
-                </div>                
+                </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" value="{{ Session::get('password') }}" class="form-control">
-                </div>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" value="{{ Session::get('password') }}" class="form-control">
+                        <button type="button" class="btn btn-outline-secondary" id="togglePassword">Show</button>
+                    </div>
+                </div>                
                 <div class="mb-3">
                     <label for="nama" class="form-label">Nama</label>
                     <input type="text" name="nama" value="{{ Session::get('nama') }}" class="form-control">
@@ -24,8 +27,12 @@
                     <input type="number" name="nim" value="{{ Session::get('nim') }}" class="form-control">
                 </div>
                 <div class="mb-3">
-                    <label for="ttl" class="form-label">Tempat Tanggal Lahir (Format : Jakarta, 08 Maret 2012)</label>
-                    <input type="text" name="ttl" value="{{ Session::get('ttl') }}" class="form-control">
+                    <label for="kota" class="form-label">Kota</label>
+                    <input type="text" name="kota" value="{{ Session::get('kota') }}" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                    <input type="date" name="tanggal_lahir" value="{{ Session::get('tanggal_lahir') }}" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="nowa" class="form-label">No Handphone (WA Aktif)</label>
@@ -48,7 +55,6 @@
                             <option value="2">Manajemen</option>
                             <option value="3">IESP</option>
                             <option value="4">Akuntansi</option>
-                            <option value="5">Doktor Ilmu Ekonomi</option>
                         </select>
                     </div>
                 </div>
@@ -59,12 +65,13 @@
                             <option value="1" selected>-</option>
                             <option value="2">S1 - Digital Bisnis</option>
                             <option value="3">S1 - Manajemen</option>
-                            <option value="4">S2 - Manajemen</option>
-                            <option value="5">S1 - Ekonomi</option>
-                            <option value="6">S2 - Ekonomi</option>
-                            <option value="7">S1 - Ekonomi Islam</option>
-                            <option value="8">S1 - Akuntansi</option>
+                            <option value="4">S1 - Ekonomi</option>
+                            <option value="5">S1 - Ekonomi Islam</option>
+                            <option value="6">S1 - Akuntansi</option>
+                            <option value="7">S2 - Manajemen</option>
+                            <option value="8">S2 - Ekonomi</option>
                             <option value="9">S2 - Akuntansi</option>
+                            <option value="10">S3 - Ilmu Ekonomi</option>
                         </select>
                     </div>
                 </div>
@@ -80,7 +87,28 @@
                     <a href='/' class="btn btn-warning">Login</a>
                 </div>
             </form>
+            <script>
+                document.getElementById('register-form').addEventListener('submit', function(event) {
+                    var password = document.getElementById('password').value;
+                    var confirmPassword = document.getElementById('confirm-password').value;
+        
+                    if (password !== confirmPassword) {
+                        alert('Konfirmasi password tidak cocok!');
+                        event.preventDefault(); // Mencegah pengiriman form jika password tidak cocok
+                    }
+                });
+            </script>
+
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function (e) {
+        const passwordField = document.getElementById('password');
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+</script>
         </div>
     </div>
 </body>
+
 @endsection

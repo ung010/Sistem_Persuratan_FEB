@@ -20,7 +20,8 @@ class RegisterController extends Controller
         Session::flash('nama', $request->input('nama'));
         Session::flash('nim', $request->input('nim'));
         Session::flash('email', $request->input('email'));
-        Session::flash('ttl', $request->input('ttl'));
+        Session::flash('kota', $request->input('kota'));
+        Session::flash('tanggal_lahir', $request->input('tanggal_lahir'));
         Session::flash('nowa', $request->input('nowa'));
         Session::flash('almt_asl', $request->input('almt_asl'));
         Session::flash('almt_smg', $request->input('almt_smg'));
@@ -31,7 +32,8 @@ class RegisterController extends Controller
             'nama' => 'required',
             'nim' => 'required|unique:users',
             'email' => 'required|email|unique:users',
-            'ttl' => 'required',
+            'kota' => 'required',
+            'tanggal_lahir' => 'required',
             'nowa' => 'required',
             'almt_asl' => 'required',
             'almt_smg' => 'required',
@@ -46,7 +48,8 @@ class RegisterController extends Controller
             'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
             'password.required' => 'Password wajib diisi',
             'password.min' => 'Password minimal 8 karakter',
-            'ttl.required' => 'Tempat, Tanggal Lahir wajib diisi',
+            'kota.required' => 'Kota lahir wajib diisi',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
             'nowa.required' => 'No handphone wajib diisi',
             'almt_asl.required' => 'Alamat asal rumah wajib diisi',
             'almt_smg.required' => 'Alamat di Semarang wajib diisi',
@@ -64,7 +67,8 @@ class RegisterController extends Controller
             'nim' => $request->nim,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'ttl' => $request->ttl,
+            'kota' => $request->kota,
+            'tanggal_lahir' => $request->tanggal_lahir,
             'nowa' => $request->nowa,
             'almt_asl' => $request->almt_asl,
             'almt_smg' => $request->almt_smg,
@@ -80,7 +84,7 @@ class RegisterController extends Controller
         ];
 
         if (Auth::attempt($inforegister)) {
-            return redirect('/mahasiswa')->with('success Berhasil Register Akun');
+            return redirect('/akses_ditolak');
         } else {
             return redirect('/register')->withErrors('Email, password, atau data lain yang dimasukkan tidak sesuai');
         }

@@ -19,6 +19,6 @@ class UserAkses
         if (auth()->user()->role == $role) {
             return $next($request);
         }
-        return redirect('/users')->withErrors('Anda tidak punya hak akses');
+        return redirect('/users')->withErrors('Password atau email anda salah');
     }
 }

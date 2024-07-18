@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AksesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegistrasiController;
+use App\Http\Controllers\SuratKetMhw;
 use App\Http\Controllers\SvisorController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WadekController;
@@ -36,21 +38,37 @@ Route::middleware('guest')->group(function () {
 });
 
 route::get('/home', function () {
-    return redirect('/users');
+    return redirect('/akses_ditolak');
 });
 
 Route::middleware('auth')->group(function () {
     route::get('/users', [UsersController::class, 'users']);
     Route::get('/logout', [LoginController::class, 'logout']);
+    route::get('/akses_ditolak', [UsersController::class, 'home'])->
+    middleware('UserAkses:-');
+
+    
     route::get('/mahasiswa', [UsersController::class, 'mahasiswa'])->name('mahasiswa.index')->
     middleware('UserAkses:mahasiswa');
     route::get('/mahasiswa/my_account', [MahasiswaController::class, 'account'])->name('mahasiswa.account')->
     middleware('UserAkses:mahasiswa');
     
 
+    // Admin interface
     route::get('/admin', [UsersController::class, 'admin'])->name('admin.index')->middleware('UserAkses:admin');
-    route::get('/admin/akun_user', [AdminController::class, 'user'])->name('admin.mahasiswa')->middleware('UserAkses:admin');
-    route::post('/admin/akun_user/delete/{id}', [RegisterController::class, 'delete'])->name('mahasiswa.delete')->middleware('UserAkses:admin');
+    route::get('/admin/mahasiswa', [AdminController::class, 'user'])->name('admin.mahasiswa')->middleware('UserAkses:admin');
+    route::post('/admin/mahasiswa/delete/{id}', [RegisterController::class, 'delete'])->name('admin.delete')->middleware('UserAkses:admin');
+    
+    route::get('/admin/mahasiswa/akses', [AdminController::class, 'UsersAkses'])->name('admin.akses')->middleware('UserAkses:admin');
+    Route::post('/admin/mahasiswa/Approve/{id}', [AdminController::class, 'aksesApprove'])->name('admin.aksesApprove')->middleware('UserAkses:admin');
+    Route::post('/admin/mahasiswa/nonApprove/{id}', [AdminController::class, 'nonApprove'])->name('admin.nonApprove')->middleware('UserAkses:admin');
+    Route::post('/admin/mahasiswa/bulkNonApprove', [AdminController::class, 'bulkNonApprove'])->name('admin.bulkNonApprove')->middleware('UserAkses:admin');
+    Route::post('/admin/mahasiswa/bulkApprove', [AdminController::class, 'bulkApprove'])->name('admin.bulkApprove')->middleware('UserAkses:admin');
+    Route::post('/admin/mahasiswa/nonApproveAll', [AdminController::class, 'nonApproveAll'])->name('admin.nonApproveAll')->middleware('UserAkses:admin');
+    Route::post('/admin/mahasiswa/ApproveAll', [AdminController::class, 'ApproveAll'])->name('admin.ApproveAll')->middleware('UserAkses:admin');
+
+    Route::get('/admin/mahasiswa/search', [AdminController::class, 'search'])->name('admin.mahasiswa.search');
+    Route::get('/admin/mahasiswa/akses/search', [AdminController::class, 'search1'])->name('admin.akses.search');
 
 
     route::get('/supervisor', [UsersController::class, 'supervisor'])->name('supervisor.index')->
@@ -60,7 +78,9 @@ Route::middleware('auth')->group(function () {
     route::get('/wakildekan', [UsersController::class, 'wadek'])->name('wadek.index')->
     middleware('UserAkses:wakildekan');
 
-
+    route::get('/SuratKetMahasiswa', [SuratKetMhw::class, 'index'])->name('SKM.index')->middleware('UserAkses:admin');
+    Route::get('/SuratKetMahasiswa/Create', [SuratKetMhw::class, 'create'])->name('SKM.create')->middleware('UserAkses:admin');
+    Route::post('/SuratKetMahasiswa/Store', [SuratKetMhw::class,'store'])->name('SKM.store')->middleware('UserAkses:admin');
 });
 
 

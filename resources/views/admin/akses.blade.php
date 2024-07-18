@@ -2,23 +2,22 @@
 @section('inti_data')
 
     <head>
-        <title>Manage Akun Mahasiswa</title>
+        <title>Manage Akun Mahasiswa Belum di approve</title>
     </head>
 
     <body>
         <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <h1>Akun Mahasiswa</h1>
-            <a href="/admin" class="btn btn-primary">Kembali</a>
-            <a href="/admin/mahasiswa/akses" class="btn btn-warning">Halaman Non-Approve</a>
-            <form id="nonApproveAllForm" onsubmit="return confirm('Yakin ingin meng non-approve semua akun?')" action="{{ url('/admin/mahasiswa/nonApproveAll') }}" method="POST">
+            <h1>Akun Mahasiswa Belum di approve</h1>
+            <a href="/admin/mahasiswa" class="btn btn-primary">Kembali</a>
+            <form id="ApproveAllForm" onsubmit="return confirm('Yakin ingin meng-approve semua akun?')" action="{{ url('/admin/mahasiswa/ApproveAll') }}" method="POST">
                 @csrf
-                <button type="submit" class="btn btn-danger">Non-Approve Semua</button>
+                <button type="submit" class="btn btn-warning">Approve Semua</button>
             </form>
-            <form action="{{ route('admin.mahasiswa.search') }}" method="GET">
+            <form action="{{ route('admin.akses.search') }}" method="GET">
                 <input type="text" name="query" placeholder="Cari mahasiswa..." class="form-control">
                 <button type="submit" class="btn btn-primary mt-2">Cari</button>
             </form>
-            <a href="/admin/mahasiswa" class="btn btn-primary">Reload</a>
+            <a href="/admin/mahasiswa/akses" class="btn btn-primary">Reload</a>
             <table class="table table-striped text-center">
                 <thead>
                     <tr>
@@ -56,21 +55,15 @@
                             <td>{{ $item->almt_asl }}</td>
                             <td>{{ $item->almt_smg }}</td>
                             <td>
-                                <form action="{{ url('/admin/mahasiswa/nonApprove/' . $item->id) }}" method="POST"
-                                    class="d-inline">
+                                <form action="{{ url('/admin/mahasiswa/Approve/'.$item->id) }}" method="POST" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="btn btn-warning">Non-Approve</button>
+                                    <button type="submit" class="btn btn-primary">Approve</button>
                                 </form>
-                                <form onsubmit="return confirm('Yakin ingin menghapus akun ini?')" class="d-inline"
-                                    action="{{ route('admin.delete', $item->id) }}" method="post">
+                                {{-- <form onsubmit="return confirm('Yakin ingin menghapus akun ini?')" class="d-inline" action="{{ route('mahasiswa.delete', $item->id) }}" method="post">
                                     @csrf
                                     <button type="submit" name="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                </form>
+                                </form> --}}
                             </td>
-                            {{-- <td>
-                            <a href='{{ url('/buku/update_admin/edit/'.$item->kode_gabungan_final) }}' class="btn btn-warning btn-sm">Edit</a>
-                            
-                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>
@@ -85,10 +78,10 @@
             </script>
 
             <!-- Form untuk mengirimkan ID yang dipilih -->
-            <form id="bulkNonApproveForm" action="{{ url('/admin/mahasiswa/bulkNonApprove') }}" method="POST">
+            <form id="bulkApproveForm" action="{{ url('/admin/mahasiswa/bulkApprove') }}" method="POST">
                 @csrf
                 <input type="hidden" name="selected_ids" id="selected_ids">
-                <button type="button" class="btn btn-danger" onclick="submitBulkNonApprove()">Non-Approve
+                <button type="button" class="btn btn-primary" onclick="submitBulkApprove()">Approve
                     Semua</button>
             </form>
 
@@ -101,24 +94,24 @@
                         checkbox.checked = this.checked;
                     }
                 });
-            
-                function submitBulkNonApprove() {
+
+                function submitBulkApprove() {
                     var selectedIds = [];
                     var checkboxes = document.querySelectorAll('.checkItem:checked');
                     for (var checkbox of checkboxes) {
                         selectedIds.push(checkbox.value);
                     }
-            
+
                     if (selectedIds.length === 0) {
-                        alert('Silakan pilih setidaknya satu akun untuk di non-approve.');
+                        alert('Silakan pilih setidaknya satu akun untuk di approve.');
                         return;
                     }
-            
+
                     document.getElementById('selected_ids').value = selectedIds.join(',');
-                    document.getElementById('bulkNonApproveForm').submit();
+                    document.getElementById('bulkApproveForm').submit();
                 }
             </script>
-            {{-- {{ $data->links() }} --}}
+
             {{ $data->withQueryString()->links() }}
         </div>
     </body>

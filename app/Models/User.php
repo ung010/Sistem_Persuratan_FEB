@@ -21,7 +21,8 @@ class User extends Authenticatable
     protected $fillable = [
         'nama',
         'nim',
-        'ttl',
+        'kota',
+        'tanggal_lahir',
         'nowa',
         'almt_asl',
         'almt_smg',
@@ -29,6 +30,7 @@ class User extends Authenticatable
         'prd_id',
         'foto',
         'email',
+        'akses',
         'password',
     ];
 
@@ -51,6 +53,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getTempatTanggalLahirAttribute()
+    {
+        return $this->kota . ', ' . $this->tanggal_lahir;
+    }
 
     public function departemen()
     {

@@ -21,7 +21,9 @@ return new class extends Migration
             $table->string('file_trs');
             $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan', 'dekan'])->default('mahasiswa');
             $table->unsignedBigInteger('users_id');
+            $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->string('ket_legalisir')->nullable()->default('-');
             $table->timestamps();
         });

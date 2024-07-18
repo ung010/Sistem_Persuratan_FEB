@@ -22,7 +22,9 @@ return new class extends Migration
             $table->tinyInteger('semester');
             $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan', 'dekan'])->default('mahasiswa');
             $table->unsignedBigInteger('users_id');
+            $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->string('ket_surat')->nullable()->default('-');
             $table->date('tgl_cetak_srt')->nullable();
             $table->timestamps();

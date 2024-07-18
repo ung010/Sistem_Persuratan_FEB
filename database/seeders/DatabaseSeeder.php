@@ -8,6 +8,10 @@ use App\Models\departemen;
 use App\Models\prodi;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -39,11 +43,19 @@ class DatabaseSeeder extends Seeder
             ],
             [
 
-                'nama_prd' => 'S2 - Manajemen'
+                'nama_prd' => 'S1 - Ekonomi'
+            ],            
+            [
+
+                'nama_prd' => 'S1 - Ekonomi Islam'
+            ],            
+            [
+
+                'nama_prd' => 'S1 - Akuntansi'
             ],
             [
 
-                'nama_prd' => 'S1 - Ekonomi'
+                'nama_prd' => 'S2 - Manajemen'
             ],
             [
 
@@ -51,15 +63,11 @@ class DatabaseSeeder extends Seeder
             ],
             [
 
-                'nama_prd' => 'S1 - Ekonomi Islam'
-            ],
-            [
-
-                'nama_prd' => 'S1 - Akuntansi'
-            ],
-            [
-
                 'nama_prd' => 'S2 - Akuntansi'
+            ],
+            [
+
+                'nama_prd' => 'S3 - Ilmu Ekonomi'
             ],
         ];
         foreach($prodis as $prodi) {
@@ -92,6 +100,25 @@ class DatabaseSeeder extends Seeder
             departemen::create($departement);
         }
 
+        $faker = Faker::create('id_ID');
+
+        foreach (range(1, 5) as $index) {
+            DB::table('users')->insert([
+                'nama' => $faker->name,
+                'nim' => '211201' . $faker->unique()->numerify('########'),
+                'email' => $faker->unique()->safeEmail,
+                'password' => Hash::make('mountain082'),
+                'role' => '-',
+                'nowa' => $faker->phoneNumber,
+                'kota' => $faker->city,
+                'tanggal_lahir' => $faker->date($format = 'Y-m-d', $max = '2008-01-01', $min = '1999-01-01', ),
+                'almt_asl' => $faker->address,
+                'almt_smg' => $faker->streetAddress . ', ' . $faker->citySuffix . ', Semarang',
+                'dpt_id' => $faker->numberBetween(1, 4),
+                'prd_id' => $faker->numberBetween(1, 10),
+            ]);
+        }
+
         $users = [
             [
 
@@ -100,12 +127,32 @@ class DatabaseSeeder extends Seeder
                 'email' => 'testing@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
+                'kota' => 'Blitar',
+                'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 10 - 2010'),
+                'nowa' => '081214549624',
+                'almt_asl' => 'Jl Kenari No 20 RT 2 RW 3 Tembalang Semarang',
+                'almt_smg' => '-',
+                'dpt_id' => 2,
+                'prd_id' => 3,
+            ],
+            [
+
+                'nama' => 'non mahasiswa',
+                'nim' => '211201201444444',
+                'email' => 'non@gmail.com',
+                'password' => bcrypt('mountain082'),
+                'role' => '-',
+                'nowa' => '081214549624',
+                'almt_asl' => 'Jl Perkutut No 20 RT 2 RW 3 Beru Kendari',
+                'almt_smg' => 'Jl Kenari No 25 RT 2 RW 3 Tembalang Semarang',
+                'dpt_id' => 1,
+                'prd_id' => 10,
             ],
             [
 
                 'nama' => 'admin1',
                 'nim' => '101',
-                'email' => 'testingadmin@gmail.com',
+                'email' => 'admin@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'admin',
             ],

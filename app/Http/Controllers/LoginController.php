@@ -24,7 +24,7 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ];
-
+        
         if(Auth::attempt($infologin)){
 
             if (Auth::user()->role == 'mahasiswa'){
@@ -35,10 +35,13 @@ class LoginController extends Controller
                 return redirect('/supervisor');
             } elseif (Auth::user()->role == 'wakildekan') {
                 return redirect('/wakildekan');
+            } elseif (Auth::user()->role == '-') {
+                return redirect('/akses_ditolak');
             }
+
         }else{
             return redirect('/')->withErrors('Penulisan email dan password ada kesalahan')->withInput();
-        };     
+        };
     }
 
     function logout() {
