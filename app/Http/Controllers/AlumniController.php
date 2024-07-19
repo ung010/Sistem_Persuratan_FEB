@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class MahasiswaController extends Controller
+class AlumniController extends Controller
 {
-
     public function index()
     {
-        return view('mahasiswa.index');
+        return view('alumni.index');
     }
 
     public function account()
@@ -39,6 +38,8 @@ class MahasiswaController extends Controller
             )
             ->first();
 
-        return view('mahasiswa.account', compact('user'));
+        return view('alumni.account', compact('user'));
     }
+
+    
 }

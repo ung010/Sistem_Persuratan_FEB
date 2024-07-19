@@ -17,18 +17,15 @@ class UsersController extends Controller
             return redirect('/supervisor')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'wakildekan') {
             return redirect('/wakildekan')->withErrors('Anda tidak punya akses');
-        } elseif (Auth::user()->role == '-') {
-            return redirect('/akses_ditolak')->withErrors('Anda tidak punya akses');
+        } elseif (Auth::user()->role == 'non_mahasiswa') {
+            return redirect('/non_mhw')->withErrors('Anda tidak punya akses');
+        } elseif (Auth::user()->role == 'non_alumni') {
+            return redirect('/non_alum')->withErrors('Anda tidak punya akses');
         }
     }
 
     function home() {
         return view('auth.home');
-    }
-
-    function mahasiswa(){
-        
-        return view('mahasiswa.index');
     }
 
     function admin(){

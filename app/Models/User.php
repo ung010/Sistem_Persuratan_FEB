@@ -20,13 +20,14 @@ class User extends Authenticatable
     protected $primaryKey = 'id';
     protected $fillable = [
         'nama',
-        'nim',
+        'nmr_unik',
         'kota',
         'tanggal_lahir',
         'nowa',
         'almt_asl',
         'almt_smg',
         'dpt_id',
+        'role',
         'prd_id',
         'foto',
         'email',

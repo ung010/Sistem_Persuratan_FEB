@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -18,31 +17,31 @@ class RegisterController extends Controller
     function create(Request $request)
     {
         Session::flash('nama', $request->input('nama'));
-        Session::flash('nim', $request->input('nim'));
+        Session::flash('nmr_unik', $request->input('nmr_unik'));
         Session::flash('email', $request->input('email'));
         Session::flash('kota', $request->input('kota'));
         Session::flash('tanggal_lahir', $request->input('tanggal_lahir'));
         Session::flash('nowa', $request->input('nowa'));
+        Session::flash('role', $request->input('role'));
         Session::flash('almt_asl', $request->input('almt_asl'));
         Session::flash('almt_smg', $request->input('almt_smg'));
-        // Session::flash('dpt_id', $request->input('dpt_id'));
-        // Session::flash('prd_id', $request->input('prd_id'));
 
         $request->validate([
             'nama' => 'required',
-            'nim' => 'required|unique:users',
+            'nmr_unik' => 'required|unique:users',
             'email' => 'required|email|unique:users',
             'kota' => 'required',
             'tanggal_lahir' => 'required',
             'nowa' => 'required',
+            'role' => 'required',
             'almt_asl' => 'required',
             'almt_smg' => 'required',
             'password' => 'required|min:8',
             'foto' => 'required|mimes:jpeg,jpg,png'
         ], [
             'nama.required' => 'Nama wajib diisi',
-            'nim.required' => 'NIM wajib diisi',
-            'nim.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+            'nmr_unik.required' => 'NIM wajib diisi',
+            'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Email harus valid',
             'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
@@ -50,6 +49,7 @@ class RegisterController extends Controller
             'password.min' => 'Password minimal 8 karakter',
             'kota.required' => 'Kota lahir wajib diisi',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
+            'role.required' => 'Wajib mengisi pilihan mahasiswa / alumni',
             'nowa.required' => 'No handphone wajib diisi',
             'almt_asl.required' => 'Alamat asal rumah wajib diisi',
             'almt_smg.required' => 'Alamat di Semarang wajib diisi',
@@ -64,11 +64,12 @@ class RegisterController extends Controller
 
         $data = [
             'nama' => $request->nama,
-            'nim' => $request->nim,
+            'nmr_unik' => $request->nmr_unik,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'kota' => $request->kota,
             'tanggal_lahir' => $request->tanggal_lahir,
+            'role' => $request->role,
             'nowa' => $request->nowa,
             'almt_asl' => $request->almt_asl,
             'almt_smg' => $request->almt_smg,
@@ -83,17 +84,20 @@ class RegisterController extends Controller
             'password' => $request->password
         ];
 
+        // dibenerin dulu logika role mahasiswa dan alumni non approve
         if (Auth::attempt($inforegister)) {
-            return redirect('/akses_ditolak');
+            $user = Auth::user();
+    
+            // Pengecekan role dan pengalihan ke halaman yang sesuai
+            if ($user->role == 'non_mahasiswa') {
+                return redirect('/non_mhw');
+            } elseif ($user->role == 'non_alumni') {
+                return redirect('/non_alum');
+            } else {
+                return redirect('/error_register');
+            }
         } else {
             return redirect('/register')->withErrors('Email, password, atau data lain yang dimasukkan tidak sesuai');
         }
-    }
-
-    function delete($id) {
-        $data =  User::where('id', $id)->first();
-        File::delete(public_path('storage/foto/mahasiswa'). '/' . $data->foto);
-        User::where('id', $id)->delete();
-        return redirect ('/admin/akun_user')->with('success', 'Sukses Menghapus');
     }
 }

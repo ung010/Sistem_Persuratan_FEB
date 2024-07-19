@@ -101,19 +101,22 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker = Faker::create('id_ID');
+        $gender = 'female';
 
-        foreach (range(1, 5) as $index) {
+        foreach (range(1, 40) as $index) {
             DB::table('users')->insert([
                 'nama' => $faker->name,
-                'nim' => '211201' . $faker->unique()->numerify('########'),
-                'email' => $faker->unique()->safeEmail,
+                'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
+                'email' => $faker->unique()->userName . '@gmail.com',
                 'password' => Hash::make('mountain082'),
-                'role' => '-',
+                'role' => $faker->randomElement(['non_mahasiswa', 'non_alumni', 'mahasiswa', 'alumni']),
                 'nowa' => $faker->phoneNumber,
                 'kota' => $faker->city,
+                'nama_ibu' => $faker->firstName($gender) . ' ' . $faker->lastName,
                 'tanggal_lahir' => $faker->date($format = 'Y-m-d', $max = '2008-01-01', $min = '1999-01-01', ),
                 'almt_asl' => $faker->address,
                 'almt_smg' => $faker->streetAddress . ', ' . $faker->citySuffix . ', Semarang',
+                'catatan_user' => '-',
                 'dpt_id' => $faker->numberBetween(1, 4),
                 'prd_id' => $faker->numberBetween(1, 10),
             ]);
@@ -123,7 +126,7 @@ class DatabaseSeeder extends Seeder
             [
 
                 'nama' => 'sayatest',
-                'nim' => '21120120150155',
+                'nmr_unik' => '21120120150155',
                 'email' => 'testing@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
@@ -134,24 +137,26 @@ class DatabaseSeeder extends Seeder
                 'almt_smg' => '-',
                 'dpt_id' => 2,
                 'prd_id' => 3,
+                'catatan_user' => '-',
             ],
             [
 
                 'nama' => 'non mahasiswa',
-                'nim' => '211201201444444',
-                'email' => 'non@gmail.com',
+                'nmr_unik' => '211201201444444',
+                'email' => 'alumni@gmail.com',
                 'password' => bcrypt('mountain082'),
-                'role' => '-',
+                'role' => 'alumni',
                 'nowa' => '081214549624',
                 'almt_asl' => 'Jl Perkutut No 20 RT 2 RW 3 Beru Kendari',
                 'almt_smg' => 'Jl Kenari No 25 RT 2 RW 3 Tembalang Semarang',
                 'dpt_id' => 1,
                 'prd_id' => 10,
+                'catatan_user' => '-',
             ],
             [
 
                 'nama' => 'admin1',
-                'nim' => '101',
+                'nmr_unik' => '101',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'admin',
@@ -159,26 +164,34 @@ class DatabaseSeeder extends Seeder
             [
 
                 'nama' => 'admin2',
-                'nim' => '102',
+                'nmr_unik' => '102',
                 'email' => 'testingadmin1@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'admin',
             ],
             [
 
-                'nama' => 'supervisor',
-                'nim' => '201',
-                'email' => 'supervisor@gmail.com',
+                'nama' => 'Supervisor akademik',
+                'nmr_unik' => '201',
+                'email' => 'aka@gmail.com',
                 'password' => bcrypt('mountain082'),
-                'role' => 'supervisor',
+                'role' => 'supervisor_akademik',
             ],
             [
 
-                'nama' => 'wakil dekan',
-                'nim' => '301',
-                'email' => 'wakildekan@gmail.com',
+                'nama' => 'Supervisor Sumber Daya',
+                'nmr_unik' => '301',
+                'email' => 'sumbern@gmail.com',
                 'password' => bcrypt('mountain082'),
-                'role' => 'wakildekan',
+                'role' => 'supervisor_sd',
+            ],
+            [
+
+                'nama' => 'Manager',
+                'nmr_unik' => '401',
+                'email' => 'manager@gmail.com',
+                'password' => bcrypt('mountain082'),
+                'role' => 'manager',
             ],
         ];
         foreach($users as  $user) {
