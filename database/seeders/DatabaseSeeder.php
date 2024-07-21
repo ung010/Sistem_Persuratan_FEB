@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\departemen;
+use App\Models\jenjang_pendidikan;
 use App\Models\prodi;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -31,54 +32,56 @@ class DatabaseSeeder extends Seeder
         $prodis = [
             [
 
-                'nama_prd' => '-'
+                'nama_prd' => 'Manajemen'
             ],
             [
 
-                'nama_prd' => 'S1 - Digital Bisnis'
+                'nama_prd' => 'Digital Bisnis'
             ],
             [
 
-                'nama_prd' => 'S1 - Manajemen'
-            ],
-            [
-
-                'nama_prd' => 'S1 - Ekonomi'
+                'nama_prd' => 'Ekonomi'
             ],            
             [
 
-                'nama_prd' => 'S1 - Ekonomi Islam'
+                'nama_prd' => 'Ekonomi Islam'
             ],            
             [
 
-                'nama_prd' => 'S1 - Akuntansi'
+                'nama_prd' => 'Akuntansi'
             ],
             [
 
-                'nama_prd' => 'S2 - Manajemen'
+                'nama_prd' => 'Pendidikan Profesi Akuntan'
             ],
             [
 
-                'nama_prd' => 'S2 - Ekonomi'
-            ],
-            [
-
-                'nama_prd' => 'S2 - Akuntansi'
-            ],
-            [
-
-                'nama_prd' => 'S3 - Ilmu Ekonomi'
+                'nama_prd' => 'Doktor Ilmu Ekonomi'
             ],
         ];
         foreach($prodis as $prodi) {
             prodi::create($prodi);
         }
 
-        $departements = [
+        $jenjangs = [
             [
 
-                'nama_dpt' => '-'
+                'nama_jnjg' => 'S1'
             ],
+            [
+
+                'nama_jnjg' => 'S2'
+            ],
+            [
+
+                'nama_jnjg' => 'S3'
+            ],
+        ];
+        foreach($jenjangs as $jenjang) {
+            jenjang_pendidikan::create($jenjang);
+        }
+
+        $departements = [
             [
 
                 'nama_dpt' => 'Manajemen'
@@ -115,10 +118,11 @@ class DatabaseSeeder extends Seeder
                 'nama_ibu' => $faker->firstName($gender) . ' ' . $faker->lastName,
                 'tanggal_lahir' => $faker->date($format = 'Y-m-d', $max = '2008-01-01', $min = '1999-01-01', ),
                 'almt_asl' => $faker->address,
-                'almt_smg' => $faker->streetAddress . ', ' . $faker->citySuffix . ', Semarang',
                 'catatan_user' => '-',
+                'foto' => $faker->imageUrl(400, 400, 'people'),
                 'dpt_id' => $faker->numberBetween(1, 4),
-                'prd_id' => $faker->numberBetween(1, 10),
+                'prd_id' => $faker->numberBetween(1, 7),
+                'jnjg_id' => $faker->numberBetween(1, 3),
             ]);
         }
 
@@ -134,24 +138,45 @@ class DatabaseSeeder extends Seeder
                 'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 10 - 2010'),
                 'nowa' => '081214549624',
                 'almt_asl' => 'Jl Kenari No 20 RT 2 RW 3 Tembalang Semarang',
-                'almt_smg' => '-',
-                'dpt_id' => 2,
-                'prd_id' => 3,
+                'dpt_id' => 1,
+                'prd_id' => 2,
+                'jnjg_id' => 2,
                 'catatan_user' => '-',
+                'nama_ibu' => 'Rosa0',
             ],
             [
 
-                'nama' => 'non mahasiswa',
+                'nama' => 'Leo',
+                'nmr_unik' => '64568775634',
+                'email' => 'leo@gmail.com',
+                'password' => bcrypt('mountain082'),
+                'role' => 'non_mahasiswa',
+                'kota' => 'leo',
+                'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 11 - 2003'),
+                'nowa' => '081214549624',
+                'almt_asl' => 'Jl Kenari No 20 RT 2 RW 3 Tembalang Semarang',
+                'dpt_id' => 2,
+                'prd_id' => 2,
+                'jnjg_id' => 3,
+                'catatan_user' => '-',
+                'nama_ibu' => 'leo',
+            ],
+            [
+
+                'nama' => 'Raung Calon Sarjana',
                 'nmr_unik' => '211201201444444',
                 'email' => 'alumni@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'alumni',
+                'kota' => 'Blitar',
+                'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 10 - 2010'),
                 'nowa' => '081214549624',
                 'almt_asl' => 'Jl Perkutut No 20 RT 2 RW 3 Beru Kendari',
-                'almt_smg' => 'Jl Kenari No 25 RT 2 RW 3 Tembalang Semarang',
-                'dpt_id' => 1,
-                'prd_id' => 10,
+                'dpt_id' => 2,
+                'prd_id' => 6,
+                'jnjg_id' => 2,
                 'catatan_user' => '-',
+                'nama_ibu' => 'Rosa1',
             ],
             [
 

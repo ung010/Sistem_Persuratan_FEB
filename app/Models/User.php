@@ -20,19 +20,22 @@ class User extends Authenticatable
     protected $primaryKey = 'id';
     protected $fillable = [
         'nama',
+        'id',
         'nmr_unik',
         'kota',
         'tanggal_lahir',
         'nowa',
         'almt_asl',
-        'almt_smg',
-        'dpt_id',
+        'nama_ibu',
         'role',
         'prd_id',
+        'dpt_id',
+        'jnjg_id',
         'foto',
         'email',
         'akses',
         'password',
+        'catatan_user',
     ];
 
     /**
@@ -41,7 +44,24 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'nmr_unik',
+        'kota',
+        'tanggal_lahir',
+        'nowa',
+        'almt_asl',
+        'nama_ibu',
+        'role',
+        'prd_id',
+        'dpt_id',
+        'jnjg_id',
+        'foto',
+        'email',
+        'akses',
         'password',
+        'catatan_user',
+        'remember_token',
+        'create_at',
+        'update_at',
         'remember_token',
     ];
 
@@ -68,5 +88,10 @@ class User extends Authenticatable
     public function prodi()
     {
         return $this->belongsTo(prodi::class, 'prd_id', 'id');
+    }
+
+    public function jenjang()
+    {
+        return $this->belongsTo(jenjang_pendidikan::class, 'jnjg_id', 'id');
     }
 }

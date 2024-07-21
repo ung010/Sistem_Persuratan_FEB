@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AksesController;
+use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\NonController;
@@ -39,7 +40,7 @@ Route::middleware('guest')->group(function () {
 });
 
 route::get('/home', function () {
-    return redirect('/akses_ditolak');
+    return redirect('/error_register');
 });
 
 Route::middleware('auth')->group(function () {
@@ -50,26 +51,34 @@ Route::middleware('auth')->group(function () {
     // Route Non Mahasiswa & Non Alumni
     route::get('/error_register', [UsersController::class, 'home']);
 
-    route::get('/non_mhw', [NonController::class, 'home_non_mhw'])->
+    route::get('/non_mhw', [NonController::class, 'home_non_mhw'])->name('non_mhw.home')->
     middleware('UserAkses:non_mahasiswa');
-    route::get('/non_mhw/account', [NonController::class, 'account_non_mhw'])->
+    Route::get('/non_mhw/my_account/{id}', [NonController::class, 'edit_non_mhw'])->name('non_mhw.edit')->
+    middleware('UserAkses:non_mahasiswa');
+    Route::post('/non_mhw/my_account/update/{id}', [NonController::class, 'account_non_mhw'])->name('non_mhw.account_non_mhw')->
     middleware('UserAkses:non_mahasiswa');
 
-    route::get('/non_alum', [NonController::class, 'home_non_alum'])->
+    route::get('/non_alum', [NonController::class, 'home_non_alum'])->name('non_alum.home')->
     middleware('UserAkses:non_alumni');
-    route::get('/non_alum/account', [NonController::class, 'account_non_alum'])->
+    Route::get('/non_alum/my_account/{id}', [NonController::class, 'edit_non_alum'])->name('non_alum.edit')->
+    middleware('UserAkses:non_alumni');
+    Route::post('/non_alum/my_account/update/{id}', [NonController::class, 'account_non_alum'])->name('non_alum.account_non_alum')->
     middleware('UserAkses:non_alumni');
 
     // Route Mahasiswa
     route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index')->
     middleware('UserAkses:mahasiswa');
-    route::get('/mahasiswa/my_account', [MahasiswaController::class, 'account'])->name('mahasiswa.account')->
+    Route::get('/mahasiswa/my_account/{id}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit')->
+    middleware('UserAkses:mahasiswa');
+    Route::post('/mahasiswa/my_account/update/{id}', [MahasiswaController::class, 'update'])->name('mahasiswa.update')->
     middleware('UserAkses:mahasiswa');
 
     // Route ALumni
-    route::get('/alumni', [UsersController::class, 'index'])->name('alumni.index')->
+    route::get('/alumni', [AlumniController::class, 'index'])->name('alumni.index')->
     middleware('UserAkses:alumni');
-    route::get('/alumni/my_account', [MahasiswaController::class, 'account'])->name('alumni.account')->
+    Route::get('/alumni/my_account/{id}', [AlumniController::class, 'edit'])->name('alumni.edit')->
+    middleware('UserAkses:alumni');
+    Route::post('/alumni/my_account/update/{id}', [AlumniController::class, 'update'])->name('alumni.update')->
     middleware('UserAkses:alumni');
     
 
@@ -78,11 +87,19 @@ Route::middleware('auth')->group(function () {
     
     route::get('/admin/user', [AdminController::class, 'user'])->name('admin.user')->middleware('UserAkses:admin');
     route::post('/admin/user/delete/{id}', [AdminController::class, 'delete_user'])->name('admin.delete')->middleware('UserAkses:admin');
-    Route::get('/admin/user/search', [AdminController::class, 'search_user'])->name('admin.mahasiswa.search')->middleware('UserAkses:admin');
-    
+    Route::get('/admin/user/search', [AdminController::class, 'search_user'])->name('admin.user.search')->middleware('UserAkses:admin');
+    Route::get('/admin/user/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit')->
+    middleware('UserAkses:admin');
+    Route::post('/admin/user/update/{id}', [AdminController::class, 'update'])->name('admin.update')->
+    middleware('UserAkses:admin');
+
     route::get('/admin/verif_user', [AdminController::class, 'verif_user'])->name('admin.verifikasi')->middleware('UserAkses:admin');
     Route::get('/admin/verif_user/search', [AdminController::class, 'search_verif'])->name('admin.verif.search')->middleware('UserAkses:admin');
-    
+    Route::get('/admin/verif_user/cekdata/{id}', [AdminController::class, 'cekdata_mhw'])->name('admin.cekdata')->middleware('UserAkses:admin');
+    Route::post('/admin/verif_user/cekdata/catatan/{id}',  [AdminController::class, 'catatan'])->name('admin.catatan');
+    Route::post('/admin/verif_user/cekdata/verifikasi/{id}', [AdminController::class, 'verifikasi'])->name('admin.verifikasi.user');
+
+
     Route::post('/admin/mahasiswa/Approve/{id}', [AdminController::class, 'aksesApprove'])->name('admin.aksesApprove')->middleware('UserAkses:admin');
     Route::post('/admin/mahasiswa/nonApprove/{id}', [AdminController::class, 'nonApprove'])->name('admin.nonApprove')->middleware('UserAkses:admin');
     Route::post('/admin/mahasiswa/bulkNonApprove', [AdminController::class, 'bulkNonApprove'])->name('admin.bulkNonApprove')->middleware('UserAkses:admin');

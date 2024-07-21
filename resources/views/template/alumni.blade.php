@@ -22,7 +22,7 @@
                             Dashboard
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/mahasiswa/my_account">My Account</a></li>
+                            <li><a class="dropdown-item" href="/alumni/my_account/{{ auth()->user()->id }}">My Account</a></li>
                             <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         </ul>
                     </li>

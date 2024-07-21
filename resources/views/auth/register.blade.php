@@ -1,4 +1,4 @@
-@extends('template/dasar')
+@extends('template/auth')
 @section('inti_data')
     <title>Register Akun</title>
 
@@ -46,22 +46,30 @@
                         <input type="number" name="nowa" value="{{ Session::get('nowa') }}" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="almt_smg" class="form-label">Alamat di Semarang (Wajib isi)</label>
-                        <input type="text" name="almt_smg" value="{{ Session::get('almt_smg') }}" class="form-control">
-                    </div>
-                    <div class="mb-3">
                         <label for="almt_asl" class="form-label">Alamat Asal (Bila asli dari Semarang, masih wajib
                             isi)</label>
                         <input type="text" name="almt_asl" value="{{ Session::get('almt_asl') }}" class="form-control">
                     </div>
                     <div class="mb-3">
+                        <label for="jnjg_id" class="col-sm-2 col-form-label">Jenjang Pendidikan</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" name='jnjg_id' value="{{ Session::get('jnjg_id') }}" id="jnjg_id">
+                                <option value="" selected>Select Option</option>
+                                <option value="1">S1</option>
+                                <option value="2">S2</option>
+                                <option value="3">S3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
                         <label for="dpt_id" class="col-sm-2 col-form-label">Departemen</label>
                         <div class="col-sm-10">
                             <select class="form-select" name='dpt_id' value="{{ Session::get('dpt_id') }}" id="dpt_id">
-                                <option value="1" selected>-</option>
-                                <option value="2">Manajemen</option>
-                                <option value="3">IESP</option>
-                                <option value="4">Akuntansi</option>
+                                <option value="" selected>Select Option</option>
+                                <option value="1">Manajemen</option>
+                                <option value="2">IESP</option>
+                                <option value="3">Akuntansi</option>
+                                <option value="4">Doktor Ilmu Ekonomi</option>
                             </select>
                         </div>
                     </div>
@@ -69,16 +77,14 @@
                         <label for="prd_id" class="col-sm-2 col-form-label">Prodi</label>
                         <div class="col-sm-10">
                             <select class="form-select" name='prd_id' value="{{ Session::get('prd_id') }}" id="prd_id">
-                                <option value="1" selected>-</option>
-                                <option value="2">S1 - Digital Bisnis</option>
-                                <option value="3">S1 - Manajemen</option>
-                                <option value="4">S1 - Ekonomi</option>
-                                <option value="5">S1 - Ekonomi Islam</option>
-                                <option value="6">S1 - Akuntansi</option>
-                                <option value="7">S2 - Manajemen</option>
-                                <option value="8">S2 - Ekonomi</option>
-                                <option value="9">S2 - Akuntansi</option>
-                                <option value="10">S3 - Ilmu Ekonomi</option>
+                                <option value="" selected>Select Option</option>
+                                <option value="1">Manajemen</option>
+                                <option value="2">Digital Bisnis</option>
+                                <option value="3">Ekonomi</option>
+                                <option value="4">Ekonomi Islam</option>
+                                <option value="5">Akuntansi</option>
+                                <option value="6">Pendidikan Profesi Akuntan</option>
+                                <option value="7">Doktor Ilmu Ekonomi</option>
                             </select>
                         </div>
                     </div>
@@ -87,10 +93,6 @@
                         <input type="file" name="foto" value="#" id="foto" class="form-control">
                     </div>
                     <h5>Pilih salah satu</h5>
-                    {{-- <div class="mb-3">
-                        <label for="almt_smg" class="form-label">Alamat di Semarang (Wajib isi)</label>
-                        <input type="text" name="almt_smg" value="{{ Session::get('almt_smg') }}" class="form-control">
-                    </div> --}}
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="role" value="non_mahasiswa" id="mahasiswa" required>
                         <label class="form-check-label" for="mahasiswa">

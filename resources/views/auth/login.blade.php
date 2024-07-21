@@ -1,4 +1,4 @@
-@extends('template/dasar')
+@extends('template/auth')
 @section('inti_data')
 <head>
     <title>Login</title>

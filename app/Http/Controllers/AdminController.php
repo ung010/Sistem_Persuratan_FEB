@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -19,13 +20,14 @@ class AdminController extends Controller
         $data = DB::table('users')
             ->join('prodi', 'users.prd_id', '=', 'prodi.id')
             ->join('departement', 'users.dpt_id', '=', 'departement.id')
+            ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->whereIn('users.role', ['mahasiswa', 'alumni'])
             ->select(
                 'users.id',
                 'users.nama',
                 'users.nmr_unik',
-                'prodi.nama_prd',
-                'departement.nama_dpt'
+                'departement.nama_dpt',
+                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
             )
             ->paginate(10);
 
@@ -39,17 +41,23 @@ class AdminController extends Controller
         $data = DB::table('users')
             ->join('prodi', 'users.prd_id', '=', 'prodi.id')
             ->join('departement', 'users.dpt_id', '=', 'departement.id')
-            ->where('users.nama', 'LIKE', "%{$query}%")
-            ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
-            ->orWhere('users.email', 'LIKE', "%{$query}%")
-            ->orWhere('prodi.nama_prd', 'LIKE', "%{$query}%")
-            ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
+            ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->whereIn('users.role', ['mahasiswa', 'alumni'])
+            ->where(function ($q) use ($query) {
+                $q->where('users.nama', 'LIKE', "%{$query}%")
+                    ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
+                    ->orWhere('users.email', 'LIKE', "%{$query}%")
+                    ->orWhere('prodi.nama_prd', 'LIKE', "%{$query}%")
+                    ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
+                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'LIKE', "%{$query}%");
+            })
             ->select(
                 'users.id',
                 'users.nama',
                 'users.nmr_unik',
                 'prodi.nama_prd',
-                'departement.nama_dpt'
+                'departement.nama_dpt',
+                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi')
             )
             ->paginate(10);
 
@@ -61,13 +69,14 @@ class AdminController extends Controller
         $data = DB::table('users')
             ->join('prodi', 'users.prd_id', '=', 'prodi.id')
             ->join('departement', 'users.dpt_id', '=', 'departement.id')
+            ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->whereIn('users.role', ['non_mahasiswa', 'non_alumni'])
             ->select(
                 'users.id',
                 'users.nama',
                 'users.nmr_unik',
-                'prodi.nama_prd',
-                'departement.nama_dpt'
+                'departement.nama_dpt',
+                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
             )
             ->paginate(10);
 
@@ -81,28 +90,135 @@ class AdminController extends Controller
         $data = DB::table('users')
             ->join('prodi', 'users.prd_id', '=', 'prodi.id')
             ->join('departement', 'users.dpt_id', '=', 'departement.id')
-            ->where('users.nama', 'LIKE', "%{$query}%")
-            ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
-            ->orWhere('users.email', 'LIKE', "%{$query}%")
-            ->orWhere('prodi.nama_prd', 'LIKE', "%{$query}%")
-            ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
+            ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->whereIn('users.role', ['non_mahasiswa', 'non_alumni'])
+            ->where(function ($q) use ($query) {
+                $q->where('users.nama', 'LIKE', "%{$query}%")
+                    ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
+                    ->orWhere('users.email', 'LIKE', "%{$query}%")
+                    ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
+                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'LIKE', "%{$query}%");
+            })
             ->select(
                 'users.id',
                 'users.nama',
                 'users.nmr_unik',
-                'prodi.nama_prd',
-                'departement.nama_dpt'
+                'departement.nama_dpt',
+                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
             )
             ->paginate(10);
 
         return view('admin.verifikasi', compact('data'));
     }
 
-    function delete_user($id) {
+    function delete_user($id)
+    {
         $data =  User::where('id', $id)->first();
-        File::delete(public_path('storage/foto/mahasiswa'). '/' . $data->foto);
+        File::delete(public_path('storage/foto/mahasiswa') . '/' . $data->foto);
         User::where('id', $id)->delete();
-        return redirect ('/admin/user')->with('success', 'Berhasil menghapus akun');
+        return redirect('/admin/user')->with('success', 'Berhasil menghapus akun');
+    }
+
+    function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.edit', compact('user'));
+    }
+
+    function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'required|min:8',
+        ], [
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Email harus valid',
+            'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
+            'password.required' => 'Password wajib diisi',
+            'password.min' => 'Password minimal 8 karakter',
+        ]);
+
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+        return redirect()->route('admin.user')->with('success', 'Berhasil mengupdate data user');
+    }
+
+    function cekdata_mhw($id)
+    {
+        $user = DB::table('users')
+            ->join('prodi', 'users.prd_id', '=', 'prodi.id')
+            ->join('departement', 'users.dpt_id', '=', 'departement.id')
+            ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->where('users.id', $id)
+            ->select(
+                'users.id',
+                'prodi.id as prodi_id',
+                'departement.id as departement_id',
+                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'users.nama',
+                'users.nmr_unik',
+                DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+                'users.nowa',
+                'users.nama_ibu',
+                'users.foto',
+                'users.role',
+                'users.email',
+                'users.almt_asl',
+                'departement.nama_dpt',
+                'jenjang_pendidikan.nama_jnjg',
+                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+            )
+            ->first();
+        return view('admin.cekdata', compact('user'));
+    }
+
+    public function catatan(Request $request, $id)
+    {
+        // dd($id); // Tambahkan ini untuk debugging
+        $users = User::findOrFail($id);
+
+        $request->validate([
+            'catatan_user' => 'required',
+        ], [
+            'catatan_user.required' => 'Catatan kepada user wajib diisi',
+        ]);
+
+        $users->catatan_user = $request->catatan_user;
+
+        $users->save();
+        return redirect()->back()->with('success', 'Catatan berhasil ditambahkan');
+    }
+
+    function verifikasi($id)
+    {
+        $user = DB::table('users')->where('id', $id)->first();
+
+        if ($user->role == 'non_mahasiswa') {
+            DB::table('users')->where('id', $id)->update(['role' => 'mahasiswa']);
+        } elseif ($user->role == 'non_alumni') {
+            DB::table('users')->where('id', $id)->update(['role' => 'alumni']);
+        }
+
+        return redirect()->route('admin.verifikasi')->with('success', 'Akun telah diverifikasi');
+    }
+
+    function cekdata_alum()
+    {
+    }
+
+    function sampah()
+    {
+    }
+
+    function restore()
+    {
     }
 
     // public function aksesApprove($id)

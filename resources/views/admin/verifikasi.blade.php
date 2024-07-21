@@ -48,14 +48,14 @@
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->nmr_unik }}</td>                            
                             <td>{{ $item->nama_dpt }}</td>
-                            <td>{{ $item->nama_prd }}</td>
+                            <td>{{ $item->jenjang_prodi }}</td>
                             <td>
                                 {{-- <form action="{{ url('/admin/mahasiswa/nonApprove/' . $item->id) }}" method="POST"
                                     class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-warning">Non-Approve</button>
                                 </form> --}}
-                                <a href='#' class="btn btn-warning btn-sm">Cek Data</a>
+                                <a href='{{ url('/admin/verif_user/cekdata/'.$item->id) }}' class="btn btn-warning btn-sm">Cek Data</a>
                             </td>
                             {{-- <td>
                             <a href='{{ url('/buku/update_admin/edit/'.$item->kode_gabungan_final) }}' class="btn btn-warning btn-sm">Edit</a>

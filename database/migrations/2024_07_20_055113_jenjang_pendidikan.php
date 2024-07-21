@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('survei', function (Blueprint $table) {
+        Schema::create('jenjang_pendidikan', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('users_id');
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('tngkt_kpuasn');
-            $table->string('saran_kritik');
+            $table->string('nama_jnjg');
             $table->timestamps();
+
         });
     }
 

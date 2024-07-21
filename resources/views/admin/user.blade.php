@@ -12,7 +12,7 @@
                 @csrf
                 <button type="submit" class="btn btn-danger">Non-Approve Semua</button>
             </form> --}}
-            <form action="{{ route('admin.mahasiswa.search') }}" method="GET">
+            <form action="{{ route('admin.user.search') }}" method="GET">
                 <input type="text" name="query" placeholder="Cari.." class="form-control">
                 <button type="submit" class="btn btn-primary mt-2">Cari</button>
             </form>
@@ -48,14 +48,14 @@
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->nmr_unik }}</td>                            
                             <td>{{ $item->nama_dpt }}</td>
-                            <td>{{ $item->nama_prd }}</td>
+                            <td>{{ $item->jenjang_prodi }}</td>
                             <td>
                                 {{-- <form action="{{ url('/admin/mahasiswa/nonApprove/' . $item->id) }}" method="POST"
                                     class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-warning">Non-Approve</button>
                                 </form> --}}
-                                <a href='#' class="btn btn-warning btn-sm">Edit</a>
+                                <a href='{{ url('/admin/user/edit/'.$item->id) }}' class="btn btn-warning btn-sm">Edit</a>
                                 <form onsubmit="return confirm('Yakin ingin menghapus akun ini?')" class="d-inline"
                                     action="{{ route('admin.delete', $item->id) }}" method="post">
                                     @csrf

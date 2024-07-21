@@ -22,9 +22,12 @@ class RegisterController extends Controller
         Session::flash('kota', $request->input('kota'));
         Session::flash('tanggal_lahir', $request->input('tanggal_lahir'));
         Session::flash('nowa', $request->input('nowa'));
+        Session::flash('nama_ibu', $request->input('nama_ibu'));
         Session::flash('role', $request->input('role'));
         Session::flash('almt_asl', $request->input('almt_asl'));
-        Session::flash('almt_smg', $request->input('almt_smg'));
+        Session::flash('prd_id', $request->input('prd_id'));
+        Session::flash('dpt_id', $request->input('dpt_id'));
+        Session::flash('jnjg_id', $request->input('jnjg_id'));
 
         $request->validate([
             'nama' => 'required',
@@ -32,11 +35,14 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users',
             'kota' => 'required',
             'tanggal_lahir' => 'required',
+            'nama_ibu' => 'required',
             'nowa' => 'required',
             'role' => 'required',
             'almt_asl' => 'required',
-            'almt_smg' => 'required',
             'password' => 'required|min:8',
+            'dpt_id' => 'required',
+            'prd_id' => 'required',
+            'jnjg_id' => 'required',
             'foto' => 'required|mimes:jpeg,jpg,png'
         ], [
             'nama.required' => 'Nama wajib diisi',
@@ -46,13 +52,16 @@ class RegisterController extends Controller
             'email.email' => 'Email harus valid',
             'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
             'password.required' => 'Password wajib diisi',
+            'nama_ibu.required' => 'Nama ibu wajib diisi',
             'password.min' => 'Password minimal 8 karakter',
-            'kota.required' => 'Kota lahir wajib diisi',
+            'kota.required' => 'Tempat lahir wajib diisi',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
             'role.required' => 'Wajib mengisi pilihan mahasiswa / alumni',
             'nowa.required' => 'No handphone wajib diisi',
             'almt_asl.required' => 'Alamat asal rumah wajib diisi',
-            'almt_smg.required' => 'Alamat di Semarang wajib diisi',
+            'dpt_id.required' => 'Departemen wajib diisi',
+            'prd_id.required' => 'Prodi wajib diisi',
+            'jnjg_id.required' => 'Jenjang Pendidikan wajib diisi',
             'foto.required' => 'Foto wajib diisi',
             'foto.mimes' => 'Foto wajib berbentuk JPEG, JPG, dan PNG',
         ]);
@@ -71,10 +80,11 @@ class RegisterController extends Controller
             'tanggal_lahir' => $request->tanggal_lahir,
             'role' => $request->role,
             'nowa' => $request->nowa,
+            'nama_ibu' => $request->nama_ibu,
             'almt_asl' => $request->almt_asl,
-            'almt_smg' => $request->almt_smg,
             'dpt_id' => $request->dpt_id,
             'prd_id' => $request->prd_id,
+            'jnjg_id' => $request->jnjg_id,
             'foto' => $nama_foto
         ];
         User::create($data);
