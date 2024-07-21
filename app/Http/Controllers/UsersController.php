@@ -15,10 +15,12 @@ class UsersController extends Controller
             return redirect('/admin')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'alumni') {
             return redirect('/alumni')->withErrors('Anda tidak punya akses');
-        } elseif (Auth::user()->role == 'supervisor') {
-            return redirect('/supervisor')->withErrors('Anda tidak punya akses');
-        } elseif (Auth::user()->role == 'wakildekan') {
-            return redirect('/wakildekan')->withErrors('Anda tidak punya akses');
+        } elseif (Auth::user()->role == 'supervisor_akd') {
+            return redirect('/supervisor_akd')->withErrors('Anda tidak punya akses');
+        } elseif (Auth::user()->role == 'supervisor_sd') {
+            return redirect('/supervisor_sd')->withErrors('Anda tidak punya akses');
+        } elseif (Auth::user()->role == 'manajer') {
+            return redirect('/manajer')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'non_mahasiswa') {
             return redirect('/non_mhw')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'non_alumni') {
@@ -28,13 +30,5 @@ class UsersController extends Controller
 
     function home() {
         return view('auth.home');
-    }
-
-    function supervisor(){
-        return view('supervisor.index');
-    }
-
-    function wadek(){
-        return view('wakil_dekan.index');
     }
 }

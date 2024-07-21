@@ -198,25 +198,25 @@ class DatabaseSeeder extends Seeder
 
                 'nama' => 'Supervisor akademik',
                 'nmr_unik' => '201',
-                'email' => 'aka@gmail.com',
+                'email' => 'akademik@gmail.com',
                 'password' => bcrypt('mountain082'),
-                'role' => 'supervisor_akademik',
+                'role' => 'supervisor_akd',
             ],
             [
 
                 'nama' => 'Supervisor Sumber Daya',
                 'nmr_unik' => '301',
-                'email' => 'sumbern@gmail.com',
+                'email' => 'sumber@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'supervisor_sd',
             ],
             [
 
-                'nama' => 'Manager',
+                'nama' => 'Manajer',
                 'nmr_unik' => '401',
-                'email' => 'manager@gmail.com',
+                'email' => 'manajer@gmail.com',
                 'password' => bcrypt('mountain082'),
-                'role' => 'manager',
+                'role' => 'manajer',
             ],
         ];
         foreach($users as  $user) {

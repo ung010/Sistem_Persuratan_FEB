@@ -24,7 +24,7 @@
                     <li class="nav-item dropdown">
                         @auth
                         <li class="nav-item">
-                            <span class="nav-link">{{ auth()->user()->role }}</span>
+                            <span class="nav-link">{{ auth()->user()->nama }}</span>
                         </li>
                     @endauth
                     </li>

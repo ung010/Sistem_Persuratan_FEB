@@ -71,7 +71,7 @@ class NonController extends Controller
         }
     
         $user->save();
-        return redirect()->route('non_mhw.home')->with('success', 'Berhasil mengupdate data diri');
+        return redirect()->back()->with('success', 'Berhasil mengupdate data diri');
     }
 
     function home_non_alum() {
@@ -135,6 +135,6 @@ class NonController extends Controller
         }
     
         $user->save();
-        return redirect()->route('non_alum.home')->with('success', 'Berhasil mengupdate data diri');
+        return redirect()->back()->with('success', 'Berhasil mengupdate data diri');
     }
 }

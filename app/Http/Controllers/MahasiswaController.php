@@ -73,7 +73,7 @@ class MahasiswaController extends Controller
         }
     
         $user->save();
-        return redirect()->route('mahasiswa.index')->with('success', 'Berhasil mengupdate data diri');
+        return redirect()->back()->with('success', 'Berhasil mengupdate data diri');
 
     }
 

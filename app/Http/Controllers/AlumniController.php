@@ -72,7 +72,7 @@ class AlumniController extends Controller
         }
     
         $user->save();
-        return redirect()->route('alumni.index')->with('success', 'Berhasil mengupdate data diri');
+        return redirect()->back()->with('success', 'Berhasil mengupdate data diri');
 
     }
 

@@ -5,9 +5,11 @@ use App\Http\Controllers\AksesController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\ManajerController;
 use App\Http\Controllers\NonController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegistrasiController;
+use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\SuratKetMhw;
 use App\Http\Controllers\SvisorController;
 use App\Http\Controllers\UsersController;
@@ -96,25 +98,52 @@ Route::middleware('auth')->group(function () {
     route::get('/admin/verif_user', [AdminController::class, 'verif_user'])->name('admin.verifikasi')->middleware('UserAkses:admin');
     Route::get('/admin/verif_user/search', [AdminController::class, 'search_verif'])->name('admin.verif.search')->middleware('UserAkses:admin');
     Route::get('/admin/verif_user/cekdata/{id}', [AdminController::class, 'cekdata_mhw'])->name('admin.cekdata')->middleware('UserAkses:admin');
-    Route::post('/admin/verif_user/cekdata/catatan/{id}',  [AdminController::class, 'catatan'])->name('admin.catatan');
-    Route::post('/admin/verif_user/cekdata/verifikasi/{id}', [AdminController::class, 'verifikasi'])->name('admin.verifikasi.user');
+    Route::post('/admin/verif_user/cekdata/catatan/{id}',  [AdminController::class, 'catatan'])->name('admin.catatan')->middleware('UserAkses:admin');
+    Route::post('/admin/verif_user/cekdata/verifikasi/{id}', [AdminController::class, 'verifikasi'])->name('admin.verifikasi.user')->middleware('UserAkses:admin');
 
 
-    Route::post('/admin/mahasiswa/Approve/{id}', [AdminController::class, 'aksesApprove'])->name('admin.aksesApprove')->middleware('UserAkses:admin');
-    Route::post('/admin/mahasiswa/nonApprove/{id}', [AdminController::class, 'nonApprove'])->name('admin.nonApprove')->middleware('UserAkses:admin');
-    Route::post('/admin/mahasiswa/bulkNonApprove', [AdminController::class, 'bulkNonApprove'])->name('admin.bulkNonApprove')->middleware('UserAkses:admin');
-    Route::post('/admin/mahasiswa/bulkApprove', [AdminController::class, 'bulkApprove'])->name('admin.bulkApprove')->middleware('UserAkses:admin');
-    Route::post('/admin/mahasiswa/nonApproveAll', [AdminController::class, 'nonApproveAll'])->name('admin.nonApproveAll')->middleware('UserAkses:admin');
-    Route::post('/admin/mahasiswa/ApproveAll', [AdminController::class, 'ApproveAll'])->name('admin.ApproveAll')->middleware('UserAkses:admin');
+    // Route::post('/admin/mahasiswa/Approve/{id}', [AdminController::class, 'aksesApprove'])->name('admin.aksesApprove')->middleware('UserAkses:admin');
+    // Route::post('/admin/mahasiswa/nonApprove/{id}', [AdminController::class, 'nonApprove'])->name('admin.nonApprove')->middleware('UserAkses:admin');
+    // Route::post('/admin/mahasiswa/bulkNonApprove', [AdminController::class, 'bulkNonApprove'])->name('admin.bulkNonApprove')->middleware('UserAkses:admin');
+    // Route::post('/admin/mahasiswa/bulkApprove', [AdminController::class, 'bulkApprove'])->name('admin.bulkApprove')->middleware('UserAkses:admin');
+    // Route::post('/admin/mahasiswa/nonApproveAll', [AdminController::class, 'nonApproveAll'])->name('admin.nonApproveAll')->middleware('UserAkses:admin');
+    // Route::post('/admin/mahasiswa/ApproveAll', [AdminController::class, 'ApproveAll'])->name('admin.ApproveAll')->middleware('UserAkses:admin');
 
 
 
-    route::get('/supervisor', [UsersController::class, 'supervisor'])->name('supervisor.index')->
-    middleware('UserAkses:supervisor');
+    route::get('/supervisor_akd', [SupervisorController::class, 'index_akd'])->name('supervisor_akd.index')->
+    middleware('UserAkses:supervisor_akd');
+    route::get('/supervisor_akd/manage_admin', [SupervisorController::class, 'manage_admin_akd'])->name('supervisor_akd.manage_admin')->
+    middleware('UserAkses:supervisor_akd');
+    route::post('/supervisor_akd/manage_admin/delete/{id}', [SupervisorController::class, 'delete_admin_akd'])->name('supervisor_akd.delete')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/supervisor_akd/manage_admin/create', [SupervisorController::class, 'create_akd'])->name('supervisor_akd.create_akd')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/supervisor_akd/manage_admin/edit/{id}',  [SupervisorController::class, 'edit_akd'])->name('supervisor_akd.edit_akd')
+    ->middleware('UserAkses:supervisor_akd');
+
+
+    route::get('/supervisor_sd', [SupervisorController::class, 'index_sd'])->name('supervisor_sd.index')->
+    middleware('UserAkses:supervisor_sd');
+    route::get('/supervisor_sd/manage_admin', [SupervisorController::class, 'manage_admin_sd'])->name('supervisor_sd.manage_admin')->
+    middleware('UserAkses:supervisor_sd');
+    route::post('/supervisor_sd/manage_admin/delete/{id}', [SupervisorController::class, 'delete_admin_sd'])->name('supervisor_sd.delete')
+    ->middleware('UserAkses:supervisor_sd');
+    Route::post('/supervisor_sd/manage_admin/create', [SupervisorController::class, 'create_sd'])->name('supervisor_sd.create_sd')
+    ->middleware('UserAkses:supervisor_sd');
+    Route::post('/supervisor_sd/manage_admin/edit/{id}',  [SupervisorController::class, 'edit_sd'])->name('supervisor_sd.edit_sd')
+    ->middleware('UserAkses:supervisor_sd');
     
-    
-    route::get('/wakildekan', [UsersController::class, 'wadek'])->name('wadek.index')->
-    middleware('UserAkses:wakildekan');
+    route::get('/manajer', [ManajerController::class, 'index'])->name('manajer.index')->
+    middleware('UserAkses:manajer');
+    route::get('/manajer/manage_spv', [ManajerController::class, 'manage_spv'])->name('manajer.manage_spv')->
+    middleware('UserAkses:manajer');
+    Route::post('/manajer/manage_spv/edit/{id}',  [ManajerController::class, 'edit_spv'])->name('manajer.edit_spv')
+    ->middleware('UserAkses:manajer');
+    Route::get('/manajer/account/{id}', [ManajerController::class, 'edit_account'])->name('manajer.edit_account')->
+    middleware('UserAkses:manajer');
+    Route::post('/manajer/account/update/{id}', [ManajerController::class, 'update_account'])->name('manajer.update_account')->
+    middleware('UserAkses:manajer');
 
     route::get('/SuratKetMahasiswa', [SuratKetMhw::class, 'index'])->name('SKM.index')->middleware('UserAkses:admin');
     Route::get('/SuratKetMahasiswa/Create', [SuratKetMhw::class, 'create'])->name('SKM.create')->middleware('UserAkses:admin');
