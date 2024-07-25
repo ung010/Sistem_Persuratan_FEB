@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('srt_ket_mhs', function (Blueprint $table) {
+        Schema::create('srt_masih_mhw', function (Blueprint $table) {
             $table->id();
             $table->string('no_surat')->nullable();
             // alamat semarang

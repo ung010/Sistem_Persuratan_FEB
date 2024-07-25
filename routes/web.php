@@ -8,12 +8,9 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ManajerController;
 use App\Http\Controllers\NonController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\RegistrasiController;
+use App\Http\Controllers\Srt_Mhw_AsnController;
 use App\Http\Controllers\SupervisorController;
-use App\Http\Controllers\SuratKetMhw;
-use App\Http\Controllers\SvisorController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\WadekController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -145,9 +142,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/manajer/account/update/{id}', [ManajerController::class, 'update_account'])->name('manajer.update_account')->
     middleware('UserAkses:manajer');
 
-    route::get('/SuratKetMahasiswa', [SuratKetMhw::class, 'index'])->name('SKM.index')->middleware('UserAkses:admin');
-    Route::get('/SuratKetMahasiswa/Create', [SuratKetMhw::class, 'create'])->name('SKM.create')->middleware('UserAkses:admin');
-    Route::post('/SuratKetMahasiswa/Store', [SuratKetMhw::class,'store'])->name('SKM.store')->middleware('UserAkses:admin');
+
+    // Surat Mahasiswa ASN
+    route::get('/srt_mhw_asn', [Srt_Mhw_AsnController::class, 'index'])->name('srt_mhw_asn.index')
+    ->middleware('UserAkses:mahasiswa');
+    Route::post('/srt_mhw_asn/create', [Srt_Mhw_AsnController::class,'create'])->name('srt_mhw_asn.store')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_mhw_asn/search', [Srt_Mhw_AsnController::class, 'index'])->name('srt_mhw_asn.search')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_mhw_asn/edit/{id}', [Srt_Mhw_AsnController::class, 'edit'])->name('srt_mhw_asn.edit')->
+    middleware('UserAkses:mahasiswa');
+    Route::post('/srt_mhw_asn/update/{id}', [Srt_Mhw_AsnController::class, 'update'])->name('srt_mhw_asn.update')->
+    middleware('UserAkses:mahasiswa');
 });
 
 

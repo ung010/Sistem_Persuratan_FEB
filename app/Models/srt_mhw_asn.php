@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class srt_mhw_asn extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -19,23 +19,20 @@ class User extends Authenticatable
      */
     protected $primaryKey = 'id';
     protected $fillable = [
-        'nama',
+        'no_surat',
         'id',
-        'nmr_unik',
-        'kota',
-        'tanggal_lahir',
-        'nowa',
-        'almt_asl',
-        'nama_ibu',
-        'role',
+        'nama_mhw',
+        'nim_mhw',
+        'nowa_mhw',
+        'nama_ortu',
+        'nip_ortu',
+        'ins_ortu',
+        'catatan_surat',
+        'role_surat',
         'prd_id',
         'dpt_id',
         'jnjg_id',
-        'foto',
-        'email',
-        'akses',
-        'password',
-        'catatan_user',
+        'users_id',
     ];
 
     /**
@@ -44,25 +41,23 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'nmr_unik',
-        'kota',
-        'tanggal_lahir',
-        'nowa',
-        'almt_asl',
-        'nama_ibu',
-        'role',
+        'no_surat',
+        'id',
+        'nama_mhw',
+        'nim_mhw',
+        'nowa_mhw',
+        'nama_ortu',
+        'nip_ortu',
+        'ins_ortu',
+        'catatan_surat',
+        'role_surat',
         'prd_id',
         'dpt_id',
         'jnjg_id',
-        'foto',
-        'email',
-        'akses',
-        'password',
-        'catatan_user',
+        'users_id',
         'remember_token',
         'create_at',
         'update_at',
-        'remember_token',
     ];
 
     /**
@@ -74,16 +69,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function getJenjangProdiAttribute()
-    {
-        return $this->jenjang_pendidikan->nama_jnjg . ' - ' . $this->prodi->nama_prd;
-    }
-
-    public function getTempatTanggalLahirAttribute()
-    {
-        return $this->kota . ', ' . $this->tanggal_lahir;
-    }
 
     public function departemen()
     {
@@ -98,5 +83,10 @@ class User extends Authenticatable
     public function jenjang()
     {
         return $this->belongsTo(jenjang_pendidikan::class, 'jnjg_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'users_id', 'id');
     }
 }

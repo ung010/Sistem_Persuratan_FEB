@@ -129,9 +129,9 @@ class DatabaseSeeder extends Seeder
         $users = [
             [
 
-                'nama' => 'sayatest',
+                'nama' => 'Romusha TA',
                 'nmr_unik' => '21120120150155',
-                'email' => 'testing@gmail.com',
+                'email' => 'mahasiswa@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
                 'kota' => 'Blitar',
@@ -150,7 +150,7 @@ class DatabaseSeeder extends Seeder
                 'nmr_unik' => '64568775634',
                 'email' => 'leo@gmail.com',
                 'password' => bcrypt('mountain082'),
-                'role' => 'non_mahasiswa',
+                'role' => 'mahasiswa',
                 'kota' => 'leo',
                 'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 11 - 2003'),
                 'nowa' => '081214549624',
