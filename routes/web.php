@@ -154,6 +154,33 @@ Route::middleware('auth')->group(function () {
     middleware('UserAkses:mahasiswa');
     Route::post('/srt_mhw_asn/update/{id}', [Srt_Mhw_AsnController::class, 'update'])->name('srt_mhw_asn.update')->
     middleware('UserAkses:mahasiswa');
+    Route::get('/srt_mhw_asn/download/{id}', [Srt_Mhw_AsnController::class, 'download'])->name('srt_mhw_asn.download')->
+    middleware('UserAkses:mahasiswa');
+
+    route::get('/srt_mhw_asn/admin', [Srt_Mhw_AsnController::class, 'admin'])->name('srt_mhw_asn.admin')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_mhw_asn/admin/search', [Srt_Mhw_AsnController::class, 'admin'])->name('srt_mhw_asn.admin_search')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_mhw_asn/admin/cek_surat/{id}', [Srt_Mhw_AsnController::class, 'cek_surat_admin'])->name('srt_mhw_asn.cek_data')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_mhw_asn/admin/cek_surat/setuju/{id}',  [Srt_Mhw_AsnController::class, 'setuju'])->name('srt_mhw_asn.setuju')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_mhw_asn/admin/cek_surat/tolak/{id}',  [Srt_Mhw_AsnController::class, 'tolak'])->name('srt_mhw_asn.tolak')
+    ->middleware('UserAkses:admin');
+
+    route::get('/srt_mhw_asn/supervisor', [Srt_Mhw_AsnController::class, 'supervisor_akd'])->name('srt_mhw_asn.supervisor')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::get('/srt_mhw_asn/supervisor/search', [Srt_Mhw_AsnController::class, 'supervisor_akd'])->name('srt_mhw_asn.sv_search')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/srt_mhw_asn/supervisor/setuju/{id}',  [Srt_Mhw_AsnController::class, 'supervisor_setuju'])->name('srt_mhw_asn.sv_setuju')
+    ->middleware('UserAkses:supervisor_akd');
+
+    route::get('/srt_mhw_asn/manajer', [Srt_Mhw_AsnController::class, 'manajer'])->name('srt_mhw_asn.manajer')
+    ->middleware('UserAkses:manajer');
+    Route::get('/srt_mhw_asn/manajer/search', [Srt_Mhw_AsnController::class, 'manajer'])->name('srt_mhw_asn.manajer_search')
+    ->middleware('UserAkses:manajer');
+    Route::post('/srt_mhw_asn/manajer/setuju/{id}',  [Srt_Mhw_AsnController::class, 'manajer_setuju'])->name('srt_mhw_asn.manajer_setuju')
+    ->middleware('UserAkses:manajer');
 });
 
 

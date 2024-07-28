@@ -32,7 +32,7 @@
                             Surat
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Surat KP</a></li>
+                            <li><a class="dropdown-item" href="/srt_mhw_asn">Surat keterangan untuk anak ASN</a></li>
                             <li><a class="dropdown-item" href="#">Surat Penelitian</a></li>
                         </ul>
                     </li>

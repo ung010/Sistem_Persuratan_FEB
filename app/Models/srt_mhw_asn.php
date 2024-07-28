@@ -17,6 +17,7 @@ class srt_mhw_asn extends Model
      *
      * @var array<int, string>
      */
+    protected $table = 'srt_mhw_asn';
     protected $primaryKey = 'id';
     protected $fillable = [
         'no_surat',
@@ -32,6 +33,7 @@ class srt_mhw_asn extends Model
         'prd_id',
         'dpt_id',
         'jnjg_id',
+        'tanggal_surat',
         'users_id',
     ];
 

@@ -1,4 +1,4 @@
-@extends('template/dasar2')
+@extends('template/admin')
 @section('inti_data')
 <head>
     <title>My Account {{ auth()->user()->nama }}</title>

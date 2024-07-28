@@ -181,7 +181,6 @@ class AdminController extends Controller
 
     public function catatan(Request $request, $id)
     {
-        // dd($id); // Tambahkan ini untuk debugging
         $users = User::findOrFail($id);
 
         $request->validate([

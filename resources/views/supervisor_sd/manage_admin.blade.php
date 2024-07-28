@@ -1,4 +1,4 @@
-@extends('template/dasar2')
+@extends('template/supervisor_sd')
 @section('inti_data')
 
     <head>

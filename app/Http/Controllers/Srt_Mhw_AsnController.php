@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\jenjang_pendidikan;
 use App\Models\prodi;
+use App\Models\srt_mhw_asn;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -95,6 +97,7 @@ class Srt_Mhw_AsnController extends Controller
             'nip_ortu' => $request->nip_ortu,
             'ins_ortu' => $request->ins_ortu,
             'jenjang_prodi' => $jenjang_prodi,
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
         return redirect()->route('srt_mhw_asn.index')->with('success', 'Surat berhasil dibuat');
@@ -148,6 +151,195 @@ class Srt_Mhw_AsnController extends Controller
         return redirect()->route('srt_mhw_asn.index')->with('success', 'Surat berhasil diperbarui');
     }
 
+    function admin(Request $request)
+    {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_mhw_asn')
+            ->select(
+                'id',
+                'nama_mhw',
+            )
+            ->where('role_surat', 'admin');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->paginate(10);
+
+        return view('srt_mhw_asn.admin', compact('data'));
+    }
+
+    function cek_surat_admin($id)
+    {
+        $srt_mhw_asn = DB::table('srt_mhw_asn')
+            ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
+            ->join('departement', 'srt_mhw_asn.dpt_id', '=', 'departement.id')
+            ->join('jenjang_pendidikan', 'srt_mhw_asn.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->where('srt_mhw_asn.id', $id)
+            ->select(
+                'srt_mhw_asn.id',
+                'users.id as users_id',
+                'prodi.id as prodi_id',
+                'departement.id as departement_id',
+                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'users.nama',
+                'users.nmr_unik',
+                'departement.nama_dpt',
+                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'srt_mhw_asn.thn_awl',
+                'srt_mhw_asn.thn_akh',
+                'users.almt_asl',
+                'users.nowa',
+                'users.email',
+                'srt_mhw_asn.nama_ortu',
+                'srt_mhw_asn.nip_ortu',
+                'srt_mhw_asn.ins_ortu',
+                'users.foto',
+            )
+            ->first();
+        return view('srt_mhw_asn.cek_data', compact('srt_mhw_asn'));
+    }
+
+    function download($id)
+    {  
+        $mpdf = new \Mpdf\Mpdf();
+        
+        $srt_mhw_asn = DB::table('srt_mhw_asn')
+            ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
+            ->join('departement', 'srt_mhw_asn.dpt_id', '=', 'departement.id')
+            ->join('jenjang_pendidikan', 'srt_mhw_asn.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->where('srt_mhw_asn.id', $id)
+            ->select(
+                'srt_mhw_asn.id',
+                'users.id as users_id',
+                'prodi.id as prodi_id',
+                'departement.id as departement_id',
+                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'users.nama',
+                'users.nmr_unik',
+                'departement.nama_dpt',
+                'srt_mhw_asn.thn_awl',
+                'srt_mhw_asn.thn_akh',
+                'srt_mhw_asn.nama_ortu',
+                'srt_mhw_asn.nip_ortu',
+                'srt_mhw_asn.ins_ortu',
+                'srt_mhw_asn.tanggal_surat',
+                'srt_mhw_asn.no_surat',
+                'srt_mhw_asn.semester',
+            )
+            ->first();
+
+            if ($srt_mhw_asn && $srt_mhw_asn->tanggal_surat) {
+                $srt_mhw_asn->tanggal_surat = Carbon::parse($srt_mhw_asn->tanggal_surat)->format('d-m-Y');
+            }
+
+            $mpdf->writeHTML(view('srt_mhw_asn.view', compact('srt_mhw_asn')));
+            $mpdf->Output('Surat-Keterangan-Masih-Kuliah_ASN.pdf', 'D');
+    }
+
+    function setuju(Request $request, $id)
+    {
+        $srt_mhw_asn = srt_mhw_asn::where('id', $id)->first();
+
+        $request->validate([
+            'no_surat' => 'required',
+        ], [
+            'no_surat.required' => 'No surat wajib diisi',
+        ]);
+
+        $srt_mhw_asn->no_surat = $request->no_surat;
+        $srt_mhw_asn->role_surat = 'supervisor_akd';
+
+        $srt_mhw_asn->save();
+        return redirect()->route('srt_mhw_asn.admin')->with('success', 'No surat berhasil ditambahkan');
+    }
+
+    function tolak(Request $request, $id)
+    {
+        $srt_mhw_asn = srt_mhw_asn::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_mhw_asn->catatan_surat = $request->catatan_surat;
+        $srt_mhw_asn->role_surat = 'tolak';
+
+        $srt_mhw_asn->save();
+        return redirect()->route('srt_mhw_asn.admin')->with('success', 'Alasan penolakan telah dikirimkan');
+    }
+
+    function supervisor_akd(Request $request)
+    {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_mhw_asn')
+            ->select(
+                'id',
+                'nama_mhw',
+            )
+            ->where('role_surat', 'supervisor_akd'); // Menambahkan kondisi untuk role_surat = admin
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->paginate(10);
+
+        return view('srt_mhw_asn.supervisor', compact('data'));
+    }
+
+    function supervisor_setuju($id)
+    {
+        $srt_mhw_asn = srt_mhw_asn::where('id', $id)->first();
+
+        $srt_mhw_asn->role_surat = 'manajer';
+
+        $srt_mhw_asn->save();
+        return redirect()->back()->with('success', 'Surat berhasil disetujui');
+    }
+
+    function manajer(Request $request)
+    {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_mhw_asn')
+            ->select(
+                'id',
+                'nama_mhw',
+            )
+            ->where('role_surat', 'manajer'); // Menambahkan kondisi untuk role_surat = admin
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->paginate(10);
+
+        return view('srt_mhw_asn.manajer', compact('data'));
+    }
+
+    function manajer_setuju($id)
+    {
+        $srt_mhw_asn = srt_mhw_asn::where('id', $id)->first();
+
+        $srt_mhw_asn->role_surat = 'mahasiswa';
+
+        $srt_mhw_asn->save();
+        return redirect()->route('srt_mhw_asn.manajer')->with('success', 'Surat berhasil disetujui');
+    }
 
     function delete()
     {

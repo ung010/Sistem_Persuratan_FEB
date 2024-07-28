@@ -1,4 +1,4 @@
-@extends('template/dasar2')
+@extends('template/supervisor_akd')
 @section('inti_data')
     <title>Halo xx</title>
     <div class="my-3 p-3 bg-body rounded shadow-sm">

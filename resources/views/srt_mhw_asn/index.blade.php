@@ -1,6 +1,5 @@
 @extends('template/mahasiswa')
 @section('inti_data')
-
     <head>
         <title>
             Surat Keterangan mahasiswa bagi anak ASN
@@ -8,7 +7,7 @@
     </head>
 
     <body>
-        <form method="GET" action="{{ route('srt_mhw_asn.index') }}">
+        <form method="GET" action="{{ route('srt_mhw_asn.search') }}">
             <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
             <button type="submit">Cari</button>
         </form>
@@ -44,7 +43,6 @@
                             <td>{{ $item->ins_ortu }}</td>
                             <td>
                                 {{ $item->role_surat }}
-                                {{-- role surat = tolak, mahasiswa, admin, manajer, supervisor, admin --}}
                             </td>
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
@@ -57,7 +55,7 @@
                             </td>
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
-                                <a href='#' class="btn btn-primary btn-sm">Unduh</a>
+                                <a href='{{ url('/srt_mhw_asn/download/'.$item->id) }}' class="btn btn-primary btn-sm">Unduh</a>
                                 @else
                                 <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
                                 @endif
