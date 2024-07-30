@@ -14,13 +14,16 @@ return new class extends Migration
         Schema::create('srt_masih_mhw', function (Blueprint $table) {
             $table->id();
             $table->string('no_surat')->nullable();
-            // alamat semarang
-            // $table->string('alamat');
-            $table->string('tjn_srt');
+            $table->string('nama_mhw')->nullable();
             $table->year('thn_awl');
             $table->year('thn_akh');
-            $table->tinyInteger('semester');
-            $table->enum('role', ['admin', 'mahasiswa', 'supervisor', 'wakildekan', 'dekan'])->default('mahasiswa');
+            $table->text('almt_smg');
+            $table->text('tujuan_buat_srt');
+            $table->date('tanggal_surat');
+            $table->text('catatan_surat')->nullable()->default('-');
+            $table->string('file_pdf')->nullable();
+            $table->enum('tujuan_akhir', ['manajer' ,'wd']);
+            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'manajer_sukses'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('dpt_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
@@ -29,8 +32,6 @@ return new class extends Migration
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->foreign('jnjg_id')->references('id')->on('jenjang_pendidikan')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade')->nullable();
-            $table->string('ket_surat')->nullable()->default('-');
-            $table->date('tgl_cetak_srt')->nullable();
             $table->timestamps();
         });
     }

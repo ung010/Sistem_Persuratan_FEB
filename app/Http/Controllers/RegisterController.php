@@ -43,7 +43,7 @@ class RegisterController extends Controller
             'dpt_id' => 'required',
             'prd_id' => 'required',
             'jnjg_id' => 'required',
-            'foto' => 'required|mimes:jpeg,jpg,png'
+            'foto' => 'required|mimes:jpeg,jpg,png|image|max:2048'
         ], [
             'nama.required' => 'Nama wajib diisi',
             'nmr_unik.required' => 'NIM wajib diisi',
@@ -64,6 +64,8 @@ class RegisterController extends Controller
             'jnjg_id.required' => 'Jenjang Pendidikan wajib diisi',
             'foto.required' => 'Foto wajib diisi',
             'foto.mimes' => 'Foto wajib berbentuk JPEG, JPG, dan PNG',
+            'foto.image' => 'File harus berupa gambar',
+            'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte'
         ]);
 
         $foto = $request->file('foto');

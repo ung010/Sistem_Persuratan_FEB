@@ -2,7 +2,7 @@
 @section('inti_data')
 
     <head>
-        <title>Cek Surat keterangan untuk anak ASN {{ $srt_mhw_asn->nama }}</title>
+        <title>Cek Surat keterangan untuk anak ASN {{ $srt_masih_mhw->nama }}</title>
     </head>
 
     <body>
@@ -10,42 +10,44 @@
             <div class="my-3 p-3 bg-body rounded shadow-sm">
                 <h1>Verif User</h1>
                 <div class="mb-3">
-                    <h4>Nama : {{ $srt_mhw_asn->nama }}</h4>
+                    <h4>Nama : {{ $srt_masih_mhw->nama }}</h4>
                 </div>
                 <div class="mb-3">
-                    <p>NIM: {{ $srt_mhw_asn->nmr_unik }}</p>
+                    <p>Tempat, Tanggal Lahir: {{ $srt_masih_mhw->ttl }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>Departemen: {{ $srt_mhw_asn->nama_dpt }}</p>
+                    <p>NIM: {{ $srt_masih_mhw->ttl }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>Prodgam Studi: {{ $srt_mhw_asn->jenjang_prodi }}</p>
+                    <p>Alamat Asal: {{ $srt_masih_mhw->ttl }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>Tahun Ajaran: {{ $srt_mhw_asn->thn_awl }} / {{ $srt_mhw_asn->thn_akh }}</p>
+                    <p>Departemen: {{ $srt_masih_mhw->nama_dpt }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>Alamat Asal: {{ $srt_mhw_asn->almt_asl }}</p>
+                    <p>Jenjang Pendidikan: {{ $srt_masih_mhw->nama_jnjg }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>No Whatsapp: {{ $srt_mhw_asn->nowa }}</p>
+                    <p>No Whatsapp: {{ $srt_masih_mhw->nowa }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>Email: {{ $srt_mhw_asn->email }}</p>
+                    <p>Alasan Pembuatan Surat: {{ $srt_masih_mhw->tujuan_buat_srt }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>Nama Orang Tua / Wali: {{ $srt_mhw_asn->nama_ortu }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>NIP / NRP: {{ $srt_mhw_asn->nip_ortu }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>Instansi / Perusahaan: {{ $srt_mhw_asn->ins_ortu }}</p>
+                    <p>Yang menandatangani Surat: 
+                        @if ($srt_masih_mhw->tujuan_akhir == 'WD')
+                            Wakil Dekan
+                        @elseif ($srt_masih_mhw->tujuan_akhir == 'manajer')
+                            Manajer
+                        @else
+                            Tidak ada
+                        @endif
+                    </p>
                 </div>
                 <div class="mb-3">
                     <label for="foto" class="form-label">Foto</label>
-                    @if ($srt_mhw_asn->foto)
-                        <img src="{{ asset('storage/foto/mahasiswa/' . $srt_mhw_asn->foto) }}" alt="Foto User"
+                    @if ($srt_masih_mhw->foto)
+                        <img src="{{ asset('storage/foto/mahasiswa/' . $srt_masih_mhw->foto) }}" alt="Foto User"
                             class="img-thumbnail" width="150">
                     @endif
                 </div>
@@ -58,14 +60,14 @@
                         data-target="#tolakModal">Ditolak</button>
                 </div>
                 <div class="mb-3 d-grid">
-                    <a href='/srt_mhw_asn/admin' class="btn btn-info">Kembali</a>
+                    <a href='/srt_masih_mhw/manajer/admin' class="btn btn-info">Kembali</a>
                 </div>
             </div>
         </div>
         <div class="modal fade" id="setujuModal" tabindex="-1" aria-labelledby="setujuModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('srt_mhw_asn.setuju', $srt_mhw_asn->id) }}" method="POST">
+                    <form action="{{ route('srt_masih_mhw.setuju', $srt_masih_mhw->id) }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
@@ -85,7 +87,7 @@
         <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('srt_mhw_asn.tolak', $srt_mhw_asn->id) }}" method="POST">
+                    <form action="{{ route('srt_masih_mhw.tolak', $srt_masih_mhw->id) }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">

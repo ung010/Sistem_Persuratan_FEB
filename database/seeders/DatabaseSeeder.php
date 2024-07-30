@@ -41,11 +41,11 @@ class DatabaseSeeder extends Seeder
             [
 
                 'nama_prd' => 'Ekonomi'
-            ],            
+            ],
             [
 
                 'nama_prd' => 'Ekonomi Islam'
-            ],            
+            ],
             [
 
                 'nama_prd' => 'Akuntansi'
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 'nama_prd' => 'Doktor Ilmu Ekonomi'
             ],
         ];
-        foreach($prodis as $prodi) {
+        foreach ($prodis as $prodi) {
             prodi::create($prodi);
         }
 
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
                 'nama_jnjg' => 'S3'
             ],
         ];
-        foreach($jenjangs as $jenjang) {
+        foreach ($jenjangs as $jenjang) {
             jenjang_pendidikan::create($jenjang);
         }
 
@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
                 'nama_dpt' => 'Doktor Ilmu Ekonomi'
             ],
         ];
-        foreach($departements as  $departement) {
+        foreach ($departements as  $departement) {
             departemen::create($departement);
         }
 
@@ -116,7 +116,7 @@ class DatabaseSeeder extends Seeder
                 'nowa' => $faker->phoneNumber,
                 'kota' => $faker->city,
                 'nama_ibu' => $faker->firstName($gender) . ' ' . $faker->lastName,
-                'tanggal_lahir' => $faker->date($format = 'Y-m-d', $max = '2008-01-01', $min = '1999-01-01', ),
+                'tanggal_lahir' => $faker->date($format = 'Y-m-d', $max = '2008-01-01', $min = '1999-01-01',),
                 'almt_asl' => $faker->address,
                 'catatan_user' => '-',
                 'foto' => $faker->imageUrl(400, 400, 'people'),
@@ -219,8 +219,42 @@ class DatabaseSeeder extends Seeder
                 'role' => 'manajer',
             ],
         ];
-        foreach($users as  $user) {
+        foreach ($users as  $user) {
             User::create($user);
+        }
+
+        $faker_srt_masih_mhw = Faker::create('id_ID');
+        $excluded_roles = ['admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $user_ids = DB::table('users')
+            ->whereNotIn('role', $excluded_roles)
+            ->pluck('id')
+            ->toArray();
+
+        $alasan_acak = ['sakit', 'berpegian', 'menjenguk', 'acara keluarga', 'urusan pribadi'];
+
+        foreach (range(1, 10) as $index) {
+
+            $random_user_id = $faker_srt_masih_mhw->randomElement($user_ids);
+            $user = DB::table('users')->where('id', $random_user_id)->first();
+            $nama_mhw = $user->nama;
+            $thn_awl = $faker_srt_masih_mhw->numberBetween(2010, 2020);
+            $thn_akh = $thn_awl + 1;
+            $tujuan_buat_srt = $faker_srt_masih_mhw->randomElement($alasan_acak);
+            $tanggal_surat = Carbon::now()->toDateString();
+
+            DB::table('srt_masih_mhw')->insert([
+                'users_id' => $random_user_id,
+                'nama_mhw' => $nama_mhw,
+                'dpt_id' => $user->dpt_id,
+                'prd_id' => $user->prd_id,
+                'jnjg_id' => $user->jnjg_id,
+                'thn_awl' => $thn_awl,
+                'thn_akh' => $thn_akh,
+                'tujuan_buat_srt' => $tujuan_buat_srt,
+                'tanggal_surat' => $tanggal_surat,
+                'almt_smg' => $faker_srt_masih_mhw->address(),
+                'tujuan_akhir' => $faker_srt_masih_mhw->randomElement(['manajer', 'wd']),
+            ]);
         }
     }
 }

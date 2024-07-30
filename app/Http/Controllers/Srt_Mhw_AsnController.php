@@ -151,6 +151,44 @@ class Srt_Mhw_AsnController extends Controller
         return redirect()->route('srt_mhw_asn.index')->with('success', 'Surat berhasil diperbarui');
     }
 
+    function download($id)
+    {  
+        $mpdf = new \Mpdf\Mpdf();
+        
+        $srt_mhw_asn = DB::table('srt_mhw_asn')
+            ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
+            ->join('departement', 'srt_mhw_asn.dpt_id', '=', 'departement.id')
+            ->join('jenjang_pendidikan', 'srt_mhw_asn.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->where('srt_mhw_asn.id', $id)
+            ->select(
+                'srt_mhw_asn.id',
+                'users.id as users_id',
+                'prodi.id as prodi_id',
+                'departement.id as departement_id',
+                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'users.nama',
+                'users.nmr_unik',
+                'departement.nama_dpt',
+                'srt_mhw_asn.thn_awl',
+                'srt_mhw_asn.thn_akh',
+                'srt_mhw_asn.nama_ortu',
+                'srt_mhw_asn.nip_ortu',
+                'srt_mhw_asn.ins_ortu',
+                'srt_mhw_asn.tanggal_surat',
+                'srt_mhw_asn.no_surat',
+                'srt_mhw_asn.semester',
+            )
+            ->first();
+
+            if ($srt_mhw_asn && $srt_mhw_asn->tanggal_surat) {
+                $srt_mhw_asn->tanggal_surat = Carbon::parse($srt_mhw_asn->tanggal_surat)->format('d-m-Y');
+            }
+
+            $mpdf->writeHTML(view('srt_mhw_asn.view', compact('srt_mhw_asn')));
+            $mpdf->Output('Surat-Keterangan-Masih-Kuliah_ASN.pdf', 'D');
+    }
+
     function admin(Request $request)
     {
         $search = $request->input('search');
@@ -203,44 +241,6 @@ class Srt_Mhw_AsnController extends Controller
             )
             ->first();
         return view('srt_mhw_asn.cek_data', compact('srt_mhw_asn'));
-    }
-
-    function download($id)
-    {  
-        $mpdf = new \Mpdf\Mpdf();
-        
-        $srt_mhw_asn = DB::table('srt_mhw_asn')
-            ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
-            ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
-            ->join('departement', 'srt_mhw_asn.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_mhw_asn.jnjg_id', '=', 'jenjang_pendidikan.id')
-            ->where('srt_mhw_asn.id', $id)
-            ->select(
-                'srt_mhw_asn.id',
-                'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
-                'users.nama',
-                'users.nmr_unik',
-                'departement.nama_dpt',
-                'srt_mhw_asn.thn_awl',
-                'srt_mhw_asn.thn_akh',
-                'srt_mhw_asn.nama_ortu',
-                'srt_mhw_asn.nip_ortu',
-                'srt_mhw_asn.ins_ortu',
-                'srt_mhw_asn.tanggal_surat',
-                'srt_mhw_asn.no_surat',
-                'srt_mhw_asn.semester',
-            )
-            ->first();
-
-            if ($srt_mhw_asn && $srt_mhw_asn->tanggal_surat) {
-                $srt_mhw_asn->tanggal_surat = Carbon::parse($srt_mhw_asn->tanggal_surat)->format('d-m-Y');
-            }
-
-            $mpdf->writeHTML(view('srt_mhw_asn.view', compact('srt_mhw_asn')));
-            $mpdf->Output('Surat-Keterangan-Masih-Kuliah_ASN.pdf', 'D');
     }
 
     function setuju(Request $request, $id)
@@ -355,15 +355,9 @@ class Srt_Mhw_AsnController extends Controller
         //     // ->whereIn('srt_mhw_asn.role_surat', ['tolak', 'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'])
         //     ->select(
         //         'srt_mhw_asn.id',
-        //         'srt_mhw_asn.nama_mhw',
-        //         'srt_mhw_asn.nim_mhw',
-        //         'srt_mhw_asn.nowa_mhw',
         //         'srt_mhw_asn.thn_awl',
         //         'srt_mhw_asn.thn_akh',
         //         'srt_mhw_asn.semester',
-        //         'srt_mhw_asn.nama_ortu',
-        //         'srt_mhw_asn.nip_ortu',
-        //         'srt_mhw_asn.ins_ortu',
         //         'srt_mhw_asn.role_surat',
         //         'users.nama as nama' // Tambahkan ini untuk nama user
         //     )

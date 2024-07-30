@@ -85,6 +85,7 @@
                         <img src="{{ asset('storage/foto/mahasiswa/' . $user->foto) }}" alt="Foto User"
                             class="img-thumbnail" width="150">
                     @endif
+                    <input type="file" name="foto" id="foto" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlTextarea1" class="form-label">Catatan dari admin</label>

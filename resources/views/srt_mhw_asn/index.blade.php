@@ -55,9 +55,9 @@
                             </td>
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
-                                <a href='{{ url('/srt_mhw_asn/download/'.$item->id) }}' class="btn btn-primary btn-sm">Unduh</a>
+                                    <a href='{{ url('/srt_mhw_asn/download/'.$item->id) }}' class="btn btn-primary btn-sm">Unduh</a>
                                 @else
-                                <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
+                                    <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
                                 @endif
                             </td>
                         </tr>

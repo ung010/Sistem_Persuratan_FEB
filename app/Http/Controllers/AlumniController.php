@@ -37,7 +37,7 @@ class AlumniController extends Controller
             'dpt_id' => 'required',
             'prd_id' => 'required',
             'jnjg_id' => 'required',
-            // 'password' => 'required|min:8',
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ], [
             'nama.required' => 'Nama wajib diisi',
             'nmr_unik.required' => 'NIM wajib diisi',
@@ -45,8 +45,6 @@ class AlumniController extends Controller
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Email harus valid',
             'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
-            // 'password.required' => 'Password wajib diisi',
-            // 'password.min' => 'Password minimal 8 karakter',
             'kota.required' => 'Tempat lahir wajib diisi',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
             'nowa.required' => 'No handphone wajib diisi',
@@ -54,6 +52,9 @@ class AlumniController extends Controller
             'dpt_id.required' => 'Departemen wajib diisi',
             'prd_id.required' => 'Prodi wajib diisi',
             'jnjg_id.required' => 'Jenjang pendidikan wajib diisi',
+            'foto.image' => 'File harus berupa gambar',
+            'foto.mimes' => 'File harus berupa gambar dengan format jpeg, png, atau jpg',
+            'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte'
         ]);
 
         $user->nama = $request->nama;
@@ -69,6 +70,19 @@ class AlumniController extends Controller
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('foto')) {
+            if ($user->foto && file_exists(public_path('storage/foto/mahasiswa/' . $user->foto))) {
+                unlink(public_path('storage/foto/mahasiswa/' . $user->foto));
+            }
+    
+            $foto = $request->file('foto');
+            $foto_extensi = $foto->extension();
+            $nama_foto = date('ymdhis') . '.' . $foto_extensi;
+            $foto->move(public_path('storage/foto/mahasiswa'), $nama_foto);
+    
+            $user->foto = $nama_foto;
         }
     
         $user->save();
