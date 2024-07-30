@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AksesController;
 use App\Http\Controllers\AlumniController;
+use App\Http\Controllers\Legal_Controller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ManajerController;
@@ -29,14 +30,18 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+// Legal
+// Route::get('/legal', [Legal_Controller::class, 'testing'])->name('srt_masih_mhw.legal_testing');
+Route::get('/legal/srt_masih_mhw/{id}', [Legal_Controller::class, 'srt_masih_mhw'])->name('srt_masih_mhw.legal');
+Route::get('/legal/srt_masih_mhw/view/{id}', [Legal_Controller::class, 'lihat_srt_masih_mhw'])->name('srt_masih_mhw.legal_lihat');
+
 Route::middleware('guest')->group(function () {
     Route::get('/', [LoginController::class, 'index'])->name('login');
     Route::get('/login', [LoginController::class, 'index'])->name('auth.login');
     Route::post('/', [LoginController::class, 'login'])->name('auth.login');
-    // Route::get('/login_admin', [LoginController::class, 'index2'])->name('login');
-    // Route::post('/login_admin', [LoginController::class, 'login2'])->name('auth.login');
     Route::get('/register', [RegisterController::class, 'register']);
     Route::post('/register/create', [RegisterController::class, 'create'])->name('register.create');
+
 });
 
 route::get('/home', function () {

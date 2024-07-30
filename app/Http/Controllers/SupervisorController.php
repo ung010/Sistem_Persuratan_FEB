@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\srt_masih_mhw;
+use App\Models\srt_mhw_asn;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +14,10 @@ class SupervisorController extends Controller
 {
     public function index_akd()
     {
-        return view('supervisor_akd.index');
+        $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'supervisor_akd')->count();
+        $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'supervisor_akd')->count();
+
+        return view('supervisor_akd.index', compact('srt_masih_mhw', 'srt_mhw_asn'));
     }
 
     public function manage_admin_akd()

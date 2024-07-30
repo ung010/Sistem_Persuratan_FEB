@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\srt_masih_mhw;
+use App\Models\srt_mhw_asn;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +15,10 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'admin')->count();
+        $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'admin')->count();
+
+        return view('admin.index', compact('srt_masih_mhw', 'srt_mhw_asn'));
     }
     public function user()
     {

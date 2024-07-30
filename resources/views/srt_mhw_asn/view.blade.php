@@ -104,6 +104,10 @@
 
     </div>
 
+    <div>
+        <img src="{{ public_path($qrCodePath) }}" alt="QR Code">
+    </div>
+
 </body>
 
 </html>

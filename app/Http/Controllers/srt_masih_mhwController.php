@@ -6,11 +6,15 @@ use App\Models\departemen;
 use App\Models\jenjang_pendidikan;
 use App\Models\prodi;
 use App\Models\srt_masih_mhw;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Mpdf\Mpdf;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class srt_masih_mhwController extends Controller
 {
@@ -151,12 +155,12 @@ class srt_masih_mhwController extends Controller
     }
 
     function download_wd($id)
-    {  
+    {
         $srt_masih_mhw = DB::table('srt_masih_mhw')
-        ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-        ->where('srt_masih_mhw.id', $id)
-        ->select('srt_masih_mhw.file_pdf', 'users.nama')
-        ->first();
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
+            ->where('srt_masih_mhw.id', $id)
+            ->select('srt_masih_mhw.file_pdf', 'users.nama')
+            ->first();
 
         if (!$srt_masih_mhw || !$srt_masih_mhw->file_pdf) {
             return redirect()->back()->with('error', 'File tidak ditemukan.');
@@ -172,9 +176,9 @@ class srt_masih_mhwController extends Controller
     }
 
     function download_manajer($id)
-    {  
+    {
         $mpdf = new \Mpdf\Mpdf();
-        
+
         $srt_masih_mhw = DB::table('srt_masih_mhw')
             ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
@@ -203,12 +207,30 @@ class srt_masih_mhwController extends Controller
             )
             ->first();
 
-            if ($srt_masih_mhw && $srt_masih_mhw->tanggal_surat) {
-                $srt_masih_mhw->tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->format('d-m-Y');
-            }
+        if ($srt_masih_mhw && $srt_masih_mhw->tanggal_surat) {
+            $srt_masih_mhw->tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->format('d-m-Y');
+        }
 
-            $mpdf->writeHTML(view('srt_masih_mhw.view_manajer', compact('srt_masih_mhw')));
-            $mpdf->Output('Surat-Masih-Mahasiswa.pdf', 'D');
+        $qrUrl = url('/legal/srt_masih_mhw/' . $srt_masih_mhw->id);
+        $qrCodePath = 'storage/qrcodes/qr-' . $srt_masih_mhw->id . '.png';
+        $qrCodeFullPath = public_path($qrCodePath);
+
+        if (!File::exists(dirname($qrCodeFullPath))) {
+            File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
+        }
+
+        QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
+
+        $mpdf = new Mpdf();
+        $html = View::make('srt_masih_mhw.view_manajer', compact('srt_masih_mhw', 'qrCodePath'))->render();
+        $mpdf->WriteHTML($html);
+
+        $namaMahasiswa = $srt_masih_mhw->nama;
+        $tanggalSurat = Carbon::now()->format('Y-m-d');
+        $fileName = 'Surat_Masih_Mahasiswa_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+        $mpdf->Output($fileName, 'D');
+
+        
     }
 
     function admin(Request $request)
@@ -251,7 +273,7 @@ class srt_masih_mhwController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
-                ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
             });
         }
 
@@ -262,8 +284,6 @@ class srt_masih_mhwController extends Controller
 
     function wd_unduh($id)
     {
-        $mpdf = new \Mpdf\Mpdf();
-        
         $srt_masih_mhw = DB::table('srt_masih_mhw')
             ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
@@ -292,23 +312,36 @@ class srt_masih_mhwController extends Controller
             )
             ->first();
 
-            if ($srt_masih_mhw && $srt_masih_mhw->tanggal_surat) {
-                $srt_masih_mhw->tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->format('d-m-Y');
-            }
+        if (!$srt_masih_mhw) {
+            return redirect()->back()->with('error', 'Data not found');
+        }
 
-            $mpdf->writeHTML(view('srt_masih_mhw.view_wd', compact('srt_masih_mhw')));
+        if ($srt_masih_mhw->tanggal_surat) {
+            $srt_masih_mhw->tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->format('d-m-Y');
+        }
 
-            if ($srt_masih_mhw) {
-                $namaMahasiswa = $srt_masih_mhw->nama;
-                $tanggalSurat = \Carbon\Carbon::now()->format('Y-m-d');
-                $fileName = 'Surat-Masih-Mahasiswa-' . str_replace(' ', '-', $namaMahasiswa) . '-' . $tanggalSurat . '.pdf';
-                $mpdf->Output($fileName, 'D');
-            } else {
-                return redirect()->back()->with('error', 'data not found');
-            }
+        $qrUrl = url('/legal/srt_masih_mhw/' . $srt_masih_mhw->id);
+        $qrCodePath = 'storage/qrcodes/qr-' . $srt_masih_mhw->id . '.png';
+        $qrCodeFullPath = public_path($qrCodePath);
+
+        if (!File::exists(dirname($qrCodeFullPath))) {
+            File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
+        }
+
+        QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
+
+        $mpdf = new Mpdf();
+        $html = View::make('srt_masih_mhw.view_wd', compact('srt_masih_mhw', 'qrCodePath'))->render();
+        $mpdf->WriteHTML($html);
+
+        $namaMahasiswa = $srt_masih_mhw->nama;
+        $tanggalSurat = Carbon::now()->format('Y-m-d');
+        $fileName = 'Surat_Masih_Mahasiswa_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+        $mpdf->Output($fileName, 'D');
     }
 
-    public function wd_unggah(Request $request, $id) {
+    public function wd_unggah(Request $request, $id)
+    {
         $request->validate([
             'srt_masih_mhw' => 'required|mimes:pdf'
         ], [
@@ -335,7 +368,7 @@ class srt_masih_mhwController extends Controller
 
         $tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->format('d-m-Y');
         $nama_mahasiswa = Str::slug($srt_masih_mhw->nama);
-        
+
         $file = $request->file('srt_masih_mhw');
         $surat_extensi = $file->extension();
         $nama_surat = "Surat_Masih_Mahasiswa_{$tanggal_surat}_{$nama_mahasiswa}." . $surat_extensi;
@@ -490,7 +523,7 @@ class srt_masih_mhwController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
-                ->orWhere('tujuan_buat_srt', 'like', "%{$search}%");
+                    ->orWhere('tujuan_buat_srt', 'like', "%{$search}%");
             });
         }
 
@@ -524,7 +557,7 @@ class srt_masih_mhwController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
-                ->orWhere('tujuan_buat_srt', 'like', "%{$search}%");
+                    ->orWhere('tujuan_buat_srt', 'like', "%{$search}%");
             });
         }
 

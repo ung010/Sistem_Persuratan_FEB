@@ -63,6 +63,9 @@
         {{ $srt_masih_mhw->ttl}}
         {{ $srt_masih_mhw->tanggal_surat}}
 
+        <div>
+            <img src="{{ public_path($qrCodePath) }}" alt="QR Code">
+        </div>
     </div>
 
 </body>

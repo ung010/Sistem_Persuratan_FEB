@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\srt_masih_mhw;
+use App\Models\srt_mhw_asn;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +13,10 @@ class ManajerController extends Controller
 {
     public function index()
     {
-        return view('manajer.index');
+        $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'manajer')->count();
+        $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'manajer')->count();
+
+        return view('manajer.index', compact('srt_masih_mhw', 'srt_mhw_asn'));
     }
 
     function edit_account($id)

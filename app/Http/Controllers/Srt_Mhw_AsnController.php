@@ -9,6 +9,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\View;
+use Mpdf\Mpdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Srt_Mhw_AsnController extends Controller
 {
@@ -185,8 +189,24 @@ class Srt_Mhw_AsnController extends Controller
                 $srt_mhw_asn->tanggal_surat = Carbon::parse($srt_mhw_asn->tanggal_surat)->format('d-m-Y');
             }
 
-            $mpdf->writeHTML(view('srt_mhw_asn.view', compact('srt_mhw_asn')));
-            $mpdf->Output('Surat-Keterangan-Masih-Kuliah_ASN.pdf', 'D');
+            $qrUrl = url('/legal/srt_mhw_asn/' . $srt_mhw_asn->id);
+            $qrCodePath = 'storage/qrcodes/qr-' . $srt_mhw_asn->id . '.png';
+            $qrCodeFullPath = public_path($qrCodePath);
+
+            if (!File::exists(dirname($qrCodeFullPath))) {
+                File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
+            }
+
+            QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
+
+            $mpdf = new Mpdf();
+            $html = View::make('srt_mhw_asn.view', compact('srt_mhw_asn', 'qrCodePath'))->render();
+            $mpdf->WriteHTML($html);
+
+            $namaMahasiswa = $srt_mhw_asn->nama;
+            $tanggalSurat = Carbon::now()->format('Y-m-d');
+            $fileName = 'Surat_Mahasiswa_Bagi_ASN_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+            $mpdf->Output($fileName, 'D');
     }
 
     function admin(Request $request)
