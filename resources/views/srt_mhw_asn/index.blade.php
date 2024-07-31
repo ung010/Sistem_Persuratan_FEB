@@ -109,9 +109,14 @@
                         <input type="number" name="thn_akh" id="thn_akh" required>
                         <br>
 
-                        <label for="semester">Semester:</label>
-                        <input type="number" name="semester" id="semester" required>
-                        <br>
+                        <div>
+                            <label for="semester">Semester:</label>
+                            <select name="semester" id="semester" required>
+                                @for ($i = 1; $i <= 14; $i++)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
 
                         <label for="nama_ortu">Nama Orang Tua:</label>
                         <input type="text" name="nama_ortu" id="nama_ortu" required>

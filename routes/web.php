@@ -9,9 +9,11 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ManajerController;
 use App\Http\Controllers\NonController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Srt_Izin_Penelitian_Controller;
 use App\Http\Controllers\Srt_Magang_Controller;
 use App\Http\Controllers\srt_masih_mhwController;
 use App\Http\Controllers\Srt_Mhw_AsnController;
+use App\Http\Controllers\srt_pmhn_kmbali_biaya_controller;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -287,6 +289,94 @@ Route::middleware('auth')->group(function () {
     Route::get('/srt_magang/manajer/search', [Srt_Magang_Controller::class, 'manajer'])->name('srt_magang.manajer_search')
     ->middleware('UserAkses:manajer');
     Route::post('/srt_magang/manajer/setuju/{id}',  [Srt_Magang_Controller::class, 'setuju_manajer'])->name('srt_magang.manajer_setuju')
+    ->middleware('UserAkses:manajer');
+
+    // Surat Izin Penelitian
+
+    route::get('/srt_izin_plt', [Srt_Izin_Penelitian_Controller::class, 'index'])->name('srt_izin_plt.index')
+    ->middleware('UserAkses:mahasiswa');
+    Route::post('/srt_izin_plt/create', [Srt_Izin_Penelitian_Controller::class,'create'])->name('srt_izin_plt.store')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_izin_plt/search', [Srt_Izin_Penelitian_Controller::class, 'index'])->name('srt_izin_plt.search')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_izin_plt/edit/{id}', [Srt_Izin_Penelitian_Controller::class, 'edit'])->name('srt_izin_plt.edit')->
+    middleware('UserAkses:mahasiswa');
+    Route::post('/srt_izin_plt/update/{id}', [Srt_Izin_Penelitian_Controller::class, 'update'])->name('srt_izin_plt.update')->
+    middleware('UserAkses:mahasiswa');
+    Route::get('/srt_izin_plt/download/{id}', [Srt_Izin_Penelitian_Controller::class, 'download'])->name('srt_izin_plt.download')->
+    middleware('UserAkses:mahasiswa');
+
+    route::get('/srt_izin_plt/admin', [Srt_Izin_Penelitian_Controller::class, 'admin'])->name('srt_izin_plt.admin')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_izin_plt/admin/search', [Srt_Izin_Penelitian_Controller::class, 'admin'])->name('srt_izin_plt.admin_search')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_izin_plt/admin/cek_surat/{id}', [Srt_Izin_Penelitian_Controller::class, 'admin_cek'])->name('srt_izin_plt.cek')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_izin_plt/admin/cek_surat/setuju/{id}',  [Srt_Izin_Penelitian_Controller::class, 'admin_setuju'])->name('srt_izin_plt.admin_setuju')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_izin_plt/admin/cek_surat/tolak/{id}',  [Srt_Izin_Penelitian_Controller::class, 'admin_tolak'])->name('srt_izin_plt.admin_tolak')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_izin_plt/admin/unggah/{id}', [Srt_Izin_Penelitian_Controller::class, 'admin_unggah'])->name('srt_izin_plt.admin_unggah')->
+    middleware('UserAkses:admin');
+    Route::get('/srt_izin_plt/admin/download/{id}', [Srt_Izin_Penelitian_Controller::class, 'admin_unduh'])->name('srt_izin_plt.admin_download')->
+    middleware('UserAkses:admin');
+
+    route::get('/srt_izin_plt/supervisor', [Srt_Izin_Penelitian_Controller::class, 'supervisor'])->name('srt_izin_plt.supervisor')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::get('/srt_izin_plt/supervisor/search', [Srt_Izin_Penelitian_Controller::class, 'supervisor'])->name('srt_izin_plt.sv_search')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/srt_izin_plt/supervisor/setuju/{id}',  [Srt_Izin_Penelitian_Controller::class, 'setuju_sv'])->name('srt_izin_plt.sv_setuju')
+    ->middleware('UserAkses:supervisor_akd');
+
+    route::get('/srt_izin_plt/manajer', [Srt_Izin_Penelitian_Controller::class, 'manajer'])->name('srt_izin_plt.manajer')
+    ->middleware('UserAkses:manajer');
+    Route::get('/srt_izin_plt/manajer/search', [Srt_Izin_Penelitian_Controller::class, 'manajer'])->name('srt_izin_plt.manajer_search')
+    ->middleware('UserAkses:manajer');
+    Route::post('/srt_izin_plt/manajer/setuju/{id}',  [Srt_Izin_Penelitian_Controller::class, 'setuju_manajer'])->name('srt_izin_plt.manajer_setuju')
+    ->middleware('UserAkses:manajer');
+
+    // Surat Pengembalian Biaya
+
+    route::get('/srt_pmhn_kmbali_biaya', [srt_pmhn_kmbali_biaya_controller::class, 'index'])->name('srt_pmhn_kmbali_biaya.index')
+    ->middleware('UserAkses:mahasiswa');
+    Route::post('/srt_pmhn_kmbali_biaya/create', [srt_pmhn_kmbali_biaya_controller::class,'create'])->name('srt_pmhn_kmbali_biaya.store')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_pmhn_kmbali_biaya/search', [srt_pmhn_kmbali_biaya_controller::class, 'index'])->name('srt_pmhn_kmbali_biaya.search')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_pmhn_kmbali_biaya/edit/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'edit'])->name('srt_pmhn_kmbali_biaya.edit')->
+    middleware('UserAkses:mahasiswa');
+    Route::post('/srt_pmhn_kmbali_biaya/update/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'update'])->name('srt_pmhn_kmbali_biaya.update')->
+    middleware('UserAkses:mahasiswa');
+    Route::get('/srt_pmhn_kmbali_biaya/download/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'download'])->name('srt_pmhn_kmbali_biaya.download')->
+    middleware('UserAkses:mahasiswa');
+
+    route::get('/srt_pmhn_kmbali_biaya/admin', [srt_pmhn_kmbali_biaya_controller::class, 'admin'])->name('srt_pmhn_kmbali_biaya.admin')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_pmhn_kmbali_biaya/admin/search', [srt_pmhn_kmbali_biaya_controller::class, 'admin'])->name('srt_pmhn_kmbali_biaya.admin_search')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_pmhn_kmbali_biaya/admin/cek_surat/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'admin_cek'])->name('srt_pmhn_kmbali_biaya.cek')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_pmhn_kmbali_biaya/admin/cek_surat/setuju/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'admin_setuju'])->name('srt_pmhn_kmbali_biaya.admin_setuju')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_pmhn_kmbali_biaya/admin/cek_surat/tolak/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'admin_tolak'])->name('srt_pmhn_kmbali_biaya.admin_tolak')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_pmhn_kmbali_biaya/admin/unggah/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'admin_unggah'])->name('srt_pmhn_kmbali_biaya.admin_unggah')->
+    middleware('UserAkses:admin');
+    Route::get('/srt_pmhn_kmbali_biaya/admin/download/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'admin_unduh'])->name('srt_pmhn_kmbali_biaya.admin_download')->
+    middleware('UserAkses:admin');
+
+    route::get('/srt_pmhn_kmbali_biaya/supervisor', [srt_pmhn_kmbali_biaya_controller::class, 'supervisor'])->name('srt_pmhn_kmbali_biaya.supervisor')
+    ->middleware('UserAkses:supervisor_sd');
+    Route::get('/srt_pmhn_kmbali_biaya/supervisor/search', [srt_pmhn_kmbali_biaya_controller::class, 'supervisor'])->name('srt_pmhn_kmbali_biaya.sv_search')
+    ->middleware('UserAkses:supervisor_sd');
+    Route::post('/srt_pmhn_kmbali_biaya/supervisor/setuju/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'setuju_sv'])->name('srt_pmhn_kmbali_biaya.sv_setuju')
+    ->middleware('UserAkses:supervisor_sd');
+
+    route::get('/srt_pmhn_kmbali_biaya/manajer', [srt_pmhn_kmbali_biaya_controller::class, 'manajer'])->name('srt_pmhn_kmbali_biaya.manajer')
+    ->middleware('UserAkses:manajer');
+    Route::get('/srt_pmhn_kmbali_biaya/manajer/search', [srt_pmhn_kmbali_biaya_controller::class, 'manajer'])->name('srt_pmhn_kmbali_biaya.manajer_search')
+    ->middleware('UserAkses:manajer');
+    Route::post('/srt_pmhn_kmbali_biaya/manajer/setuju/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'setuju_manajer'])->name('srt_pmhn_kmbali_biaya.manajer_setuju')
     ->middleware('UserAkses:manajer');
 
 });

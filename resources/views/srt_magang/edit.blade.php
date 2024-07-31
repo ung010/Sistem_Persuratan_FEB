@@ -36,7 +36,11 @@
                         </div>
                         <div>
                             <label for="semester">Semester:</label>
-                            <input type="number" name="semester" id="semester" value="{{$data->semester}}" required>
+                            <select name="semester" id="semester" required>
+                                @for ($i = 1; $i <= 14; $i++)
+                                    <option value="{{ $i }}" {{ $data->semester == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
                         <div>
                             <label for="ipk">IPK:</label>

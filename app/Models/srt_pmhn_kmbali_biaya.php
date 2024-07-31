@@ -5,22 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class srt_masih_mhw extends Model
+class srt_pmhn_kmbali_biaya extends Model
 {
     use HasFactory;
-
-    protected $table = 'srt_masih_mhw';
+    protected $table = 'srt_pmhn_kmbali_biaya';
     protected $primaryKey = 'id';
     protected $fillable = [
         'no_surat',
         'id',
-        'nama_mhw',
-        'almt_smg',
-        'tujuan_buat_srt',
-        'tujuan_akhir',
-        'tahun_awl',
-        'tahun_akh',
-        'semester',
+        'skl',
+        'bukti_bayar',
+        'buku_tabung',
         'catatan_surat',
         'role_surat',
         'prd_id',
@@ -40,12 +35,11 @@ class srt_masih_mhw extends Model
         'no_surat',
         'id',
         'nama_mhw',
-        'almt_smg',
-        'tujuan_buat_srt',
-        'tujuan_akhir',
-        'tahun_awl',
-        'tahun_akh',
-        'semester',
+        'judul_data',
+        'nama_lmbg',
+        'jbt_lmbg',
+        'almt_lmbg',
+        'kota_lmbg',
         'catatan_surat',
         'role_surat',
         'prd_id',

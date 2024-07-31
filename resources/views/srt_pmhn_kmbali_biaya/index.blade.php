@@ -8,22 +8,22 @@
     </head>
 
     <body>
-        <form method="GET" action="{{ route('srt_magang.search') }}">
+        <form method="GET" action="{{ route('srt_pmhn_kmbali_biaya.search') }}">
             <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
             <button type="submit">Cari</button>
         </form>
-        <a href="/srt_magang">Reload</a>
+        <a href="/srt_pmhn_kmbali_biaya">Reload</a>
         <a class="btn btn-primary btn-sm">Tambah surat</a>
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <table class="table table-striped text-center">
                 <thead>
                     <tr>
                         <th class="col-md-1">No</th>
-                        <th class="col-md-1">Instansi Tujuan</th>
-                        <th class="col-md-1">Alamat Instansi</th>
-                        <th class="col-md-1">Nama/NIM</th>
-                        <th class="col-md-1">Semester</th>
-                        <th class="col-md-1">Alamat/No HP</th>
+                        <th class="col-md-1">Nama Mahasiswa</th>
+                        <th class="col-md-1">NIM</th>
+                        <th class="col-md-1">Departemen</th>
+                        <th class="col-md-1">Program Studi</th>
+                        <th class="col-md-1">Alamat / No HP</th>
                         <th class="col-md-1">Lacak (Role)</th>
                         <th class="col-md-1">Status (Role)</th>
                         <th class="col-md-1">Unduh</th>
@@ -34,13 +34,15 @@
                     @foreach ($data as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $item->nama_lmbg }}</td>
-                            <td>{{ $item->almt_lmbg }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->nmr_unik }}</td>
                             <td>
-                                {{ $item->nama }}/{{ $item->nmr_unik }}
+                                {{ $item->nama_dpt }}
                             </td>
-                            <td>{{ $item->semester }}</td>
-                            <td>{{ $item->almt_smg }} / {{ $item->nowa }}</td>
+                            <td>{{ $item->jenjang_prodi }}</td>
+                            <td>
+                                {{ $item->almt_asl }} / {{ $item->nowa }}
+                            </td>
                             <td>
                                 {{ $item->role_surat }}
                             </td>
@@ -48,7 +50,7 @@
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm">Berhasil</button>
                                 @elseif ($item->role_surat == 'tolak')
-                                    <a href="{{ url('/srt_magang/edit/' . $item->id) }}"
+                                    <a href="{{ url('/srt_pmhn_kmbali_biaya/edit/' . $item->id) }}"
                                         class="btn btn-danger btn-sm">Ditolak</a>
                                 @else
                                     <button class="btn btn-primary btn-sm" disabled>Menunggu</button>
@@ -56,7 +58,8 @@
                             </td>
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
-                                    <a href="{{ url('/srt_magang/download/' . $item->id) }}" class="btn btn-primary btn-sm">Unduh</a>
+                                    <a href="{{ url('/srt_pmhn_kmbali_biaya/download/' . $item->id) }}"
+                                        class="btn btn-primary btn-sm">Unduh</a>
                                 @else
                                     <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
                                 @endif
@@ -83,69 +86,63 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('srt_magang.store') }}" method="POST">
+                    <form action="{{ route('srt_pmhn_kmbali_biaya.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div>
                             <label for="nama_mhw">Nama Mahasiswa:</label>
                             <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}" disabled>
                         </div>
+                        <br>
                         <div>
                             <label for="nmr_unik">NIM:</label>
                             <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}" readonly>
                         </div>
+                        <br>
+                        <div>
+                            <label for="ttl">Tempat Tanggal Lahir:</label>
+                            <input type="text" id="ttl" name="ttl" value="{{ $kota_tanggal_lahir }}" readonly>
+                        </div>
+                        <br>
+                        <div>
+                            <label for="nowa">Alamat Asal:</label>
+                            <input type="text" id="nowa" name="nowa" value="{{ $user->almt_asl }}" readonly>
+                        </div>
+                        <br>
+                        <div class="mb-3">
+                            <label for="skl" class="form-label">SKL:</label>
+                            <input type="file" name="skl" id="skl" class="form-control" required>
+                        </div>
+                        <br>
+                        <div class="mb-3">
+                            <label for="bukti_bayar" class="form-label">Bukti Bayar:</label>
+                            <input type="file" name="bukti_bayar" id="bukti_bayar" class="form-control" required>
+                        </div>
+                        <br>
+                        <div class="mb-3">
+                            <label for="buku_tabung" class="form-label">Buku Tabungan:</label>
+                            <input type="file" name="buku_tabung" id="buku_tabung" class="form-control" required>
+                        </div>
+                        <br>
                         <div>
                             <label for="nama_dpt">Departemen:</label>
-                            <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}" readonly>
+                            <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}"
+                                readonly>
                         </div>
+                        <br>
                         <div>
-                            <label for="jenjang_prodi">Jenjang Pendidikan:</label>
-                            <input type="text" id="jenjang_prodi" name="jenjang_prodi" value="{{ $jenjang_prodi }}" readonly>
+                            <label for="jenjang_prodi">Program Studi:</label>
+                            <input type="text" id="jenjang_prodi" name="jenjang_prodi" value="{{ $jenjang_prodi }}"
+                                readonly>
                         </div>
+                        <br>
                         <div>
                             <label for="nowa">Nomor Whatsapp:</label>
                             <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}" readonly>
                         </div>
+                        <br>
                         <div>
-                            <label for="email">Email:</label>
-                            <input type="text" id="email" name="email" value="{{ $user->email }}" readonly>
-                        </div>                        
-                        <div>
-                            <label for="almt_smg">Alamat Semarang:</label>
-                            <input type="text" id="almt_smg" name="almt_smg" id="almt_smg" required>
+                            <button type="submit">Simpan</button>
                         </div>
-                        <div>
-                            <label for="semester">Semester:</label>
-                            <select name="semester" id="semester" required>
-                                @for ($i = 1; $i <= 14; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div>
-                            <label for="ipk">IPK:</label>
-                            <input type="string" name="ipk" id="ipk" required>
-                        </div>
-                        <div>
-                            <label for="sksk">SKSK:</label>
-                            <input type="number" name="sksk" id="sksk" required>
-                        </div>
-                        <div>
-                            <label for="nama_lmbg">Lembaga yang Dituju:</label>
-                            <input type="text" name="nama_lmbg" id="nama_lmbg" required>
-                        </div>
-                        <div>
-                            <label for="jbt_lmbg">Jabatan Pimpinan yang Dituju:</label>
-                            <input type="text" name="jbt_lmbg" id="jbt_lmbg" required>
-                        </div>
-                        <div>
-                            <label for="kota_lmbg">Kota / Kabuaten Lembaga:</label>
-                            <input type="text" name="kota_lmbg" id="kota_lmbg" required>
-                        </div>
-                        <div>
-                            <label for="almt_lmbg">Alamat Lembaga:</label>
-                            <input type="text" name="almt_lmbg" id="almt_lmbg" required>
-                        </div>
-                        <button type="submit">Simpan</button>
                     </form>
                 </div>
             </div>

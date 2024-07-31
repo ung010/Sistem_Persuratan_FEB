@@ -34,8 +34,7 @@
                             Manajemen Surat
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Surat keterangan untuk anak ASN</a></li>
-                            <li><a class="dropdown-item" href="/srt_masih_mhw/manajer/admin">Surat Keterangan Masih Mahasiswa</a></li>
+                            <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya/supervisor">Surat Permohonan Pengembalian Biaya Pendidikan</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

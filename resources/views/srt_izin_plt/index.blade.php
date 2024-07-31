@@ -8,22 +8,22 @@
     </head>
 
     <body>
-        <form method="GET" action="{{ route('srt_magang.search') }}">
+        <form method="GET" action="{{ route('srt_izin_plt.search') }}">
             <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
             <button type="submit">Cari</button>
         </form>
-        <a href="/srt_magang">Reload</a>
+        <a href="/srt_izin_plt">Reload</a>
         <a class="btn btn-primary btn-sm">Tambah surat</a>
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <table class="table table-striped text-center">
                 <thead>
                     <tr>
                         <th class="col-md-1">No</th>
-                        <th class="col-md-1">Instansi Tujuan</th>
-                        <th class="col-md-1">Alamat Instansi</th>
+                        <th class="col-md-1">Jenis Surat</th>
+                        <th class="col-md-1">Lembaga Tujuan</th>
                         <th class="col-md-1">Nama/NIM</th>
                         <th class="col-md-1">Semester</th>
-                        <th class="col-md-1">Alamat/No HP</th>
+                        <th class="col-md-1">Alamat</th>
                         <th class="col-md-1">Lacak (Role)</th>
                         <th class="col-md-1">Status (Role)</th>
                         <th class="col-md-1">Unduh</th>
@@ -34,13 +34,13 @@
                     @foreach ($data as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
+                            <td>{{ $item->jenis_surat }}</td>
                             <td>{{ $item->nama_lmbg }}</td>
-                            <td>{{ $item->almt_lmbg }}</td>
                             <td>
                                 {{ $item->nama }}/{{ $item->nmr_unik }}
                             </td>
                             <td>{{ $item->semester }}</td>
-                            <td>{{ $item->almt_smg }} / {{ $item->nowa }}</td>
+                            <td>{{ $item->almt_lmbg }}</td>
                             <td>
                                 {{ $item->role_surat }}
                             </td>
@@ -48,7 +48,7 @@
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm">Berhasil</button>
                                 @elseif ($item->role_surat == 'tolak')
-                                    <a href="{{ url('/srt_magang/edit/' . $item->id) }}"
+                                    <a href="{{ url('/srt_izin_plt/edit/' . $item->id) }}"
                                         class="btn btn-danger btn-sm">Ditolak</a>
                                 @else
                                     <button class="btn btn-primary btn-sm" disabled>Menunggu</button>
@@ -56,7 +56,8 @@
                             </td>
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
-                                    <a href="{{ url('/srt_magang/download/' . $item->id) }}" class="btn btn-primary btn-sm">Unduh</a>
+                                    <a href="{{ url('/srt_izin_plt/download/' . $item->id) }}"
+                                        class="btn btn-primary btn-sm">Unduh</a>
                                 @else
                                     <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
                                 @endif
@@ -83,7 +84,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('srt_magang.store') }}" method="POST">
+                    <form action="{{ route('srt_izin_plt.store') }}" method="POST">
                         @csrf
                         <div>
                             <label for="nama_mhw">Nama Mahasiswa:</label>
@@ -95,23 +96,25 @@
                         </div>
                         <div>
                             <label for="nama_dpt">Departemen:</label>
-                            <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}" readonly>
+                            <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}"
+                                readonly>
                         </div>
                         <div>
-                            <label for="jenjang_prodi">Jenjang Pendidikan:</label>
-                            <input type="text" id="jenjang_prodi" name="jenjang_prodi" value="{{ $jenjang_prodi }}" readonly>
+                            <label for="jenjang_prodi">Program Studi:</label>
+                            <input type="text" id="jenjang_prodi" name="jenjang_prodi" value="{{ $jenjang_prodi }}"
+                                readonly>
+                        </div>
+                        <div>
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" name="email" value="{{ $user->email }}" readonly>
                         </div>
                         <div>
                             <label for="nowa">Nomor Whatsapp:</label>
                             <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}" readonly>
                         </div>
                         <div>
-                            <label for="email">Email:</label>
-                            <input type="text" id="email" name="email" value="{{ $user->email }}" readonly>
-                        </div>                        
-                        <div>
-                            <label for="almt_smg">Alamat Semarang:</label>
-                            <input type="text" id="almt_smg" name="almt_smg" id="almt_smg" required>
+                            <label for="nowa">Alamat Asal:</label>
+                            <input type="text" id="nowa" name="nowa" value="{{ $user->almt_asl }}" readonly>
                         </div>
                         <div>
                             <label for="semester">Semester:</label>
@@ -122,12 +125,23 @@
                             </select>
                         </div>
                         <div>
-                            <label for="ipk">IPK:</label>
-                            <input type="string" name="ipk" id="ipk" required>
+                            <label for="lampiran">Lampiran:</label>
+                            <select name="lampiran" id="lampiran" required>
+                                <option value="1 Eksemplar">1 Eksemplar</option>
+                                <option value="2 Eksemplar">2 Eksemplar</option>
+                            </select>
                         </div>
                         <div>
-                            <label for="sksk">SKSK:</label>
-                            <input type="number" name="sksk" id="sksk" required>
+                            <label for="jenis_surat">Permohonan Data Untuk:</label>
+                            <select name="jenis_surat" id="jenis_surat" required>
+                                <option value="Kerja Praktek">Kerja Praktek</option>
+                                <option value="Tugas Akhir Penelitian Mahasiswa">
+                                    Tugas Akhir Penelitian Mahasiswa</option>
+                                <option value="Ijin Penelitian">Ijin Penelitian</option>
+                                <option value="Survey">Survey</option>
+                                <option value="Thesis">Thesis</option>
+                                <option value="Disertasi">Disertasi</option>
+                            </select>
                         </div>
                         <div>
                             <label for="nama_lmbg">Lembaga yang Dituju:</label>
@@ -144,6 +158,10 @@
                         <div>
                             <label for="almt_lmbg">Alamat Lembaga:</label>
                             <input type="text" name="almt_lmbg" id="almt_lmbg" required>
+                        </div>
+                        <div>
+                            <label for="judul_data">Judul/Tema Pengambilan Data:</label>
+                            <input type="text" name="judul_data" id="judul_data" required>
                         </div>
                         <button type="submit">Simpan</button>
                     </form>

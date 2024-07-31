@@ -8,7 +8,9 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand"> Halo {{ auth()->user()->nama }}</a>
+            @auth
+                <a class="nav-link" href="/mahasiswa">{{ auth()->user()->nama }}</a>
+            @endauth
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -35,6 +37,8 @@
                             <li><a class="dropdown-item" href="/srt_mhw_asn">Surat keterangan untuk anak ASN</a></li>
                             <li><a class="dropdown-item" href="/srt_masih_mhw">Surat Keterangan Masih Mahasiswa</a></li>
                             <li><a class="dropdown-item" href="/srt_magang">Surat Magang</a></li>
+                            <li><a class="dropdown-item" href="/srt_izin_plt">Surat Izin Penelitian</a></li>
+                            <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya">Surat Permohonan Pengembalian Biaya Pendidikan</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

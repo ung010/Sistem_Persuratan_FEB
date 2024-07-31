@@ -21,7 +21,7 @@
                         <th class="col-md-1">No</th>
                         <th class="col-md-1">Nama Mahasiswa</th>
                         <th class="col-md-1">Alamat</th>
-                        <th class="col-md-1">Tahun Ajaran</th>
+                        <th class="col-md-1">Semester / Tahun Ajaran</th>
                         <th class="col-md-1">Tempat Tanggal Lahir</th>
                         <th class="col-md-1">Alasan Surat</th>
                         <th class="col-md-1">Lacak (Role)</th>
@@ -37,7 +37,7 @@
                             <td>{{ $item->nama_mhw }}</td>
                             <td>{{ $item->almt_smg }}</td>
                             <td>
-                                {{ $item->thn_awl }}/{{ $item->thn_akh }}
+                                {{$item->semester}}, {{ $item->thn_awl }}/{{ $item->thn_akh }}
                             </td>
                             <td>{{ $item->ttl }}</td>
                             <td>{{ $item->tujuan_buat_srt }}</td>
@@ -112,12 +112,20 @@
                             <input type="text" id="kota_tanggal_lahir" name="kota_tanggal_lahir" value="{{ $kota_tanggal_lahir }}" readonly>
                         </div>
                         <div>
-                            <label for="thn_awl">Tahun Awal:</label>
+                            <label for="thn_awl">Tahun Ajaran (Awal):</label>
                             <input type="number" name="thn_awl" id="thn_awl" required>
                         </div>
                         <div>
-                            <label for="thn_akh">Tahun Akhir:</label>
+                            <label for="thn_akh">Tahun Ajaran (Akhir):</label>
                             <input type="number" name="thn_akh" id="thn_akh" required>
+                        </div>
+                        <div>
+                            <label for="semester">Semester:</label>
+                            <select name="semester" id="semester" required>
+                                @for ($i = 1; $i <= 14; $i++)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
                         <div>
                             <label for="almt_smg">Alamat Semarang:</label>

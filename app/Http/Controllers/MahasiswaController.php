@@ -38,7 +38,7 @@ class MahasiswaController extends Controller
             'dpt_id' => 'required',
             'prd_id' => 'required',
             'jnjg_id' => 'required',
-            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
         ], [
             'nama.required' => 'Nama wajib diisi',
             'nmr_unik.required' => 'NIM wajib diisi',
@@ -90,49 +90,4 @@ class MahasiswaController extends Controller
         return redirect()->back()->with('success', 'Berhasil mengupdate data diri');
 
     }
-
-    // DB::update('UPDATE kp SET name = :name, nim = :nim, bidang_id = :bidang_id,
-        // tahun = :tahun, judul = :judul, perusahaan = :perusahaan, lokasi_perusahaan = :lokasi_perusahaan,
-        // dosen_id = :dosen_id, abstrak = :abstrak, file = :file WHERE id_kp = :id',
-        // [
-        //     'id' => $id,
-        //     'name' => $request->name,
-        //     'nim' => $request->nim,
-        //     'bidang_id' => $request->bidang_id,
-        //     'tahun' => $request->tahun,
-        //     'judul' => $request->judul,
-        //     'perusahaan' => $request->perusahaan,
-        //     'lokasi_perusahaan' => $request->lokasi_perusahaan,
-        //     'dosen_id' => $request->dosen_id,
-        //     'abstrak' => $request->abstrak,
-        //     'file' => $nama_file,
-        // ]
-        // );
-
-    // public function account()
-    // {
-    //     $user = Auth::user();
-    //     $id = $user->id; // Pastikan kamu mendapatkan ID dari user yang terautentikasi
-
-    //     $user = DB::table('users')
-    //         ->join('prodi', 'users.prd_id', '=', 'prodi.id')
-    //         ->join('departement', 'users.dpt_id', '=', 'departement.id')
-    //         ->where('users.id', $id)
-    //         ->select(
-    //             'users.id',
-    //             'prodi.id as prodi_id',
-    //             'departement.id as departement_id',
-    //             'users.nama',
-    //             'users.nmr_unik',
-    //             DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
-    //             'users.nowa',
-    //             'users.email',
-    //             'users.almt_asl',
-    //             'prodi.nama_prd',
-    //             'departement.nama_dpt'
-    //         )
-    //         ->first();
-
-    //     return view('mahasiswa.account', compact('user'));
-    // }
 }

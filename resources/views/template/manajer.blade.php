@@ -24,7 +24,7 @@
                     <li class="nav-item dropdown">
                         @auth
                         <li class="nav-item">
-                            <span class="nav-link">{{ auth()->user()->nama }}</span>
+                            <a class="nav-link" href="/manajer">{{ auth()->user()->nama }}</a>
                         </li>
                     @endauth
                     </li>
@@ -37,6 +37,8 @@
                             <li><a class="dropdown-item" href="/srt_mhw_asn/manajer">Surat keterangan untuk anak ASN</a></li>
                             <li><a class="dropdown-item" href="/srt_masih_mhw/manajer">Surat Keterangan Masih Mahasiswa</a></li>
                             <li><a class="dropdown-item" href="/srt_magang/manajer">Surat Magang</a></li>
+                            <li><a class="dropdown-item" href="/srt_izin_plt/manajer">Surat Izin Penelitian</a></li>
+                            <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya/manajer">Surat Permohonan Pengembalian Biaya Pendidikan</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

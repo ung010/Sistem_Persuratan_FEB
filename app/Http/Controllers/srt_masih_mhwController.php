@@ -41,6 +41,7 @@ class srt_masih_mhwController extends Controller
                 'departement.nama_dpt',
                 'jenjang_pendidikan.nama_jnjg',
                 'srt_masih_mhw.thn_awl',
+                'srt_masih_mhw.semester',
                 'srt_masih_mhw.thn_akh',
                 'srt_masih_mhw.almt_smg',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
@@ -53,6 +54,7 @@ class srt_masih_mhwController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('almt_smg', 'like', "%{$search}%")
+                    ->orWhere('semester', 'like', "%{$search}%")
                     ->orWhere('thn_awl', 'like', "%{$search}%")
                     ->orWhere('thn_akh', 'like', "%{$search}%")
                     ->orWhere('tujuan_buat_srt', 'like', "%{$search}%");
@@ -77,11 +79,13 @@ class srt_masih_mhwController extends Controller
             'thn_awl' => 'required',
             'thn_akh' => 'required',
             'almt_smg' => 'required',
+            'semester' => 'required',
             'tujuan_buat_srt' => 'required',
             'tujuan_akhir' => 'required',
         ], [
             'thn_awl.required' => 'Tahun pertama wajib diisi',
             'thn_akh.required' => 'Tahun kedua wajib diisi',
+            'semester.required' => 'Semester wajib diisi',
             'almt_smg.required' => 'Alamat kos / tempat tinggal semarang wajib diisi',
             'tujuan_buat_srt.required' => 'Tujuan pembuatan surat wajib diisi',
             'tujuan_akhir.required' => 'Wajib memilih yang mendatangani surat',
@@ -96,6 +100,7 @@ class srt_masih_mhwController extends Controller
             'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'thn_awl' => $request->thn_awl,
+            'semester' => $request->semester,
             'thn_akh' => $request->thn_akh,
             'almt_smg' => $request->almt_smg,
             'tujuan_buat_srt' => $request->tujuan_buat_srt,
@@ -133,10 +138,12 @@ class srt_masih_mhwController extends Controller
             'thn_awl' => 'required',
             'thn_akh' => 'required',
             'almt_smg' => 'required',
+            'semester' => 'required',
             'tujuan_buat_srt' => 'required',
         ], [
             'thn_awl.required' => 'Tahun pertama wajib diisi',
             'thn_akh.required' => 'Tahun kedua wajib diisi',
+            'semester.required' => 'Semester wajib diisi',
             'almt_smg.required' => 'Alamat kos / tempat tinggal semarang wajib diisi',
             'tujuan_buat_srt.required' => 'Tujuan pembuatan surat wajib diisi',
         ]);
@@ -144,6 +151,7 @@ class srt_masih_mhwController extends Controller
         DB::table('srt_masih_mhw')->where('id', $id)->update([
             'thn_awl' => $request->thn_awl,
             'thn_akh' => $request->thn_akh,
+            'semester' => $request->semester,
             'almt_smg' => $request->almt_smg,
             'tujuan_buat_srt' => $request->tujuan_buat_srt,
             'role_surat' => 'admin',

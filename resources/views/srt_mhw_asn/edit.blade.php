@@ -16,9 +16,13 @@
                         <input type="text" name="thn_akh" value="{{ $data->thn_akh }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="semester">Semester</label>
-                        <input type="text" name="semester" value="{{ $data->semester }}">
+                    <div>
+                        <label for="semester">Semester:</label>
+                        <select name="semester" id="semester" required>
+                            @for ($i = 1; $i <= 14; $i++)
+                                <option value="{{ $i }}" {{ $data->semester == $i ? 'selected' : '' }}>{{ $i }}</option>
+                            @endfor
+                        </select>
                     </div>
 
                     <div class="mb-3">

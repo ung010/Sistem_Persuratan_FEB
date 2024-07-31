@@ -27,15 +27,22 @@
                         <input type="text" id="kota_tanggal_lahir" name="kota_tanggal_lahir" value="{{ $kota_tanggal_lahir }}" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="thn_awl">Tahun Awal</label>
+                        <label for="thn_awl">Tahun Ajaran (Awal)</label>
                         <input type="text" name="thn_awl" value="{{ $data->thn_awl }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="thn_akh">Tahun Akhir</label>
+                        <label for="thn_akh">Tahun Ajaran (Akhir)</label>
                         <input type="text" name="thn_akh" value="{{ $data->thn_akh }}" required>
                     </div>
-
+                    <div>
+                        <label for="semester">Semester:</label>
+                        <select name="semester" id="semester" required>
+                            @for ($i = 1; $i <= 14; $i++)
+                                <option value="{{ $i }}" {{ $data->semester == $i ? 'selected' : '' }}>{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label for="almt_smg">Alamat Semarang</label>
                         <input type="text" name="almt_smg" value="{{ $data->almt_smg }}" required>

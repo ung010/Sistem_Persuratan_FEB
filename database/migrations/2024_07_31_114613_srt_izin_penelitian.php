@@ -11,19 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('srt_masih_mhw', function (Blueprint $table) {
+        Schema::create('srt_izin_plt', function (Blueprint $table) {
             $table->id();
             $table->string('no_surat')->nullable();
             $table->string('nama_mhw')->nullable();
-            $table->year('thn_awl');
-            $table->year('thn_akh');
-            $table->text('almt_smg');
-            $table->text('tujuan_buat_srt');
+            $table->string('lampiran');
+            $table->string('nama_lmbg');
             $table->tinyInteger('semester');
+            $table->string('jbt_lmbg');
+            $table->string('kota_lmbg');
+            $table->string('almt_lmbg');
+            $table->string('judul_data');
+            $table->string('jenis_surat');
             $table->date('tanggal_surat');
             $table->text('catatan_surat')->nullable()->default('-');
             $table->string('file_pdf')->nullable();
-            $table->enum('tujuan_akhir', ['manajer' ,'wd']);
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'manajer_sukses'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('dpt_id')->nullable();

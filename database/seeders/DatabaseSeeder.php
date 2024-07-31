@@ -239,6 +239,7 @@ class DatabaseSeeder extends Seeder
             $nama_mhw = $user->nama;
             $thn_awl = $faker_srt_masih_mhw->numberBetween(2010, 2020);
             $thn_akh = $thn_awl + 1;
+            $semester = $faker_srt_masih_mhw->numberBetween(3, 13);
             $tujuan_buat_srt = $faker_srt_masih_mhw->randomElement($alasan_acak);
             $tanggal_surat = Carbon::now()->toDateString();
 
@@ -250,6 +251,7 @@ class DatabaseSeeder extends Seeder
                 'jnjg_id' => $user->jnjg_id,
                 'thn_awl' => $thn_awl,
                 'thn_akh' => $thn_akh,
+                'semester' => $semester,
                 'tujuan_buat_srt' => $tujuan_buat_srt,
                 'tanggal_surat' => $tanggal_surat,
                 'almt_smg' => $faker_srt_masih_mhw->address(),
@@ -290,6 +292,74 @@ class DatabaseSeeder extends Seeder
                 'tanggal_surat' => $tanggal_surat,
                 'semester' => $semester,
                 'almt_smg' => $faker_srt_magang->address(),
+            ]);
+        }
+
+        $faker_srt_plt = Faker::create('id_ID');
+        $excluded_roles = ['admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $user_ids = DB::table('users')
+            ->whereNotIn('role', $excluded_roles)
+            ->pluck('id')
+            ->toArray();
+
+        $judul = ['Surat TA', 'Surat Magang', 'Surat Menikah Dengan Waifu 2D'];
+        $jenis = [ 'Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa','Ijin Penelitian',
+            'Survey,',
+            'Thesis',
+            'Disertasi'
+        ];
+
+        foreach (range(1, 15) as $index) {
+
+            $random_user_id = $faker_srt_plt->randomElement($user_ids);
+            $user = DB::table('users')->where('id', $random_user_id)->first();
+            $nama_mhw = $user->nama;
+            $tanggal_surat = Carbon::now()->toDateString();
+            $judul_data = $faker_srt_plt->randomElement($judul);
+            $jenis_surat = $faker_srt_plt->randomElement($jenis);
+            $lampiran = $faker_srt_plt->randomElement(['1 Eksemplar', '2 Eksemplar']);
+            $semester = $faker_srt_plt->numberBetween(3, 13);
+            $jbt_lmbg = $faker_srt_plt->jobTitle();
+
+            DB::table('srt_izin_plt')->insert([
+                'users_id' => $random_user_id,
+                'nama_mhw' => $nama_mhw,
+                'dpt_id' => $user->dpt_id,
+                'prd_id' => $user->prd_id,
+                'jnjg_id' => $user->jnjg_id,
+                'judul_data' => $judul_data,
+                'lampiran' => $lampiran,
+                'jbt_lmbg' => $jbt_lmbg,
+                'jenis_surat' => $jenis_surat,
+                'nama_lmbg' => $faker_srt_plt->company(),
+                'kota_lmbg' => $faker_srt_plt->city(),
+                'almt_lmbg' => $faker_srt_plt->address(),
+                'tanggal_surat' => $tanggal_surat,
+                'semester' => $semester,
+            ]);
+        }
+
+        $faker_srt_pmhn_kmbali_biaya = Faker::create('id_ID');
+        $excluded_roles = ['admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $user_ids = DB::table('users')
+            ->whereNotIn('role', $excluded_roles)
+            ->pluck('id')
+            ->toArray();
+
+        foreach (range(5, 10) as $index) {
+
+            $random_user_id = $faker_srt_pmhn_kmbali_biaya->randomElement($user_ids);
+            $user = DB::table('users')->where('id', $random_user_id)->first();
+            $nama_mhw = $user->nama;
+            $tanggal_surat = Carbon::now()->toDateString();
+
+            DB::table('srt_pmhn_kmbali_biaya')->insert([
+                'users_id' => $random_user_id,
+                'nama_mhw' => $nama_mhw,
+                'dpt_id' => $user->dpt_id,
+                'prd_id' => $user->prd_id,
+                'jnjg_id' => $user->jnjg_id,
+                'tanggal_surat' => $tanggal_surat,
             ]);
         }
     }
