@@ -256,5 +256,41 @@ class DatabaseSeeder extends Seeder
                 'tujuan_akhir' => $faker_srt_masih_mhw->randomElement(['manajer', 'wd']),
             ]);
         }
+
+        $faker_srt_magang = Faker::create('id_ID');
+        $excluded_roles = ['admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $user_ids = DB::table('users')
+            ->whereNotIn('role', $excluded_roles)
+            ->pluck('id')
+            ->toArray();
+
+        foreach (range(5, 15) as $index) {
+
+            $random_user_id = $faker_srt_magang->randomElement($user_ids);
+            $user = DB::table('users')->where('id', $random_user_id)->first();
+            $nama_mhw = $user->nama;
+            $tanggal_surat = Carbon::now()->toDateString();
+            $ipk = round($faker_srt_magang->randomFloat(2, 3.00, 3.99), 2);
+            $sksk = $faker_srt_magang->numberBetween(120, 140);
+            $semester = $faker_srt_magang->numberBetween(3, 13);
+            $jbt_lmbg = $faker_srt_magang->jobTitle();
+
+            DB::table('srt_magang')->insert([
+                'users_id' => $random_user_id,
+                'nama_mhw' => $nama_mhw,
+                'dpt_id' => $user->dpt_id,
+                'prd_id' => $user->prd_id,
+                'jnjg_id' => $user->jnjg_id,
+                'ipk' => $ipk,
+                'sksk' => $sksk,
+                'jbt_lmbg' => $jbt_lmbg,
+                'nama_lmbg' => $faker_srt_magang->company(),
+                'kota_lmbg' => $faker_srt_magang->city(),
+                'almt_lmbg' => $faker_srt_magang->address(),
+                'tanggal_surat' => $tanggal_surat,
+                'semester' => $semester,
+                'almt_smg' => $faker_srt_magang->address(),
+            ]);
+        }
     }
 }

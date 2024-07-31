@@ -59,9 +59,17 @@
 
     <div class=WordSection1>
         Manajer
-        {{ $srt_masih_mhw->tujuan_akhir}}
-        {{ $srt_masih_mhw->ttl}}
-        {{ $srt_masih_mhw->tanggal_surat}}
+        
+        No Surat                : {{ $srt_masih_mhw->no_surat}}<br>
+        Nama                    : {{ $srt_masih_mhw->nama_mhw}}<br>
+        Tempat Tanggal Lahir    : {{ $srt_masih_mhw->ttl}}<br>
+        NIM                     : {{ $srt_masih_mhw->nmr_unik}}<br>
+        Alamat Rumah            : {{ $srt_masih_mhw->almt_smg}}<br>
+        Departemen              : {{ $srt_masih_mhw->nama_dpt}}<br>
+        Tahun Ajaran            : {{ $srt_masih_mhw->thn_awl}} / {{ $srt_masih_mhw->thn_akh}}<br>
+        Keperluan               : {{ $srt_masih_mhw->tujuan_buat_srt}}<br>
+        Semarang, {{ $srt_masih_mhw->tanggal_surat}}<br>
+        
 
         <div>
             <img src="{{ public_path($qrCodePath) }}" alt="QR Code">

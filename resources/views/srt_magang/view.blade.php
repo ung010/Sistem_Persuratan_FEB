@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="Generator" content="Microsoft Word 15 (filtered)">
-    <title>DEPARTEMEN PENDIDIKAN NASIONAL</title>
+    <title>Surat Magang</title>
     <style>
         @font-face {
             font-family: Wingdings;
@@ -58,23 +58,22 @@
 <body lang=EN-US link=blue vlink="#954F72" style='word-wrap:break-word'>
 
     <div class=WordSection1>
-        WD
-        
-        No Surat                : {{ $srt_masih_mhw->no_surat}}<br>
-        Nama                    : {{ $srt_masih_mhw->nama_mhw}}<br>
-        Tempat Tanggal Lahir    : {{ $srt_masih_mhw->ttl}}<br>
-        NIM                     : {{ $srt_masih_mhw->nmr_unik}}<br>
-        Alamat Rumah            : {{ $srt_masih_mhw->almt_smg}}<br>
-        Departemen              : {{ $srt_masih_mhw->nama_dpt}}<br>
-        Tahun Ajaran            : {{ $srt_masih_mhw->thn_awl}} / {{ $srt_masih_mhw->thn_akh}}<br>
-        Keperluan               : {{ $srt_masih_mhw->tujuan_buat_srt}}<br>
-        Semarang, {{ $srt_masih_mhw->tanggal_surat}}<br>
-        
+        Manajer
+
+            No Surat                    : {{ $srt_magang->no_surat}}<br>
+            Yth                         : {{ $srt_magang->jbt_lmbg}}<br>
+            Nama                        : {{ $srt_magang->nama_mhw}}<br>
+            NIM                         : {{ $srt_magang->nmr_unik}}<br>
+            Departemen/Program Studi    : {{ $srt_magang->nama_dpt}} / {{ $srt_magang->jenjang_prodi }}<br>
+            Alamat Rumah                : {{ $srt_magang->almt_smg}}<br>
+            No Whatsapp                 : {{ $srt_magang->nowa}}<br>
+            Alamat Email                : {{ $srt_magang->email}}<br>
+            Semarang, {{ $srt_magang->tanggal_surat}}<br>
+
 
         <div>
             <img src="{{ public_path($qrCodePath) }}" alt="QR Code">
         </div>
-
     </div>
 
 </body>

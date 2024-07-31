@@ -36,6 +36,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/srt_mhw_asn/manajer">Surat keterangan untuk anak ASN</a></li>
                             <li><a class="dropdown-item" href="/srt_masih_mhw/manajer">Surat Keterangan Masih Mahasiswa</a></li>
+                            <li><a class="dropdown-item" href="/srt_magang/manajer">Surat Magang</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

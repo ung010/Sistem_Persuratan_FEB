@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\departemen;
 use App\Models\jenjang_pendidikan;
-use App\Models\prodi;
 use App\Models\srt_masih_mhw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -193,6 +192,7 @@ class srt_masih_mhwController extends Controller
                 'jenjang_pendidikan.id as jenjang_pendidikan_id',
                 'users.nama',
                 'srt_masih_mhw.nama_mhw',
+                'srt_masih_mhw.no_surat',
                 'users.nmr_unik',
                 'departement.nama_dpt',
                 'jenjang_pendidikan.nama_jnjg',
@@ -298,6 +298,7 @@ class srt_masih_mhwController extends Controller
                 'jenjang_pendidikan.id as jenjang_pendidikan_id',
                 'users.nama',
                 'srt_masih_mhw.nama_mhw',
+                'srt_masih_mhw.no_surat',
                 'users.nmr_unik',
                 'departement.nama_dpt',
                 'jenjang_pendidikan.nama_jnjg',

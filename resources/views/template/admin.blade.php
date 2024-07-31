@@ -37,6 +37,7 @@
                             <li><a class="dropdown-item" href="/srt_mhw_asn/admin">Surat keterangan untuk anak ASN</a></li>
                             <li><a class="dropdown-item" href="/srt_masih_mhw/admin">Surat Keterangan Masih Mahasiswa</a></li>
                             <li><a class="dropdown-item" href="/srt_masih_mhw/manajer_wd">Surat Keterangan Masih Mahasiswa - Dari Manajer untuk WD</a></li>
+                            <li><a class="dropdown-item" href="/srt_magang/admin">Surat Magang</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

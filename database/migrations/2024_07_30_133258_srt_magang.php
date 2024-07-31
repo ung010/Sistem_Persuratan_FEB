@@ -11,22 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('srt_mhw_asn', function (Blueprint $table) {
+        Schema::create('srt_magang', function (Blueprint $table) {
             $table->id();
             $table->string('no_surat')->nullable();
             $table->string('nama_mhw')->nullable();
-            $table->bigInteger('nim_mhw')->nullable();
-            $table->bigInteger('nowa_mhw')->nullable();
-            $table->string('jenjang_prodi')->nullable();
-            $table->year('thn_awl');
-            $table->year('thn_akh');
+            $table->text('almt_smg');
             $table->tinyInteger('semester');
-            $table->string('nama_ortu');
-            $table->integer('nip_ortu');
-            $table->string('ins_ortu');
+            $table->integer('sksk');
+            $table->string('ipk');
+            $table->string('nama_lmbg');
+            $table->string('jbt_lmbg');
+            $table->string('kota_lmbg');
+            $table->string('almt_lmbg');
             $table->date('tanggal_surat');
             $table->text('catatan_surat')->nullable()->default('-');
-            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'])->default('admin');
+            $table->string('file_pdf')->nullable();
+            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'manajer_sukses'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('dpt_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();

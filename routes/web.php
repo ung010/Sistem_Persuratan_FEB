@@ -9,6 +9,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ManajerController;
 use App\Http\Controllers\NonController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Srt_Magang_Controller;
 use App\Http\Controllers\srt_masih_mhwController;
 use App\Http\Controllers\Srt_Mhw_AsnController;
 use App\Http\Controllers\SupervisorController;
@@ -31,7 +32,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Legal
-// Route::get('/legal', [Legal_Controller::class, 'testing'])->name('srt_masih_mhw.legal_testing');
 Route::get('/legal/srt_masih_mhw/{id}', [Legal_Controller::class, 'srt_masih_mhw'])->name('srt_masih_mhw.legal');
 Route::get('/legal/srt_masih_mhw/view/{id}', [Legal_Controller::class, 'lihat_srt_masih_mhw'])->name('srt_masih_mhw.legal_lihat');
 
@@ -111,7 +111,6 @@ Route::middleware('auth')->group(function () {
     // Route::post('/admin/mahasiswa/bulkApprove', [AdminController::class, 'bulkApprove'])->name('admin.bulkApprove')->middleware('UserAkses:admin');
     // Route::post('/admin/mahasiswa/nonApproveAll', [AdminController::class, 'nonApproveAll'])->name('admin.nonApproveAll')->middleware('UserAkses:admin');
     // Route::post('/admin/mahasiswa/ApproveAll', [AdminController::class, 'ApproveAll'])->name('admin.ApproveAll')->middleware('UserAkses:admin');
-
 
 
     route::get('/supervisor_akd', [SupervisorController::class, 'index_akd'])->name('supervisor_akd.index')->
@@ -246,11 +245,50 @@ Route::middleware('auth')->group(function () {
     Route::post('/srt_masih_mhw/manajer/setuju/wd/{id}',  [srt_masih_mhwController::class, 'setuju_manajer'])->name('srt_masih_mhw.setuju_manajer')
     ->middleware('UserAkses:manajer');
 
+    // Surat Magang
+
+    route::get('/srt_magang', [Srt_Magang_Controller::class, 'index'])->name('srt_magang.index')
+    ->middleware('UserAkses:mahasiswa');
+    Route::post('/srt_magang/create', [Srt_Magang_Controller::class,'create'])->name('srt_magang.store')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_magang/search', [Srt_Magang_Controller::class, 'index'])->name('srt_magang.search')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_magang/edit/{id}', [Srt_Magang_Controller::class, 'edit'])->name('srt_magang.edit')->
+    middleware('UserAkses:mahasiswa');
+    Route::post('/srt_magang/update/{id}', [Srt_Magang_Controller::class, 'update'])->name('srt_magang.update')->
+    middleware('UserAkses:mahasiswa');
+    Route::get('/srt_magang/download/{id}', [Srt_Magang_Controller::class, 'download'])->name('srt_magang.download')->
+    middleware('UserAkses:mahasiswa');
+
+    route::get('/srt_magang/admin', [Srt_Magang_Controller::class, 'admin'])->name('srt_magang.admin')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_magang/admin/search', [Srt_Magang_Controller::class, 'admin'])->name('srt_magang.admin_search')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_magang/admin/cek_surat/{id}', [Srt_Magang_Controller::class, 'admin_cek'])->name('srt_magang.cek')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_magang/admin/cek_surat/setuju/{id}',  [Srt_Magang_Controller::class, 'admin_setuju'])->name('srt_magang.admin_setuju')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_magang/admin/cek_surat/tolak/{id}',  [Srt_Magang_Controller::class, 'admin_tolak'])->name('srt_magang.admin_tolak')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_magang/admin/unggah/{id}', [Srt_Magang_Controller::class, 'admin_unggah'])->name('srt_magang.admin_unggah')->
+    middleware('UserAkses:admin');
+    Route::get('/srt_magang/admin/download/{id}', [Srt_Magang_Controller::class, 'admin_unduh'])->name('srt_magang.admin_download')->
+    middleware('UserAkses:admin');
+
+    route::get('/srt_magang/supervisor', [Srt_Magang_Controller::class, 'supervisor'])->name('srt_magang.supervisor')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::get('/srt_magang/supervisor/search', [Srt_Magang_Controller::class, 'supervisor'])->name('srt_magang.sv_search')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/srt_magang/supervisor/setuju/{id}',  [Srt_Magang_Controller::class, 'setuju_sv'])->name('srt_magang.sv_setuju')
+    ->middleware('UserAkses:supervisor_akd');
+
+    route::get('/srt_magang/manajer', [Srt_Magang_Controller::class, 'manajer'])->name('srt_magang.manajer')
+    ->middleware('UserAkses:manajer');
+    Route::get('/srt_magang/manajer/search', [Srt_Magang_Controller::class, 'manajer'])->name('srt_magang.manajer_search')
+    ->middleware('UserAkses:manajer');
+    Route::post('/srt_magang/manajer/setuju/{id}',  [Srt_Magang_Controller::class, 'setuju_manajer'])->name('srt_magang.manajer_setuju')
+    ->middleware('UserAkses:manajer');
+
 });
 
 
-
-// route::get('/', [LoginController::class, 'index'])->name('auth.index');
-// route::post('/', [LoginController::class, 'login'])->name('auth.login');
-// route::get('/register', [RegisterController::class, 'register'])->name('auth.register');
-// Route::post('/register/create', [RegisterController::class, 'create'])->name('register.create');

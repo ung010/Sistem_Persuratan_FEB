@@ -1,4 +1,4 @@
-@extends('template/auth')
+@extends('template/legal')
 @section('inti_data')
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         @if ($srt_masih_mhw->role_surat == 'mahasiswa')
