@@ -2,17 +2,18 @@
 @section('inti_data')
 
     <head>
-        <title>
-            Admin - Surat Keterangan mahasiswa bagi anak ASN
-        </title>
+        <title>Admin - Surat Keterangan mahasiswa bagi anak ASN</title>
     </head>
 
     <body>
-        <form method="GET" action="{{ route('srt_izin_plt.admin_search') }}">
+        <a class="btn btn-primary" href="/legalisir/admin/dikirim/ijazah">Ijazah</a>
+        <a class="btn btn-primary" href="/legalisir/admin/dikirim/transkrip">Transkrip</a>
+        <a class="btn btn-primary" href="/legalisir/admin/dikirim/ijz_trs">Ijazah dan Transkrip</a>
+        <form method="GET" action="{{ route('legalisir_admin.admin_dikirim_transkrip_search') }}">
             <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
             <button type="submit">Cari</button>
         </form>
-        <a href="/srt_izin_plt/admin">Reload</a>
+        <a href="/legalisir/admin/dikirim/transkrip">Reload</a>
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <table class="table table-striped text-center">
                 <thead>
@@ -22,7 +23,7 @@
                         <th class="col-md-1">Cek Data</th>
                         <th class="col-md-1">Status</th>
                         <th class="col-md-1">Unduh</th>
-                        <th class="col-md-1">Dikirim</th>
+                        <th class="col-md-1">No Resi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,8 +34,7 @@
                             <td>{{ $item->nama_mhw }}</td>
                             <td>
                                 @if ($item->role_surat == 'admin')
-                                    <a href='{{ url('/srt_izin_plt/admin/cek_surat/' . $item->id) }}'
-                                        class="btn btn-warning btn-sm">Cek Data</a>
+                                    <a href="{{ url('/legalisir/admin/dikirim/transkrip/cek_legal/' . $item->id) }}" class="btn btn-warning btn-sm">Cek Data</a>
                                 @else
                                     <button class="btn btn-secondary btn-sm" disabled>Cek Data</button>
                                 @endif
@@ -54,8 +54,7 @@
                             </td>
                             <td>
                                 @if ($item->role_surat == 'manajer_sukses')
-                                    <a href='{{ url('/srt_izin_plt/admin/download/' . $item->id) }}'
-                                        class="btn btn-primary btn-sm">Unduh</a>
+                                    <a href="{{ url('/legalisir/admin/dikirim/transkrip/download/' . $item->id) }}" class="btn btn-primary btn-sm">Unduh</a>
                                 @else
                                     <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
                                 @endif
@@ -65,12 +64,11 @@
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                         data-target="#uploadModal" data-id="{{ $item->id }}"
                                         data-nama="{{ $item->nama_mhw }}">
-                                        Unggah Surat
+                                        No Resi
                                     </button>
                                 @else
-                                    <button class="btn btn-secondary btn-sm" disabled>Unggah</button>
+                                    <button class="btn btn-secondary btn-sm" disabled>No Resi</button>
                                 @endif
-
                             </td>
                         </tr>
                     @endforeach
@@ -79,27 +77,32 @@
         </div>
         {{ $data->withQueryString()->links() }}
 
-        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
-            aria-hidden="true">
+        <!-- Modal -->
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="uploadModalLabel">Unggah Surat Izin Penelitian</h5>
+                        <h5 class="modal-title" id="uploadModalLabel">No Resi Pengiriman</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <form action="{{ isset($item) ? route('legalisir_admin.admin_dikirim_transkrip_resi', $item->id) : '#' }}" method="POST" id="uploadForm">
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="srt_izin_plt" class="form-label">Unggah Surat</label>
-                                <input type="file" name="srt_izin_plt" id="srt_izin_plt" class="form-control" required>
+                                <label for="no_resi">No Resi</label>
+                                <input type="text" class="form-control" id="no_resi" name="no_resi" required>
                             </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="diambil_ditempat" name="diambil_ditempat">
+                                <label class="form-check-label" for="diambil_ditempat">Diambil Ditempat</label>
+                            </div>
+                            <input type="hidden" id="id" name="id">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Unggah</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -109,19 +112,25 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
         <script>
             $('#uploadModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
                 var id = button.data('id');
-                var nama = button.data('nama');
-
                 var modal = $(this);
-                var form = modal.find('form');
-                var action = "{{ route('srt_izin_plt.admin_unggah', ['id' => ':id']) }}";
-
-                form.attr('action', action.replace(':id', id));
-                modal.find('.modal-title').text('Unggah Surat Izin Penelitian: ' + nama);
+                
+                modal.find('#id').val(id);
+                modal.find('form').attr('action', '/legalisir/admin/dikirim/transkrip/no_resi/' + id);
+                
+                $('#diambil_ditempat').change(function() {
+                    if (this.checked) {
+                        $('#no_resi').val('Diambil Ditempat');
+                        $('#no_resi').prop('disabled', true);
+                    } else {
+                        $('#no_resi').val('');
+                        $('#no_resi').prop('disabled', false);
+                    }
+                });
             });
         </script>
+
     @endsection

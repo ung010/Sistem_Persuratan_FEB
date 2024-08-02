@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('kota_kirim')->nullable();
             $table->date('tanggal_surat');
             $table->text('catatan_surat')->nullable()->default('-');
-            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_sd', 'manajer'])->default('admin');
+            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('dpt_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();

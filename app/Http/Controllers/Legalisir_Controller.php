@@ -33,7 +33,6 @@ class Legalisir_Controller extends Controller
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
-                'users.email',
                 'users.almt_asl',
                 'departement.nama_dpt',
                 'jenjang_pendidikan.nama_jnjg',

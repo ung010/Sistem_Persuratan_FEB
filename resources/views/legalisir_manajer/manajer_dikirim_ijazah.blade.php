@@ -1,18 +1,21 @@
-@extends('template/supervisor_akd')
+@extends('template/manajer')
 @section('inti_data')
 
     <head>
         <title>
-            Supervisor - Surat Keterangan Masih Mahasiswa
+            Manajer - Legalisir
         </title>
     </head>
 
     <body>
-        <form method="GET" action="{{ route('srt_izin_plt.sv_search') }}">
+        <a class="btn btn-primary" href="/legalisir/manajer/dikirim/ijazah">Ijazah</a>
+        <a class="btn btn-primary" href="/legalisir/manajer/dikirim/transkrip">Transkrip</a>
+        <a class="btn btn-primary" href="/legalisir/manajer/dikirim/ijz_trs">Ijazah dan Transkrip</a>
+        <form method="GET" action="{{ route('legalisir_manajer.manajer_dikirim_ijazah_search') }}">
             <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
             <button type="submit">Cari</button>
         </form>
-        <a href="/srt_izin_plt/supervisor">Reload</a>
+        <a href="/legalisir/manajer/dikirim/ijazah">Reload</a>
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <table class="table table-striped text-center">
                 <thead>
@@ -21,7 +24,7 @@
                         <th class="col-md-1">Nama Mahasiswa</th>
                         <th class="col-md-1">NIM</th>
                         <th class="col-md-1">Program Studi</th>
-                        <th class="col-md-1">Instansi yang Dituju</th>
+                        <th class="col-md-1">Keperluan</th>
                         <th class="col-md-1">Cek Data</th>
                     </tr>
                 </thead>
@@ -33,9 +36,9 @@
                             <td>{{ $item->nama_mhw }}</td>
                             <td>{{ $item->nmr_unik }}</td>
                             <td>{{ $item->jenjang_prodi }}</td>
-                            <td>{{ $item->nama_lmbg }}</td>
+                            <td>{{ $item->keperluan }}</td>
                             <td>
-                                <form action="{{ route('srt_izin_plt.sv_setuju', $item->id) }}" method="POST" style="display:inline;">
+                                <form action="{{ route('legalisir_manajer.manajer_dikirim_ijazah_setuju', $item->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
                                 </form>

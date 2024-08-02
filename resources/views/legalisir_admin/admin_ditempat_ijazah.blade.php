@@ -8,6 +8,9 @@
     </head>
 
     <body>
+        <a class="btn btn-primary" href="/legalisir/admin/ditempat/ijazah">Ijazah</a>
+        <a class="btn btn-primary" href="/legalisir/admin/ditempat/transkrip">Transkrip</a>
+        <a class="btn btn-primary" href="/legalisir/admin/ditempat/ijz_trs">Ijazah dan Transkrip</a>
         <form method="GET" action="{{ route('srt_izin_plt.admin_search') }}">
             <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
             <button type="submit">Cari</button>

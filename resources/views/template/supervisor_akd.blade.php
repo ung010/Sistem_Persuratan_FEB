@@ -70,7 +70,7 @@
                                             href="/legalisir/sv/diambil/transkrip">Transkrip</a>
                                     </li>
                                     <li><a class="dropdown-item"
-                                            href="/legalisir/sv/diambil/ijazah_transkrip">Ijazah
+                                            href="/legalisir/sv/diambil/ijz_trs">Ijazah
                                             dan Transkrip</a></li>
                                 </ul>
                             </li>
@@ -84,7 +84,7 @@
                                             href="/legalisir/sv/dikirim/transkrip">Transkrip</a>
                                     </li>
                                     <li><a class="dropdown-item"
-                                            href="/legalisir/sv/dikirim/ijazah_transkrip">Ijazah
+                                            href="/legalisir/sv/dikirim/ijz_trs">Ijazah
                                             dan Transkrip</a></li>
                                 </ul>
                             </li>

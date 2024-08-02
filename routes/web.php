@@ -8,6 +8,7 @@ use App\Http\Controllers\Legal_Controller;
 use App\Http\Controllers\Legalisir_Controller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\Manajer_Legalisir_Controller;
 use App\Http\Controllers\ManajerController;
 use App\Http\Controllers\NonController;
 use App\Http\Controllers\RegisterController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Srt_Magang_Controller;
 use App\Http\Controllers\srt_masih_mhwController;
 use App\Http\Controllers\Srt_Mhw_AsnController;
 use App\Http\Controllers\srt_pmhn_kmbali_biaya_controller;
+use App\Http\Controllers\Supervisor_Legalisir_Controller;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -412,10 +414,112 @@ Route::middleware('auth')->group(function () {
     Route::post('/legalisir/update/{id}', [Legalisir_Controller::class, 'update'])->name('legalisir.update')->
     middleware('UserAkses:mahasiswa');
 
-    Route::get('/legalisir/admin/dikirim', [Admin_Legalisir_Controller::class, 'home__dikirim_admin'])->name('legalisir_admin.home_dikirim')->
+    // Kirim Ijazah 
+
+    Route::get('/legalisir/admin/dikirim/ijazah', [Admin_Legalisir_Controller::class, 'kirim_ijazah'])->name('legalisir_admin.admin_dikirim_ijazah')->
     middleware('UserAkses:admin');
-    Route::get('/legalisir/admin/ditempat', [Admin_Legalisir_Controller::class, 'home__ditempat_admin'])->name('legalisir_admin.home_ditempat')->
+    Route::get('/legalisir/admin/dikirim/ijazah/search', [Admin_Legalisir_Controller::class, 'kirim_ijazah'])->name('legalisir_admin.admin_dikirim_ijazah_search')->
     middleware('UserAkses:admin');
+    Route::get('/legalisir/admin/dikirim/ijazah/download/{id}', [Admin_Legalisir_Controller::class, 'unduh_kirim_ijazah'])->name('legalisir_admin.admin_dikirim_ijazah_download')->
+    middleware('UserAkses:admin');
+    Route::get('/legalisir/admin/dikirim/ijazah/cek_legal/{id}', [Admin_Legalisir_Controller::class, 'cek_kirim_ijazah'])->name('legalisir_admin.admin_dikirim_ijazah_cek')
+    ->middleware('UserAkses:admin');
+    Route::post('/legalisir/admin/dikirim/ijazah/cek_legal/setuju/{id}',  [Admin_Legalisir_Controller::class, 'setuju_kirim_ijazah'])->name('legalisir_admin.admin_dikirim_ijazah_setuju')
+    ->middleware('UserAkses:admin');
+    Route::post('/legalisir/admin/dikirim/ijazah/cek_legal/tolak/{id}',  [Admin_Legalisir_Controller::class, 'tolak_kirim_ijazah'])->name('legalisir_admin.admin_dikirim_ijazah_tolak')
+    ->middleware('UserAkses:admin');
+    Route::post('/legalisir/admin/dikirim/ijazah/no_resi/{id}',  [Admin_Legalisir_Controller::class, 'resi_kirim_ijazah'])->name('legalisir_admin.admin_dikirim_ijazah_resi')
+    ->middleware('UserAkses:admin');
+
+    route::get('/legalisir/sv/dikirim/ijazah', [Supervisor_Legalisir_Controller::class, 'kirim_ijazah'])->name('legalisir_sv.sv_dikirim_ijazah')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::get('/legalisir/sv/dikirim/ijazah/search', [Supervisor_Legalisir_Controller::class, 'kirim_ijazah'])->name('legalisir_sv.sv_dikirim_ijazah_search')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/legalisir/sv/dikirim/ijazah/setuju/{id}',  [Supervisor_Legalisir_Controller::class, 'setuju_kirim_ijazah'])->name('legalisir_sv.sv_dikirim_ijazah_setuju')
+    ->middleware('UserAkses:supervisor_akd');
+
+    route::get('/legalisir/manajer/dikirim/ijazah', [Manajer_Legalisir_Controller::class, 'kirim_ijazah'])->name('legalisir_manajer.manajer_dikirim_ijazah')
+    ->middleware('UserAkses:manajer');
+    Route::get('/legalisir/manajer/dikirim/ijazah/search', [Manajer_Legalisir_Controller::class, 'kirim_ijazah'])->name('legalisir_manajer.manajer_dikirim_ijazah_search')
+    ->middleware('UserAkses:manajer');
+    Route::post('/legalisir/manajer/dikirim/ijazah/setuju/{id}',  [Manajer_Legalisir_Controller::class, 'setuju_kirim_ijazah'])->name('legalisir_manajer.manajer_dikirim_ijazah_setuju')
+    ->middleware('UserAkses:manajer');
+
+    // Kirim Transkrip
+    
+    Route::get('/legalisir/admin/dikirim/transkrip', [Admin_Legalisir_Controller::class, 'kirim_transkrip'])->name('legalisir_admin.admin_dikirim_transkrip')->
+    middleware('UserAkses:admin');
+    Route::get('/legalisir/admin/dikirim/transkrip/search', [Admin_Legalisir_Controller::class, 'kirim_transkrip'])->name('legalisir_admin.admin_dikirim_transkrip_search')->
+    middleware('UserAkses:admin');
+    Route::get('/legalisir/admin/dikirim/transkrip/download/{id}', [Admin_Legalisir_Controller::class, 'unduh_kirim_transkrip'])->name('legalisir_admin.admin_dikirim_transkrip_download')->
+    middleware('UserAkses:admin');
+    Route::get('/legalisir/admin/dikirim/transkrip/cek_legal/{id}', [Admin_Legalisir_Controller::class, 'cek_kirim_transkrip'])->name('legalisir_admin.admin_dikirim_transkrip_cek')
+    ->middleware('UserAkses:admin');
+    Route::post('/legalisir/admin/dikirim/transkrip/cek_legal/setuju/{id}',  [Admin_Legalisir_Controller::class, 'setuju_kirim_transkrip'])->name('legalisir_admin.admin_dikirim_transkrip_setuju')
+    ->middleware('UserAkses:admin');
+    Route::post('/legalisir/admin/dikirim/transkrip/cek_legal/tolak/{id}',  [Admin_Legalisir_Controller::class, 'tolak_kirim_transkrip'])->name('legalisir_admin.admin_dikirim_transkrip_tolak')
+    ->middleware('UserAkses:admin');
+    Route::post('/legalisir/admin/dikirim/transkrip/no_resi/{id}',  [Admin_Legalisir_Controller::class, 'resi_kirim_transkrip'])->name('legalisir_admin.admin_dikirim_transkrip_resi')
+    ->middleware('UserAkses:admin');
+
+    route::get('/legalisir/sv/dikirim/transkrip', [Supervisor_Legalisir_Controller::class, 'kirim_transkrip'])->name('legalisir_sv.sv_dikirim_transkrip')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::get('/legalisir/sv/dikirim/transkrip/search', [Supervisor_Legalisir_Controller::class, 'kirim_transkrip'])->name('legalisir_sv.sv_dikirim_transkrip_search')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/legalisir/sv/dikirim/transkrip/setuju/{id}',  [Supervisor_Legalisir_Controller::class, 'setuju_kirim_transkrip'])->name('legalisir_sv.sv_dikirim_transkrip_setuju')
+    ->middleware('UserAkses:supervisor_akd');
+
+    route::get('/legalisir/manajer/dikirim/transkrip', [Manajer_Legalisir_Controller::class, 'kirim_transkrip'])->name('legalisir_manajer.manajer_dikirim_transkrip')
+    ->middleware('UserAkses:manajer');
+    Route::get('/legalisir/manajer/dikirim/transkrip/search', [Manajer_Legalisir_Controller::class, 'kirim_transkrip'])->name('legalisir_manajer.manajer_dikirim_transkrip_search')
+    ->middleware('UserAkses:manajer');
+    Route::post('/legalisir/manajer/dikirim/transkrip/setuju/{id}',  [Manajer_Legalisir_Controller::class, 'setuju_kirim_transkrip'])->name('legalisir_manajer.manajer_dikirim_transkrip_setuju')
+    ->middleware('UserAkses:manajer');
+
+    // Kirim Ijazah dan Transkrip
+
+    Route::get('/legalisir/admin/dikirim/ijz_trs', [Admin_Legalisir_Controller::class, 'kirim_ijz_trs'])->name('legalisir_admin.admin_dikirim_ijz_trs')->
+    middleware('UserAkses:admin');
+    Route::get('/legalisir/admin/dikirim/ijz_trs/search', [Admin_Legalisir_Controller::class, 'kirim_ijz_trs'])->name('legalisir_admin.admin_dikirim_ijz_trs_search')->
+    middleware('UserAkses:admin');
+    Route::get('/legalisir/admin/dikirim/ijz_trs/download/{id}', [Admin_Legalisir_Controller::class, 'unduh_kirim_ijz_trs'])->name('legalisir_admin.admin_dikirim_ijz_trs_download')->
+    middleware('UserAkses:admin');
+    Route::get('/legalisir/admin/dikirim/ijz_trs/cek_legal/{id}', [Admin_Legalisir_Controller::class, 'cek_kirim_ijz_trs'])->name('legalisir_admin.admin_dikirim_ijz_trs_cek')
+    ->middleware('UserAkses:admin');
+    Route::post('/legalisir/admin/dikirim/ijz_trs/cek_legal/setuju/{id}',  [Admin_Legalisir_Controller::class, 'setuju_kirim_ijz_trs'])->name('legalisir_admin.admin_dikirim_ijz_trs_setuju')
+    ->middleware('UserAkses:admin');
+    Route::post('/legalisir/admin/dikirim/ijz_trs/cek_legal/tolak/{id}',  [Admin_Legalisir_Controller::class, 'tolak_kirim_ijz_trs'])->name('legalisir_admin.admin_dikirim_ijz_trs_tolak')
+    ->middleware('UserAkses:admin');
+    Route::post('/legalisir/admin/dikirim/ijz_trs/no_resi/{id}',  [Admin_Legalisir_Controller::class, 'resi_kirim_ijz_trs'])->name('legalisir_admin.admin_dikirim_ijz_trs_resi')
+    ->middleware('UserAkses:admin');
+
+    route::get('/legalisir/sv/dikirim/ijz_trs', [Supervisor_Legalisir_Controller::class, 'kirim_ijz_trs'])->name('legalisir_sv.sv_dikirim_ijz_trs')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::get('/legalisir/sv/dikirim/ijz_trs/search', [Supervisor_Legalisir_Controller::class, 'kirim_ijz_trs'])->name('legalisir_sv.sv_dikirim_ijz_trs_search')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/legalisir/sv/dikirim/ijz_trs/setuju/{id}',  [Supervisor_Legalisir_Controller::class, 'setuju_kirim_ijz_trs'])->name('legalisir_sv.sv_dikirim_ijz_trs_setuju')
+    ->middleware('UserAkses:supervisor_akd');
+
+    route::get('/legalisir/manajer/dikirim/ijz_trs', [Manajer_Legalisir_Controller::class, 'kirim_ijz_trs'])->name('legalisir_manajer.manajer_dikirim_ijz_trs')
+    ->middleware('UserAkses:manajer');
+    Route::get('/legalisir/manajer/dikirim/ijz_trs/search', [Manajer_Legalisir_Controller::class, 'kirim_ijz_trs'])->name('legalisir_manajer.manajer_dikirim_ijz_trs_search')
+    ->middleware('UserAkses:manajer');
+    Route::post('/legalisir/manajer/dikirim/ijz_trs/setuju/{id}',  [Manajer_Legalisir_Controller::class, 'setuju_kirim_ijz_trs'])->name('legalisir_manajer.manajer_dikirim_ijz_trs_setuju')
+    ->middleware('UserAkses:manajer');
+
+    // Diambil Ijazah
+
+    
+
+    // Diambil Transkrip
+
+
+
+    // Diambil Ijazah dan Transkrip
+
+
+
+    
 });
 
 

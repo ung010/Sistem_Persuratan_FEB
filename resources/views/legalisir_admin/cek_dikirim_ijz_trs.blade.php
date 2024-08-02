@@ -2,7 +2,7 @@
 @section('inti_data')
 
     <head>
-        <title>Cek Surat Magang {{ $srt_izin_plt->nama }}</title>
+        <title>Cek Surat Magang {{ $legalisir->nama }}</title>
     </head>
 
     <body>
@@ -10,77 +10,103 @@
             <div class="my-3 p-3 bg-body rounded shadow-sm">
                 <h1>Verif User</h1>
                 <div class="mb-3">
-                    <h4>Nama : {{ $srt_izin_plt->nama }}</h4>
+                    <p>Jenis Legalisir : {{ $legalisir->jenis_lgl }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>NIM: {{ $srt_izin_plt->nmr_unik }}</p>
+                    <p>Keperluan : {{ $legalisir->jenis_lgl }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>Departemenen: {{ $srt_izin_plt->nama_dpt }}</p>
+                    <p>Nama : {{ $legalisir->nama }}</p>
+                </div>
+                <div class="mb-3">
+                    <p>NIM: {{ $legalisir->nmr_unik }}</p>
+                </div>
+                <div class="mb-3">
+                    <p>Departemenen: {{ $legalisir->nama_dpt }}</p>
                 </div>                
                 <div class="mb-3">
-                    <p>Program Studi: {{ $srt_izin_plt->jenjang_prodi }}</p>
+                    <p>Program Studi: {{ $legalisir->jenjang_prodi }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>Alamat Asal: {{ $srt_izin_plt->almt_asl }}</p>
+                    <p>Alamat Asal: {{ $legalisir->almt_asl }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>No WA: {{ $srt_izin_plt->nowa }}</p>
+                    <p>No WA: {{ $legalisir->nowa }}</p>
                 </div>
                 <div class="mb-3">
-                    <p>Email: {{ $srt_izin_plt->email }}</p>
+                    <p>Pengambilan: {{ $legalisir->ambil }}</p>
                 </div>
-                <div class="mb-3">
-                    <p>Lembaga yang dituju: {{ $srt_izin_plt->nama_lmbg }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>Jabatan Pimpinan yang dituju: {{ $srt_izin_plt->jbt_lmbg }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>Kota/Kabupaten Lembaga: {{ $srt_izin_plt->kota_lmbg }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>Alamat Lembaga: {{ $srt_izin_plt->almt_lmbg }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>Lampiran: {{ $srt_izin_plt->lampiran }}</p>
-                </div>
-                <div class="mb-3">
-                    <label for="foto" class="form-label">Foto</label>
-                    @if ($srt_izin_plt->foto)
-                        <img src="{{ asset('storage/foto/mahasiswa/' . $srt_izin_plt->foto) }}" alt="Foto User"
-                            class="img-thumbnail" width="150">
+                @if ($legalisir->almt_kirim == null)
+                    <div class="mb-3">
+                        <p>Alamat yang dituju: -</p>
+                    </div>
+                @else
+                    <div class="mb-3">
+                        <p>Alamat yang dituju: {{ $legalisir->almt_kirim }}</p>
+                    </div>
+                @endif
+                @if ($legalisir->klh_kirim == null)
+                    <div class="mb-3">
+                        <p>Kelurahan: -</p>
+                    </div>
+                @else
+                    <div class="mb-3">
+                        <p>Kelurahan: {{ $legalisir->klh_kirim }}</p>
+                    </div>
+                @endif
+                @if ($legalisir->kcmt_kirim == null)
+                    <div class="mb-3">
+                        <p>Kecamatan: -</p>
+                    </div>
+                @else
+                    <div class="mb-3">
+                        <p>Kecamatan: {{ $legalisir->kcmt_kirim }}</p>
+                    </div>
+                @endif
+                @if ($legalisir->kota_kirim == null)
+                    <div class="mb-3">
+                        <p>Kota / Kabupaten: -</p>
+                    </div>
+                @else
+                    <div class="mb-3">
+                        <p>Kota / Kabupaten: {{ $legalisir->kota_kirim }}</p>
+                    </div>
+                @endif
+                @if ($legalisir->kdps_kirim == null)
+                    <div class="mb-3">
+                        <p>Kode Pos: -</p>
+                    </div>
+                @else
+                    <div class="mb-3">
+                        <p>Kode Pos: {{ $legalisir->kdps_kirim }}</p>
+                    </div>
+                @endif
+                <li>
+                    @if($legalisir->file_ijazah)
+                        <a href="{{ url('storage/pdf/legalisir/ijazah/' . $legalisir->file_ijazah) }}" target="_blank">View File Ijazah</a>
+                    @else
+                        File ijazah tidak ditemukan
                     @endif
-                </div>
+                </li>
+                <li>
+                    @if($legalisir->file_transkrip)
+                        <a href="{{ url('storage/pdf/legalisir/transkrip/' . $legalisir->file_transkrip) }}" target="_blank">View File transkrip</a>
+                    @else
+                        File transkrip tidak ditemukan
+                    @endif
+                </li>
                 <div class="mb-3 d-grid">
-                    <button type="button" class="btn btn-success" data-toggle="modal"
-                        data-target="#setujuModal">Disetujui</button>
+                    <form action="{{ route('legalisir_admin.admin_dikirim_ijazah_setuju', $legalisir->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success">Disetujui</button>
+                    </form>
                 </div>
                 <div class="mb-3 d-grid">
                     <button type="button" class="btn btn-danger" data-toggle="modal"
                         data-target="#tolakModal">Ditolak</button>
                 </div>
                 <div class="mb-3 d-grid">
-                    <a href='/srt_izin_plt/admin' class="btn btn-info">Kembali</a>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="setujuModal" tabindex="-1" aria-labelledby="setujuModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="{{ route('srt_izin_plt.admin_setuju', $srt_izin_plt->id) }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="no_surat" class="form-label">Nomor Surat</label>
-                                <input class="form-control" id="no_surat" name="no_surat"></input>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Kirim</button>
-                        </div>
-                    </form>
+                    <a href='/legalisir/admin/dikirim/ijazah' class="btn btn-info">Kembali</a>
                 </div>
             </div>
         </div>
@@ -88,11 +114,11 @@
         <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('srt_izin_plt.admin_tolak', $srt_izin_plt->id) }}" method="POST">
+                    <form action="{{ route('legalisir_admin.admin_dikirim_ijazah_tolak', $legalisir->id) }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="catatan_surat" class="form-label">Alasan Surat Ditolak</label>
+                                <label for="catatan_surat" class="form-label">Alasan Legalisir Ditolak</label>
                                 <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3"></textarea>
                             </div>
                         </div>

@@ -83,7 +83,7 @@
                                     <li><a class="dropdown-item" href="/legalisir/admin/diambil/ijazah">Ijazah</a></li>
                                     <li><a class="dropdown-item" href="/legalisir/admin/diambil/transkrip">Transkrip</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="/legalisir/admin/diambil/ijazah_transkrip">Ijazah
+                                    <li><a class="dropdown-item" href="/legalisir/admin/diambil/ijz_trs">Ijazah
                                             dan Transkrip</a></li>
                                 </ul>
                             </li>
@@ -94,7 +94,7 @@
                                     <li><a class="dropdown-item" href="/legalisir/admin/dikirim/ijazah">Ijazah</a></li>
                                     <li><a class="dropdown-item" href="/legalisir/admin/dikirim/transkrip">Transkrip</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="/legalisir/admin/dikirim/ijazah_transkrip">Ijazah
+                                    <li><a class="dropdown-item" href="/legalisir/admin/dikirim/ijz_trs">Ijazah
                                             dan Transkrip</a></li>
                                 </ul>
                             </li>
