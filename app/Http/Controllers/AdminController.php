@@ -26,7 +26,8 @@ class AdminController extends Controller
             ->join('prodi', 'users.prd_id', '=', 'prodi.id')
             ->join('departement', 'users.dpt_id', '=', 'departement.id')
             ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
-            ->whereIn('users.role', ['mahasiswa', 'alumni'])
+            ->where('users.role', 'mahasiswa')
+            ->whereIn('users.status', ['mahasiswa', 'alumni'])
             ->select(
                 'users.id',
                 'users.nama',
@@ -47,7 +48,8 @@ class AdminController extends Controller
             ->join('prodi', 'users.prd_id', '=', 'prodi.id')
             ->join('departement', 'users.dpt_id', '=', 'departement.id')
             ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
-            ->whereIn('users.role', ['mahasiswa', 'alumni'])
+            ->where('users.role', 'mahasiswa')
+            ->whereIn('users.status', ['mahasiswa', 'alumni'])
             ->where(function ($q) use ($query) {
                 $q->where('users.nama', 'LIKE', "%{$query}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
@@ -75,7 +77,8 @@ class AdminController extends Controller
             ->join('prodi', 'users.prd_id', '=', 'prodi.id')
             ->join('departement', 'users.dpt_id', '=', 'departement.id')
             ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
-            ->whereIn('users.role', ['non_mahasiswa', 'non_alumni'])
+            ->where('users.role', 'non_mahasiswa')
+            ->whereIn('users.status', ['mahasiswa', 'alumni'])
             ->select(
                 'users.id',
                 'users.nama',
@@ -96,7 +99,8 @@ class AdminController extends Controller
             ->join('prodi', 'users.prd_id', '=', 'prodi.id')
             ->join('departement', 'users.dpt_id', '=', 'departement.id')
             ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
-            ->whereIn('users.role', ['non_mahasiswa', 'non_alumni'])
+            ->where('users.role', 'non_mahasiswa')
+            ->whereIn('users.status', ['mahasiswa', 'alumni'])
             ->where(function ($q) use ($query) {
                 $q->where('users.nama', 'LIKE', "%{$query}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
@@ -206,15 +210,9 @@ class AdminController extends Controller
 
         if ($user->role == 'non_mahasiswa') {
             DB::table('users')->where('id', $id)->update(['role' => 'mahasiswa']);
-        } elseif ($user->role == 'non_alumni') {
-            DB::table('users')->where('id', $id)->update(['role' => 'alumni']);
         }
 
         return redirect()->route('admin.verifikasi')->with('success', 'Akun telah diverifikasi');
-    }
-
-    function cekdata_alum()
-    {
     }
 
     function sampah()

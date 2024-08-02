@@ -9,7 +9,11 @@
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             @auth
-                <a class="nav-link" href="/mahasiswa">{{ auth()->user()->nama }}</a>
+                @if (auth()->user()->status === 'mahasiswa')
+                    <a class="nav-link" href="/user">Mahasiswa {{ auth()->user()->nama }}</a>
+                @elseif (auth()->user()->status === 'alumni')
+                    <a class="nav-link" href="/user">Alumni {{ auth()->user()->nama }}</a>
+                @endif
             @endauth
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -24,7 +28,8 @@
                             Dashboard
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/mahasiswa/my_account/{{ auth()->user()->id }}">My Account</a></li>
+                            <li><a class="dropdown-item" href="/mahasiswa/my_account/{{ auth()->user()->id }}">My
+                                    Account</a></li>
                             <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         </ul>
                     </li>
@@ -38,19 +43,13 @@
                             <li><a class="dropdown-item" href="/srt_masih_mhw">Surat Keterangan Masih Mahasiswa</a></li>
                             <li><a class="dropdown-item" href="/srt_magang">Surat Magang</a></li>
                             <li><a class="dropdown-item" href="/srt_izin_plt">Surat Izin Penelitian</a></li>
-                            <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya">Surat Permohonan Pengembalian Biaya Pendidikan</a></li>
+                            <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya">Surat Permohonan Pengembalian
+                                    Biaya Pendidikan</a></li>
+                            <li><a class="dropdown-item" href="/srt_bbs_pnjm">Surat Bebas Pinjam</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Legalisir
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Legalisir Transkrip</a></li>
-                            <li><a class="dropdown-item" href="#">Legalisir Ijazah</a></li>
-                            <li><a class="dropdown-item" href="#">Legalisir Transkrip dan Ijazah</a></li>
-                        </ul>
+                        <a class="nav-link" href="/legalisir">Legalisir</a>
                     </li>
                 </ul>
             </div>

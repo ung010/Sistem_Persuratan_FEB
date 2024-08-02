@@ -94,13 +94,13 @@
                     </div>
                     <h5>Pilih salah satu</h5>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="role" value="non_mahasiswa" id="mahasiswa" required>
+                        <input class="form-check-input" type="radio" name="status" value="mahasiswa" id="mahasiswa" required>
                         <label class="form-check-label" for="mahasiswa">
                             Mahasiswa Aktif
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="role" value="non_alumni" id="alumni" required>
+                        <input class="form-check-input" type="radio" name="status" value="alumni" id="alumni" required>
                         <label class="form-check-label" for="alumni">
                             Alumni
                         </label>

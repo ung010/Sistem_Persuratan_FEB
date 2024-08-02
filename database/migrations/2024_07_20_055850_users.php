@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('foto')->nullable();
             $table->string('nama_ibu')->nullable();
             $table->string('password');
-            // role belum dibenerin
-            $table->enum('role', ['-', 'non_mahasiswa', 'non_alumni', 'del_mahasiswa', 'del_alumni', 'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer']);
+            $table->enum('status', ['mahasiswa', 'alumni']);
+            $table->enum('role', ['non_mahasiswa', 'del_mahasiswa', 'mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'])->default('non_mahasiswa');
             $table->text('catatan_user')->nullable()->default('-');
             $table->unsignedBigInteger('dpt_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();

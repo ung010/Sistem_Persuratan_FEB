@@ -23,7 +23,7 @@ class RegisterController extends Controller
         Session::flash('tanggal_lahir', $request->input('tanggal_lahir'));
         Session::flash('nowa', $request->input('nowa'));
         Session::flash('nama_ibu', $request->input('nama_ibu'));
-        Session::flash('role', $request->input('role'));
+        Session::flash('status', $request->input('status'));
         Session::flash('almt_asl', $request->input('almt_asl'));
         Session::flash('prd_id', $request->input('prd_id'));
         Session::flash('dpt_id', $request->input('dpt_id'));
@@ -37,7 +37,7 @@ class RegisterController extends Controller
             'tanggal_lahir' => 'required',
             'nama_ibu' => 'required',
             'nowa' => 'required',
-            'role' => 'required',
+            'status' => 'required',
             'almt_asl' => 'required',
             'password' => 'required|min:8',
             'dpt_id' => 'required',
@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'password.min' => 'Password minimal 8 karakter',
             'kota.required' => 'Tempat lahir wajib diisi',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
-            'role.required' => 'Wajib mengisi pilihan mahasiswa / alumni',
+            'status.required' => 'Wajib mengisi pilihan mahasiswa / alumni',
             'nowa.required' => 'No handphone wajib diisi',
             'almt_asl.required' => 'Alamat asal rumah wajib diisi',
             'dpt_id.required' => 'Departemen wajib diisi',
@@ -80,7 +80,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
             'kota' => $request->kota,
             'tanggal_lahir' => $request->tanggal_lahir,
-            'role' => $request->role,
+            'status' => $request->status,
             'nowa' => $request->nowa,
             'nama_ibu' => $request->nama_ibu,
             'almt_asl' => $request->almt_asl,
@@ -96,15 +96,11 @@ class RegisterController extends Controller
             'password' => $request->password
         ];
 
-        // dibenerin dulu logika role mahasiswa dan alumni non approve
         if (Auth::attempt($inforegister)) {
             $user = Auth::user();
     
-            // Pengecekan role dan pengalihan ke halaman yang sesuai
             if ($user->role == 'non_mahasiswa') {
-                return redirect('/non_mhw');
-            } elseif ($user->role == 'non_alumni') {
-                return redirect('/non_alum');
+                return redirect('/non_user');
             } else {
                 return redirect('/error_register');
             }

@@ -12,6 +12,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        /* Style for the submenu */
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+        }
+    </style>
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -34,22 +46,54 @@
                             Manajemen Surat
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/srt_mhw_asn/supervisor">Surat keterangan untuk anak ASN</a></li>
-                            <li><a class="dropdown-item" href="/srt_masih_mhw/supervisor">Surat Keterangan Masih Mahasiswa</a></li>
+                            <li><a class="dropdown-item" href="/srt_mhw_asn/supervisor">Surat keterangan untuk anak
+                                    ASN</a></li>
+                            <li><a class="dropdown-item" href="/srt_masih_mhw/supervisor">Surat Keterangan Masih
+                                    Mahasiswa</a></li>
                             <li><a class="dropdown-item" href="/srt_magang/supervisor">Surat Magang</a></li>
                             <li><a class="dropdown-item" href="/srt_izin_plt/supervisor">Surat Izin Penelitian</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Manajemen Legalisir
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Legalisir Transkrip</a></li>
-                            <li><a class="dropdown-item" href="#">Legalisir Ijazah</a></li>
-                            <li><a class="dropdown-item" href="#">Legalisir Transkrip dan Ijazah</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <!-- Submenu untuk Legalisir Diambil Ditempat -->
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#">Legalisir Diambil Ditempat</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/legalisir/sv/diambil/ijazah">Ijazah</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="/legalisir/sv/diambil/transkrip">Transkrip</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="/legalisir/sv/diambil/ijazah_transkrip">Ijazah
+                                            dan Transkrip</a></li>
+                                </ul>
+                            </li>
+                            <!-- Submenu untuk Legalisir Dikirim -->
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#">Legalisir Dikirim</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/legalisir/sv/dikirim/ijazah">Ijazah</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="/legalisir/sv/dikirim/transkrip">Transkrip</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="/legalisir/sv/dikirim/ijazah_transkrip">Ijazah
+                                            dan Transkrip</a></li>
+                                </ul>
+                            </li>
                         </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/supervisor_akd/manage_admin">
+                            Manajemen Admin
+                        </a>
                     </li>
                 </ul>
                 <a class="navbar-brand" href="/logout">Logout</a>
@@ -67,6 +111,21 @@
         @yield('inti_data')
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var dropdownSubmenus = document.querySelectorAll('.dropdown-submenu');
+
+                dropdownSubmenus.forEach(function(submenu) {
+                    submenu.addEventListener('mouseover', function() {
+                        this.querySelector('.dropdown-menu').classList.add('show');
+                    });
+
+                    submenu.addEventListener('mouseleave', function() {
+                        this.querySelector('.dropdown-menu').classList.remove('show');
+                    });
+                });
+            });
         </script>
     </div>
 </body>

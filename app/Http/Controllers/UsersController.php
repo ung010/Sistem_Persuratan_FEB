@@ -10,11 +10,9 @@ class UsersController extends Controller
 {
     function users(){
         if (Auth::user()->role == 'mahasiswa'){
-            return redirect('/mahasiswa')->withErrors('Anda tidak punya akses');
+            return redirect('/user')->with('success', 'Permintaan sudah disetujui, silahkan menggunakan fasilitas website ini');
         } elseif (Auth::user()->role == 'admin') {
             return redirect('/admin')->withErrors('Anda tidak punya akses');
-        } elseif (Auth::user()->role == 'alumni') {
-            return redirect('/alumni')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'supervisor_akd') {
             return redirect('/supervisor_akd')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'supervisor_sd') {
@@ -22,9 +20,7 @@ class UsersController extends Controller
         } elseif (Auth::user()->role == 'manajer') {
             return redirect('/manajer')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'non_mahasiswa') {
-            return redirect('/non_mhw')->withErrors('Anda tidak punya akses');
-        } elseif (Auth::user()->role == 'non_alumni') {
-            return redirect('/non_alum')->withErrors('Anda tidak punya akses');
+            return redirect('/non_user')->withErrors('Anda tidak punya akses');
         }
     }
 

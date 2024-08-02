@@ -28,9 +28,7 @@ class LoginController extends Controller
         if(Auth::attempt($infologin)){
 
             if (Auth::user()->role == 'mahasiswa'){
-                return redirect('/mahasiswa');
-            } elseif (Auth::user()->role == 'alumni') {
-                return redirect('/alumni');
+                return redirect('/user');
             } elseif (Auth::user()->role == 'admin') {
                 return redirect('/admin');
             } elseif (Auth::user()->role == 'supervisor_akd') {
@@ -40,9 +38,7 @@ class LoginController extends Controller
             } elseif (Auth::user()->role == 'manajer') {
                 return redirect('/manajer');
             } elseif (Auth::user()->role == 'non_mahasiswa') {
-                return redirect('/non_mhw');
-            } elseif (Auth::user()->role == 'non_alumni') {
-                return redirect('/non_alum');
+                return redirect('/non_user');
             }
 
         }else{

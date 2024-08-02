@@ -1,14 +1,17 @@
 <?php
 
+use App\Http\Controllers\Admin_Legalisir_Controller;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AksesController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\Legal_Controller;
+use App\Http\Controllers\Legalisir_Controller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ManajerController;
 use App\Http\Controllers\NonController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Srt_Bbs_Pnjam_Controller;
 use App\Http\Controllers\Srt_Izin_Penelitian_Controller;
 use App\Http\Controllers\Srt_Magang_Controller;
 use App\Http\Controllers\srt_masih_mhwController;
@@ -55,39 +58,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout']);
     
     
-    // Route Non Mahasiswa & Non Alumni
+    // Route Akun Belum Approve
     route::get('/error_register', [UsersController::class, 'home']);
 
-    route::get('/non_mhw', [NonController::class, 'home_non_mhw'])->name('non_mhw.home')->
+    route::get('/non_user', [NonController::class, 'home_non_mhw'])->name('non_mhw.home')->
     middleware('UserAkses:non_mahasiswa');
-    Route::get('/non_mhw/my_account/{id}', [NonController::class, 'edit_non_mhw'])->name('non_mhw.edit')->
+    Route::get('/non_user/my_account/{id}', [NonController::class, 'edit_non_mhw'])->name('non_mhw.edit')->
     middleware('UserAkses:non_mahasiswa');
-    Route::post('/non_mhw/my_account/update/{id}', [NonController::class, 'account_non_mhw'])->name('non_mhw.account_non_mhw')->
+    Route::post('/non_user/my_account/update/{id}', [NonController::class, 'account_non_mhw'])->name('non_mhw.account_non_mhw')->
     middleware('UserAkses:non_mahasiswa');
-
-    route::get('/non_alum', [NonController::class, 'home_non_alum'])->name('non_alum.home')->
-    middleware('UserAkses:non_alumni');
-    Route::get('/non_alum/my_account/{id}', [NonController::class, 'edit_non_alum'])->name('non_alum.edit')->
-    middleware('UserAkses:non_alumni');
-    Route::post('/non_alum/my_account/update/{id}', [NonController::class, 'account_non_alum'])->name('non_alum.account_non_alum')->
-    middleware('UserAkses:non_alumni');
 
     // Route Mahasiswa
-    route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index')->
+    route::get('/user', [MahasiswaController::class, 'index'])->name('mahasiswa.index')->
     middleware('UserAkses:mahasiswa');
-    Route::get('/mahasiswa/my_account/{id}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit')->
+    Route::get('/user/my_account/{id}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit')->
     middleware('UserAkses:mahasiswa');
-    Route::post('/mahasiswa/my_account/update/{id}', [MahasiswaController::class, 'update'])->name('mahasiswa.update')->
+    Route::post('/user/my_account/update/{id}', [MahasiswaController::class, 'update'])->name('mahasiswa.update')->
     middleware('UserAkses:mahasiswa');
-
-    // Route ALumni
-    route::get('/alumni', [AlumniController::class, 'index'])->name('alumni.index')->
-    middleware('UserAkses:alumni');
-    Route::get('/alumni/my_account/{id}', [AlumniController::class, 'edit'])->name('alumni.edit')->
-    middleware('UserAkses:alumni');
-    Route::post('/alumni/my_account/update/{id}', [AlumniController::class, 'update'])->name('alumni.update')->
-    middleware('UserAkses:alumni');
-    
 
     // Route Admin
     route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware('UserAkses:admin');
@@ -379,6 +366,56 @@ Route::middleware('auth')->group(function () {
     Route::post('/srt_pmhn_kmbali_biaya/manajer/setuju/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'setuju_manajer'])->name('srt_pmhn_kmbali_biaya.manajer_setuju')
     ->middleware('UserAkses:manajer');
 
+    // Surat Bebas Pinjam
+
+    route::get('/srt_bbs_pnjm', [Srt_Bbs_Pnjam_Controller::class, 'index'])->name('srt_bbs_pnjm.index')
+    ->middleware('UserAkses:mahasiswa');
+    Route::post('/srt_bbs_pnjm/create', [Srt_Bbs_Pnjam_Controller::class,'create'])->name('srt_bbs_pnjm.store')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_bbs_pnjm/search', [Srt_Bbs_Pnjam_Controller::class, 'index'])->name('srt_bbs_pnjm.search')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/srt_bbs_pnjm/edit/{id}', [Srt_Bbs_Pnjam_Controller::class, 'edit'])->name('srt_bbs_pnjm.edit')->
+    middleware('UserAkses:mahasiswa');
+    Route::post('/srt_bbs_pnjm/update/{id}', [Srt_Bbs_Pnjam_Controller::class, 'update'])->name('srt_bbs_pnjm.update')->
+    middleware('UserAkses:mahasiswa');
+    Route::get('/srt_bbs_pnjm/download/{id}', [Srt_Bbs_Pnjam_Controller::class, 'download'])->name('srt_bbs_pnjm.download')->
+    middleware('UserAkses:mahasiswa');
+
+    route::get('/srt_bbs_pnjm/admin', [Srt_Bbs_Pnjam_Controller::class, 'admin'])->name('srt_bbs_pnjm.admin')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_bbs_pnjm/admin/search', [Srt_Bbs_Pnjam_Controller::class, 'admin'])->name('srt_bbs_pnjm.admin_search')
+    ->middleware('UserAkses:admin');
+    Route::get('/srt_bbs_pnjm/admin/cek_surat/{id}', [Srt_Bbs_Pnjam_Controller::class, 'admin_cek'])->name('srt_bbs_pnjm.cek')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_bbs_pnjm/admin/cek_surat/setuju/{id}',  [Srt_Bbs_Pnjam_Controller::class, 'admin_setuju'])->name('srt_bbs_pnjm.admin_setuju')
+    ->middleware('UserAkses:admin');
+    Route::post('/srt_bbs_pnjm/admin/cek_surat/tolak/{id}',  [Srt_Bbs_Pnjam_Controller::class, 'admin_tolak'])->name('srt_bbs_pnjm.admin_tolak')
+    ->middleware('UserAkses:admin');
+
+    route::get('/srt_bbs_pnjm/supervisor', [Srt_Bbs_Pnjam_Controller::class, 'supervisor'])->name('srt_bbs_pnjm.supervisor')
+    ->middleware('UserAkses:supervisor_sd');
+    Route::get('/srt_bbs_pnjm/supervisor/search', [Srt_Bbs_Pnjam_Controller::class, 'supervisor'])->name('srt_bbs_pnjm.sv_search')
+    ->middleware('UserAkses:supervisor_sd');
+    Route::post('/srt_bbs_pnjm/supervisor/setuju/{id}',  [Srt_Bbs_Pnjam_Controller::class, 'setuju_sv'])->name('srt_bbs_pnjm.sv_setuju')
+    ->middleware('UserAkses:supervisor_sd');
+
+    // Legalisir
+
+    route::get('/legalisir', [Legalisir_Controller::class, 'index'])->name('legalisir.index')
+    ->middleware('UserAkses:mahasiswa');
+    Route::post('/legalisir/create', [Legalisir_Controller::class,'create'])->name('legalisir.store')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/legalisir/search', [Legalisir_Controller::class, 'index'])->name('legalisir.search')
+    ->middleware('UserAkses:mahasiswa');
+    Route::get('/legalisir/edit/{id}', [Legalisir_Controller::class, 'edit'])->name('legalisir.edit')->
+    middleware('UserAkses:mahasiswa');
+    Route::post('/legalisir/update/{id}', [Legalisir_Controller::class, 'update'])->name('legalisir.update')->
+    middleware('UserAkses:mahasiswa');
+
+    Route::get('/legalisir/admin/dikirim', [Admin_Legalisir_Controller::class, 'home__dikirim_admin'])->name('legalisir_admin.home_dikirim')->
+    middleware('UserAkses:admin');
+    Route::get('/legalisir/admin/ditempat', [Admin_Legalisir_Controller::class, 'home__ditempat_admin'])->name('legalisir_admin.home_ditempat')->
+    middleware('UserAkses:admin');
 });
 
 

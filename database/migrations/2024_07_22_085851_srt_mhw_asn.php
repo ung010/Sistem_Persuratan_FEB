@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('ins_ortu');
             $table->date('tanggal_surat');
             $table->text('catatan_surat')->nullable()->default('-');
-            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'])->default('admin');
+            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('dpt_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();

@@ -35,18 +35,13 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya/supervisor">Surat Permohonan Pengembalian Biaya Pendidikan</a></li>
+                            <li><a class="dropdown-item" href="/srt_bbs_pnjm/supervisor">Surat Bebas Pinjam</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Manajemen Legalisir
+                        <a class="nav-link dropdown-toggle" href="/supervisor_sd/manage_admin">
+                            Manajemen Admin
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Legalisir Transkrip</a></li>
-                            <li><a class="dropdown-item" href="#">Legalisir Ijazah</a></li>
-                            <li><a class="dropdown-item" href="#">Legalisir Transkrip dan Ijazah</a></li>
-                        </ul>
                     </li>
                 </ul>
                 <a class="navbar-brand" href="/logout">Logout</a>

@@ -1,4 +1,4 @@
-@extends('template/supervisor_akd')
+@extends('template/supervisor_sd')
 @section('inti_data')
 
     <head>

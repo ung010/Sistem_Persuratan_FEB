@@ -421,7 +421,7 @@ class Srt_Magang_Controller extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
                 ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                ->orWhere('nmr_unik', 'like', "%{$search}%")
+                ->orWhere('users.nmr_unik', 'like', "%{$search}%")
                 ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
             });
         }
@@ -464,7 +464,7 @@ class Srt_Magang_Controller extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
                 ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                ->orWhere('nmr_unik', 'like', "%{$search}%")
+                ->orWhere('users.nmr_unik', 'like', "%{$search}%")
                 ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
             });
         }

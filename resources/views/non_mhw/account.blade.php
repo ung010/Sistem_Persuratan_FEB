@@ -96,7 +96,7 @@
                 </div>
                 <div class="mb-3 d-grid">
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href='/non_mhw' class="btn btn-info">Kembali</a>
+                    <a href='/non_user' class="btn btn-info">Kembali</a>
                 </div>
             </form>
         </div>

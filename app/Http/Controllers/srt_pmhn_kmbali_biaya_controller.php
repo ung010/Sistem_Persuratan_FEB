@@ -95,19 +95,19 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         ]);
 
         $user = Auth::user();
-        
+
         $skl = $request->file('skl');
         $nama_skl = 'SKL_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.' . $skl->getClientOriginalExtension();
         $skl->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_skl);
-    
+
         $bukti_bayar = $request->file('bukti_bayar');
         $nama_bukti = 'Bukti_Bayar_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.' . $bukti_bayar->getClientOriginalExtension();
         $bukti_bayar->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_bukti);
-    
+
         $buku_tabung = $request->file('buku_tabung');
         $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.' . $buku_tabung->getClientOriginalExtension();
         $buku_tabung->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_buku);
-        
+
 
         DB::table('srt_pmhn_kmbali_biaya')->insert([
             'users_id' => $user->id,
@@ -138,7 +138,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $prodi = prodi::where('id', $user->prd_id)->first();
         $departemen = departemen::where('id', $user->dpt_id)->first();
         $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
-        
+
         $kota = $user->kota;
         $tanggal_lahir = $user->tanggal_lahir;
         $kota_tanggal_lahir = ($kota && $tanggal_lahir) ? $kota . ', ' . \Carbon\Carbon::parse($tanggal_lahir)->format('d F Y') : 'N/A';
@@ -148,61 +148,61 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
 
 
     public function update(Request $request, $id)
-{
-    $data = DB::table('srt_pmhn_kmbali_biaya')->where('id', $id)->first();
+    {
+        $data = DB::table('srt_pmhn_kmbali_biaya')->where('id', $id)->first();
 
-    $validated = $request->validate([
-        'skl' => 'nullable|mimes:pdf|max:500',
-        'bukti_bayar' => 'nullable|mimes:pdf|max:500',
-        'buku_tabung' => 'nullable|mimes:pdf|max:500',
-    ], [
-        'skl.mimes' => 'SKL harus berformat PDF',
-        'bukti_bayar.mimes' => 'Bukti Bayar harus berformat PDF',
-        'buku_tabung.mimes' => 'Buku Tabungan harus berformat PDF',
-        'skl.max' => 'Ukuran file SKL melebihi 500 Kilobytes',
-        'bukti_bayar.max' => 'Ukuran file Bukti Bayar melebihi 500 Kilobytes',
-        'buku_tabung.max' => 'Ukuran file Buku Tabungan melebihi 500 Kilobytes',
-    ]);
+        $validated = $request->validate([
+            'skl' => 'nullable|mimes:pdf|max:500',
+            'bukti_bayar' => 'nullable|mimes:pdf|max:500',
+            'buku_tabung' => 'nullable|mimes:pdf|max:500',
+        ], [
+            'skl.mimes' => 'SKL harus berformat PDF',
+            'bukti_bayar.mimes' => 'Bukti Bayar harus berformat PDF',
+            'buku_tabung.mimes' => 'Buku Tabungan harus berformat PDF',
+            'skl.max' => 'Ukuran file SKL melebihi 500 Kilobytes',
+            'bukti_bayar.max' => 'Ukuran file Bukti Bayar melebihi 500 Kilobytes',
+            'buku_tabung.max' => 'Ukuran file Buku Tabungan melebihi 500 Kilobytes',
+        ]);
 
-    $updateData = [];
+        $updateData = [];
 
-    if ($request->hasFile('skl')) {
-        $skl = $request->file('skl');
-        $skl_extensi = $skl->extension();
-        $nama_skl = 'SKL_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '.' . $skl_extensi;
-        $skl->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_skl);
-        $updateData['skl'] = $nama_skl;
-    } else {
-        $updateData['skl'] = $data->skl;
+        if ($request->hasFile('skl')) {
+            $skl = $request->file('skl');
+            $skl_extensi = $skl->extension();
+            $nama_skl = 'SKL_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '.' . $skl_extensi;
+            $skl->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_skl);
+            $updateData['skl'] = $nama_skl;
+        } else {
+            $updateData['skl'] = $data->skl;
+        }
+
+        if ($request->hasFile('bukti_bayar')) {
+            $bukti_bayar = $request->file('bukti_bayar');
+            $bayar_extensi = $bukti_bayar->extension();
+            $nama_bukti = 'Bukti_Bayar_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '.' . $bayar_extensi;
+            $bukti_bayar->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_bukti);
+            $updateData['bukti_bayar'] = $nama_bukti;
+        } else {
+            $updateData['bukti_bayar'] = $data->bukti_bayar;
+        }
+
+        if ($request->hasFile('buku_tabung')) {
+            $buku_tabung = $request->file('buku_tabung');
+            $buku_extensi = $buku_tabung->extension();
+            $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '.' . $buku_extensi;
+            $buku_tabung->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_buku);
+            $updateData['buku_tabung'] = $nama_buku;
+        } else {
+            $updateData['buku_tabung'] = $data->buku_tabung;
+        }
+
+        DB::table('srt_pmhn_kmbali_biaya')->where('id', $id)->update(array_merge($updateData, [
+            'role_surat' => 'admin',
+            'catatan_surat' => '-',
+        ]));
+
+        return redirect()->route('srt_pmhn_kmbali_biaya.index')->with('success', 'Surat berhasil diperbarui');
     }
-
-    if ($request->hasFile('bukti_bayar')) {
-        $bukti_bayar = $request->file('bukti_bayar');
-        $bayar_extensi = $bukti_bayar->extension();
-        $nama_bukti = 'Bukti_Bayar_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '.' . $bayar_extensi;
-        $bukti_bayar->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_bukti);
-        $updateData['bukti_bayar'] = $nama_bukti;
-    } else {
-        $updateData['bukti_bayar'] = $data->bukti_bayar;
-    }
-
-    if ($request->hasFile('buku_tabung')) {
-        $buku_tabung = $request->file('buku_tabung');
-        $buku_extensi = $buku_tabung->extension();
-        $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '.' . $buku_extensi;
-        $buku_tabung->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_buku);
-        $updateData['buku_tabung'] = $nama_buku;
-    } else {
-        $updateData['buku_tabung'] = $data->buku_tabung;
-    }
-
-    DB::table('srt_pmhn_kmbali_biaya')->where('id', $id)->update(array_merge($updateData, [
-        'role_surat' => 'admin',
-        'catatan_surat' => '-',
-    ]));
-
-    return redirect()->route('srt_pmhn_kmbali_biaya.index')->with('success', 'Surat berhasil diperbarui');
-}
 
 
     function download($id)
@@ -394,7 +394,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         ]);
 
         $srt_pmhn_kmbali_biaya->no_surat = $request->no_surat;
-        $srt_pmhn_kmbali_biaya->role_surat = 'supervisor_akd';
+        $srt_pmhn_kmbali_biaya->role_surat = 'supervisor_sd';
 
         $srt_pmhn_kmbali_biaya->save();
         return redirect()->route('srt_pmhn_kmbali_biaya.admin')->with('success', 'No surat berhasil ditambahkan');
@@ -426,7 +426,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
             ->join('departement', 'srt_pmhn_kmbali_biaya.dpt_id', '=', 'departement.id')
             ->join('jenjang_pendidikan', 'srt_pmhn_kmbali_biaya.jnjg_id', '=', 'jenjang_pendidikan.id')
-            ->where('role_surat', 'supervisor_akd')
+            ->where('role_surat', 'supervisor_sd')
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
                 'srt_pmhn_kmbali_biaya.nama_mhw',
@@ -436,7 +436,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
-                ->orWhere('nmr_unik', 'like', "%{$search}%");
+                    ->orWhere('users.nmr_unik', 'like', "%{$search}%");
             });
         }
 
@@ -474,7 +474,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
-                ->orWhere('nmr_unik', 'like', "%{$search}%");
+                    ->orWhere('users.nmr_unik', 'like', "%{$search}%");
             });
         }
 

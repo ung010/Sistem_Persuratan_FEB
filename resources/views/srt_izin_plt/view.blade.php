@@ -66,7 +66,7 @@
             NIM                         : {{ $srt_izin_plt->nmr_unik}}<br>
             Departemen/Program Studi    : {{ $srt_izin_plt->nama_dpt}} / {{ $srt_izin_plt->jenjang_prodi }}<br>
             Alamat Rumah                : {{ $srt_izin_plt->almt_asl}}<br>
-            No Whatsapp                 : {{ $srt_izin_plt->judul_data}}<br>
+            Judul Program               : {{ $srt_izin_plt->judul_data}}<br>
             Alamat Email                : {{ $srt_izin_plt->email}}<br>
             Semarang, {{ $srt_izin_plt->tanggal_surat}}<br>
 

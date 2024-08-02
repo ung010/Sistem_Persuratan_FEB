@@ -306,7 +306,7 @@ class Srt_Mhw_AsnController extends Controller
                 'id',
                 'nama_mhw',
             )
-            ->where('role_surat', 'supervisor_akd'); // Menambahkan kondisi untuk role_surat = admin
+            ->where('role_surat', 'supervisor_akd');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -363,53 +363,6 @@ class Srt_Mhw_AsnController extends Controller
 
     function delete()
     {
-    }
-
-    public function backup()
-    {
-        // $data = DB::table('srt_mhw_asn')
-        //     ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
-        //     ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
-        //     ->join('departement', 'srt_mhw_asn.dpt_id', '=', 'departement.id')
-        //     ->join('jenjang_pendidikan', 'srt_mhw_asn.jnjg_id', '=', 'jenjang_pendidikan.id')
-        //     // ->whereIn('srt_mhw_asn.role_surat', ['tolak', 'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'])
-        //     ->select(
-        //         'srt_mhw_asn.id',
-        //         'srt_mhw_asn.thn_awl',
-        //         'srt_mhw_asn.thn_akh',
-        //         'srt_mhw_asn.semester',
-        //         'srt_mhw_asn.role_surat',
-        //         'users.nama as nama' // Tambahkan ini untuk nama user
-        //     )
-        $data = DB::table('srt_mhw_asn')
-            ->select(
-                'id',
-                'nama_mhw',
-                'nim_mhw',
-                'nowa_mhw',
-                'thn_awl',
-                'jenjang_prodi',
-                'thn_akh',
-                'semester',
-                'nama_ortu',
-                'nip_ortu',
-                'ins_ortu',
-                'role_surat'
-            )
-            ->paginate(10);
-
-        return view('srt_mhw_asn.index', compact('data'));
-    }
-
-    public function backup2()
-    {
-        $user = Auth::user();
-
-        $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
-        $prodi = Prodi::where('id', $user->prd_id)->first();
-
-        $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
-
-        return view('srt_mhw_asn.create', compact('user', 'jenjang_prodi'));
+        //
     }
 }

@@ -112,7 +112,8 @@ class DatabaseSeeder extends Seeder
                 'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
                 'email' => $faker->unique()->userName . '@gmail.com',
                 'password' => Hash::make('mountain082'),
-                'role' => $faker->randomElement(['non_mahasiswa', 'non_alumni', 'mahasiswa', 'alumni']),
+                'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa']),
+                'status' => $faker->randomElement(['mahasiswa', 'alumni']),
                 'nowa' => $faker->phoneNumber,
                 'kota' => $faker->city,
                 'nama_ibu' => $faker->firstName($gender) . ' ' . $faker->lastName,
@@ -134,6 +135,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'mahasiswa@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
+                'status' => 'mahasiswa',
                 'kota' => 'Blitar',
                 'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 10 - 2010'),
                 'nowa' => '081214549624',
@@ -151,6 +153,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'leo@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
+                'status' => 'mahasiswa',
                 'kota' => 'leo',
                 'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 11 - 2003'),
                 'nowa' => '081214549624',
@@ -167,7 +170,8 @@ class DatabaseSeeder extends Seeder
                 'nmr_unik' => '211201201444444',
                 'email' => 'alumni@gmail.com',
                 'password' => bcrypt('mountain082'),
-                'role' => 'alumni',
+                'role' => 'mahasiswa',
+                'status' => 'alumni',
                 'kota' => 'Blitar',
                 'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 10 - 2010'),
                 'nowa' => '081214549624',
@@ -224,7 +228,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_masih_mhw = Faker::create('id_ID');
-        $excluded_roles = ['admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -296,7 +300,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_plt = Faker::create('id_ID');
-        $excluded_roles = ['admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -340,7 +344,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_pmhn_kmbali_biaya = Faker::create('id_ID');
-        $excluded_roles = ['admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -356,6 +360,69 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_pmhn_kmbali_biaya')->insert([
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
+                'dpt_id' => $user->dpt_id,
+                'prd_id' => $user->prd_id,
+                'jnjg_id' => $user->jnjg_id,
+                'tanggal_surat' => $tanggal_surat,
+            ]);
+        }
+
+        $faker_srt_bbs_pnjm = Faker::create('id_ID');
+        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $user_ids = DB::table('users')
+            ->whereNotIn('role', $excluded_roles)
+            ->pluck('id')
+            ->toArray();
+
+        foreach (range(5, 10) as $index) {
+
+            $random_user_id = $faker_srt_bbs_pnjm->randomElement($user_ids);
+            $user = DB::table('users')->where('id', $random_user_id)->first();
+            $nama_mhw = $user->nama;
+            $tanggal_surat = Carbon::now()->toDateString();
+            $almt_smg = $faker_srt_bbs_pnjm->address();
+            $dosen_wali = $faker_srt_bbs_pnjm->name();
+
+            DB::table('srt_bbs_pnjm')->insert([
+                'users_id' => $random_user_id,
+                'nama_mhw' => $nama_mhw,
+                'almt_smg' => $almt_smg,
+                'dosen_wali' => $dosen_wali,
+                'dpt_id' => $user->dpt_id,
+                'prd_id' => $user->prd_id,
+                'jnjg_id' => $user->jnjg_id,
+                'tanggal_surat' => $tanggal_surat,
+            ]);
+        }
+
+        $faker_lgl = Faker::create('id_ID');
+        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $user_ids = DB::table('users')
+            ->whereNotIn('role', $excluded_roles)
+            ->pluck('id')
+            ->toArray();
+
+        $urusan = ['Bekerja di luar negeri', 'Melamar Kerja', 'Melamar Istri', 'Ambil pendidikan tinggi di LN'];    
+        $jenis_legalisir = ['ijazah' ,'transkrip', 'ijazah_transkrip'];
+        $cara_pengambilan = ['ditempat' ,'dikirim'];
+
+
+        foreach (range(1, 25) as $index) {
+
+            $random_user_id = $faker_lgl->randomElement($user_ids);
+            $user = DB::table('users')->where('id', $random_user_id)->first();
+            $nama_mhw = $user->nama;
+            $tanggal_surat = Carbon::now()->toDateString();
+            $keperluan = $faker_lgl->randomElement($urusan);
+            $tanggal_lulus = $faker_lgl->date($format = 'Y-m-d', $max = '2024-08-01', $min = '2019-01-01',);
+
+            DB::table('legalisir')->insert([
+                'users_id' => $random_user_id,
+                'nama_mhw' => $nama_mhw,
+                'tgl_lulus' => $tanggal_lulus,
+                'keperluan' => $keperluan,
+                'jenis_lgl' => $faker_lgl->randomElement($jenis_legalisir),
+                'ambil' => $faker_lgl->randomElement($cara_pengambilan),
                 'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
                 'jnjg_id' => $user->jnjg_id,

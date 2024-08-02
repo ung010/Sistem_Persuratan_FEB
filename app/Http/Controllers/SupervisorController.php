@@ -33,8 +33,6 @@ class SupervisorController extends Controller
             ->paginate(10);
 
         return view('supervisor_akd.manage_admin', compact('data'));
-
-        // return view('supervisor_akd.manage_admin')->with('data', $data);
     }
 
     function delete_admin_akd($id)
