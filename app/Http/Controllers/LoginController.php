@@ -39,6 +39,8 @@ class LoginController extends Controller
                 return redirect('/manajer');
             } elseif (Auth::user()->role == 'non_mahasiswa') {
                 return redirect('/non_user');
+            } elseif (Auth::user()->role == 'del_mahasiswa') {
+                return redirect('/del_user');
             }
 
         }else{

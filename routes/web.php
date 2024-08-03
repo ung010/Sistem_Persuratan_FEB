@@ -81,6 +81,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/non_user/my_account/update/{id}', [NonController::class, 'account_non_mhw'])->name('non_mhw.account_non_mhw')->
     middleware('UserAkses:non_mahasiswa');
 
+    route::get('/del_user', [NonController::class, 'del_mhw'])->name('del_mhw.home')->
+    middleware('UserAkses:del_mahasiswa');
+
     // Route Mahasiswa
     route::get('/user', [MahasiswaController::class, 'index'])->name('mahasiswa.index')->
     middleware('UserAkses:mahasiswa');
@@ -93,7 +96,6 @@ Route::middleware('auth')->group(function () {
     route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware('UserAkses:admin');
     
     route::get('/admin/user', [AdminController::class, 'user'])->name('admin.user')->middleware('UserAkses:admin');
-    route::post('/admin/user/delete/{id}', [AdminController::class, 'delete_user'])->name('admin.delete')->middleware('UserAkses:admin');
     Route::get('/admin/user/search', [AdminController::class, 'search_user'])->name('admin.user.search')->middleware('UserAkses:admin');
     Route::get('/admin/user/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit')->
     middleware('UserAkses:admin');
@@ -105,6 +107,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/verif_user/cekdata/{id}', [AdminController::class, 'cekdata_mhw'])->name('admin.cekdata')->middleware('UserAkses:admin');
     Route::post('/admin/verif_user/cekdata/catatan/{id}',  [AdminController::class, 'catatan'])->name('admin.catatan')->middleware('UserAkses:admin');
     Route::post('/admin/verif_user/cekdata/verifikasi/{id}', [AdminController::class, 'verifikasi'])->name('admin.verifikasi.user')->middleware('UserAkses:admin');
+
+    route::get('/admin/soft_delete', [AdminController::class, 'soft_delete_view'])->name('admin.soft_delete_view')
+    ->middleware('UserAkses:admin');
+    route::get('/admin/soft_delete/search', [AdminController::class, 'soft_delete_view'])->name('admin.soft_delete_search')
+    ->middleware('UserAkses:admin');
+    route::post('/admin/soft_delete/s_delete/{id}', [AdminController::class, 'soft_delete'])->name('admin.soft_delete')
+    ->middleware('UserAkses:admin');
+    route::post('/admin/soft_delete/restore/{id}', [AdminController::class, 'restore'])->name('admin.restore')
+    ->middleware('UserAkses:admin');
+    route::post('/admin/soft_delete/h_delete/{id}', [AdminController::class, 'delete_user'])->name('admin.hard_delete')
+    ->middleware('UserAkses:admin');
 
 
     // Route::post('/admin/mahasiswa/Approve/{id}', [AdminController::class, 'aksesApprove'])->name('admin.aksesApprove')->middleware('UserAkses:admin');

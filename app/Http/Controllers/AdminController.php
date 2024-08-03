@@ -48,7 +48,8 @@ class AdminController extends Controller
         ));
     }
 
-    function track_srt_sv_akd() {
+    function track_srt_sv_akd()
+    {
         $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'supervisor_akd')->count();
         $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'supervisor_akd')->count();
         $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'supervisor_akd')->count();
@@ -64,7 +65,8 @@ class AdminController extends Controller
         ));
     }
 
-    function track_srt_sv_sd() {
+    function track_srt_sv_sd()
+    {
         $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'supervisor_sd')->count();
         $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'supervisor_sd')->count();
 
@@ -74,7 +76,8 @@ class AdminController extends Controller
         ));
     }
 
-    function track_srt_manajer() {
+    function track_srt_manajer()
+    {
         $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'manajer')->count();
         $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'manajer')->count();
         $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'manajer')->count();
@@ -192,12 +195,74 @@ class AdminController extends Controller
         return view('admin.verifikasi', compact('data'));
     }
 
+    function soft_delete_view(Request $request)
+    {
+        $query = $request->input('query');
+
+        $data = DB::table('users')
+            ->join('prodi', 'users.prd_id', '=', 'prodi.id')
+            ->join('departement', 'users.dpt_id', '=', 'departement.id')
+            ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->where('users.role', 'del_mahasiswa')
+            ->whereIn('users.status', ['mahasiswa', 'alumni'])
+            ->where(function ($q) use ($query) {
+                $q->where('users.nama', 'LIKE', "%{$query}%")
+                    ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
+                    ->orWhere('users.email', 'LIKE', "%{$query}%")
+                    ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
+                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'LIKE', "%{$query}%");
+            })
+            ->select(
+                'users.id',
+                'users.nama',
+                'users.nmr_unik',
+                'departement.nama_dpt',
+                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+            )
+            ->paginate(10);
+
+        return view('admin.soft_del', compact('data'));
+    }
+
+    public function soft_delete($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            if ($user->role === 'mahasiswa') {
+                $user->role = 'del_mahasiswa';
+                $user->save();
+
+                return redirect('/admin/user')->with('success', 'Akun berhasil dihapus sementara');
+            }
+
+            return redirect('/admin/user')->withErrors('Role pengguna tidak dapat diubah.');
+        }
+        return redirect('/admin/user')->withErrors('Akun tidak ditemukan.');
+    }
+
+    function restore($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            if ($user->role === 'del_mahasiswa') {
+                $user->role = 'mahasiswa';
+                $user->save();
+
+                return redirect('/admin/soft_delete')->with('success', 'Akun berhasil dihapus dipulihkan');
+            }
+        }
+
+        return redirect('/admin/soft_delete')->withErrors('Akun tidak ditemukan atau sudah dipulihkan.');
+    }
+
     function delete_user($id)
     {
         $data =  User::where('id', $id)->first();
         File::delete(public_path('storage/foto/mahasiswa') . '/' . $data->foto);
         User::where('id', $id)->delete();
-        return redirect('/admin/user')->with('success', 'Berhasil menghapus akun');
+        return redirect('/admin/soft_delete')->with('success', 'Berhasil menghapus permanen akun');
     }
 
     function edit($id)
@@ -285,14 +350,6 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.verifikasi')->with('success', 'Akun telah diverifikasi');
-    }
-
-    function sampah()
-    {
-    }
-
-    function restore()
-    {
     }
 
     // public function aksesApprove($id)

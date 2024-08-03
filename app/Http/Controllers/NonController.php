@@ -87,4 +87,8 @@ class NonController extends Controller
         $user->save();
         return redirect()->back()->with('success', 'Berhasil mengupdate data diri');
     }
+
+    function del_mhw() {
+        return view('del_mhw.home');
+    }
 }

@@ -20,7 +20,9 @@ class UsersController extends Controller
         } elseif (Auth::user()->role == 'manajer') {
             return redirect('/manajer')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'non_mahasiswa') {
-            return redirect('/non_user')->withErrors('Anda tidak punya akses');
+            return redirect('/non_user')->withErrors('Akun masih belum dicek atau diterima oleh admin, minta admin untuk melakukan approve');
+        } elseif (Auth::user()->role == 'del_mahasiswa') {
+            return redirect('/del_user')->withErrors('Akun anda telah di suspend oleh admin, minta ke admin untuk mengembalikan akun anda');
         }
     }
 

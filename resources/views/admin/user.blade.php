@@ -56,10 +56,10 @@
                                     <button type="submit" class="btn btn-warning">Non-Approve</button>
                                 </form> --}}
                                 <a href='{{ url('/admin/user/edit/'.$item->id) }}' class="btn btn-warning btn-sm">Edit</a>
-                                <form onsubmit="return confirm('Yakin ingin menghapus akun ini?')" class="d-inline"
-                                    action="{{ route('admin.delete', $item->id) }}" method="post">
+                                <form action="{{ route('admin.soft_delete', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sementara akun ini?')">
                                     @csrf
-                                    <button type="submit" name="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                    @method('POST') <!-- atau POST jika menggunakan POST -->
+                                    <button type="submit" class="btn btn-danger btn-sm">Soft Delete</button>
                                 </form>
                             </td>
                             {{-- <td>
@@ -80,6 +80,7 @@
             </script>
 
             <a href="/admin" class="btn btn-primary">Kembali</a>
+            <a href="/admin/soft_delete" class="btn btn-danger">Halaman Soft Delete</a>
             <!-- Form untuk mengirimkan ID yang dipilih -->
             {{-- <form id="bulkNonApproveForm" action="{{ url('/admin/mahasiswa/bulkNonApprove') }}" method="POST">
                 @csrf
