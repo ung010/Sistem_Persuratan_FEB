@@ -93,6 +93,21 @@
                             Manajemen Admin
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Riwayat Surat
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/riwayat_srt/sv_akd/srt_mhw_asn">Surat keterangan untuk anak ASN</a>
+                            </li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/sv_akd/srt_masih_mhw">Surat Keterangan Masih
+                                    Mahasiswa</a></li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/sv_akd/srt_magang">Surat Magang</a></li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/sv_akd/srt_izin_plt">Surat Izin Penelitian</a></li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/sv_akd/legalisir">Legalisir</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <a class="navbar-brand" href="/logout">Logout</a>
             </div>

@@ -48,6 +48,50 @@ class AdminController extends Controller
         ));
     }
 
+    function track_srt_sv_akd() {
+        $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'supervisor_akd')->count();
+        $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'supervisor_akd')->count();
+        $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'supervisor_akd')->count();
+        $srt_magang = Srt_Magang::where('role_surat', 'supervisor_akd')->count();
+        $legalisir = legalisir::where('role_surat', 'supervisor_akd')->count();
+
+        return view('track_srt.akd', compact(
+            'srt_mhw_asn',
+            'srt_masih_mhw',
+            'srt_izin_plt',
+            'srt_magang',
+            'legalisir',
+        ));
+    }
+
+    function track_srt_sv_sd() {
+        $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'supervisor_sd')->count();
+        $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'supervisor_sd')->count();
+
+        return view('track_srt.sd', compact(
+            'srt_bbs_pnjm',
+            'srt_pmhn_kmbali_biaya',
+        ));
+    }
+
+    function track_srt_manajer() {
+        $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'manajer')->count();
+        $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'manajer')->count();
+        $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'manajer')->count();
+        $srt_magang = Srt_Magang::where('role_surat', 'manajer')->count();
+        $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'manajer')->count();
+        $legalisir = legalisir::where('role_surat', 'manajer')->count();
+
+        return view('track_srt.manajer', compact(
+            'srt_mhw_asn',
+            'srt_masih_mhw',
+            'srt_izin_plt',
+            'srt_magang',
+            'srt_pmhn_kmbali_biaya',
+            'legalisir',
+        ));
+    }
+
     public function user()
     {
         $data = DB::table('users')

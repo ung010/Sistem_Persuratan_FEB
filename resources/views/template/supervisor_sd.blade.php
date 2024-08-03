@@ -43,6 +43,17 @@
                             Manajemen Admin
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Riwayat Surat
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/riwayat_srt/sv_sd/srt_pmhn_kmbali_biaya">Surat Permohonan
+                                    Pengembalian Biaya Pendidikan</a></li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/sv_sd/srt_bbs_pnjm">Surat Bebas Pinjam</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <a class="navbar-brand" href="/logout">Logout</a>
             </div>

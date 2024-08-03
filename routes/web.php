@@ -12,6 +12,7 @@ use App\Http\Controllers\Manajer_Legalisir_Controller;
 use App\Http\Controllers\ManajerController;
 use App\Http\Controllers\NonController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Riwayat_Surat_Controller;
 use App\Http\Controllers\Srt_Bbs_Pnjam_Controller;
 use App\Http\Controllers\Srt_Izin_Penelitian_Controller;
 use App\Http\Controllers\Srt_Magang_Controller;
@@ -600,7 +601,110 @@ Route::middleware('auth')->group(function () {
     Route::post('/legalisir/manajer/ditempat/ijz_trs/setuju/{id}',  [Manajer_Legalisir_Controller::class, 'setuju_ditempat_ijz_trs'])->name('legalisir_manajer.manajer_ditempat_ijz_trs_setuju')
     ->middleware('UserAkses:manajer');
 
-    
+    // Tracking Surat
+
+    Route::get('/tracking/manajer', [AdminController::class, 'track_srt_manajer'])->name('track_srt.manajer')->
+    middleware('UserAkses:admin');
+    Route::get('/tracking/sv_akd', [AdminController::class, 'track_srt_sv_akd'])->name('track_srt.sv_akd')->
+    middleware('UserAkses:admin');
+    Route::get('/tracking/sv_sd', [AdminController::class, 'track_srt_sv_sd'])->name('track_srt.sv_sd')->
+    middleware('UserAkses:admin');
+
+    // Riwayat Surat Admin
+
+    Route::get('/riwayat_srt/admin/srt_mhw_asn', [Riwayat_Surat_Controller::class, 'admin_srt_mhw_asn'])->name('riwayat_admin.srt_mhw_asn')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_mhw_asn/search', [Riwayat_Surat_Controller::class, 'admin_srt_mhw_asn'])->name('riwayat_admin.srt_mhw_asn_search')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_masih_mhw', [Riwayat_Surat_Controller::class, 'admin_srt_masih_mhw'])->name('riwayat_admin.srt_masih_mhw')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_masih_mhw/search', [Riwayat_Surat_Controller::class, 'admin_srt_masih_mhw'])->name('riwayat_admin.srt_masih_mhw_search')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_bbs_pnjm', [Riwayat_Surat_Controller::class, 'admin_srt_bbs_pnjm'])->name('riwayat_admin.srt_bbs_pnjm')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_bbs_pnjm/search', [Riwayat_Surat_Controller::class, 'admin_srt_bbs_pnjm'])->name('riwayat_admin.srt_bbs_pnjm_search')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_izin_plt', [Riwayat_Surat_Controller::class, 'admin_srt_izin_plt'])->name('riwayat_admin.srt_izin_plt')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_izin_plt/search', [Riwayat_Surat_Controller::class, 'admin_srt_izin_plt'])->name('riwayat_admin.srt_izin_plt_search')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_magang', [Riwayat_Surat_Controller::class, 'admin_srt_magang'])->name('riwayat_admin.srt_magang')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_magang/search', [Riwayat_Surat_Controller::class, 'admin_srt_magang'])->name('riwayat_admin.srt_magang_search')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_pmhn_kmbali_biaya', [Riwayat_Surat_Controller::class, 'admin_srt_pmhn_kmbali_biaya'])->name('riwayat_admin.srt_pmhn_kmbali_biaya')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/srt_pmhn_kmbali_biaya/search', [Riwayat_Surat_Controller::class, 'admin_srt_pmhn_kmbali_biaya'])->name('riwayat_admin.srt_pmhn_kmbali_biaya_search')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/legalisir', [Riwayat_Surat_Controller::class, 'admin_legalisir'])->name('riwayat_admin.legalisir')->
+    middleware('UserAkses:admin');
+    Route::get('/riwayat_srt/admin/legalisir/search', [Riwayat_Surat_Controller::class, 'admin_legalisir'])->name('riwayat_admin.legalisir_search')->
+    middleware('UserAkses:admin');
+
+
+    // Riwayat Surat Supervisor Akademik
+
+    Route::get('/riwayat_srt/sv_akd/srt_mhw_asn', [Riwayat_Surat_Controller::class, 'sv_akd_srt_mhw_asn'])->name('riwayat_sv_akd.srt_mhw_asn')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/riwayat_srt/sv_akd/srt_mhw_asn/search', [Riwayat_Surat_Controller::class, 'sv_akd_srt_mhw_asn'])->name('riwayat_sv_akd.srt_mhw_asn_search')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/riwayat_srt/sv_akd/srt_masih_mhw', [Riwayat_Surat_Controller::class, 'sv_akd_srt_masih_mhw'])->name('riwayat_sv_akd.srt_masih_mhw')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/riwayat_srt/sv_akd/srt_masih_mhw/search', [Riwayat_Surat_Controller::class, 'sv_akd_srt_masih_mhw'])->name('riwayat_sv_akd.srt_masih_mhw_search')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/riwayat_srt/sv_akd/srt_izin_plt', [Riwayat_Surat_Controller::class, 'sv_akd_srt_izin_plt'])->name('riwayat_sv_akd.srt_izin_plt')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/riwayat_srt/sv_akd/srt_izin_plt/search', [Riwayat_Surat_Controller::class, 'sv_akd_srt_izin_plt'])->name('riwayat_sv_akd.srt_izin_plt_search')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/riwayat_srt/sv_akd/srt_magang', [Riwayat_Surat_Controller::class, 'sv_akd_srt_magang'])->name('riwayat_sv_akd.srt_magang')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/riwayat_srt/sv_akd/srt_magang/search', [Riwayat_Surat_Controller::class, 'sv_akd_srt_magang'])->name('riwayat_sv_akd.srt_magang_search')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/riwayat_srt/sv_akd/legalisir', [Riwayat_Surat_Controller::class, 'sv_akd_legalisir'])->name('riwayat_sv_akd.legalisir')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/riwayat_srt/sv_akd/legalisir/search', [Riwayat_Surat_Controller::class, 'sv_akd_legalisir'])->name('riwayat_sv_akd.legalisir_search')->
+    middleware('UserAkses:supervisor_akd');
+
+    // Riwayat Surat Supervisor Sumber Daya
+
+    Route::get('/riwayat_srt/sv_sd/srt_bbs_pnjm', [Riwayat_Surat_Controller::class, 'sv_sd_srt_bbs_pnjm'])->name('riwayat_sv_sd.srt_bbs_pnjm')->
+    middleware('UserAkses:supervisor_sd');
+    Route::get('/riwayat_srt/sv_sd/srt_bbs_pnjm/search', [Riwayat_Surat_Controller::class, 'sv_sd_srt_bbs_pnjm'])->name('riwayat_sv_sd.srt_bbs_pnjm_search')->
+    middleware('UserAkses:supervisor_sd');
+    Route::get('/riwayat_srt/sv_sd/srt_pmhn_kmbali_biaya', [Riwayat_Surat_Controller::class, 'sv_sd_srt_pmhn_kmbali_biaya'])->name('riwayat_sv_sd.srt_pmhn_kmbali_biaya')->
+    middleware('UserAkses:supervisor_sd');
+    Route::get('/riwayat_srt/sv_sd/srt_pmhn_kmbali_biaya/search', [Riwayat_Surat_Controller::class, 'sv_sd_srt_pmhn_kmbali_biaya'])->name('riwayat_sv_sd.srt_pmhn_kmbali_biaya_search')->
+    middleware('UserAkses:supervisor_sd');
+
+
+    // Riwayat Surat Manajer
+
+    Route::get('/riwayat_srt/manajer/srt_mhw_asn', [Riwayat_Surat_Controller::class, 'manajer_srt_mhw_asn'])->name('riwayat_manajer.srt_mhw_asn')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/srt_mhw_asn/search', [Riwayat_Surat_Controller::class, 'manajer_srt_mhw_asn'])->name('riwayat_manajer.srt_mhw_asn_search')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/srt_masih_mhw', [Riwayat_Surat_Controller::class, 'manajer_srt_masih_mhw'])->name('riwayat_manajer.srt_masih_mhw')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/srt_masih_mhw/search', [Riwayat_Surat_Controller::class, 'manajer_srt_masih_mhw'])->name('riwayat_manajer.srt_masih_mhw_search')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/srt_izin_plt', [Riwayat_Surat_Controller::class, 'manajer_srt_izin_plt'])->name('riwayat_manajer.srt_izin_plt')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/srt_izin_plt/search', [Riwayat_Surat_Controller::class, 'manajer_srt_izin_plt'])->name('riwayat_manajer.srt_izin_plt_search')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/srt_magang', [Riwayat_Surat_Controller::class, 'manajer_srt_magang'])->name('riwayat_manajer.srt_magang')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/srt_magang/search', [Riwayat_Surat_Controller::class, 'manajer_srt_magang'])->name('riwayat_manajer.srt_magang_search')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/srt_pmhn_kmbali_biaya', [Riwayat_Surat_Controller::class, 'manajer_srt_pmhn_kmbali_biaya'])->name('riwayat_manajer.srt_pmhn_kmbali_biaya')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/srt_pmhn_kmbali_biaya/search', [Riwayat_Surat_Controller::class, 'manajer_srt_pmhn_kmbali_biaya'])->name('riwayat_manajer.srt_pmhn_kmbali_biaya_search')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/legalisir', [Riwayat_Surat_Controller::class, 'manajer_legalisir'])->name('riwayat_manajer.legalisir')->
+    middleware('UserAkses:manajer');
+    Route::get('/riwayat_srt/manajer/legalisir/search', [Riwayat_Surat_Controller::class, 'manajer_legalisir'])->name('riwayat_manajer.legalisir_search')->
+    middleware('UserAkses:manajer');
+
+
 });
 
 

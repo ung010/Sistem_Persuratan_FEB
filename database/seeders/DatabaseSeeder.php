@@ -227,6 +227,52 @@ class DatabaseSeeder extends Seeder
             User::create($user);
         }
 
+        $faker_srt_mhw_asn = Faker::create('id_ID');
+        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $user_ids = DB::table('users')
+            ->whereNotIn('role', $excluded_roles)
+            ->pluck('id')
+            ->toArray();
+
+        $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer'];
+
+        foreach (range(1, 40) as $index) {
+
+            $random_user_id = $faker_srt_mhw_asn->randomElement($user_ids);
+            $user = DB::table('users')->where('id', $random_user_id)->first();
+            $nama_mhw = $user->nama;
+            $nim_mhw = $user->nmr_unik;
+            $nowa_mhw = $user->nowa;
+            $thn_awl = $faker_srt_mhw_asn->numberBetween(2010, 2020);
+            $thn_akh = $thn_awl + 1;
+            $semester = $faker_srt_mhw_asn->numberBetween(3, 13);
+            $role_surat = $faker_srt_mhw_asn->randomElement($list_role);
+            $tanggal_surat = Carbon::now()->toDateString();
+
+            $jenjang = DB::table('jenjang_pendidikan')->where('id', $user->jnjg_id)->value('nama_jnjg');
+            $prodi = DB::table('prodi')->where('id', $user->prd_id)->value('nama_prd');
+            $jenjang_prodi = $jenjang . ' - ' . $prodi;
+
+            DB::table('srt_mhw_asn')->insert([
+                'users_id' => $random_user_id,
+                'nama_mhw' => $nama_mhw,
+                'nim_mhw' => $nim_mhw,
+                'nowa_mhw' => $nowa_mhw,
+                'jenjang_prodi' => $jenjang_prodi,
+                'dpt_id' => $user->dpt_id,
+                'prd_id' => $user->prd_id,
+                'jnjg_id' => $user->jnjg_id,
+                'thn_awl' => $thn_awl,
+                'thn_akh' => $thn_akh,
+                'semester' => $semester,
+                'role_surat' => $role_surat,
+                'nama_ortu' => $faker_srt_mhw_asn->name(),
+                'nip_ortu' => $faker_srt_mhw_asn->unique()->numerify('########'),                 
+                'ins_ortu' => $faker_srt_mhw_asn->company(),
+                'tanggal_surat' => $tanggal_surat,
+            ]);
+        }
+
         $faker_srt_masih_mhw = Faker::create('id_ID');
         $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')

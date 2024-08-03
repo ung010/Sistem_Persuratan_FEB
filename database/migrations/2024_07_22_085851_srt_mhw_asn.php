@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('no_surat')->nullable();
             $table->string('nama_mhw')->nullable();
             $table->bigInteger('nim_mhw')->nullable();
-            $table->bigInteger('nowa_mhw')->nullable();
+            $table->string('nowa_mhw')->nullable();
             $table->string('jenjang_prodi')->nullable();
             $table->year('thn_awl');
             $table->year('thn_akh');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('ins_ortu');
             $table->date('tanggal_surat');
             $table->text('catatan_surat')->nullable()->default('-');
-            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'])->default('admin');
+            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_akd', 'manajer'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('dpt_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();

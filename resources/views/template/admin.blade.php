@@ -76,7 +76,6 @@
                             Manajemen Legalisir
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <!-- Submenu untuk Legalisir Diambil Ditempat -->
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">Legalisir Diambil Ditempat</a>
                                 <ul class="dropdown-menu">
@@ -87,7 +86,6 @@
                                             dan Transkrip</a></li>
                                 </ul>
                             </li>
-                            <!-- Submenu untuk Legalisir Dikirim -->
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">Legalisir Dikirim</a>
                                 <ul class="dropdown-menu">
@@ -98,6 +96,36 @@
                                             dan Transkrip</a></li>
                                 </ul>
                             </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Tracking Surat
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/tracking/manajer">Manajer</a>
+                            </li>
+                            <li><a class="dropdown-item" href="/tracking/sv_akd">Supervisor Akademik</a></li>
+                            <li><a class="dropdown-item" href="/tracking/sv_sd">Supervisor Sumber Daya</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Riwayat Surat
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/riwayat_srt/admin/srt_mhw_asn">Surat keterangan untuk anak ASN</a>
+                            </li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/admin/srt_masih_mhw">Surat Keterangan Masih
+                                    Mahasiswa</a></li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/admin/srt_magang">Surat Magang</a></li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/admin/srt_izin_plt">Surat Izin Penelitian</a></li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/admin/srt_pmhn_kmbali_biaya">Surat Permohonan
+                                    Pengembalian Biaya Pendidikan</a></li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/admin/srt_bbs_pnjm">Surat Bebas Pinjam</a></li>
+                            <li><a class="dropdown-item" href="/riwayat_srt/admin/legalisir">Legalisir</a></li>
                         </ul>
                     </li>
                 </ul>
