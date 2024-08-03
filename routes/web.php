@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Admin_Legalisir_Controller;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AksesController;
-use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\Legal_Controller;
 use App\Http\Controllers\Legalisir_Controller;
 use App\Http\Controllers\LoginController;
@@ -42,6 +40,18 @@ use Illuminate\Support\Facades\Route;
 // Legal
 Route::get('/legal/srt_masih_mhw/{id}', [Legal_Controller::class, 'srt_masih_mhw'])->name('srt_masih_mhw.legal');
 Route::get('/legal/srt_masih_mhw/view/{id}', [Legal_Controller::class, 'lihat_srt_masih_mhw'])->name('srt_masih_mhw.legal_lihat');
+Route::get('/legal/srt_mhw_asn/{id}', [Legal_Controller::class, 'srt_mhw_asn'])->name('srt_mhw_asn.legal');
+Route::get('/legal/srt_mhw_asn/view/{id}', [Legal_Controller::class, 'lihat_srt_mhw_asn'])->name('srt_mhw_asn.legal_lihat');
+Route::get('/legal/srt_magang/{id}', [Legal_Controller::class, 'srt_magang'])->name('srt_magang.legal');
+Route::get('/legal/srt_magang/view/{id}', [Legal_Controller::class, 'lihat_srt_magang'])->name('srt_magang.legal_lihat');
+Route::get('/legal/srt_izin_plt/{id}', [Legal_Controller::class, 'srt_izin_plt'])->name('srt_izin_plt.legal');
+Route::get('/legal/srt_izin_plt/view/{id}', [Legal_Controller::class, 'lihat_srt_izin_plt'])->name('srt_izin_plt.legal_lihat');
+Route::get('/legal/srt_pmhn_kmbali_biaya/{id}', [Legal_Controller::class, 'srt_pmhn_kmbali_biaya'])->name('srt_pmhn_kmbali_biaya.legal');
+Route::get('/legal/srt_pmhn_kmbali_biaya/view/{id}', [Legal_Controller::class, 'lihat_srt_pmhn_kmbali_biaya'])->name('srt_pmhn_kmbali_biaya.legal_lihat');
+Route::get('/legal/srt_bbs_pnjm/{id}', [Legal_Controller::class, 'srt_bbs_pnjm'])->name('srt_bbs_pnjm.legal');
+Route::get('/legal/srt_bbs_pnjm/view/{id}', [Legal_Controller::class, 'lihat_srt_bbs_pnjm'])->name('srt_bbs_pnjm.legal_lihat');
+
+
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [LoginController::class, 'index'])->name('login');

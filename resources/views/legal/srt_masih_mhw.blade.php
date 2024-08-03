@@ -11,7 +11,7 @@
                         <th class="col-md-1">Program Studi</th>
                         <th class="col-md-1">Alasan Surat</th>
                         <th class="col-md-1">Tanggal Surat</th>
-                        <th class="col-md-1">Cek Data</th>
+                        <th class="col-md-1">File Surat</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,7 @@
                         <td>{{ $srt_masih_mhw->tanggal_surat }}</td>
                         <td>
                             <a href='{{ url('/legal/srt_masih_mhw/view/' . $srt_masih_mhw->id) }}'
-                                class="btn btn-primary btn-sm">File Surat</a>
+                                class="btn btn-primary btn-sm">Lihat Surat</a>
                         </td>
                     </tr>
                 </tbody>
