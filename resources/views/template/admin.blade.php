@@ -80,10 +80,10 @@
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">Legalisir Diambil Ditempat</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/legalisir/admin/diambil/ijazah">Ijazah</a></li>
-                                    <li><a class="dropdown-item" href="/legalisir/admin/diambil/transkrip">Transkrip</a>
+                                    <li><a class="dropdown-item" href="/legalisir/admin/ditempat/ijazah">Ijazah</a></li>
+                                    <li><a class="dropdown-item" href="/legalisir/admin/ditempat/transkrip">Transkrip</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="/legalisir/admin/diambil/ijz_trs">Ijazah
+                                    <li><a class="dropdown-item" href="/legalisir/admin/ditempat/ijz_trs">Ijazah
                                             dan Transkrip</a></li>
                                 </ul>
                             </li>

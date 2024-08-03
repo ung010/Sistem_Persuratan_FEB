@@ -60,21 +60,19 @@
                             Manajemen Legalisir
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <!-- Submenu untuk Legalisir Diambil Ditempat -->
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">Legalisir Diambil Ditempat</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/legalisir/sv/diambil/ijazah">Ijazah</a>
+                                    <li><a class="dropdown-item" href="/legalisir/sv/ditempat/ijazah">Ijazah</a>
                                     </li>
                                     <li><a class="dropdown-item"
-                                            href="/legalisir/sv/diambil/transkrip">Transkrip</a>
+                                            href="/legalisir/sv/ditempat/transkrip">Transkrip</a>
                                     </li>
                                     <li><a class="dropdown-item"
-                                            href="/legalisir/sv/diambil/ijz_trs">Ijazah
+                                            href="/legalisir/sv/ditempat/ijz_trs">Ijazah
                                             dan Transkrip</a></li>
                                 </ul>
                             </li>
-                            <!-- Submenu untuk Legalisir Dikirim -->
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">Legalisir Dikirim</a>
                                 <ul class="dropdown-menu">

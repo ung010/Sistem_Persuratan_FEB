@@ -24,7 +24,7 @@
                     <li class="nav-item dropdown">
                         @auth
                         <li class="nav-item">
-                            <span class="nav-link">{{ auth()->user()->nama }}</span>
+                            <a class="nav-link" href="/supervisor_sd">{{ auth()->user()->nama }}</a>
                         </li>
                     @endauth
                     </li>

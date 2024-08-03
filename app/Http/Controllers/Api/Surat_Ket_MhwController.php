@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\srt_masih_mhw;
 use App\Models\Surat_Ket_Mhw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,7 @@ class Surat_Ket_MhwController extends Controller
      */
     public function index()
     {
-        $data = Surat_Ket_Mhw::orderby('users_id', 'asc')->get();
+        $data = srt_masih_mhw::orderby('users_id', 'asc')->get();
         return response()->json([
             'status' => true,
             'message' => 'Data ditemukan',
@@ -27,7 +28,7 @@ class Surat_Ket_MhwController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Surat_Ket_Mhw;
+        $data = new srt_masih_mhw;
         
         $rules = [
             'tjn_srt' => 'required',
@@ -67,7 +68,7 @@ class Surat_Ket_MhwController extends Controller
      */
     public function show(string $id)
     {
-        $data = Surat_Ket_Mhw::find($id);
+        $data = srt_masih_mhw::find($id);
         if ($data) {
             return response()->json([
                 'status' => true,
@@ -87,7 +88,7 @@ class Surat_Ket_MhwController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = Surat_Ket_Mhw::find($id);
+        $data = srt_masih_mhw::find($id);
         if (empty($data)) {
             return response()->json([
                 'status' => false,
@@ -133,7 +134,7 @@ class Surat_Ket_MhwController extends Controller
      */
     public function destroy(string $id)
     {
-        $data = Surat_Ket_Mhw::find($id);
+        $data = srt_masih_mhw::find($id);
         if (empty($data)) {
             return response()->json([
                 'status' => false,

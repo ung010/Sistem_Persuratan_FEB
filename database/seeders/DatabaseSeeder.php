@@ -235,7 +235,7 @@ class DatabaseSeeder extends Seeder
             ->toArray();
 
         $alasan_acak = ['sakit', 'berpegian', 'menjenguk', 'acara keluarga', 'urusan pribadi'];
-        $list_role = ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'];
+        $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses'];
 
         foreach (range(1, 40) as $index) {
 
@@ -293,7 +293,7 @@ class DatabaseSeeder extends Seeder
                 'ipk' => $ipk,
                 'sksk' => $sksk,
                 'jbt_lmbg' => $jbt_lmbg,
-                'role_surat' => $faker_srt_magang->randomElement(['admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_srt_magang->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
                 'nama_lmbg' => $faker_srt_magang->company(),
                 'kota_lmbg' => $faker_srt_magang->city(),
                 'almt_lmbg' => $faker_srt_magang->address(),
@@ -339,7 +339,7 @@ class DatabaseSeeder extends Seeder
                 'lampiran' => $lampiran,
                 'jbt_lmbg' => $jbt_lmbg,
                 'jenis_surat' => $jenis_surat,
-                'role_surat' => $faker_srt_plt->randomElement(['admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_srt_plt->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
                 'nama_lmbg' => $faker_srt_plt->company(),
                 'kota_lmbg' => $faker_srt_plt->city(),
                 'almt_lmbg' => $faker_srt_plt->address(),
@@ -368,7 +368,7 @@ class DatabaseSeeder extends Seeder
                 'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
                 'jnjg_id' => $user->jnjg_id,
-                'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['admin', 'supervisor_sd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['mahasiswa', 'admin', 'supervisor_sd', 'manajer', 'manajer_sukses']),
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }
@@ -397,7 +397,7 @@ class DatabaseSeeder extends Seeder
                 'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
                 'jnjg_id' => $user->jnjg_id,
-                'role_surat' => $faker_srt_bbs_pnjm->randomElement(['admin', 'supervisor_sd']),
+                'role_surat' => $faker_srt_bbs_pnjm->randomElement(['mahasiswa', 'admin', 'supervisor_sd']),
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }
@@ -430,7 +430,7 @@ class DatabaseSeeder extends Seeder
                 'keperluan' => $keperluan,
                 'jenis_lgl' => $faker_lgl->randomElement($jenis_legalisir),
                 'ambil' => $faker_lgl->randomElement($cara_pengambilan),
-                'role_surat' => $faker_lgl->randomElement(['admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_lgl->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
                 'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
                 'jnjg_id' => $user->jnjg_id,

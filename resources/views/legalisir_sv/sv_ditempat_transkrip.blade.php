@@ -11,11 +11,11 @@
         <a class="btn btn-primary" href="/legalisir/sv/ditempat/ijazah">Ijazah</a>
         <a class="btn btn-primary" href="/legalisir/sv/ditempat/transkrip">Transkrip</a>
         <a class="btn btn-primary" href="/legalisir/sv/ditempat/ijz_trs">Ijazah dan Transkrip</a>
-        <form method="GET" action="{{ route('legalisir_sv.sv_dikirim_ijazah_search') }}">
+        <form method="GET" action="{{ route('legalisir_sv.sv_ditempat_transkrip_search') }}">
             <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
             <button type="submit">Cari</button>
         </form>
-        <a href="/legalisir/sv/dikirim/ijazah">Reload</a>
+        <a href="/legalisir/sv/ditempat/transkrip">Reload</a>
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <table class="table table-striped text-center">
                 <thead>
@@ -38,7 +38,7 @@
                             <td>{{ $item->jenjang_prodi }}</td>
                             <td>{{ $item->keperluan }}</td>
                             <td>
-                                <form action="{{ route('legalisir_sv.sv_dikirim_ijazah_setuju', $item->id) }}" method="POST" style="display:inline;">
+                                <form action="{{ route('legalisir_sv.sv_ditempat_transkrip_setuju', $item->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
                                 </form>

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\legalisir;
+use App\Models\srt_bbs_pnjm;
+use App\Models\srt_izin_penelitian;
+use App\Models\Srt_Magang;
 use App\Models\srt_masih_mhw;
 use App\Models\srt_mhw_asn;
+use App\Models\srt_pmhn_kmbali_biaya;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +20,28 @@ class ManajerController extends Controller
     {
         $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'manajer')->count();
         $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'manajer')->count();
+        $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'manajer')->count();
+        $srt_magang = Srt_Magang::where('role_surat', 'manajer')->count();
+        $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'manajer')->count();
+        $legalisir = legalisir::where('role_surat', 'manajer')->count();
 
-        return view('manajer.index', compact('srt_masih_mhw', 'srt_mhw_asn'));
+        $total_surat =
+            srt_mhw_asn::where('role_surat', 'mahasiswa')->count() +
+            srt_masih_mhw::where('role_surat', 'mahasiswa')->count() +
+            srt_izin_penelitian::where('role_surat', 'mahasiswa')->count() +
+            Srt_Magang::where('role_surat', 'mahasiswa')->count() +
+            srt_pmhn_kmbali_biaya::where('role_surat', 'mahasiswa')->count() +
+            legalisir::where('role_surat', 'mahasiswa')->count();
+
+        return view('manajer.index', compact(
+            'srt_mhw_asn',
+            'srt_masih_mhw',
+            'srt_izin_plt',
+            'srt_magang',
+            'srt_pmhn_kmbali_biaya',
+            'legalisir',
+            'total_surat'
+        ));
     }
 
     function edit_account($id)

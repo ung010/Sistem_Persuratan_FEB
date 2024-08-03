@@ -96,7 +96,7 @@
                     @endif
                 </li>
                 <div class="mb-3 d-grid">
-                    <form action="{{ route('legalisir_admin.admin_dikirim_ijazah_setuju', $legalisir->id) }}" method="POST">
+                    <form action="{{ route('legalisir_admin.admin_dikirim_ijz_trs_setuju', $legalisir->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-success">Disetujui</button>
                     </form>
@@ -106,7 +106,7 @@
                         data-target="#tolakModal">Ditolak</button>
                 </div>
                 <div class="mb-3 d-grid">
-                    <a href='/legalisir/admin/dikirim/ijazah' class="btn btn-info">Kembali</a>
+                    <a href='/legalisir/admin/dikirim/ijz_trs' class="btn btn-info">Kembali</a>
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
         <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('legalisir_admin.admin_dikirim_ijazah_tolak', $legalisir->id) }}" method="POST">
+                    <form action="{{ route('legalisir_admin.admin_dikirim_ijz_trs_tolak', $legalisir->id) }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
