@@ -228,7 +228,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_mhw_asn = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -267,14 +267,14 @@ class DatabaseSeeder extends Seeder
                 'semester' => $semester,
                 'role_surat' => $role_surat,
                 'nama_ortu' => $faker_srt_mhw_asn->name(),
-                'nip_ortu' => $faker_srt_mhw_asn->unique()->numerify('########'),                 
+                'nip_ortu' => $faker_srt_mhw_asn->unique()->numerify('########'),
                 'ins_ortu' => $faker_srt_mhw_asn->company(),
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }
 
         $faker_srt_masih_mhw = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -313,7 +313,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_magang = Faker::create('id_ID');
-        $excluded_roles = ['admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -350,14 +350,15 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_plt = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
             ->toArray();
 
         $judul = ['Surat TA', 'Surat Magang', 'Surat Menikah Dengan Waifu 2D'];
-        $jenis = [ 'Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa','Ijin Penelitian',
+        $jenis = [
+            'Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian',
             'Survey,',
             'Thesis',
             'Disertasi'
@@ -395,7 +396,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_pmhn_kmbali_biaya = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -420,7 +421,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_bbs_pnjm = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -449,15 +450,15 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_lgl = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
             ->toArray();
 
-        $urusan = ['Bekerja di luar negeri', 'Melamar Kerja', 'Melamar Istri', 'Ambil pendidikan tinggi di LN'];    
-        $jenis_legalisir = ['ijazah' ,'transkrip', 'ijazah_transkrip'];
-        $cara_pengambilan = ['ditempat' ,'dikirim'];
+        $urusan = ['Bekerja di luar negeri', 'Melamar Kerja', 'Melamar Istri', 'Ambil pendidikan tinggi di LN'];
+        $jenis_legalisir = ['ijazah', 'transkrip', 'ijazah_transkrip'];
+        $cara_pengambilan = ['ditempat', 'dikirim'];
 
 
         foreach (range(1, 35) as $index) {
@@ -483,5 +484,32 @@ class DatabaseSeeder extends Seeder
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }
+
+        // $faker_survey = Faker::create('id_ID');
+        // $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        // $user_ids = DB::table('users')
+        //     ->whereNotIn('role', $excluded_roles)
+        //     ->pluck('id')
+        //     ->toArray();
+
+        // $ratings = ['sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas'];
+
+        // foreach (range(1, 40) as $index) {
+        //     $random_user_id = $faker_survey->randomElement($user_ids);
+        //     $user = DB::table('users')->where('id', $random_user_id)->first();
+        //     $rating = $faker_survey->randomElement($ratings);
+        //     $tanggal_surat = Carbon::now()->toDateString();
+
+        //     DB::table('survey')->insert([
+        //         'users_id' => $random_user_id,
+        //         'nama_mhw' => $faker_survey->name,
+        //         'rating' => $rating,
+        //         'feedback' => $faker_survey->sentence,
+        //         'tanggal_surat' => $tanggal_surat,
+        //         'dpt_id' => $user->dpt_id,
+        //         'prd_id' => $user->prd_id,
+        //         'jnjg_id' => $user->jnjg_id,
+        //     ]);
+        // }
     }
 }

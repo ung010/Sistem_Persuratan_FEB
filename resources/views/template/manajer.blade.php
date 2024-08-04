@@ -111,6 +111,11 @@
                             <li><a class="dropdown-item" href="/riwayat_srt/manajer/legalisir">Legalisir</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="/survey/manajer">
+                            Survey
+                        </a>
+                    </li>
                 </ul>
                 <a class="navbar-brand" href="/logout">Logout</a>
             </div>

@@ -54,6 +54,11 @@
                             <li><a class="dropdown-item" href="/riwayat_srt/sv_sd/srt_bbs_pnjm">Surat Bebas Pinjam</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="/survey/sv_sd">
+                            Survey
+                        </a>
+                    </li>
                 </ul>
                 <a class="navbar-brand" href="/logout">Logout</a>
             </div>

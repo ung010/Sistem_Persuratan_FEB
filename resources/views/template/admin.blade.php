@@ -128,6 +128,11 @@
                             <li><a class="dropdown-item" href="/riwayat_srt/admin/legalisir">Legalisir</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="/survey/admin">
+                            Survey
+                        </a>
+                    </li>
                 </ul>
                 <a class="navbar-brand" href="/logout">Logout</a>
             </div>

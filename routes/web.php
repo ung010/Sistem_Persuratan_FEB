@@ -19,6 +19,7 @@ use App\Http\Controllers\Srt_Mhw_AsnController;
 use App\Http\Controllers\srt_pmhn_kmbali_biaya_controller;
 use App\Http\Controllers\Supervisor_Legalisir_Controller;
 use App\Http\Controllers\SupervisorController;
+use App\Http\Controllers\Survey_Controller;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -70,8 +71,6 @@ Route::middleware('auth')->group(function () {
     route::get('/users', [UsersController::class, 'users']);
     Route::get('/logout', [LoginController::class, 'logout']);
     
-    
-    // Route Akun Belum Approve
     route::get('/error_register', [UsersController::class, 'home']);
 
     route::get('/non_user', [NonController::class, 'home_non_mhw'])->name('non_mhw.home')->
@@ -727,7 +726,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayat_srt/manajer/legalisir/search', [Riwayat_Surat_Controller::class, 'manajer_legalisir'])->name('riwayat_manajer.legalisir_search')->
     middleware('UserAkses:manajer');
 
-
+    // Survey
+    Route::get('/survey', [Survey_Controller::class, 'mahasiswa'])->name('survey.mahasiswa')->
+    middleware('UserAkses:mahasiswa');
+    Route::post('/survey/create', [Survey_Controller::class, 'mahasiswa_create'])->name('survey.mahasiswa_create')->
+    middleware('UserAkses:mahasiswa');
+    Route::get('/survey/admin', [Survey_Controller::class, 'admin'])->name('survey.admin')->
+    middleware('UserAkses:admin');
+    Route::get('/survey/sv_akd', [Survey_Controller::class, 'sv_akd'])->name('survey.supervisor_akd')->
+    middleware('UserAkses:supervisor_akd');
+    Route::get('/survey/sv_sd', [Survey_Controller::class, 'sv_sd'])->name('survey.supervisor_sd')->
+    middleware('UserAkses:supervisor_sd');
+    Route::get('/survey/manajer', [Survey_Controller::class, 'manajer'])->name('survey.manajer')->
+    middleware('UserAkses:manajer');
 });
 
 
