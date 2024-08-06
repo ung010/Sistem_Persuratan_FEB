@@ -75,9 +75,8 @@ Route::middleware('auth')->group(function () {
 
     route::get('/non_user', [NonController::class, 'home_non_mhw'])->name('non_mhw.home')->
     middleware('UserAkses:non_mahasiswa');
-    Route::get('/non_user/my_account/{id}', [NonController::class, 'edit_non_mhw'])->name('non_mhw.edit')->
-    middleware('UserAkses:non_mahasiswa');
-    Route::post('/non_user/my_account/update/{id}', [NonController::class, 'account_non_mhw'])->name('non_mhw.account_non_mhw')->
+    Route::get('/non_user/my_account', [NonController::class, 'edit_non_mhw'])->name('non_mhw.edit')->middleware('UserAkses:non_mahasiswa');
+    Route::post('/non_user/my_account/update', [NonController::class, 'account_non_mhw'])->name('non_mhw.account_non_mhw')->
     middleware('UserAkses:non_mahasiswa');
 
     route::get('/del_user', [NonController::class, 'del_mhw'])->name('del_mhw.home')->
@@ -86,9 +85,9 @@ Route::middleware('auth')->group(function () {
     // Route Mahasiswa
     route::get('/user', [MahasiswaController::class, 'index'])->name('mahasiswa.index')->
     middleware('UserAkses:mahasiswa');
-    Route::get('/user/my_account/{id}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit')->
+    Route::get('/user/my_account', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit')->
     middleware('UserAkses:mahasiswa');
-    Route::post('/user/my_account/update/{id}', [MahasiswaController::class, 'update'])->name('mahasiswa.update')->
+    Route::post('/user/my_account/update', [MahasiswaController::class, 'update'])->name('mahasiswa.update')->
     middleware('UserAkses:mahasiswa');
 
     // Route Admin
@@ -156,7 +155,7 @@ Route::middleware('auth')->group(function () {
     middleware('UserAkses:manajer');
     Route::post('/manajer/manage_spv/edit/{id}',  [ManajerController::class, 'edit_spv'])->name('manajer.edit_spv')
     ->middleware('UserAkses:manajer');
-    Route::get('/manajer/account/{id}', [ManajerController::class, 'edit_account'])->name('manajer.edit_account')->
+    Route::get('/manajer/account', [ManajerController::class, 'edit_account'])->name('manajer.edit_account')->
     middleware('UserAkses:manajer');
     Route::post('/manajer/account/update/{id}', [ManajerController::class, 'update_account'])->name('manajer.update_account')->
     middleware('UserAkses:manajer');

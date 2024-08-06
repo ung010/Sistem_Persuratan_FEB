@@ -19,7 +19,7 @@
                 </div>
                 <div class="mb-3 d-grid">
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href='/mahasiswa' class="btn btn-info">Kembali</a>
+                    <a href='/admin/user' class="btn btn-info">Kembali</a>
                 </div>
             </form>
         </div>

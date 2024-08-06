@@ -90,7 +90,7 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/manajer/account/{{ auth()->user()->id }}">
+                        <a class="nav-link" href="/manajer/account">
                             Edit Akun
                         </a>
                     </li>

@@ -11,6 +11,7 @@ use App\Models\srt_mhw_asn;
 use App\Models\srt_pmhn_kmbali_biaya;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,9 +45,9 @@ class ManajerController extends Controller
         ));
     }
 
-    function edit_account($id)
+    function edit_account()
     {
-        $user = User::findOrFail($id);
+        $user = Auth::user();
         return view('manajer.account', compact('user'));
     }
 

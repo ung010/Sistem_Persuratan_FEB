@@ -10,24 +10,25 @@ use Illuminate\Support\Facades\Hash;
 
 class NonController extends Controller
 {
-    function home_non_mhw() {
+    function home_non_mhw()
+    {
         return view('non_mhw.home');
     }
 
-    function edit_non_mhw($id)
+    function edit_non_mhw()
     {
-        $user = User::findOrFail($id);
+        $user = Auth::user();
         return view('non_mhw.account', compact('user'));
     }
 
-    public function account_non_mhw(Request $request, $id)
+    public function account_non_mhw(Request $request)
     {
-        $user = User::findOrFail($id);
+        $userId = Auth::id();
 
         $request->validate([
             'nama' => 'required',
-            'nmr_unik' => 'required|unique:users,nmr_unik,' . $user->id,
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'nmr_unik' => 'required|unique:users,nmr_unik,' . $userId,
+            'email' => 'required|email|unique:users,email,' . $userId,
             'kota' => 'required',
             'tanggal_lahir' => 'required',
             'nowa' => 'required',
@@ -56,39 +57,34 @@ class NonController extends Controller
             'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte'
         ]);
 
-        $user->nama = $request->nama;
-        $user->nmr_unik = $request->nmr_unik;
-        $user->email = $request->email;
-        $user->kota = $request->kota;
-        $user->tanggal_lahir = $request->tanggal_lahir;
-        $user->nowa = $request->nowa;
-        $user->almt_asl = $request->almt_asl;
-        $user->jnjg_id = $request->jnjg_id;
-        $user->dpt_id = $request->dpt_id;
-        $user->prd_id = $request->prd_id;
-
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-
-        if ($request->hasFile('foto')) {
-            if ($user->foto && file_exists(public_path('storage/foto/mahasiswa/' . $user->foto))) {
-                unlink(public_path('storage/foto/mahasiswa/' . $user->foto));
-            }
-    
-            $foto = $request->file('foto');
-            $foto_extensi = $foto->extension();
-            $nama_foto = date('ymdhis') . '.' . $foto_extensi;
-            $foto->move(public_path('storage/foto/mahasiswa'), $nama_foto);
-    
-            $user->foto = $nama_foto;
-        }
-    
-        $user->save();
+        DB::table('users')->where('id', $userId)->update([
+            'nama' => $request->nama,
+            'nmr_unik' => $request->nmr_unik,
+            'email' => $request->email,
+            'kota' => $request->kota,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'nowa' => $request->nowa,
+            'almt_asl' => $request->almt_asl,
+            'jnjg_id' => $request->jnjg_id,
+            'dpt_id' => $request->dpt_id,
+            'prd_id' => $request->prd_id,
+            'password' => $request->filled('password') ? Hash::make($request->password) : DB::raw('password'),
+            'foto' => $request->hasFile('foto') ? $this->handleFileUpload($request->file('foto')) : DB::raw('foto')
+        ]);
         return redirect()->back()->with('success', 'Berhasil mengupdate data diri');
     }
 
-    function del_mhw() {
+    private function handleFileUpload($file)
+    {
+        $fileExtension = $file->extension();
+        $fileName = date('ymdhis') . '.' . $fileExtension;
+        $file->move(public_path('storage/foto/mahasiswa'), $fileName);
+        return $fileName;
+    }
+
+
+    function del_mhw()
+    {
         return view('del_mhw.home');
     }
 }

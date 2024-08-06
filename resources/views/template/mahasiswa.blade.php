@@ -28,7 +28,7 @@
                             Dashboard
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/user/my_account/{{ auth()->user()->id }}">My
+                            <li><a class="dropdown-item" href="/user/my_account">My
                                     Account</a></li>
                             <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         </ul>
