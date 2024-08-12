@@ -20,11 +20,11 @@
                 </div>
             </div>
             <div class="card-body my-3">
-                <div class="d-flex gap-5 justify-content-center align-items-center align-content-center mb-5">
+                <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center mb-5">
                     <div class="card flex-even" style="background-color: #FFC2AF">
                         <div class="card-body row">
                             <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="card-mail">
                                 <p class="tracking">Surat Keterangan Masih Kuliah (Bagi ASN)</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
@@ -41,7 +41,7 @@
                     <div class="card flex-even" style="background-color:#EDEDED">
                         <div class="card-body row">
                             <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="card-mail">
                                 <p class="tracking">Surat Keterangan Masih Mahasiswa</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
@@ -58,7 +58,7 @@
                     <div class="card flex-even" style="background-color:  #BFBFBF">
                         <div class="card-body row">
                             <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="card-mail">
                                 <p class="tracking">Surat Ijin Magang</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
@@ -73,11 +73,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex gap-5 justify-content-center align-items-center align-content-center px-5 mx-5">
+                <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center px-5 mx-5">
                     <div class="card flex-even" style="background-color: #D1FAF8">
                         <div class="card-body row">
                             <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="card-mail">
                                 <p class="tracking">Surat Ijin Penelitian</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
@@ -94,7 +94,7 @@
                     <div class="card flex-even" style="background-color: #EDEDED">
                         <div class="card-body row">
                             <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="card-mail">
                                 <p class="tracking">Legalisir</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-center">

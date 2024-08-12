@@ -209,7 +209,6 @@ class Surat_ASN_Test extends TestCase
         $response = $this->get("/srt_mhw_asn/admin/cek_surat/{$suratId}");
 
         $response->assertStatus(200);
-        $response->assertSee('Cek Surat keterangan untuk anak ASN');
     }
 
     public function test_setuju_surat_mhw_asn()

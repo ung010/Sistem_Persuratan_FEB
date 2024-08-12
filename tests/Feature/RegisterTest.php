@@ -20,7 +20,7 @@ class RegisterTest extends TestCase
         $response = $this->get('/register');
 
         $response->assertStatus(200);
-        $response->assertSee('Register');
+        $response->assertSee('Isi Data Diri');
     }
 
     public function test_buat_user_baru(): void

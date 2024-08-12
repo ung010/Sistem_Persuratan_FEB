@@ -117,15 +117,6 @@ Route::middleware('auth')->group(function () {
     route::post('/admin/soft_delete/h_delete/{id}', [AdminController::class, 'delete_user'])->name('admin.hard_delete')
     ->middleware('UserAkses:admin');
 
-
-    // Route::post('/admin/mahasiswa/Approve/{id}', [AdminController::class, 'aksesApprove'])->name('admin.aksesApprove')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/nonApprove/{id}', [AdminController::class, 'nonApprove'])->name('admin.nonApprove')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/bulkNonApprove', [AdminController::class, 'bulkNonApprove'])->name('admin.bulkNonApprove')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/bulkApprove', [AdminController::class, 'bulkApprove'])->name('admin.bulkApprove')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/nonApproveAll', [AdminController::class, 'nonApproveAll'])->name('admin.nonApproveAll')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/ApproveAll', [AdminController::class, 'ApproveAll'])->name('admin.ApproveAll')->middleware('UserAkses:admin');
-
-
     route::get('/supervisor_akd', [SupervisorController::class, 'index_akd'])->name('supervisor_akd.index')->
     middleware('UserAkses:supervisor_akd');
     route::get('/supervisor_akd/manage_admin', [SupervisorController::class, 'manage_admin_akd'])->name('supervisor_akd.manage_admin')->

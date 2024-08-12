@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="card-body my-3">
-                <div class="d-flex gap-5 justify-content-center align-items-center align-content-center mb-5">
+                <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center mb-5">
                     <div class="card flex-even" style="background-color: #FFC2AF">
                         <div class="card-body row">
                             <div class="d-flex align-items-center gap-3 mb-3">
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex gap-5 justify-content-center align-items-center align-content-center px-5 mx-5">
+                <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center px-5 mx-5">
                     <div class="card flex-even" style="background-color: #DDE5E9">
                         <div class="card-body row">
                             <div class="d-flex align-items-center gap-3 mb-3">

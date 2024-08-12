@@ -24,6 +24,9 @@
 
 .flex-even {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .heading-card {
@@ -43,12 +46,29 @@
     width: auto !important;
 }
 
-.heading-image{
-  height: 45px;
+.heading-image {
+    height: 45px;
 }
 
 .tracking {
     font-size: 14px;
     font-weight: 600;
     margin: 0;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+    overflow: hidden;
+}
+
+.card-title {
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card-mail {
+    max-width: 55px;
+    width: 100%;
 }

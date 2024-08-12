@@ -1,4 +1,4 @@
-<td>
+<td style="min-width: 255px">
     @php
         switch ($item->role_surat) {
             case 'admin':

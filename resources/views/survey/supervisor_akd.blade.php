@@ -40,19 +40,21 @@
         </div>
         <br>
         <div class="d-flex gap-3 flex-wrap justify-content-between">
-            @foreach ($feedbacks as $feedback)
-                <div class="card flex-even">
-                    <div
-                        class="card-body d-flex flex-column gap-3 justify-content-center align-items-center align-content-center">
-                        <p>Kritik Dan Saran</p>
-                        <div class="card mb-3">
-                            <div
-                                class="card-header d-flex justify-content-center align-items-center align-content-center text-center">
-                                <p class="m-3">{{ $feedback->feedback }}</p>
+            @foreach ($feedbacks as $key => $feedback)
+                @if ($key < 4)
+                    <div class="card flex-even">
+                        <div
+                            class="card-body d-flex flex-column gap-3 align-items-center align-content-center">
+                            <p>Kritik Dan Saran</p>
+                            <div class="card mb-3">
+                                <div
+                                    class="card-header d-flex justify-content-center align-items-center align-content-center text-center">
+                                    <p class="m-3">{{ strlen($feedback->feedback) > 100 ? substr($feedback->feedback, 0, 100) . '...' : $feedback->feedback }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             @endforeach
         </div>
         <br>
