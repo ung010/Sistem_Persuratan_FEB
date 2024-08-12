@@ -30,7 +30,7 @@
                         <tr>
                             <td>{{ $no++ }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->nmr_unik }}</td>                            
+                            <td>{{ $item->nmr_unik }}</td>
                             <td>{{ $item->nama_dpt }}</td>
                             <td>{{ $item->jenjang_prodi }}</td>
                             <td>
@@ -51,7 +51,7 @@
             </table>
 
             <a href="/admin/user" class="btn btn-primary">Kembali</a>
-            {{ $data->withQueryString()->links() }}
+            {{-- {{ $data->withQueryString()->links() }} --}}
         </div>
     </body>
 @endsection

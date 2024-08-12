@@ -17,112 +17,113 @@ use Illuminate\Support\Facades\Hash;
 
 class ManajerController extends Controller
 {
-    public function index()
-    {
-        $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'manajer')->count();
-        $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'manajer')->count();
-        $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'manajer')->count();
-        $srt_magang = Srt_Magang::where('role_surat', 'manajer')->count();
-        $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'manajer')->count();
-        $legalisir = legalisir::where('role_surat', 'manajer')->count();
+  public function index()
+  {
+    $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'admin')->count();
+    $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'admin')->count();
+    $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'admin')->count();
+    $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'admin')->count();
+    $srt_magang = Srt_Magang::where('role_surat', 'admin')->count();
+    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'admin')->count();
+    $legalisir = legalisir::where('role_surat', 'admin')->count();
+    $total_surat =
+      srt_mhw_asn::where('role_surat', 'mahasiswa')->count() +
+      srt_masih_mhw::where('role_surat', 'mahasiswa')->count() +
+      srt_bbs_pnjm::where('role_surat', 'mahasiswa')->count() +
+      srt_izin_penelitian::where('role_surat', 'mahasiswa')->count() +
+      Srt_Magang::where('role_surat', 'mahasiswa')->count() +
+      srt_pmhn_kmbali_biaya::where('role_surat', 'mahasiswa')->count() +
+      legalisir::where('role_surat', 'mahasiswa')->count();
 
-        $total_surat =
-            srt_mhw_asn::where('role_surat', 'mahasiswa')->count() +
-            srt_masih_mhw::where('role_surat', 'mahasiswa')->count() +
-            srt_izin_penelitian::where('role_surat', 'mahasiswa')->count() +
-            Srt_Magang::where('role_surat', 'mahasiswa')->count() +
-            srt_pmhn_kmbali_biaya::where('role_surat', 'mahasiswa')->count() +
-            legalisir::where('role_surat', 'mahasiswa')->count();
+    return view('manajer.index', compact(
+      'srt_mhw_asn',
+      'srt_masih_mhw',
+      'srt_bbs_pnjm',
+      'srt_izin_plt',
+      'srt_magang',
+      'srt_pmhn_kmbali_biaya',
+      'legalisir',
+      'total_surat'
+    ));
+  }
 
-        return view('manajer.index', compact(
-            'srt_mhw_asn',
-            'srt_masih_mhw',
-            'srt_izin_plt',
-            'srt_magang',
-            'srt_pmhn_kmbali_biaya',
-            'legalisir',
-            'total_surat'
-        ));
+  function edit_account()
+  {
+    $user = Auth::user();
+    return view('manajer.account', compact('user'));
+  }
+
+  function update_account(Request $request, $id)
+  {
+    $user = User::findOrFail($id);
+
+    $request->validate([
+      'nama' => 'required',
+      'nmr_unik' => 'required|unique:users,nmr_unik,' . $user->id,
+      'email' => 'required|email|unique:users,email,' . $user->id,
+    ], [
+      'nama.required' => 'Nama wajib diisi',
+      'nmr_unik.required' => 'NIM wajib diisi',
+      'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+      'email.required' => 'Email wajib diisi',
+      'email.email' => 'Email harus valid',
+      'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
+    ]);
+
+    $user->nama = $request->nama;
+    $user->nmr_unik = $request->nmr_unik;
+    $user->email = $request->email;
+
+    if ($request->filled('password')) {
+      $user->password = Hash::make($request->password);
     }
 
-    function edit_account()
-    {
-        $user = Auth::user();
-        return view('manajer.account', compact('user'));
+    $user->save();
+    return redirect()->back()->with('success', 'Data diri telah diperbarui');
+  }
+
+  public function manage_spv()
+  {
+    $data = DB::table('users')
+      ->whereIn('users.role', ['supervisor_akd', 'supervisor_sd'])
+      ->select(
+        'id',
+        'nama',
+        'email',
+        'nmr_unik'
+      )
+      ->get();
+
+    return view('manajer.manage_supervisor', compact('data'));
+  }
+
+  public function edit_spv(Request $request, $id)
+  {
+    // dd($id);
+    $user = User::findOrFail($id);
+
+    $request->validate([
+      'nama' => 'required',
+      'nmr_unik' => 'required|unique:users,nmr_unik,' . $user->id,
+      'email' => 'required|email|unique:users,email,' . $user->id,
+    ], [
+      'nama.required' => 'Nama wajib diisi',
+      'nmr_unik.required' => 'NIM wajib diisi',
+      'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+      'email.required' => 'Email wajib diisi',
+      'email.email' => 'Email harus valid',
+      'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
+    ]);
+
+    $user->nama = $request->nama;
+    $user->nmr_unik = $request->nmr_unik;
+    $user->email = $request->email;
+
+    if ($request->filled('password')) {
+      $user->password = Hash::make($request->password);
     }
 
-    function update_account(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-
-        $request->validate([
-            'nama' => 'required',
-            'nmr_unik' => 'required|unique:users,nmr_unik,' . $user->id,
-            'email' => 'required|email|unique:users,email,' . $user->id,
-        ], [
-            'nama.required' => 'Nama wajib diisi',
-            'nmr_unik.required' => 'NIM wajib diisi',
-            'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Email harus valid',
-            'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
-        ]);
-
-        $user->nama = $request->nama;
-        $user->nmr_unik = $request->nmr_unik;
-        $user->email = $request->email;
-
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-    
-        $user->save();
-        return redirect()->back()->with('success', 'Data diri telah diperbarui');
-
-    }
-
-    public function manage_spv()
-    {
-        $data = DB::table('users')
-            ->whereIn('users.role', ['supervisor_akd', 'supervisor_sd'])
-            ->select(
-                'id',
-                'nama',
-                'email',
-                'nmr_unik'
-            )
-            ->paginate(10);
-
-        return view('manajer.manage_supervisor', compact('data'));
-    }
-
-    public function edit_spv(Request $request, $id)
-    {
-        // dd($id);
-        $user = User::findOrFail($id);
-
-        $request->validate([
-            'nama' => 'required',
-            'nmr_unik' => 'required|unique:users,nmr_unik,' . $user->id,
-            'email' => 'required|email|unique:users,email,' . $user->id,
-        ], [
-            'nama.required' => 'Nama wajib diisi',
-            'nmr_unik.required' => 'NIM wajib diisi',
-            'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Email harus valid',
-            'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
-        ]);
-
-        $user->nama = $request->nama;
-        $user->nmr_unik = $request->nmr_unik;
-        $user->email = $request->email;
-
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-
-        $user->save();
-        return redirect()->back()->with('success', 'Data supervisor telah diperbarui');
-    }
+    $user->save();
+    return redirect()->back()->with('success', 'Data supervisor telah diperbarui');
+  }
 }

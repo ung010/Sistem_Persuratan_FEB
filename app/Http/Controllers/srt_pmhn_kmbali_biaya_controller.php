@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\departemen;
-use App\Models\jenjang_pendidikan;
-use App\Models\prodi;
-use App\Models\srt_pmhn_kmbali_biaya;
+use Mpdf\Mpdf;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use App\Models\prodi;
+use App\Models\departemen;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\jenjang_pendidikan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Mpdf\Mpdf;
+use App\Models\srt_pmhn_kmbali_biaya;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Support\Str;
 
 class srt_pmhn_kmbali_biaya_controller extends Controller
 {
@@ -62,7 +63,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
         $prodi = prodi::where('id', $user->prd_id)->first();
@@ -245,7 +246,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('srt_pmhn_kmbali_biaya.admin', compact('data'));
     }
@@ -298,14 +299,16 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
 
         QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
 
-        $mpdf = new Mpdf();
-        $html = View::make('srt_pmhn_kmbali_biaya.view', compact('srt_pmhn_kmbali_biaya', 'qrCodePath'))->render();
-        $mpdf->WriteHTML($html);
+        // $mpdf = new Mpdf();
+        // $html = View::make('srt_pmhn_kmbali_biaya.view', compact('srt_pmhn_kmbali_biaya', 'qrCodePath'))->render();
+        // $mpdf->WriteHTML($html);
+        $pdf = Pdf::loadView('srt_pmhn_kmbali_biaya.view', compact('srt_pmhn_kmbali_biaya', 'qrCodePath'));
 
         $namaMahasiswa = $srt_pmhn_kmbali_biaya->nama;
         $tanggalSurat = Carbon::now()->format('Y-m-d');
         $fileName = 'Surat_Permohonan_Pengembalian_Biaya_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
-        $mpdf->Output($fileName, 'D');
+        // $mpdf->Output($fileName, 'D');
+        return $pdf->download($fileName);
     }
 
     public function admin_unggah(Request $request, $id)
@@ -440,7 +443,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('srt_pmhn_kmbali_biaya.supervisor', compact('data'));
     }
@@ -478,7 +481,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('srt_pmhn_kmbali_biaya.manajer', compact('data'));
     }

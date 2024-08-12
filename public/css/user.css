@@ -1,0 +1,125 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-navbar {
+    flex-shrink: 0;
+}
+
+.container-fluid {
+    flex: 1 0 auto;
+    overflow-y: auto;
+}
+
+.footer-user {
+    flex-shrink: 0;
+    background: #030057de;
+    opacity: 0.87;
+    max-height: 278px;
+    height: 100%;
+    margin-top: 2%;
+}
+
+.body-user {
+    background: linear-gradient(to bottom, #fada37, #ffffff00);
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-user {
+    padding: 100px;
+}
+
+.image-footer {
+    max-width: 150px;
+    max-height: 150px;
+    width: 100%;
+    height: 100%;
+}
+
+.text-footer {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+.navbar {
+    background-color: #faeeaf;
+    width: 100%;
+}
+
+.navbar-text {
+    text-decoration: none;
+    font-size: 14px;
+    color: #000;
+    font-weight: 700;
+    margin: 0 !important;
+}
+
+/* Custom CSS for readonly elements */
+input[readonly],
+textarea[readonly],
+select[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+input[readonly]:focus,
+textarea[readonly]:focus,
+select[readonly]:focus {
+    background-color: #e9ecef;
+    opacity: 1;
+    box-shadow: none;
+    /* Remove the focus outline (optional) */
+}
+
+.dropdown-menu {
+    z-index: 1050; /* Bootstrap default z-index for dropdown */
+    position: absolute;
+    top: 100%; /* Ensure dropdown appears below the menu item */
+    left: auto;
+    margin-top: 0; /* Adjust margin if necessary */
+    padding: 0; /* Adjust padding if necessary */
+}
+
+.dropdown-menu[data-bs-popper] {
+    top: 100%;
+    left: auto;
+    margin-top: var(--bs-dropdown-spacer);
+}
+
+.lacak {
+    width: 24px;
+    height: 24px;
+}
+
+.lacak-text {
+    font-size: 10px;
+    font-weight: 300;
+    margin: 0;
+}
+
+.mood-img {
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, border-radius 0.3s ease; /* Ensure smooth transition */
+    border-radius: 50%; /* Makes the image circular */
+}
+
+.mood-img.selected {
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Blue shadow effect */
+    border-radius: 50%; /* Ensure the shadow follows the circular shape */
+    background-color: rgba(0, 123, 255, 0.5);;
+}
+
+

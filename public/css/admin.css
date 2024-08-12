@@ -1,0 +1,54 @@
+/* Custom styles for sidebar */
+.sidebar {
+    background-color: #faeeaf;
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
+
+.content {
+    margin-left: 250px;
+    /* Same as sidebar width */
+    padding: 20px;
+    background-color: #ffffff;
+    min-height: 100vh;
+}
+
+.link-dark {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.flex-even {
+    flex: 1;
+}
+
+.heading-card {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.sub-heading-card {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.intersection-card {
+    margin-top: -2.5rem;
+    width: auto !important;
+}
+
+.heading-image{
+  height: 45px;
+}
+
+.tracking {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}

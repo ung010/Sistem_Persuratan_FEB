@@ -1,104 +1,50 @@
-@extends('template/admin')
-@section('inti_data')
+@extends('admin.layout')
 
-    <head>
-        <title>Cek Surat keterangan untuk anak ASN {{ $srt_mhw_asn->nama }}</title>
-    </head>
-
-    <body>
-        <div class="container py-5">
-            <div class="my-3 p-3 bg-body rounded shadow-sm">
-                <h1>Verif User</h1>
-                <div class="mb-3">
-                    <h4>Nama : {{ $srt_mhw_asn->nama }}</h4>
+@section('content')
+    <div class="container-fluid p-5">
+        <div class="card d-inline-block intersection-card">
+            <div class="card-body d-flex gap-2 align-items-center">
+                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
+                <p class="heading-card">SURAT KETERANGAN MASIH KULIAH (BAGI ASN)</p>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body my-3 px-5">
+                <div class="d-flex justify-content-center align-items-center align-content-center">
+                    <p class="heading-card">CEK DATA</p>
                 </div>
-                <div class="mb-3">
+                <div class="d-flex flex-column">
+                    <p>Nama: {{ $srt_mhw_asn->nama }}</p>
                     <p>NIM: {{ $srt_mhw_asn->nmr_unik }}</p>
-                </div>
-                <div class="mb-3">
                     <p>Departemen: {{ $srt_mhw_asn->nama_dpt }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>Prodgam Studi: {{ $srt_mhw_asn->jenjang_prodi }}</p>
-                </div>
-                <div class="mb-3">
+                    <p>Program Studi: {{ $srt_mhw_asn->jenjang_prodi }}</p>
                     <p>Tahun Ajaran: {{ $srt_mhw_asn->thn_awl }} / {{ $srt_mhw_asn->thn_akh }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>Alamat Asal: {{ $srt_mhw_asn->almt_asl }}</p>
-                </div>
-                <div class="mb-3">
+                    <p>Alamat di Semarang: {{ $srt_mhw_asn->almt_asl }}</p>
                     <p>No Whatsapp: {{ $srt_mhw_asn->nowa }}</p>
-                </div>
-                <div class="mb-3">
                     <p>Email: {{ $srt_mhw_asn->email }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>Nama Orang Tua / Wali: {{ $srt_mhw_asn->nama_ortu }}</p>
-                </div>
-                <div class="mb-3">
+                    <p>Nama Orangtua / Wali: {{ $srt_mhw_asn->nama_ortu }}</p>
                     <p>NIP / NRP: {{ $srt_mhw_asn->nip_ortu }}</p>
-                </div>
-                <div class="mb-3">
                     <p>Instansi / Perusahaan: {{ $srt_mhw_asn->ins_ortu }}</p>
+                    <p>Kartu Tanda Mahasiswa</p>
+                    <img src="{{ $srt_mhw_asn->foto ? asset('storage/foto/mahasiswa/' . $srt_mhw_asn->foto) : asset('asset/Rectangle 8.png') }}"
+                        alt="ktm" class="w-50">
                 </div>
-                <div class="mb-3">
-                    <label for="foto" class="form-label">Foto</label>
-                    @if ($srt_mhw_asn->foto)
-                        <img src="{{ asset('storage/foto/mahasiswa/' . $srt_mhw_asn->foto) }}" alt="Foto User"
-                            class="img-thumbnail" width="150">
-                    @endif
-                </div>
-                <div class="mb-3 d-grid">
-                    <button type="button" class="btn btn-success" data-toggle="modal"
-                        data-target="#setujuModal">Disetujui</button>
-                </div>
-                <div class="mb-3 d-grid">
-                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                        data-target="#tolakModal">Ditolak</button>
-                </div>
-                <div class="mb-3 d-grid">
-                    <a href='/srt_mhw_asn/admin' class="btn btn-info">Kembali</a>
+                <br>
+                <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal" type="button">Ditolak</button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal" type="button">Disetujui</button>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="setujuModal" tabindex="-1" aria-labelledby="setujuModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="{{ route('srt_mhw_asn.setuju', $srt_mhw_asn->id) }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="no_surat" class="form-label">Nomor Surat</label>
-                                <input class="form-control" id="no_surat" name="no_surat"></input>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Kirim</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    </div>
 
-        <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="{{ route('srt_mhw_asn.tolak', $srt_mhw_asn->id) }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="catatan_surat" class="form-label">Alasan Surat Ditolak</label>
-                                <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Kirim</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endsection
+    @include('srt_mhw_asn.modal')
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+    </script>
+@endsection

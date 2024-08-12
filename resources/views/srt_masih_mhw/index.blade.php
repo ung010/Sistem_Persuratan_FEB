@@ -1,32 +1,24 @@
-@extends('template/mahasiswa')
-@section('inti_data')
+@extends('user.layout')
 
-    <head>
-        <title>
-            Surat Keterangan mahasiswa bagi anak ASN
-        </title>
-    </head>
+@section('content')
+    <div class="d-flex flex-column justify-content-center align-items-center gap-3"
+        style="margin-top: 2%; margin-left: 5%; margin-right: 5%;">
+        <img src="{{ asset('asset/Mask group.png') }}" alt="header" class="w-100">
+        <button class="btn btn-primary" onclick="addData()">Buat Surat</button>
 
-    <body>
-        <form method="GET" action="{{ route('srt_masih_mhw.search') }}">
-            <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
-            <button type="submit">Cari</button>
-        </form>
-        <a href="/srt_masih_mhw">Reload</a>
-        <a class="btn btn-primary btn-sm">Tambah surat</a>
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <table class="table table-striped text-center">
+        <div class="container-fluid">
+            <table class="table table-responsive" id="asn">
                 <thead>
                     <tr>
-                        <th class="col-md-1">No</th>
-                        <th class="col-md-1">Nama Mahasiswa</th>
-                        <th class="col-md-1">Alamat</th>
-                        <th class="col-md-1">Semester / Tahun Ajaran</th>
-                        <th class="col-md-1">Tempat Tanggal Lahir</th>
-                        <th class="col-md-1">Alasan Surat</th>
-                        <th class="col-md-1">Lacak (Role)</th>
-                        <th class="col-md-1">Status (Role)</th>
-                        <th class="col-md-1">Unduh</th>
+                        <th>No</th>
+                        <th>Nama / NIM</th>
+                        <th>Alamat</th>
+                        <th>Semester Saat Ini-TA</th>
+                        <th>Tempat, Tanggal Lahir</th>
+                        <th>Alasan Surat</th>
+                        <th>Lacak</th>
+                        <th>Status</th>
+                        <th>Unduh</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,16 +26,14 @@
                     @foreach ($data as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $item->nama_mhw }}</td>
+                            <td>{{ $item->nama_mhw }} / {{ $item->nmr_unik }}</td>
                             <td>{{ $item->almt_smg }}</td>
                             <td>
-                                {{$item->semester}}, {{ $item->thn_awl }}/{{ $item->thn_akh }}
+                                {{ $item->semester }}, {{ $item->thn_awl }}/{{ $item->thn_akh }}
                             </td>
                             <td>{{ $item->ttl }}</td>
                             <td>{{ $item->tujuan_buat_srt }}</td>
-                            <td>
-                                {{ $item->role_surat }}
-                            </td>
+                            @include('user.lacak')
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm">Berhasil</button>
@@ -57,9 +47,11 @@
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
                                     @if ($item->tujuan_akhir == 'manajer')
-                                        <a href="{{ url('/srt_masih_mhw/manajer/download/' . $item->id) }}" class="btn btn-primary btn-sm">Unduh</a>
+                                        <a href="{{ url('/srt_masih_mhw/manajer/download/' . $item->id) }}"
+                                            class="btn btn-primary btn-sm">Unduh</a>
                                     @elseif ($item->tujuan_akhir == 'wd')
-                                        <a href="{{ route('srt_masih_mhw.download_wd', ['id' => $item->id]) }}" class="btn btn-primary btn-sm">Unduh</a>
+                                        <a href="{{ route('srt_masih_mhw.download_wd', ['id' => $item->id]) }}"
+                                            class="btn btn-primary btn-sm">Unduh</a>
                                     @else
                                         <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
                                     @endif
@@ -73,12 +65,13 @@
             </table>
         </div>
 
-        {{ $data->withQueryString()->links() }}
-
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <h2>Buat Surat Baru</h2>
-            <div class="container py-5 login">
-                <div class="w-50 center border rounded px-3 py-3 mx-auto land">
+        <div class="card w-100 d-none" id="card-tambah">
+            <div class="card-body d-flex flex-column gap-3">
+                <div class="d-flex justify-content-center align-items-center">
+                    <h3>ISI DATA</h3>
+                </div>
+                <form action="{{ route('srt_masih_mhw.store') }}" method="POST" class="row px-5">
+                    @csrf
                     @if ($errors->any())
                         <div>
                             <ul>
@@ -88,77 +81,99 @@
                             </ul>
                         </div>
                     @endif
-
-                    <form action="{{ route('srt_masih_mhw.store') }}" method="POST">
-                        @csrf
-                        <div>
-                            <label for="nama_mhw">Nama Mahasiswa:</label>
-                            <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}" disabled>
+                    <div class="col-6">
+                        <div class="d-flex flex-column gap-2">
+                            <div class="form-group">
+                                <label for="">Nama Mahasiswa</label>
+                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">NIM</label>
+                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Departemen</label>
+                                <input type="text" id="nama_dpt" name="nama_dpt"
+                                    value="{{ $departemen->nama_dpt }}" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Jenjang Studi</label>
+                                <input type="text" id="nama_jnjg" name="nama_jnjg" value="{{ $jenjang->nama_jnjg }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group d-flex">
+                                <label for="" class="col-4">Tahun Ajaran</label>
+                                <div class="col-8 d-flex">
+                                    <input type="number" name="thn_awl" id="thn_awl" class="form-control">
+                                    <p>/</p>
+                                    <input type="number" name="thn_akh" id="thn_akh" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex">
+                                <label for="" class="col-4">Semester</label>
+                                <div class="col-8">
+                                    <select name="semester" id="semester" required class="form-select">
+                                        @for ($i = 1; $i <= 14; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label for="nmr_unik">NIM:</label>
-                            <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}" readonly>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex flex-column gap-2">
+                            <div class="form-group">
+                                <label for="">Alamat</label>
+                                <input type="text" id="almt_smg" name="almt_smg" id="almt_smg"
+                                    class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Tempat, Tanggal Lahir</label>
+                                <input type="text" id="kota_tanggal_lahir" name="kota_tanggal_lahir"
+                                    value="{{ $kota_tanggal_lahir }}" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Tujuan Pembuatan Surat</label>
+                                <input type="text" name="tujuan_buat_srt" id="tujuan_buat_srt" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="">No Whatsapp</label>
+                                <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="mb-2">Tanda Tangan *Pilih Salah Satu</label>
+                                <div class="d-flex flex-column gap-1">
+                                    <div class="d-flex gap-2">
+                                        <input type="radio" name="tujuan_akhir" value="wd" id="manajer">
+                                        <p>Wakil Dekan Akademik</p>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <input type="radio" name="tujuan_akhir" value="manajer" id="wd">
+                                        <p>Manajer</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label for="nama_dpt">Departemen:</label>
-                            <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}" readonly>
+                    </div>
+                    <div class="row py-3">
+                        <div class="col-6">
+                            <a href="{{ route('mahasiswa.index') }}" class="btn btn-danger">Kembali</a>
                         </div>
-                        <div>
-                            <label for="nama_jnjg">Jenjang Pendidikan:</label>
-                            <input type="text" id="nama_jnjg" name="nama_jnjg" value="{{ $jenjang->nama_jnjg }}" readonly>
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <button class="btn btn-secondary" onclick="resetData()" type="button">Reset</button>
                         </div>
-                        <div>
-                            <label for="kota_tanggal_lahir">Tempat Tanggal Lahir:</label>
-                            <input type="text" id="kota_tanggal_lahir" name="kota_tanggal_lahir" value="{{ $kota_tanggal_lahir }}" readonly>
-                        </div>
-                        <div>
-                            <label for="thn_awl">Tahun Ajaran (Awal):</label>
-                            <input type="number" name="thn_awl" id="thn_awl" required>
-                        </div>
-                        <div>
-                            <label for="thn_akh">Tahun Ajaran (Akhir):</label>
-                            <input type="number" name="thn_akh" id="thn_akh" required>
-                        </div>
-                        <div>
-                            <label for="semester">Semester:</label>
-                            <select name="semester" id="semester" required>
-                                @for ($i = 1; $i <= 14; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div>
-                            <label for="almt_smg">Alamat Semarang:</label>
-                            <input type="text" id="almt_smg" name="almt_smg" id="almt_smg" required>
-                        </div>
-                        <div>
-                            <label for="tujuan_buat_srt">Tujuan Pembuatan Surat:</label>
-                            <input type="text" name="tujuan_buat_srt" id="tujuan_buat_srt" required>
-                        </div>
-                        <div>
-                            <label for="nowa">Nomor Whatsapp:</label>
-                            <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}" readonly>
-                        </div>
-                        <h5>Pilih salah satu</h5>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tujuan_akhir" value="manajer"
-                                id="manajer" required>
-                            <label class="form-check-label" for="manajer">
-                                Manajer
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tujuan_akhir" value="wd" id="wd"
-                                required>
-                            <label class="form-check-label" for="wd">
-                                Wakil Dekan Akademik
-                            </label>
-                        </div>
-                        <button type="submit">Simpan</button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </body>
+    </div>
+@endsection
 
+@section('script')
+    @include('user.form-script')
 @endsection

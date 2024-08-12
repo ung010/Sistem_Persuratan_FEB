@@ -63,7 +63,7 @@ class Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
         $prodi = prodi::where('id', $user->prd_id)->first();

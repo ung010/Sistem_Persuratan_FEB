@@ -36,7 +36,7 @@ class Manajer_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_dikirim_ijazah', compact('data'));
     }
@@ -49,7 +49,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_dikirim_ijazah')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -81,7 +81,7 @@ class Manajer_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_dikirim_transkrip', compact('data'));
     }
@@ -94,7 +94,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_dikirim_transkrip')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -126,7 +126,7 @@ class Manajer_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_dikirim_ijz_trs', compact('data'));
     }
@@ -139,7 +139,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_dikirim_ijz_trs')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -171,7 +171,7 @@ class Manajer_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_ditempat_ijazah', compact('data'));
     }
@@ -184,7 +184,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_ditempat_ijazah')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -216,7 +216,7 @@ class Manajer_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_ditempat_transkrip', compact('data'));
     }
@@ -229,7 +229,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_ditempat_transkrip')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -261,7 +261,7 @@ class Manajer_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_ditempat_ijz_trs', compact('data'));
     }
@@ -274,7 +274,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_ditempat_ijz_trs')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 }

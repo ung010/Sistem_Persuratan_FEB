@@ -1,50 +1,147 @@
-@extends('template/admin')
-@section('inti_data')
-    <title>Halo xx</title>
-    <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <h1>Halo {{ auth()->user()->nama }}</h1>
+@extends('admin.layout')
 
-        <div class="mt-3">
-            <h4>Surat Masih Kuliah: {{ $srt_masih_mhw }}</h4>
-            <h4>Surat Keterangan Mahasiswa bagi ASN: {{ $srt_mhw_asn }}</h4>
-            <h4>Surat Bebas Pinjam: {{ $srt_bbs_pnjm }}</h4>
-            <h4>Surat Izin Penelitian: {{ $srt_izin_plt }}</h4>
-            <h4>Surat Surat Magang: {{ $srt_magang }}</h4>
-            <h4>Surat Permohonan Pengembalian Biaya: {{ $srt_pmhn_kmbali_biaya }}</h4>
-            <h4>Legalisir: {{ $legalisir }}</h4>
-
-            <h4>Total Surat Selesai: {{ $total_surat }}</h4>
+@section('content')
+    <div class="container-fluid p-0">
+        <div class="d-flex gap-5 justify-content-center align-items-center align-content-center mb-5">
+            <div class="card flex-even" style="background-color: #FFC2AF">
+                <div class="card-body row">
+                    <div class="d-flex align-items-center  gap-3 mb-3">
+                        <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                        <h4>Surat Keterangan Masih Kuliah (Bagi ASN)</h4>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5>{{ $srt_mhw_asn }}</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="border-top my-3 border-dark"></div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5 class="m-0">Jumlah Surat Masuk</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-even" style="background-color:#EDEDED">
+                <div class="card-body row">
+                    <div class="d-flex align-items-center  gap-3 mb-3">
+                        <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                        <h4>Surat Keterangan Masih Mahasiswa</h4>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5>{{ $srt_masih_mhw }}</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="border-top my-3 border-dark"></div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5 class="m-0">Jumlah Surat Masuk</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-even" style="background-color:  #BFBFBF">
+                <div class="card-body row">
+                    <div class="d-flex align-items-center  gap-3 mb-3">
+                        <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                        <h4>Surat Ijin Magang</h4>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5>{{ $srt_magang }}</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="border-top my-3 border-dark"></div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5 class="m-0">Jumlah Surat Masuk</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-even" style="background-color: #D1FAF8">
+                <div class="card-body row">
+                    <div class="d-flex align-items-center  gap-3 mb-3">
+                        <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                        <h4>Surat Ijin Penelitian</h4>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5>{{ $srt_izin_plt }}</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="border-top my-3 border-dark"></div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5 class="m-0">Jumlah Surat Masuk</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex gap-5 justify-content-center align-items-center align-content-center">
+            <div class="card flex-even" style="background-color: #DDE5E9">
+                <div class="card-body row">
+                    <div class="d-flex align-items-center  gap-3 mb-3">
+                        <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                        <h4>Surat Permohonan Pengembalian Biaya Pendidikan</h4>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5>{{ $srt_pmhn_kmbali_biaya }}</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="border-top my-3 border-dark"></div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5 class="m-0">Jumlah Surat Masuk</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-even" style="background-color: #FAEEAF">
+                <div class="card-body row">
+                    <div class="d-flex align-items-center  gap-3 mb-3">
+                        <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                        <h4>Surat Keterangan Bebas Pinjam</h4>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5>{{ $srt_bbs_pnjm }}</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="border-top my-3 border-dark"></div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5 class="m-0">Jumlah Surat Masuk</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-even" style="background-color: #EDEDED">
+                <div class="card-body row">
+                    <div class="d-flex align-items-center  gap-3 mb-3">
+                        <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                        <h4>Legalisir</h4>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5>{{ $legalisir }}</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="border-top my-3 border-dark"></div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5 class="m-0">Jumlah Surat Masuk</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-even" style="background-color: #C7FAB9">
+                <div class="card-body row">
+                    <div class="d-flex align-items-center  gap-3 mb-3">
+                        <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                        <h4>Surat Selesai</h4>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5>{{ $total_surat }}</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="border-top my-3 border-dark"></div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5 class="m-0">Jumlah Surat Masuk</h5>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
-    {{-- <script>
-        // Set the date we're counting down to
-        var countDownDate = new Date("{{ \Carbon\Carbon::now()->addDays(30)->format('Y-m-d H:i:s') }}").getTime();
-
-        // Update the count down every 1 second
-        var x = setInterval(function() {
-
-            // Get today's date and time
-            var now = new Date().getTime();
-            
-            // Find the distance between now and the count down date
-            var distance = countDownDate - now;
-            
-            // Time calculations for days, hours, minutes and seconds
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            // Display the result in the element with id="countdown"
-            document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
-            + minutes + "m " + seconds + "s ";
-            
-            // If the count down is finished, write some text 
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("countdown").innerHTML = "EXPIRED";
-            }
-        }, 1000);
-    </script> --}}
 @endsection
+

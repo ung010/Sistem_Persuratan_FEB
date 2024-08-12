@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\View;
 use Mpdf\Mpdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class Srt_Izin_Penelitian_Controller extends Controller
 {
@@ -64,7 +65,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
         $prodi = prodi::where('id', $user->prd_id)->first();
@@ -141,8 +142,6 @@ class Srt_Izin_Penelitian_Controller extends Controller
     {
         $validated = $request->validate([
             'lampiran' => 'required',
-            'semester' => 'required',
-            'jenis_surat' => 'required',
             'judul_data' => 'required',
             'nama_lmbg' => 'required',
             'jbt_lmbg' => 'required',
@@ -150,8 +149,6 @@ class Srt_Izin_Penelitian_Controller extends Controller
             'almt_lmbg' => 'required',
         ], [
             'lampiran.required' => 'Lampiran wajib diisi',
-            'jenis_surat.required' => 'Permohonan data wajib diisi',
-            'semester.required' => 'Semester wajib diisi',
             'judul_data.required' => 'Judul/Tema Pengambilan Data Wajib diisi',
             'nama_lmbg.required' => 'Nama perusahaan  / lembaga wajib diisi',
             'jbt_lmbg.required' => 'Jabatan orang perusahaan  / lembaga wajib diisi',
@@ -161,8 +158,6 @@ class Srt_Izin_Penelitian_Controller extends Controller
 
         DB::table('srt_izin_plt')->where('id', $id)->update([
             'lampiran' => $request->lampiran,
-            'jenis_surat' => $request->jenis_surat,
-            'semester' => $request->semester,
             'judul_data' => $request->judul_data,
             'nama_lmbg' => $request->nama_lmbg,
             'jbt_lmbg' => $request->jbt_lmbg,
@@ -215,7 +210,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('srt_izin_plt.admin', compact('data'));
     }
@@ -273,14 +268,16 @@ class Srt_Izin_Penelitian_Controller extends Controller
 
         QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
 
-        $mpdf = new Mpdf();
-        $html = View::make('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'))->render();
-        $mpdf->WriteHTML($html);
+        // $mpdf = new Mpdf();
+        // $html = View::make('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'))->render();
+        // $mpdf->WriteHTML($html);
+        $pdf = Pdf::loadView('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'));
 
         $namaMahasiswa = $srt_izin_plt->nama;
         $tanggalSurat = Carbon::now()->format('Y-m-d');
         $fileName = 'Surat_Izin_Penelitian_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
-        $mpdf->Output($fileName, 'D');
+        // $mpdf->Output($fileName, 'D');
+        return $pdf->download($fileName);
     }
 
     public function admin_unggah(Request $request, $id)
@@ -421,7 +418,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('srt_izin_plt.supervisor', compact('data'));
     }
@@ -464,7 +461,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('srt_izin_plt.manajer', compact('data'));
     }

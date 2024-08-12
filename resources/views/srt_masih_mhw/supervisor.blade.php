@@ -1,47 +1,57 @@
-@extends('template/supervisor_akd')
-@section('inti_data')
+@extends('supervisor_akd.layout')
 
-    <head>
-        <title>
-            Supervisor - Surat Keterangan Masih Mahasiswa
-        </title>
-    </head>
-
-    <body>
-        <form method="GET" action="{{ route('srt_masih_mhw.sv_search') }}">
-            <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
-            <button type="submit">Cari</button>
-        </form>
-        <a href="/srt_masih_mhw/supervisor">Reload</a>
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <table class="table table-striped text-center">
-                <thead>
-                    <tr>
-                        <th class="col-md-1">No</th>
-                        <th class="col-md-1">Nama Mahasiswa</th>
-                        <th class="col-md-1">Keperluan</th>
-                        <th class="col-md-1">Cek Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php $no = 1; @endphp
-                    @foreach ($data as $item)
-                        <tr>
-                            <td>{{ $no++ }}</td>
-                            <td>{{ $item->nama_mhw }}</td>
-                            <td>
-                                {{ $item->tujuan_buat_srt}}
-                            </td>
-                            <td>
-                                <form action="{{ route('srt_masih_mhw.sv_setuju', $item->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+@section('content')
+    <div class="container-fluid p-5">
+        <div class="card mx-5">
+            <div class="mx-5">
+                <div class="card d-inline-block intersection-card">
+                    <div class="card-body d-flex gap-2 align-items-center">
+                        <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
+                        <p class="heading-card">SURAT KETERANGAN MAHASISWA</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body my-3">
+                <div class="d-flex justify-content-center align-items-center align-content-center">
+                    <table class="table table-responsive" id="table">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1">No</th>
+                                <th class="col-md-1">Nama Mahasiswa</th>
+                                <th class="col-md-1">Keperluan</th>
+                                <th class="col-md-1">Cek Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $no = 1; @endphp
+                            @foreach ($data as $item)
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $item->nama_mhw }}</td>
+                                    <td>
+                                        {{ $item->tujuan_buat_srt }}
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('srt_masih_mhw.sv_setuju', $item->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        {{ $data->withQueryString()->links() }}
-    @endsection
+    </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+    </script>
+@endsection

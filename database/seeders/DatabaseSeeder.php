@@ -485,31 +485,31 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $faker_survey = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
-        $user_ids = DB::table('users')
-            ->whereNotIn('role', $excluded_roles)
-            ->pluck('id')
-            ->toArray();
+        // $faker_survey = Faker::create('id_ID');
+        // $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        // $user_ids = DB::table('users')
+        //     ->whereNotIn('role', $excluded_roles)
+        //     ->pluck('id')
+        //     ->toArray();
 
-        $ratings = ['sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas'];
+        // $ratings = ['sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas'];
 
-        foreach (range(1, 40) as $index) {
-            $random_user_id = $faker_survey->randomElement($user_ids);
-            $user = DB::table('users')->where('id', $random_user_id)->first();
-            $rating = $faker_survey->randomElement($ratings);
-            $tanggal_surat = Carbon::now()->toDateString();
+        // foreach (range(1, 40) as $index) {
+        //     $random_user_id = $faker_survey->randomElement($user_ids);
+        //     $user = DB::table('users')->where('id', $random_user_id)->first();
+        //     $rating = $faker_survey->randomElement($ratings);
+        //     $tanggal_surat = Carbon::now()->toDateString();
 
-            DB::table('survey')->insert([
-                'users_id' => $random_user_id,
-                'nama_mhw' => $faker_survey->name,
-                'rating' => $rating,
-                'feedback' => $faker_survey->sentence,
-                'tanggal_surat' => $tanggal_surat,
-                'dpt_id' => $user->dpt_id,
-                'prd_id' => $user->prd_id,
-                'jnjg_id' => $user->jnjg_id,
-            ]);
-        }
+        //     DB::table('survey')->insert([
+        //         'users_id' => $random_user_id,
+        //         'nama_mhw' => $faker_survey->name,
+        //         'rating' => $rating,
+        //         'feedback' => $faker_survey->sentence,
+        //         'tanggal_surat' => $tanggal_surat,
+        //         'dpt_id' => $user->dpt_id,
+        //         'prd_id' => $user->prd_id,
+        //         'jnjg_id' => $user->jnjg_id,
+        //     ]);
+        // }
     }
 }

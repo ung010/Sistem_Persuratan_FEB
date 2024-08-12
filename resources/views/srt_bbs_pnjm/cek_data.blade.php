@@ -1,90 +1,46 @@
-@extends('template/admin')
-@section('inti_data')
+@extends('admin.layout')
 
-    <head>
-        <title>Cek Surat Magang {{ $srt_bbs_pnjm->nama_mhw }}</title>
-    </head>
-
-    <body>
-        <div class="container py-5">
-            <div class="my-3 p-3 bg-body rounded shadow-sm">
-                <h1>Verif User</h1>
-                <div class="mb-3">
-                    <h4>Nama : {{ $srt_bbs_pnjm->nama_mhw }}</h4>
+@section('content')
+    <div class="container-fluid p-5">
+        <div class="card d-inline-block intersection-card">
+            <div class="card-body d-flex gap-2 align-items-center">
+                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
+                <p class="heading-card">SURAT KETERANGAN BEBAS PINJAM</p>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body my-3 px-5">
+                <div class="d-flex justify-content-center align-items-center align-content-center">
+                    <p class="heading-card">CEK DATA</p>
                 </div>
-                <div class="mb-3">
+                <div class="d-flex flex-column">
+                    <p>Nama: {{ $srt_bbs_pnjm->nama_mhw }}</p>
                     <p>NIM: {{ $srt_bbs_pnjm->nmr_unik }}</p>
-                </div>               
-                <div class="mb-3">
                     <p>Program Studi: {{ $srt_bbs_pnjm->jenjang_prodi }}</p>
-                </div>
-                <div class="mb-3">
                     <p>Alamat di Semarang: {{ $srt_bbs_pnjm->almt_smg }}</p>
-                </div>
-                <div class="mb-3">
-                    <p>No WA: {{ $srt_bbs_pnjm->nowa }}</p>
-                </div>
-                <div class="mb-3">
+                    <p>No Whatsapp: {{ $srt_bbs_pnjm->nowa }}</p>
                     <p>Dosen Wali: {{ $srt_bbs_pnjm->dosen_wali }}</p>
+                    <p>Kartu Tanda Mahasiswa</p>
+                    <img src="{{ $srt_bbs_pnjm->foto ? asset('storage/foto/mahasiswa/' . $srt_bbs_pnjm->foto) : asset('asset/Rectangle 8.png') }}"
+                        alt="ktm" class="w-50">
                 </div>
-                
-                <div class="mb-3">
-                    <label for="foto" class="form-label">Foto</label>
-                    @if ($srt_bbs_pnjm->foto)
-                        <img src="{{ asset('storage/foto/mahasiswa/' . $srt_bbs_pnjm->foto) }}" alt="Foto User"
-                            class="img-thumbnail" width="150">
-                    @endif
-                </div>
-                <div class="mb-3 d-grid">
-                    <button type="button" class="btn btn-success" data-toggle="modal"
-                        data-target="#setujuModal">Disetujui</button>
-                </div>
-                <div class="mb-3 d-grid">
-                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                        data-target="#tolakModal">Ditolak</button>
-                </div>
-                <div class="mb-3 d-grid">
-                    <a href='/srt_bbs_pnjm/admin' class="btn btn-info">Kembali</a>
+                <br>
+                <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal" type="button">Ditolak</button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal" type="button">Disetujui</button>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="setujuModal" tabindex="-1" aria-labelledby="setujuModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="{{ route('srt_bbs_pnjm.admin_setuju', $srt_bbs_pnjm->id) }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="no_surat" class="form-label">Nomor Surat</label>
-                                <input class="form-control" id="no_surat" name="no_surat"></input>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Kirim</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    </div>
 
-        <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="{{ route('srt_bbs_pnjm.admin_tolak', $srt_bbs_pnjm->id) }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="catatan_surat" class="form-label">Alasan Surat Ditolak</label>
-                                <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Kirim</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endsection
+    @include('srt_bbs_pnjm.modal')
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+    </script>
+@endsection
+

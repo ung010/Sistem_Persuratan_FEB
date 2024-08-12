@@ -31,7 +31,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_dikirim_ijazah', compact('data'));
     }
@@ -165,7 +165,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_dikirim_transkrip', compact('data'));
     }
@@ -299,7 +299,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_dikirim_ijz_trs', compact('data'));
     }
@@ -448,7 +448,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_ditempat_ijazah', compact('data'));
     }
@@ -582,7 +582,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_ditempat_transkrip', compact('data'));
     }
@@ -716,7 +716,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_ditempat_ijz_trs', compact('data'));
     }

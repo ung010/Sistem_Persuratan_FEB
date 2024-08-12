@@ -1,32 +1,24 @@
-@extends('template/mahasiswa')
-@section('inti_data')
+@extends('user.layout')
 
-    <head>
-        <title>
-            Surat Keterangan mahasiswa bagi anak ASN
-        </title>
-    </head>
+@section('content')
+    <div class="d-flex flex-column justify-content-center align-items-center gap-3"
+        style="margin-top: 2%; margin-left: 5%; margin-right: 5%;">
+        <img src="{{ asset('asset/Mask group.png') }}" alt="header" class="w-100">
+        <button class="btn btn-primary" onclick="addData()">Buat Surat</button>
 
-    <body>
-        <form method="GET" action="{{ route('srt_pmhn_kmbali_biaya.search') }}">
-            <input type="text" name="search" placeholder="Cari..." value="{{ request('search') }}">
-            <button type="submit">Cari</button>
-        </form>
-        <a href="/srt_pmhn_kmbali_biaya">Reload</a>
-        <a class="btn btn-primary btn-sm">Tambah surat</a>
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <table class="table table-striped text-center">
+        <div class="container-fluid">
+            <table class="table table-responsive" id="asn">
                 <thead>
                     <tr>
-                        <th class="col-md-1">No</th>
-                        <th class="col-md-1">Nama Mahasiswa</th>
-                        <th class="col-md-1">NIM</th>
-                        <th class="col-md-1">Departemen</th>
-                        <th class="col-md-1">Program Studi</th>
-                        <th class="col-md-1">Alamat / No HP</th>
-                        <th class="col-md-1">Lacak (Role)</th>
-                        <th class="col-md-1">Status (Role)</th>
-                        <th class="col-md-1">Unduh</th>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>NIM</th>
+                        <th>Departemen</th>
+                        <th>Program Studi</th>
+                        <th>Alamat / No HP</th>
+                        <th class="text-center">Lacak</th>
+                        <th>Status</th>
+                        <th>Unduh</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,9 +35,7 @@
                             <td>
                                 {{ $item->almt_asl }} / {{ $item->nowa }}
                             </td>
-                            <td>
-                                {{ $item->role_surat }}
-                            </td>
+                            @include('user.lacak')
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm">Berhasil</button>
@@ -70,12 +60,14 @@
             </table>
         </div>
 
-        {{ $data->withQueryString()->links() }}
-
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <h2>Buat Surat Baru</h2>
-            <div class="container py-5 login">
-                <div class="w-50 center border rounded px-3 py-3 mx-auto land">
+        <div class="card w-100 d-none" id="card-tambah">
+            <div class="card-body d-flex flex-column gap-3">
+                <div class="d-flex justify-content-center align-items-center">
+                    <h3>ISI DATA</h3>
+                </div>
+                <form action="{{ route('srt_pmhn_kmbali_biaya.store') }}" method="POST" enctype="multipart/form-data"
+                    class="row px-5">
+                    @csrf
                     @if ($errors->any())
                         <div>
                             <ul>
@@ -85,68 +77,82 @@
                             </ul>
                         </div>
                     @endif
-
-                    <form action="{{ route('srt_pmhn_kmbali_biaya.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div>
-                            <label for="nama_mhw">Nama Mahasiswa:</label>
-                            <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}" disabled>
+                    <div class="col-6">
+                        <div class="d-flex flex-column gap-2">
+                            <div class="form-group">
+                                <label for="">Nama Mahasiswa</label>
+                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">NIM</label>
+                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Tempat, Tanggal Lahir</label>
+                                <input type="text" id="ttl" name="ttl" value="{{ $kota_tanggal_lahir }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Alamat Rumah</label>
+                                <input type="text" id="nowa" name="nowa" value="{{ $user->almt_asl }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group d-flex">
+                                <label for="" class="col-4">SKL</label>
+                                <div class="col-8">
+                                    <input type="file" name="skl" id="skl" required class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex">
+                                <label for="" class="col-4">Buti Bayar</label>
+                                <div class="col-8">
+                                    <input type="file" name="bukti_bayar" id="bukti_bayar" required class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex">
+                                <label for="" class="col-4">Buku Tabungan</label>
+                                <div class="col-8">
+                                    <input type="file" name="buku_tabung" id="buku_tabung" required class="form-control">
+                                </div>
+                            </div>
                         </div>
-                        <br>
-                        <div>
-                            <label for="nmr_unik">NIM:</label>
-                            <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}" readonly>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex flex-column gap-2">
+                            <div class="form-group">
+                                <label for="">Departemen</label>
+                                <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Program Studi</label>
+                                <input type="text" id="jenjang_prodi" name="jenjang_prodi" value="{{ $jenjang_prodi }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">No Whatsapp</label>
+                                <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}"
+                                    class="form-control" readonly>
+                            </div>
                         </div>
-                        <br>
-                        <div>
-                            <label for="ttl">Tempat Tanggal Lahir:</label>
-                            <input type="text" id="ttl" name="ttl" value="{{ $kota_tanggal_lahir }}" readonly>
+                    </div>
+                    <div class="row py-3">
+                        <div class="col-6">
+                            <a href="{{ route('mahasiswa.index') }}" class="btn btn-danger">Kembali</a>
                         </div>
-                        <br>
-                        <div>
-                            <label for="nowa">Alamat Asal:</label>
-                            <input type="text" id="nowa" name="nowa" value="{{ $user->almt_asl }}" readonly>
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <button class="btn btn-secondary" onclick="resetData()" type="button">Reset</button>
                         </div>
-                        <br>
-                        <div class="mb-3">
-                            <label for="skl" class="form-label">SKL:</label>
-                            <input type="file" name="skl" id="skl" class="form-control" required>
-                        </div>
-                        <br>
-                        <div class="mb-3">
-                            <label for="bukti_bayar" class="form-label">Bukti Bayar:</label>
-                            <input type="file" name="bukti_bayar" id="bukti_bayar" class="form-control" required>
-                        </div>
-                        <br>
-                        <div class="mb-3">
-                            <label for="buku_tabung" class="form-label">Buku Tabungan:</label>
-                            <input type="file" name="buku_tabung" id="buku_tabung" class="form-control" required>
-                        </div>
-                        <br>
-                        <div>
-                            <label for="nama_dpt">Departemen:</label>
-                            <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}"
-                                readonly>
-                        </div>
-                        <br>
-                        <div>
-                            <label for="jenjang_prodi">Program Studi:</label>
-                            <input type="text" id="jenjang_prodi" name="jenjang_prodi" value="{{ $jenjang_prodi }}"
-                                readonly>
-                        </div>
-                        <br>
-                        <div>
-                            <label for="nowa">Nomor Whatsapp:</label>
-                            <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}" readonly>
-                        </div>
-                        <br>
-                        <div>
-                            <button type="submit">Simpan</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </body>
+    </div>
+@endsection
 
+@section('script')
+    @include('user.form-script')
 @endsection

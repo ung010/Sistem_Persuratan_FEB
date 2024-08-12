@@ -1,122 +1,180 @@
-@extends('template/admin')
-@section('inti_data')
+@extends('admin.layout')
 
-    <head>
-        <title>Manage Akun Mahasiswa</title>
-    </head>
-
-    <body>
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <h1>Akun Mahasiswa</h1>
-            {{-- <form id="nonApproveAllForm" onsubmit="return confirm('Yakin ingin meng non-approve semua akun?')" action="{{ url('/admin/mahasiswa/nonApproveAll') }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-danger">Non-Approve Semua</button>
-            </form> --}}
-            <form action="{{ route('admin.user.search') }}" method="GET">
-                <input type="text" name="query" placeholder="Cari.." class="form-control">
-                <button type="submit" class="btn btn-primary mt-2">Cari</button>
-            </form>
-            <a href="/admin/user" class="btn btn-primary">Reload</a>
-            <table class="table table-striped text-center">
-                <thead>
-                    <tr>
-                        {{-- <th class="col-md-1">
-                            <input class="form-check-input" type="checkbox" id="checkAll">
-                        </th> --}}
-                        <th class="col-md-1">No</th>
-                        <th class="col-md-1">Nama Mahasiswa</th>
-                        <th class="col-md-1">NIM</th>
-                        <th class="col-md-1">Departemen</th>
-                        <th class="col-md-1">Program Studi</th>
-                        <th class="col-md-1">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php $no = 1; @endphp
-                    @foreach ($data as $item)
-                        <tr>
-                            {{-- <td>
-                                <input class="form-check-input checkItem" type="checkbox" value="{{ $item->id }}">
-                            </td> --}}
-                            {{-- <td>
-                                @if ($item->foto)
-                                    <img style="max-width:50px;max-height:50px"
-                                        src="{{ url('storage\foto\mahasiswa') . '/' . $item->foto }}" />
-                                @endif
-                            </td> --}}
-                            <td>{{ $no++ }}</td>
-                            <td>{{ $item->nama }}</td>
-                            <td>{{ $item->nmr_unik }}</td>                            
-                            <td>{{ $item->nama_dpt }}</td>
-                            <td>{{ $item->jenjang_prodi }}</td>
-                            <td>
-                                {{-- <form action="{{ url('/admin/mahasiswa/nonApprove/' . $item->id) }}" method="POST"
-                                    class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-warning">Non-Approve</button>
-                                </form> --}}
-                                <a href='{{ url('/admin/user/edit/'.$item->id) }}' class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('admin.soft_delete', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sementara akun ini?')">
-                                    @csrf
-                                    @method('POST') <!-- atau POST jika menggunakan POST -->
-                                    <button type="submit" class="btn btn-danger btn-sm">Soft Delete</button>
-                                </form>
-                            </td>
-                            {{-- <td>
-                            <a href='{{ url('/buku/update_admin/edit/'.$item->kode_gabungan_final) }}' class="btn btn-warning btn-sm">Edit</a>
-                            
-                            </td> --}}
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <script>
-                document.getElementById('checkAll').addEventListener('click', function() {
-                    var checkboxes = document.querySelectorAll('.checkItem');
-                    for (var checkbox of checkboxes) {
-                        checkbox.checked = this.checked;
-                    }
-                });
-            </script>
-
-            <a href="/admin" class="btn btn-primary">Kembali</a>
-            <a href="/admin/soft_delete" class="btn btn-danger">Halaman Soft Delete</a>
-            <!-- Form untuk mengirimkan ID yang dipilih -->
-            {{-- <form id="bulkNonApproveForm" action="{{ url('/admin/mahasiswa/bulkNonApprove') }}" method="POST">
-                @csrf
-                <input type="hidden" name="selected_ids" id="selected_ids">
-                <button type="button" class="btn btn-danger" onclick="submitBulkNonApprove()">Non-Approve
-                    Semua</button>
-            </form> --}}
-
-            <!-- Tambahkan JavaScript -->
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script>
-                document.getElementById('checkAll').addEventListener('click', function() {
-                    var checkboxes = document.querySelectorAll('.checkItem');
-                    for (var checkbox of checkboxes) {
-                        checkbox.checked = this.checked;
-                    }
-                });
-            
-                function submitBulkNonApprove() {
-                    var selectedIds = [];
-                    var checkboxes = document.querySelectorAll('.checkItem:checked');
-                    for (var checkbox of checkboxes) {
-                        selectedIds.push(checkbox.value);
-                    }
-            
-                    if (selectedIds.length === 0) {
-                        alert('Silakan pilih setidaknya satu akun untuk di non-approve.');
-                        return;
-                    }
-            
-                    document.getElementById('selected_ids').value = selectedIds.join(',');
-                    document.getElementById('bulkNonApproveForm').submit();
-                }
-            </script>
-            {{-- {{ $data->links() }} --}}
-            {{ $data->withQueryString()->links() }}
+@section('content')
+    <div class="container-fluid p-5">
+        <div class="card mx-5">
+            <div class="mx-5">
+                <div class="card d-inline-block intersection-card">
+                    <div class="card-body d-flex gap-2 align-items-center">
+                        <img src="{{ asset('asset/icons/big admin.png') }}" alt="big admin" class="heading-image">
+                        <p class="heading-card">MANAJEMEN USER</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body my-3 d-flex flex-column">
+                <div class="d-flex justify-content-center align-items-center align-content-center flex-column gap-5">
+                    <table class="table table-responsive" id="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>NIM</th>
+                                <th>Departemen</th>
+                                <th>Program Studi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $no = 1; @endphp
+                            @foreach ($data as $item)
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->nmr_unik }}</td>
+                                    <td>{{ $item->nama_dpt }}</td>
+                                    <td>{{ $item->jenjang_prodi }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#editUser" data-id="{{ $item->id }}"
+                                            data-nama="{{ $item->nama }}" data-email="{{ $item->email }}">
+                                            Edit
+                                        </button>
+                                        <form action="{{ route('admin.soft_delete', $item->id) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus sementara akun ini?')">
+                                            @csrf
+                                            @method('POST') <!-- atau POST jika menggunakan POST -->
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div style="float: right" align="right" class="p-3">
+                  <button type="button"
+                      class="btn btn-light rounded-circle border border-3 d-flex justify-content-center align-items-center align-content-center"
+                      style="width: 60px; height: 60px" data-bs-toggle="modal" data-bs-target="#deletedUser">
+                      <img src="{{ asset('asset/icons/big trash.png') }}" alt="big trash">
+                  </button>
+                </div>
+            </div>
         </div>
-    </body>
+    </div>
+
+    <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserLabel">Edit User</h5>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" id="edit-email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="form-label">Password (Kosongkan jika tidak ingin mengubah)</label>
+                            <input type="password" name="password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-warning">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deletedUser" tabindex="-1" role="dialog" aria-labelledby="deletedUserLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletedUserLabel">Deleted User Account</h5>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    @csrf
+                    <div class="modal-body">
+                        <table class="table table-responsive" id="tableDeleted">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>NIM</th>
+                                    <th>Departemen</th>
+                                    <th>Program Studi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php $no = 1; @endphp
+                                @foreach ($dataDeleted as $item)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $item->nama }}</td>
+                                        <td>{{ $item->nmr_unik }}</td>
+                                        <td>{{ $item->nama_dpt }}</td>
+                                        <td>{{ $item->jenjang_prodi }}</td>
+                                        <td>
+                                            <form action="{{ route('admin.restore', $item->id) }}" method="POST"
+                                                onsubmit="return confirm('Apakah Anda yakin ingin mengembalikan akun ini?')">
+                                                @csrf
+                                                @method('POST') <!-- atau POST jika menggunakan POST -->
+                                                <button type="submit" class="btn btn-success btn-sm">Restore</button>
+                                            </form>
+                                            <form onsubmit="return confirm('Yakin ingin menghapus permanen akun ini?')"
+                                                class="d-inline" action="{{ route('admin.hard_delete', $item->id) }}"
+                                                method="post">
+                                                @csrf
+                                                <button type="submit" name="submit"
+                                                    class="btn btn-danger btn-sm">Hapus</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+            $('#tableDeleted').DataTable();
+        });
+    </script>
+
+    <script>
+        $('#editUser').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var nama = button.data('nama');
+            var email = button.data('email');
+
+            $('#edit-email').val(email);
+
+            var modal = $(this);
+            var form = modal.find('form');
+            var action = "{{ route('admin.update', ['id' => ':id']) }}";
+
+            form.attr('action', action.replace(':id', id));
+            modal.find('.modal-title').text('Edit User: ' + nama);
+        });
+    </script>
 @endsection
