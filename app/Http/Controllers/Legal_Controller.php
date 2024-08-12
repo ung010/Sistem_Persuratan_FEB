@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Mpdf\Mpdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Legal_Controller extends Controller
 {
 
-    function srt_masih_mhw($id) {
+    function srt_masih_mhw($id)
+    {
         $srt_masih_mhw = DB::table('srt_masih_mhw')
             ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
@@ -40,14 +42,15 @@ class Legal_Controller extends Controller
             )
             ->first();
 
-            if ($srt_masih_mhw) {
-                $srt_masih_mhw->tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->translatedFormat('d F Y');
-            }
+        if ($srt_masih_mhw) {
+            $srt_masih_mhw->tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->translatedFormat('d F Y');
+        }
 
-            return view('legal.srt_masih_mhw', compact('srt_masih_mhw'));
+        return view('legal.srt_masih_mhw', compact('srt_masih_mhw'));
     }
 
-    function lihat_srt_masih_mhw($id) {
+    function lihat_srt_masih_mhw($id)
+    {
         $srt_masih_mhw = DB::table('srt_masih_mhw')
             ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
@@ -100,7 +103,8 @@ class Legal_Controller extends Controller
         $mpdf->Output();
     }
 
-    function srt_mhw_asn($id) {
+    function srt_mhw_asn($id)
+    {
         $srt_mhw_asn = DB::table('srt_mhw_asn')
             ->where('id', $id)
             ->select(
@@ -114,17 +118,18 @@ class Legal_Controller extends Controller
                 'tanggal_surat'
             )
             ->first();
-    
-            if ($srt_mhw_asn) {
-                $srt_mhw_asn->tanggal_surat = Carbon::parse($srt_mhw_asn->tanggal_surat)->translatedFormat('d F Y');
-            }
-    
+
+        if ($srt_mhw_asn) {
+            $srt_mhw_asn->tanggal_surat = Carbon::parse($srt_mhw_asn->tanggal_surat)->translatedFormat('d F Y');
+        }
+
         return view('legal.srt_mhw_asn', compact('srt_mhw_asn'));
     }
 
-    function lihat_srt_mhw_asn($id) {
+    function lihat_srt_mhw_asn($id)
+    {
         $mpdf = new \Mpdf\Mpdf();
-        
+
         $srt_mhw_asn = DB::table('srt_mhw_asn')
             ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
@@ -147,31 +152,31 @@ class Legal_Controller extends Controller
                 'srt_mhw_asn.ins_ortu',
                 'srt_mhw_asn.tanggal_surat',
                 'srt_mhw_asn.no_surat',
-                'srt_mhw_asn.semester',
+                'srt_mhw_asn.semester'
             )
             ->first();
 
-            if ($srt_mhw_asn && $srt_mhw_asn->tanggal_surat) {
-                $srt_mhw_asn->tanggal_surat = Carbon::parse($srt_mhw_asn->tanggal_surat)->format('d-m-Y');
-            }
+        if ($srt_mhw_asn && $srt_mhw_asn->tanggal_surat) {
+            $srt_mhw_asn->tanggal_surat = Carbon::parse($srt_mhw_asn->tanggal_surat)->format('d-m-Y');
+        }
 
-            $qrUrl = url('/legal/srt_mhw_asn/' . $srt_mhw_asn->id);
-            $qrCodePath = 'storage/qrcodes/qr-' . $srt_mhw_asn->id . '.png';
-            $qrCodeFullPath = public_path($qrCodePath);
+        $qrUrl = url('/legal/srt_mhw_asn/' . $srt_mhw_asn->id);
+        $qrCodePath = 'storage/qrcodes/qr-' . $srt_mhw_asn->id . '.png';
+        $qrCodeFullPath = public_path($qrCodePath);
 
-            if (!File::exists(dirname($qrCodeFullPath))) {
-                File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
-            }
+        if (!File::exists(dirname($qrCodeFullPath))) {
+            File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
+        }
 
-            QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
+        QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
 
-            $mpdf = new Mpdf();
-            $html = View::make('srt_mhw_asn.view', compact('srt_mhw_asn', 'qrCodePath'))->render();
-            $mpdf->WriteHTML($html);
-            $mpdf->Output();
+        $pdf = Pdf::loadView('srt_mhw_asn.view', compact('srt_mhw_asn', 'qrCodePath'));
+
+        return $pdf->stream('Surat_Mahasiswa_Bagi_ASN_' . $srt_mhw_asn->nama . '.pdf');
     }
 
-    function srt_magang($id) {
+    function srt_magang($id)
+    {
         $srt_magang = DB::table('srt_magang')
             ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_magang.users_id', '=', 'users.id')
@@ -197,14 +202,15 @@ class Legal_Controller extends Controller
             )
             ->first();
 
-            if ($srt_magang) {
-                $srt_magang->tanggal_surat = Carbon::parse($srt_magang->tanggal_surat)->translatedFormat('d F Y');
-            }
+        if ($srt_magang) {
+            $srt_magang->tanggal_surat = Carbon::parse($srt_magang->tanggal_surat)->translatedFormat('d F Y');
+        }
 
         return view('legal.srt_magang', compact('srt_magang'));
     }
-    
-    function lihat_srt_magang($id) {
+
+    function lihat_srt_magang($id)
+    {
         $srt_magang = DB::table('srt_magang')
             ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_magang.users_id', '=', 'users.id')
@@ -263,7 +269,8 @@ class Legal_Controller extends Controller
         $mpdf->Output();
     }
 
-    function srt_izin_plt($id) {
+    function srt_izin_plt($id)
+    {
         $srt_izin_plt = DB::table('srt_izin_plt')
             ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
@@ -286,9 +293,9 @@ class Legal_Controller extends Controller
             )
             ->first();
 
-            if ($srt_izin_plt) {
-                $srt_izin_plt->tanggal_surat = Carbon::parse($srt_izin_plt->tanggal_surat)->translatedFormat('d F Y');
-            }
+        if ($srt_izin_plt) {
+            $srt_izin_plt->tanggal_surat = Carbon::parse($srt_izin_plt->tanggal_surat)->translatedFormat('d F Y');
+        }
 
         return view('legal.srt_izin_plt', compact('srt_izin_plt'));
     }
@@ -352,7 +359,8 @@ class Legal_Controller extends Controller
         $mpdf->Output();
     }
 
-    function srt_pmhn_kmbali_biaya($id) {
+    function srt_pmhn_kmbali_biaya($id)
+    {
         $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
@@ -375,14 +383,15 @@ class Legal_Controller extends Controller
             )
             ->first();
 
-            if ($srt_pmhn_kmbali_biaya) {
-                $srt_pmhn_kmbali_biaya->tanggal_surat = Carbon::parse($srt_pmhn_kmbali_biaya->tanggal_surat)->translatedFormat('d F Y');
-            }
+        if ($srt_pmhn_kmbali_biaya) {
+            $srt_pmhn_kmbali_biaya->tanggal_surat = Carbon::parse($srt_pmhn_kmbali_biaya->tanggal_surat)->translatedFormat('d F Y');
+        }
 
         return view('legal.srt_pmhn_kmbali_biaya', compact('srt_pmhn_kmbali_biaya'));
     }
 
-    function lihat_srt_pmhn_kmbali_biaya($id) {
+    function lihat_srt_pmhn_kmbali_biaya($id)
+    {
         $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
@@ -435,7 +444,8 @@ class Legal_Controller extends Controller
         $mpdf->Output();
     }
 
-    function srt_bbs_pnjm($id) {
+    function srt_bbs_pnjm($id)
+    {
         $srt_bbs_pnjm = DB::table('srt_bbs_pnjm')
             ->join('prodi', 'srt_bbs_pnjm.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
@@ -459,14 +469,15 @@ class Legal_Controller extends Controller
             )
             ->first();
 
-            if ($srt_bbs_pnjm) {
-                $srt_bbs_pnjm->tanggal_surat = Carbon::parse($srt_bbs_pnjm->tanggal_surat)->translatedFormat('d F Y');
-            }
+        if ($srt_bbs_pnjm) {
+            $srt_bbs_pnjm->tanggal_surat = Carbon::parse($srt_bbs_pnjm->tanggal_surat)->translatedFormat('d F Y');
+        }
 
         return view('legal.srt_bbs_pnjm', compact('srt_bbs_pnjm'));
     }
 
-    function lihat_srt_bbs_pnjm($id) {
+    function lihat_srt_bbs_pnjm($id)
+    {
         $srt_bbs_pnjm = DB::table('srt_bbs_pnjm')
             ->join('prodi', 'srt_bbs_pnjm.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')

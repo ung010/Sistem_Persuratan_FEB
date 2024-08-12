@@ -22,7 +22,7 @@ return new class extends Migration
             $table->year('thn_akh');
             $table->tinyInteger('semester');
             $table->string('nama_ortu');
-            $table->integer('nip_ortu');
+            $table->bigInteger('nip_ortu');
             $table->string('ins_ortu');
             $table->date('tanggal_surat');
             $table->text('catatan_surat')->nullable()->default('-');
