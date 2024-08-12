@@ -338,7 +338,7 @@ class Srt_Mhw_AsnController extends Controller
                 'id',
                 'nama_mhw',
             )
-            ->where('role_surat', 'manajer'); // Menambahkan kondisi untuk role_surat = admin
+            ->where('role_surat', 'manajer');
 
         if ($search) {
             $query->where(function ($q) use ($search) {

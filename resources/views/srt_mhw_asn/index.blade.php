@@ -48,7 +48,7 @@
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm">Berhasil</button>
                                 @elseif ($item->role_surat == 'tolak')
-                                    <a href="{{ url('/srt_mhw_asn/edit/'.$item->id) }}" class="btn btn-danger btn-sm">Ditolak</a>
+                                <a href="{{ url('/srt_mhw_asn/edit', ['id' => $item->id]) }}" class="btn btn-danger btn-sm">Ditolak</a>
                                 @else
                                     <button class="btn btn-primary btn-sm" disabled>Menunggu</button>
                                 @endif
