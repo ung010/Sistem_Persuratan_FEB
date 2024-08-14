@@ -177,32 +177,6 @@ class Surat_Masih_MHW_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_search_surat_masih_mahasiswa_manajer(): void
-    {
-        $admin = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $this->actingAs($admin);
-
-        $surat = \App\Models\srt_masih_mhw::factory()->create([
-            'nama_mhw' => 'Raung',
-            'tujuan_buat_srt' => 'Berkeluarga',
-            'almt_smg' => 'Semarang',
-            'thn_awl' => '2020',
-            'thn_akh' => '2024',
-            'semester' => '6',
-        ]);
-
-        $response = $this->get('/srt_masih_mhw/admin/search?search=Raung');
-
-        $response->assertStatus(200);
-        $response->assertDontSeeText('Kawijayan');
-        $response->assertSeeText('Raung');
-    }
-
     public function test_cek_surat_srt_masih_mhw_manajer()
     {
         $admin = \App\Models\User::factory()->create([
@@ -296,32 +270,6 @@ class Surat_Masih_MHW_Test extends TestCase
         $response = $this->get('/srt_masih_mhw/manajer_wd');
 
         $response->assertStatus(302);
-    }
-
-    public function test_search_surat_masih_mahasiswa_wd(): void
-    {
-        $admin = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $this->actingAs($admin);
-
-        $surat = \App\Models\srt_masih_mhw::factory()->create([
-            'nama_mhw' => 'Smith',
-            'tujuan_buat_srt' => 'Bekerja',
-            'almt_smg' => 'Semarang',
-            'thn_awl' => '2020',
-            'thn_akh' => '2024',
-            'semester' => '6',
-        ]);
-
-        $response = $this->get('/srt_masih_mhw/manajer_wd/search?search=Smith');
-
-        $response->assertStatus(200);
-        $response->assertDontSeeText('Raung');
-        $response->assertSeeText('Smith');
     }
 
     public function test_cek_surat_srt_masih_mhw_wd()

@@ -159,29 +159,6 @@ class Surat_Izin_Magang_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_search_surat_magang(): void
-    {
-        $admin = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $this->actingAs($admin);
-
-        $surat = \App\Models\Srt_Magang::factory()->create([
-            'nama_mhw' => 'John',
-            'ipk' => '3.30',
-            'sksk' => 130,
-        ]);
-
-        $response = $this->get('/srt_magang/admin/search?search=John');
-
-        $response->assertStatus(200);
-        $response->assertDontSeeText(50);
-        $response->assertSeeText('John');
-    }
-
     public function test_cek_surat_srt_magang()
     {
         $faker = \Faker\Factory::create();

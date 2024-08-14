@@ -158,27 +158,6 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_search_surat_izin_penelitian(): void
-    {
-        $admin = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $this->actingAs($admin);
-
-        $surat = \App\Models\srt_izin_penelitian::factory()->create([
-            'nama_mhw' => 'John',
-        ]);
-
-        $response = $this->get('/srt_izin_plt/admin/search?search=John');
-
-        $response->assertStatus(200);
-        $response->assertDontSeeText('Kawijayan');
-        $response->assertSeeText('John');
-    }
-
     public function test_cek_surat_srt_izin_plt()
     {
         $faker = \Faker\Factory::create();

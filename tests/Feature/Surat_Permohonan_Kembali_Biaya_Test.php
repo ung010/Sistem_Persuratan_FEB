@@ -205,7 +205,7 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_unggah_srt_pmhn_kmbali_biayaadmin()
+    public function test_unggah_srt_pmhn_kmbali_biaya_admin()
     {
         $faker = \Faker\Factory::create();
 

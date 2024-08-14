@@ -33,7 +33,8 @@ class UserFactory extends Factory
             'prd_id' => 5,
             'jnjg_id' => 2,
             'role' => 'mahasiswa',
-            'catatan_user' => $this->faker->text,
+            // 'role' => $this->faker->randomElement(['mahasiswa', 'non_mahasiswa', 'del_mahasiswa']),
+            'catatan_user' => '-',
         ];
     }
 

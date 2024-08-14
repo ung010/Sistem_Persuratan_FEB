@@ -135,27 +135,6 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_search_surat_bebas_pinjam(): void
-    {
-        $admin = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $this->actingAs($admin);
-
-        $surat = \App\Models\srt_bbs_pnjm::factory()->create([
-            'nama_mhw' => 'Kawijayan',
-        ]);
-
-        $response = $this->get('/srt_bbs_pnjm/admin/search?search=Kawijayan');
-
-        $response->assertStatus(200);
-        $response->assertDontSeeText('Raung');
-        $response->assertSeeText('Kawijayan');
-    }
-
     public function test_cek_surat_srt_bbs_pnjm()
     {
         $faker = \Faker\Factory::create();

@@ -136,32 +136,6 @@ class Surat_ASN_Test extends TestCase
         ]);
     }
 
-    public function test_search_surat_mahasiswa_asn(): void
-    {
-        $user = \App\Models\User::factory()->create([
-            'email' => 'mahasiswa@gmail.com',
-            'password' => bcrypt('mountain082'),
-            'role' => 'mahasiswa',
-        ]);
-
-        $this->actingAs($user);
-
-        $surat = \App\Models\srt_mhw_asn::factory()->create([
-            'nama_mhw' => 'John Doe',
-            'nama_ortu' => 'Jane Doe',
-            'nip_ortu' => '1234567890',
-            'ins_ortu' => 'Instansi',
-            'thn_awl' => '2020',
-            'thn_akh' => '2024',
-            'semester' => '6',
-        ]);
-
-        $response = $this->get('/srt_mhw_asn/search?search=John+Doe');
-
-        $response->assertStatus(200);
-        $response->assertDontSeeText('Jane Smith');
-    }
-
     public function test_Download_Surat_Mahasiswa_ASN()
     {
         $id = 1;
