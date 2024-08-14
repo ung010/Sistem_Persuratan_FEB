@@ -5,7 +5,10 @@ namespace Tests\Feature;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class Surat_Masih_MHW_Test extends TestCase
@@ -306,7 +309,7 @@ class Surat_Masih_MHW_Test extends TestCase
         $this->actingAs($admin);
 
         $surat = \App\Models\srt_masih_mhw::factory()->create([
-            'nama_mhw' => 'Raung',
+            'nama_mhw' => 'Smith',
             'tujuan_buat_srt' => 'Bekerja',
             'almt_smg' => 'Semarang',
             'thn_awl' => '2020',
@@ -314,11 +317,11 @@ class Surat_Masih_MHW_Test extends TestCase
             'semester' => '6',
         ]);
 
-        $response = $this->get('/srt_masih_mhw/manajer_wd/search?search=Raung');
+        $response = $this->get('/srt_masih_mhw/manajer_wd/search?search=Smith');
 
         $response->assertStatus(200);
-        $response->assertDontSeeText('Smith');
-        $response->assertSeeText('Raung');
+        $response->assertDontSeeText('Raung');
+        $response->assertSeeText('Smith');
     }
 
     public function test_cek_surat_srt_masih_mhw_wd()
@@ -406,6 +409,192 @@ class Surat_Masih_MHW_Test extends TestCase
             'id' => $srtMhwAsn->id,
             'catatan_surat' => 'Dokumen tidak lengkap',
             'role_surat' => 'tolak',
+        ]);
+    }
+
+    public function test_download_surat_masih_mahasiswa_manajer()
+    {
+        $id = 4;
+
+        $response = $this->get("/srt_masih_mhw/manajer/download/{$id}");
+
+        $response->assertStatus(302);
+    }
+
+    public function test_download_surat_masih_mahasiswa_wd()
+    {
+        $id = 6;
+
+        $response = $this->get("/srt_masih_mhw/manajer_wd/download/{$id}");
+
+        $response->assertStatus(302);
+    }
+
+    public function test_unggah_surat_masih_mahasiswa_wd()
+    {
+        $admin = \App\Models\User::factory()->create([
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'admin',
+        ]);
+
+        $surat = \App\Models\srt_masih_mhw::factory()->create([
+            'users_id' => $admin->id,
+            'prd_id' => 1,
+            'dpt_id' => 1,
+            'jnjg_id' => 1,
+            'nama_mhw' => $admin->nama,
+            'thn_awl' => 2020,
+            'thn_akh' => 2024,
+            'semester' => 6,
+            'almt_smg' => 'Alamat Semarang',
+            'tujuan_buat_srt' => 'Untuk keperluan studi lanjut',
+            'role_surat' => 'admin',
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $file = UploadedFile::fake()->create('test.pdf', 100, 'application/pdf');
+
+        $this->actingAs($admin);
+
+        $response = $this->post(route('srt_masih_mhw.wd_unggah', $surat->id), [
+            'srt_masih_mhw' => $file,
+        ]);
+
+        $response->assertRedirect()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
+
+        $tanggal_surat = Carbon::parse($surat->tanggal_surat)->format('d-m-Y');
+        $nama_mahasiswa = Str::slug($admin->nama);
+        $fileName = "Surat_Masih_Mahasiswa_{$tanggal_surat}_{$nama_mahasiswa}.pdf";
+
+        $this->assertDatabaseHas('srt_masih_mhw', [
+            'id' => $surat->id,
+            'file_pdf' => $fileName,
+            'role_surat' => 'mahasiswa',
+        ]);
+    }
+
+    public function test_view_halaman_supervisor_surat_masih_mahasiswa(): void
+    {
+        $response = $this->get('/srt_masih_mhw/supervisor');
+
+        $response->assertStatus(302);
+    }
+
+    public function test_supervisor_setuju_srt_masih_mhw()
+    {
+        $supervisor = \App\Models\User::factory()->create([
+            'email' => 'supervisor@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_akd',
+        ]);
+
+        $this->actingAs($supervisor);
+
+        $surat = \App\Models\srt_masih_mhw::factory()->create([
+            'users_id' => $supervisor->id,
+            'prd_id' => 1,
+            'dpt_id' => 1,
+            'jnjg_id' => 1,
+            'nama_mhw' => $supervisor->nama,
+            'thn_awl' => 2020,
+            'thn_akh' => 2024,
+            'semester' => 6,
+            'almt_smg' => 'Alamat Semarang',
+            'tujuan_buat_srt' => 'Untuk keperluan studi lanjut',
+            'role_surat' => 'supervisor_akd',
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->post("/srt_masih_mhw/supervisor/setuju/{$surat->id}");
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Surat berhasil disetujui');
+
+        $this->assertDatabaseHas('srt_masih_mhw', [
+            'id' => $surat->id,
+            'role_surat' => 'manajer',
+        ]);
+    }
+
+    public function test_halaman_manajer_surat_mahasiswa_(): void
+    {
+        $response = $this->get('/srt_masih_mhw/manajer');
+
+        $response->assertStatus(302);
+    }
+
+    public function test_manajer_setuju_surat_masih_mahasiswa_wd()
+    {
+        $manajer = \App\Models\User::factory()->create([
+            'email' => 'manajer@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'manajer',
+        ]);
+
+        $this->actingAs($manajer);
+
+        $surat = \App\Models\srt_masih_mhw::factory()->create([
+            'users_id' => $manajer->id,
+            'prd_id' => 1,
+            'dpt_id' => 1,
+            'jnjg_id' => 1,
+            'nama_mhw' => $manajer->nama,
+            'thn_awl' => 2020,
+            'thn_akh' => 2024,
+            'semester' => 6,
+            'almt_smg' => 'Alamat Semarang',
+            'tujuan_buat_srt' => 'Untuk keperluan studi lanjut',
+            'tujuan_akhir' => 'manajer',
+            'role_surat' => 'manajer',
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->post("/srt_masih_mhw/manajer/setuju/manajer/{$surat->id}");
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Surat berhasil disetujui');
+
+        $this->assertDatabaseHas('srt_masih_mhw', [
+            'id' => $surat->id,
+            'role_surat' => 'manajer_sukses',
+        ]);
+    }
+
+    public function test_manajer_setuju_surat_masih_mahasiswa_manajer()
+    {
+        $manajer = \App\Models\User::factory()->create([
+            'email' => 'manajer@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'manajer',
+        ]);
+
+        $this->actingAs($manajer);
+
+        $surat = \App\Models\srt_masih_mhw::factory()->create([
+            'users_id' => $manajer->id,
+            'prd_id' => 1,
+            'dpt_id' => 1,
+            'jnjg_id' => 1,
+            'nama_mhw' => $manajer->nama,
+            'thn_awl' => 2020,
+            'thn_akh' => 2024,
+            'semester' => 6,
+            'almt_smg' => 'Alamat Semarang',
+            'tujuan_buat_srt' => 'Untuk keperluan studi lanjut',
+            'tujuan_akhir' => 'wd',
+            'role_surat' => 'manajer',
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->post("/srt_masih_mhw/manajer/setuju/wd/{$surat->id}");
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Surat berhasil disetujui');
+
+        $this->assertDatabaseHas('srt_masih_mhw', [
+            'id' => $surat->id,
+            'role_surat' => 'mahasiswa',
         ]);
     }
 }
