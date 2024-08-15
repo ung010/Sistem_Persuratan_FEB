@@ -52,11 +52,11 @@
                     </table>
                 </div>
                 <div style="float: right" align="right" class="p-3">
-                  <button type="button"
-                      class="btn btn-light rounded-circle border border-3 d-flex justify-content-center align-items-center align-content-center"
-                      style="width: 60px; height: 60px" data-bs-toggle="modal" data-bs-target="#deletedUser">
-                      <img src="{{ asset('asset/icons/big trash.png') }}" alt="big trash">
-                  </button>
+                    <button type="button"
+                        class="btn btn-light rounded-circle border border-3 d-flex justify-content-center align-items-center align-content-center"
+                        style="width: 60px; height: 60px" data-bs-toggle="modal" data-bs-target="#deletedUser">
+                        <img src="{{ asset('asset/icons/big trash.png') }}" alt="big trash">
+                    </button>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
-                <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
+                <form method="POST" enctype="multipart/form-data" id="uploadForm">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -100,54 +100,49 @@
                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
-                <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
-                    @csrf
-                    <div class="modal-body">
-                        <table class="table table-responsive" id="tableDeleted">
-                            <thead>
+                <div class="modal-body">
+                    <table class="table table-responsive" id="tableDeleted">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>NIM</th>
+                                <th>Departemen</th>
+                                <th>Program Studi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $no = 1; @endphp
+                            @foreach ($dataDeleted as $item)
                                 <tr>
-                                    <th>No</th>
-                                    <th>Nama Mahasiswa</th>
-                                    <th>NIM</th>
-                                    <th>Departemen</th>
-                                    <th>Program Studi</th>
-                                    <th>Aksi</th>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->nmr_unik }}</td>
+                                    <td>{{ $item->nama_dpt }}</td>
+                                    <td>{{ $item->jenjang_prodi }}</td>
+                                    <td>
+                                        <form action="{{ route('admin.restore', $item->id) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin mengembalikan akun ini?')">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Restore</button>
+                                        </form>
+                                        <form onsubmit="return confirm('Yakin ingin menghapus permanen akun ini?')"
+                                            class="d-inline" action="{{ route('admin.hard_delete', $item->id) }}"
+                                            method="post">
+                                            @csrf
+                                            <button type="submit" name="submit"
+                                                class="btn btn-danger btn-sm">Hapus</button>
+                                        </form>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @php $no = 1; @endphp
-                                @foreach ($dataDeleted as $item)
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $item->nama }}</td>
-                                        <td>{{ $item->nmr_unik }}</td>
-                                        <td>{{ $item->nama_dpt }}</td>
-                                        <td>{{ $item->jenjang_prodi }}</td>
-                                        <td>
-                                            <form action="{{ route('admin.restore', $item->id) }}" method="POST"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin mengembalikan akun ini?')">
-                                                @csrf
-                                                @method('POST') <!-- atau POST jika menggunakan POST -->
-                                                <button type="submit" class="btn btn-success btn-sm">Restore</button>
-                                            </form>
-                                            <form onsubmit="return confirm('Yakin ingin menghapus permanen akun ini?')"
-                                                class="d-inline" action="{{ route('admin.hard_delete', $item->id) }}"
-                                                method="post">
-                                                @csrf
-                                                <button type="submit" name="submit"
-                                                    class="btn btn-danger btn-sm">Hapus</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </form>
-            </div>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
         </div>
     </div>
 @endsection

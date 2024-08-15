@@ -36,7 +36,6 @@
                             <td>
                                 <form action="{{ route('admin.restore', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mengembalikan akun ini?')">
                                     @csrf
-                                    @method('POST') <!-- atau POST jika menggunakan POST -->
                                     <button type="submit" class="btn btn-success btn-sm">Restore</button>
                                 </form>
                                 <form onsubmit="return confirm('Yakin ingin menghapus permanen akun ini?')" class="d-inline"

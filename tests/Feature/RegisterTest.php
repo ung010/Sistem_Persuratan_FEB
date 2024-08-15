@@ -15,7 +15,7 @@ class RegisterTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_halaman_register(): void
+    public function test_view_halaman_register(): void
     {
         $response = $this->get('/register');
 

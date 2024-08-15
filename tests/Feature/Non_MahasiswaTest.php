@@ -18,9 +18,9 @@ class Non_MahasiswaTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_halaman_my_account_user_role_non_mahasiswa(): void
+    public function test_view_halaman_my_account_user_role_non_mahasiswa(): void
     {
-        $response = $this->get('/user/my_account');
+        $response = $this->get('/non_user/my_account');
 
         $response->assertStatus(302);
     }

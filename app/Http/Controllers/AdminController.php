@@ -261,18 +261,23 @@ class AdminController extends Controller
 
   function restore($id)
   {
-    $user = User::find($id);
+    // Mengambil user berdasarkan id menggunakan Query Builder
+    $user = DB::table('users')->where('id', $id)->first();
 
+    // Memeriksa apakah user ditemukan
     if ($user) {
+      // Memeriksa apakah role user adalah 'del_mahasiswa'
       if ($user->role === 'del_mahasiswa') {
-        $user->role = 'mahasiswa';
-        $user->save();
+        // Mengupdate role user menjadi 'mahasiswa'
+        DB::table('users')->where('id', $id)->update(['role' => 'mahasiswa']);
 
-        return redirect('/admin/user')->with('success', 'Akun berhasil dihapus dipulihkan');
+        return redirect('/admin/user')->with('success', 'Akun berhasil dipulihkan');
+      } else {
+        return redirect('/admin/user')->with('error', 'Role tidak sesuai');
       }
+    } else {
+      return redirect('/admin/user')->with('error', 'User tidak ditemukan');
     }
-
-    return redirect('/admin/soft_delete')->withErrors('Akun tidak ditemukan atau sudah dipulihkan.');
   }
 
   function delete_user($id)
@@ -280,7 +285,7 @@ class AdminController extends Controller
     $data =  User::where('id', $id)->first();
     File::delete(public_path('storage/foto/mahasiswa') . '/' . $data->foto);
     User::where('id', $id)->delete();
-    return redirect('/admin/soft_delete')->with('success', 'Berhasil menghapus permanen akun');
+    return redirect('/admin/user')->with('success', 'Berhasil menghapus permanen akun');
   }
 
   function edit($id)

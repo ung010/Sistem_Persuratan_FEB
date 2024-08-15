@@ -148,7 +148,7 @@ class Admin_Test extends TestCase
     }
 
 
-    public function test_setuju_mahasiswa()
+    public function test_approve_non_mahasiswa()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -175,7 +175,7 @@ class Admin_Test extends TestCase
         ]);
     }
 
-    public function test_tolak_akun_non_mahasiswa()
+    public function test_tolak_non_mahasiswa()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -256,7 +256,7 @@ class Admin_Test extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.user'));
-        $response->assertSessionHas('success', 'Akun berhasil dihapus dipulihkan');
+        $response->assertSessionHas('success', 'Akun berhasil dipulihkan');
 
         $this->assertDatabaseHas('users', [
             'id' => $non_mhw->id,
@@ -280,7 +280,7 @@ class Admin_Test extends TestCase
 
         $response = $this->post("/admin/soft_delete/h_delete/{$non_mhw->id}");
 
-        $response->assertRedirect(route('admin.soft_delete_view'));
+        $response->assertRedirect(route('admin.user'));
         $response->assertSessionHas('success', 'Berhasil menghapus permanen akun');
 
         $this->assertDatabaseMissing('users', [
