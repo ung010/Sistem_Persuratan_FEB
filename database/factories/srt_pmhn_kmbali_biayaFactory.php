@@ -19,8 +19,6 @@ class srt_pmhn_kmbali_biayaFactory extends Factory
         return [
             'users_id' => \App\Models\User::factory(),
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama_mhw' => $this->faker->name,
             'skl' => 'skl.pdf',
             'buku_tabung' => 'buku_tabung.pdf',

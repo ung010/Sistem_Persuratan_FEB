@@ -35,7 +35,7 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm">Selesai</button>
+                                        <button class="btn btn-primary btn-sm" disabled>Selesai</button>
                                     </td>
                                 </tr>
                             @endforeach

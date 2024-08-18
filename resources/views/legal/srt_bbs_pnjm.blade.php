@@ -27,7 +27,7 @@
                                 <td>{{ $srt_bbs_pnjm->nama_mhw }}</td>
                                 <td>{{ $srt_bbs_pnjm->nmr_unik }}</td>
                                 <td>{{ $srt_bbs_pnjm->dosen_wali }}</td>
-                                <td>{{ $srt_bbs_pnjm->jenjang_prodi }}</td>
+                                <td>{{ $srt_bbs_pnjm->nama_prd }}</td>
                                 <td>{{ $srt_bbs_pnjm->tanggal_surat }}</td>
                                 <td>
                                     <a href='{{ url('/legal/srt_bbs_pnjm/view/' . $srt_bbs_pnjm->id) }}'

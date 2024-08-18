@@ -35,7 +35,7 @@
                                         <form action="{{ route('srt_masih_mhw.sv_setuju', $item->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
+                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
                                         </form>
                                     </td>
                                 </tr>

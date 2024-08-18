@@ -17,7 +17,7 @@
                     <p>Nama: {{ $srt_mhw_asn->nama }}</p>
                     <p>NIM: {{ $srt_mhw_asn->nmr_unik }}</p>
                     <p>Departemen: {{ $srt_mhw_asn->nama_dpt }}</p>
-                    <p>Program Studi: {{ $srt_mhw_asn->jenjang_prodi }}</p>
+                    <p>Program Studi: {{ $srt_mhw_asn->nama_prd }}</p>
                     <p>Tahun Ajaran: {{ $srt_mhw_asn->thn_awl }} / {{ $srt_mhw_asn->thn_akh }}</p>
                     <p>Alamat di Semarang: {{ $srt_mhw_asn->almt_asl }}</p>
                     <p>No Whatsapp: {{ $srt_mhw_asn->nowa }}</p>
@@ -31,8 +31,8 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal" type="button">Ditolak</button>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal" type="button">Disetujui</button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal" type="button">Tolak</button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal" type="button">Setujui</button>
                 </div>
             </div>
         </div>

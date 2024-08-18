@@ -17,7 +17,7 @@
                     <p>Nama: {{ $srt_izin_plt->nama }}</p>
                     <p>NIM: {{ $srt_izin_plt->nmr_unik }}</p>
                     <p>Departemen: {{ $srt_izin_plt->nama_dpt }}</p>
-                    <p>Program Studi: {{ $srt_izin_plt->jenjang_prodi }}</p>
+                    <p>Program Studi: {{ $srt_izin_plt->nama_prd }}</p>
                     <p>Alamat di Semarang: {{ $srt_izin_plt->almt_asl }}</p>
                     <p>No Whatsapp: {{ $srt_izin_plt->nowa }}</p>
                     <p>Email: {{ $srt_izin_plt->email }}</p>

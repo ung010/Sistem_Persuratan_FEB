@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\departemen;
-use App\Models\jenjang_pendidikan;
+use App\Models\prodi;
 use App\Models\srt_masih_mhw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,20 +27,18 @@ class srt_masih_mhwController extends Controller
     $query = DB::table('srt_masih_mhw')
       ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-      ->join('departement', 'srt_masih_mhw.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_masih_mhw.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users_id', $user->id)
       ->select(
         'srt_masih_mhw.id',
         'users.id as users_id',
-        'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
         'users.nama',
         'srt_masih_mhw.nama_mhw',
         'users.nmr_unik',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'srt_masih_mhw.thn_awl',
         'srt_masih_mhw.semester',
         'srt_masih_mhw.thn_akh',
@@ -64,14 +62,14 @@ class srt_masih_mhwController extends Controller
 
     $data = $query->get();
 
-    $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
-    $departemen = departemen::where('id', $user->dpt_id)->first();
+    $prodi = prodi::where('id', $user->prd_id)->first();
+    $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
     $kota = $user->kota;
     $tanggal_lahir = $user->tanggal_lahir;
     $kota_tanggal_lahir = ($kota && $tanggal_lahir) ? $kota . ', ' . \Carbon\Carbon::parse($tanggal_lahir)->format('d F Y') : 'N/A';
 
-    return view('srt_masih_mhw.index', compact('data', 'user', 'jenjang', 'departemen', 'kota_tanggal_lahir'));
+    return view('srt_masih_mhw.index', compact('data', 'user', 'prodi', 'departemen', 'kota_tanggal_lahir'));
   }
 
   public function create(Request $request)
@@ -97,8 +95,6 @@ class srt_masih_mhwController extends Controller
     DB::table('srt_masih_mhw')->insert([
       'users_id' => $user->id,
       'prd_id' => $user->prd_id,
-      'dpt_id' => $user->dpt_id,
-      'jnjg_id' => $user->jnjg_id,
       'nama_mhw' => $user->nama,
       'thn_awl' => $request->thn_awl,
       'semester' => $request->semester,
@@ -122,14 +118,14 @@ class srt_masih_mhwController extends Controller
       return redirect()->route('srt_masih_mhw.index')->withErrors('Data tidak ditemukan.');
     }
 
-    $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
-    $departemen = departemen::where('id', $user->dpt_id)->first();
+    $prodi = prodi::where('id', $user->prd_id)->first();
+    $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
     $kota = $user->kota;
     $tanggal_lahir = $user->tanggal_lahir;
     $kota_tanggal_lahir = ($kota && $tanggal_lahir) ? $kota . ', ' . \Carbon\Carbon::parse($tanggal_lahir)->format('d F Y') : 'N/A';
 
-    return view('srt_masih_mhw.edit', compact('data', 'user', 'jenjang', 'departemen', 'kota_tanggal_lahir'));
+    return view('srt_masih_mhw.edit', compact('data', 'user', 'prodi', 'departemen', 'kota_tanggal_lahir'));
   }
 
 
@@ -190,21 +186,19 @@ class srt_masih_mhwController extends Controller
     $srt_masih_mhw = DB::table('srt_masih_mhw')
       ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-      ->join('departement', 'srt_masih_mhw.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_masih_mhw.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_masih_mhw.id', $id)
       ->select(
         'srt_masih_mhw.id',
         'users.id as users_id',
         'prodi.id as prodi_id',
         'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
         'users.nama',
         'srt_masih_mhw.nama_mhw',
         'srt_masih_mhw.no_surat',
         'users.nmr_unik',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'srt_masih_mhw.thn_awl',
         'srt_masih_mhw.thn_akh',
         'srt_masih_mhw.almt_smg',
@@ -300,21 +294,19 @@ class srt_masih_mhwController extends Controller
     $srt_masih_mhw = DB::table('srt_masih_mhw')
       ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-      ->join('departement', 'srt_masih_mhw.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_masih_mhw.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_masih_mhw.id', $id)
       ->select(
         'srt_masih_mhw.id',
         'users.id as users_id',
-        'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
         'users.nama',
         'srt_masih_mhw.nama_mhw',
         'srt_masih_mhw.no_surat',
         'users.nmr_unik',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'srt_masih_mhw.thn_awl',
         'srt_masih_mhw.thn_akh',
         'srt_masih_mhw.almt_smg',
@@ -367,10 +359,7 @@ class srt_masih_mhwController extends Controller
     ]);
 
     $srt_masih_mhw = DB::table('srt_masih_mhw')
-      ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-      ->join('departement', 'srt_masih_mhw.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_masih_mhw.jnjg_id', '=', 'jenjang_pendidikan.id')
       ->where('srt_masih_mhw.id', $id)
       ->select(
         'srt_masih_mhw.id',
@@ -404,21 +393,19 @@ class srt_masih_mhwController extends Controller
     $srt_masih_mhw = DB::table('srt_masih_mhw')
       ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-      ->join('departement', 'srt_masih_mhw.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_masih_mhw.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_masih_mhw.id', $id)
       ->select(
         'srt_masih_mhw.id',
         'users.id as users_id',
         'prodi.id as prodi_id',
         'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
         'users.nama',
         'users.nmr_unik',
         'users.almt_asl',
         DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'users.nowa',
         'users.foto',
         'srt_masih_mhw.tujuan_buat_srt',
@@ -467,21 +454,19 @@ class srt_masih_mhwController extends Controller
     $srt_masih_mhw = DB::table('srt_masih_mhw')
       ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-      ->join('departement', 'srt_masih_mhw.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_masih_mhw.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_masih_mhw.id', $id)
       ->select(
         'srt_masih_mhw.id',
         'users.id as users_id',
-        'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
         'users.nama',
         'users.nmr_unik',
-        'users.almt_asl',
+        'users.almt_asl',        
         DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'users.nowa',
         'users.foto',
         'srt_masih_mhw.tujuan_buat_srt',

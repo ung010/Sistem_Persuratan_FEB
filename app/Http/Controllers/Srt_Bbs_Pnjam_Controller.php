@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\departemen;
-use App\Models\jenjang_pendidikan;
 use App\Models\prodi;
 use App\Models\srt_bbs_pnjm;
 use Carbon\Carbon;
@@ -28,23 +27,20 @@ class Srt_Bbs_Pnjam_Controller extends Controller
     $query = DB::table('srt_bbs_pnjm')
       ->join('prodi', 'srt_bbs_pnjm.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
-      ->join('departement', 'srt_bbs_pnjm.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_bbs_pnjm.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users_id', $user->id)
       ->select(
         'srt_bbs_pnjm.id',
         'users.id as users_id',
-        'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
         'users.nama',
         'users.nmr_unik',
         'users.nowa',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'srt_bbs_pnjm.dosen_wali',
         'srt_bbs_pnjm.almt_smg',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
         'srt_bbs_pnjm.role_surat',
       );
 
@@ -55,18 +51,16 @@ class Srt_Bbs_Pnjam_Controller extends Controller
           ->orWhere('users.nowa', 'like', "%{$search}%")
           ->orWhere('almt_smg', 'like', "%{$search}%")
           ->orWhere('departement.nama_dpt', 'like', "%{$search}%")
-          ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+          ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
       });
     }
 
     $data = $query->get();
 
-    $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
     $prodi = prodi::where('id', $user->prd_id)->first();
-    $departemen = departemen::where('id', $user->dpt_id)->first();
-    $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+    $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
-    return view('srt_bbs_pnjm.index', compact('data', 'user', 'departemen', 'jenjang_prodi'));
+    return view('srt_bbs_pnjm.index', compact('data', 'user', 'departemen', 'prodi'));
   }
 
   public function create(Request $request)
@@ -84,8 +78,6 @@ class Srt_Bbs_Pnjam_Controller extends Controller
     DB::table('srt_bbs_pnjm')->insert([
       'users_id' => $user->id,
       'prd_id' => $user->prd_id,
-      'dpt_id' => $user->dpt_id,
-      'jnjg_id' => $user->jnjg_id,
       'nama_mhw' => $user->nama,
       'dosen_wali' => $request->dosen_wali,
       'almt_smg' => $request->almt_smg,
@@ -105,12 +97,10 @@ class Srt_Bbs_Pnjam_Controller extends Controller
       return redirect()->route('srt_bbs_pnjm.index')->withErrors('Data tidak ditemukan.');
     }
 
-    $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
     $prodi = prodi::where('id', $user->prd_id)->first();
-    $departemen = departemen::where('id', $user->dpt_id)->first();
-    $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+    $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
-    return view('srt_bbs_pnjm.edit', compact('data', 'user', 'jenjang_prodi', 'departemen'));
+    return view('srt_bbs_pnjm.edit', compact('data', 'user', 'prodi', 'departemen'));
   }
 
 
@@ -139,8 +129,7 @@ class Srt_Bbs_Pnjam_Controller extends Controller
     $srt_bbs_pnjm = DB::table('srt_bbs_pnjm')
       ->join('prodi', 'srt_bbs_pnjm.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
-      ->join('departement', 'srt_bbs_pnjm.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_bbs_pnjm.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_bbs_pnjm.id', $id)
       ->select(
         'srt_bbs_pnjm.id',
@@ -150,15 +139,13 @@ class Srt_Bbs_Pnjam_Controller extends Controller
         'users.id as users_id',
         'prodi.id as prodi_id',
         'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
         'users.nama',
         'users.nmr_unik',
         'users.nowa',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'srt_bbs_pnjm.dosen_wali',
         'srt_bbs_pnjm.almt_smg',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
         'srt_bbs_pnjm.role_surat',
       )
       ->first();
@@ -220,8 +207,7 @@ class Srt_Bbs_Pnjam_Controller extends Controller
     $srt_bbs_pnjm = DB::table('srt_bbs_pnjm')
       ->join('prodi', 'srt_bbs_pnjm.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
-      ->join('departement', 'srt_bbs_pnjm.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_bbs_pnjm.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_bbs_pnjm.id', $id)
       ->select(
         'srt_bbs_pnjm.id',
@@ -229,18 +215,16 @@ class Srt_Bbs_Pnjam_Controller extends Controller
         'srt_bbs_pnjm.tanggal_surat',
         'srt_bbs_pnjm.nama_mhw',
         'users.id as users_id',
-        'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
         'users.nama',
         'users.nmr_unik',
         'users.nowa',
         'users.foto',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'srt_bbs_pnjm.dosen_wali',
         'srt_bbs_pnjm.almt_smg',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
         'srt_bbs_pnjm.role_surat',
       )
       ->first();

@@ -40,7 +40,7 @@
                     <h3>Surat belum legal</h3>
                 @endif
             @else
-                h3>Surat Kosong</h3>
+                <h3>Surat Kosong</h3>
             @endif
         </div>
     </div>

@@ -63,31 +63,16 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-6">
-                                    <label for="">Jenjang Pendidikan</label>
-                                    <select class="form-select" name='jnjg_id' id="jnjg_id">
-                                        <option value="" selected>Select Option</option>
-                                        @foreach ($jenjang_pendidikan as $jjg)
-                                            <option value="{{ $jjg->id }}"
-                                                {{ $jjg->id == $user->jnjg_id ? 'selected' : '' }}>
-                                                {{ $jjg->nama_jnjg }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-6">
                                     <label for="">Departemen</label>
                                     <select class="form-select" name='dpt_id' id="dpt_id">
                                         <option value="" selected>Select Option</option>
                                         @foreach ($departemen as $dpt)
-                                            <option value="{{ $dpt->id }}"
-                                                {{ $dpt->id == $user->dpt_id ? 'selected' : '' }}>
+                                            <option value="{{ $dpt->id }}" {{ $dpt->id == $user->prodi->departement->id ? 'selected' : '' }}>
                                                 {{ $dpt->nama_dpt }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group row">
                                 <div class="col-6">
                                     <label for="">Program Studi</label>
                                     <select class="form-select" name='prd_id' id="prd_id">
@@ -100,6 +85,8 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                            <div class="form-group row">
                                 <div class="col-6 d-flex flex-column gap-1">
                                     <div class="d-flex gap-2">
                                         <input type="radio" name="status" id="" value="mahasiswa"

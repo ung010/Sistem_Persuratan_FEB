@@ -90,7 +90,7 @@
             <tr>
                 <td>Departemen / Program Studi</td>
                 <td>:</td>
-                <td>{{ $srt_magang->nama_dpt }} / {{ $srt_magang->jenjang_prodi }}</td>
+                <td>{{ $srt_magang->nama_dpt }} / {{ $srt_magang->nama_prd }}</td>
             </tr>
             <tr>
                 <td>Alamat Rumah</td>

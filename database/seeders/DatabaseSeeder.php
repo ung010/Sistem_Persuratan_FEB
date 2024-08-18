@@ -21,65 +21,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\Dosen::create([
-
-        //     'nama_dosen' => 'Pak Ibra',
-
-        // ]);
-
-        $prodis = [
-            [
-
-                'nama_prd' => 'Manajemen'
-            ],
-            [
-
-                'nama_prd' => 'Digital Bisnis'
-            ],
-            [
-
-                'nama_prd' => 'Ekonomi'
-            ],
-            [
-
-                'nama_prd' => 'Ekonomi Islam'
-            ],
-            [
-
-                'nama_prd' => 'Akuntansi'
-            ],
-            [
-
-                'nama_prd' => 'Pendidikan Profesi Akuntan'
-            ],
-            [
-
-                'nama_prd' => 'Doktor Ilmu Ekonomi'
-            ],
-        ];
-        foreach ($prodis as $prodi) {
-            prodi::create($prodi);
-        }
-
-        $jenjangs = [
-            [
-
-                'nama_jnjg' => 'S1'
-            ],
-            [
-
-                'nama_jnjg' => 'S2'
-            ],
-            [
-
-                'nama_jnjg' => 'S3'
-            ],
-        ];
-        foreach ($jenjangs as $jenjang) {
-            jenjang_pendidikan::create($jenjang);
-        }
 
         $departements = [
             [
@@ -94,19 +35,70 @@ class DatabaseSeeder extends Seeder
 
                 'nama_dpt' => 'Akuntansi'
             ],
-            [
-
-                'nama_dpt' => 'Doktor Ilmu Ekonomi'
-            ],
         ];
         foreach ($departements as  $departement) {
             departemen::create($departement);
+        }
+        $prodis = [
+            [
+
+                'nama_prd' => 'S1 - Manajemen',
+                'dpt_id' => 1,
+            ],
+            [
+
+                'nama_prd' => 'S2 - Manajemen',
+                'dpt_id' => 1,
+            ],
+            [
+
+                'nama_prd' => 'S1 - Digital Bisnis',
+                'dpt_id' => 1,
+            ],
+            [
+
+                'nama_prd' => 'S1 - Ekonomi',
+                'dpt_id' => 2,
+            ],
+            [
+
+                'nama_prd' => 'S2 - Ekonomi',
+                'dpt_id' => 2,
+            ],
+            [
+
+                'nama_prd' => 'Doktor Ilmu Ekonomi',
+                'dpt_id' => 2,
+            ],
+            [
+
+                'nama_prd' => 'Ekonomi Islam',
+                'dpt_id' => 2,
+            ],
+            [
+
+                'nama_prd' => 'S1 - Akuntansi',
+                'dpt_id' => 3,
+            ],
+            [
+
+                'nama_prd' => 'S2 - Akuntansi',
+                'dpt_id' => 3,
+            ],
+            [
+
+                'nama_prd' => 'Pendidikan Profesi Akuntan',
+                'dpt_id' => 3,
+            ],
+        ];
+        foreach ($prodis as $prodi) {
+            prodi::create($prodi);
         }
 
         $faker = Faker::create('id_ID');
         $gender = 'female';
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 20) as $index) {
             DB::table('users')->insert([
                 'nama' => $faker->name,
                 'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
@@ -121,16 +113,14 @@ class DatabaseSeeder extends Seeder
                 'almt_asl' => $faker->address,
                 'catatan_user' => '-',
                 'foto' => $faker->imageUrl(400, 400, 'people'),
-                'dpt_id' => $faker->numberBetween(1, 4),
-                'prd_id' => $faker->numberBetween(1, 7),
-                'jnjg_id' => $faker->numberBetween(1, 3),
+                'prd_id' => $faker->numberBetween(1, 10),
             ]);
         }
 
         $users = [
             [
 
-                'nama' => 'Romusha TA',
+                'nama' => 'Capstone TA Kel 31',
                 'nmr_unik' => '21120120150155',
                 'email' => 'mahasiswa@gmail.com',
                 'password' => bcrypt('mountain082'),
@@ -140,9 +130,7 @@ class DatabaseSeeder extends Seeder
                 'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 10 - 2010'),
                 'nowa' => '081214549624',
                 'almt_asl' => 'Jl Kenari No 20 RT 2 RW 3 Tembalang Semarang',
-                'dpt_id' => 1,
-                'prd_id' => 2,
-                'jnjg_id' => 2,
+                'prd_id' => 1,
                 'catatan_user' => '-',
                 'nama_ibu' => 'Rosa0',
             ],
@@ -158,9 +146,7 @@ class DatabaseSeeder extends Seeder
                 'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 11 - 2003'),
                 'nowa' => '081214549624',
                 'almt_asl' => 'Jl Kenari No 20 RT 2 RW 3 Tembalang Semarang',
-                'dpt_id' => 2,
                 'prd_id' => 2,
-                'jnjg_id' => 3,
                 'catatan_user' => '-',
                 'nama_ibu' => 'leo',
             ],
@@ -176,9 +162,7 @@ class DatabaseSeeder extends Seeder
                 'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 10 - 2010'),
                 'nowa' => '081214549624',
                 'almt_asl' => 'Jl Perkutut No 20 RT 2 RW 3 Beru Kendari',
-                'dpt_id' => 2,
-                'prd_id' => 6,
-                'jnjg_id' => 2,
+                'prd_id' => 3,
                 'catatan_user' => '-',
                 'nama_ibu' => 'Rosa1',
             ],
@@ -236,32 +220,23 @@ class DatabaseSeeder extends Seeder
 
         $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer'];
 
-        foreach (range(1, 40) as $index) {
+        foreach (range(1, 20) as $index) {
 
             $random_user_id = $faker_srt_mhw_asn->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
-            $nim_mhw = $user->nmr_unik;
-            $nowa_mhw = $user->nowa;
             $thn_awl = $faker_srt_mhw_asn->numberBetween(2010, 2020);
             $thn_akh = $thn_awl + 1;
             $semester = $faker_srt_mhw_asn->numberBetween(3, 13);
             $role_surat = $faker_srt_mhw_asn->randomElement($list_role);
             $tanggal_surat = Carbon::now()->toDateString();
 
-            $jenjang = DB::table('jenjang_pendidikan')->where('id', $user->jnjg_id)->value('nama_jnjg');
             $prodi = DB::table('prodi')->where('id', $user->prd_id)->value('nama_prd');
-            $jenjang_prodi = $jenjang . ' - ' . $prodi;
 
             DB::table('srt_mhw_asn')->insert([
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
-                'nim_mhw' => $nim_mhw,
-                'nowa_mhw' => $nowa_mhw,
-                'jenjang_prodi' => $jenjang_prodi,
-                'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
-                'jnjg_id' => $user->jnjg_id,
                 'thn_awl' => $thn_awl,
                 'thn_akh' => $thn_akh,
                 'semester' => $semester,
@@ -283,7 +258,7 @@ class DatabaseSeeder extends Seeder
         $alasan_acak = ['sakit', 'berpegian', 'menjenguk', 'acara keluarga', 'urusan pribadi'];
         $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses'];
 
-        foreach (range(1, 40) as $index) {
+        foreach (range(1, 20) as $index) {
 
             $random_user_id = $faker_srt_masih_mhw->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -298,9 +273,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_masih_mhw')->insert([
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
-                'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
-                'jnjg_id' => $user->jnjg_id,
                 'thn_awl' => $thn_awl,
                 'thn_akh' => $thn_akh,
                 'semester' => $semester,
@@ -319,7 +292,7 @@ class DatabaseSeeder extends Seeder
             ->pluck('id')
             ->toArray();
 
-        foreach (range(5, 35) as $index) {
+        foreach (range(5, 25) as $index) {
 
             $random_user_id = $faker_srt_magang->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -333,9 +306,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_magang')->insert([
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
-                'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
-                'jnjg_id' => $user->jnjg_id,
                 'ipk' => $ipk,
                 'sksk' => $sksk,
                 'jbt_lmbg' => $jbt_lmbg,
@@ -364,7 +335,7 @@ class DatabaseSeeder extends Seeder
             'Disertasi'
         ];
 
-        foreach (range(1, 35) as $index) {
+        foreach (range(1, 25) as $index) {
 
             $random_user_id = $faker_srt_plt->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -379,9 +350,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_izin_plt')->insert([
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
-                'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
-                'jnjg_id' => $user->jnjg_id,
                 'judul_data' => $judul_data,
                 'lampiran' => $lampiran,
                 'jbt_lmbg' => $jbt_lmbg,
@@ -412,9 +381,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_pmhn_kmbali_biaya')->insert([
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
-                'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
-                'jnjg_id' => $user->jnjg_id,
                 'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['mahasiswa', 'admin', 'supervisor_sd', 'manajer', 'manajer_sukses']),
                 'tanggal_surat' => $tanggal_surat,
             ]);
@@ -441,9 +408,7 @@ class DatabaseSeeder extends Seeder
                 'nama_mhw' => $nama_mhw,
                 'almt_smg' => $almt_smg,
                 'dosen_wali' => $dosen_wali,
-                'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
-                'jnjg_id' => $user->jnjg_id,
                 'role_surat' => $faker_srt_bbs_pnjm->randomElement(['mahasiswa', 'admin', 'supervisor_sd']),
                 'tanggal_surat' => $tanggal_surat,
             ]);
@@ -461,7 +426,7 @@ class DatabaseSeeder extends Seeder
         $cara_pengambilan = ['ditempat', 'dikirim'];
 
 
-        foreach (range(1, 35) as $index) {
+        foreach (range(1, 25) as $index) {
 
             $random_user_id = $faker_lgl->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -478,9 +443,7 @@ class DatabaseSeeder extends Seeder
                 'jenis_lgl' => $faker_lgl->randomElement($jenis_legalisir),
                 'ambil' => $faker_lgl->randomElement($cara_pengambilan),
                 'role_surat' => $faker_lgl->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
-                'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
-                'jnjg_id' => $user->jnjg_id,
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }
@@ -494,7 +457,7 @@ class DatabaseSeeder extends Seeder
 
         $ratings = ['sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas'];
 
-        foreach (range(1, 40) as $index) {
+        foreach (range(1, 20) as $index) {
             $random_user_id = $faker_survey->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $rating = $faker_survey->randomElement($ratings);
@@ -506,9 +469,7 @@ class DatabaseSeeder extends Seeder
                 'rating' => $rating,
                 'feedback' => $faker_survey->sentence,
                 'tanggal_surat' => $tanggal_surat,
-                'dpt_id' => $user->dpt_id,
                 'prd_id' => $user->prd_id,
-                'jnjg_id' => $user->jnjg_id,
             ]);
         }
     }

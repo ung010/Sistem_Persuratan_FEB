@@ -46,7 +46,7 @@
             <tr>
                 <td>Program Studi</td>
                 <td>:</td>
-                <td>{{ $srt_bbs_pnjm->jenjang_prodi }}</td>
+                <td>{{ $srt_bbs_pnjm->nama_prd }}</td>
             </tr>
             <tr>
                 <td>Dosen Wali</td>

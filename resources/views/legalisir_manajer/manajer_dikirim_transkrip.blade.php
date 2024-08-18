@@ -39,14 +39,14 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
                                     <td>{{ $item->nmr_unik }}</td>
-                                    <td>{{ $item->jenjang_prodi }}</td>
+                                    <td>{{ $item->nama_prd }}</td>
                                     <td>{{ $item->keperluan }}</td>
                                     <td>
                                         <form
                                             action="{{ route('legalisir_manajer.manajer_dikirim_transkrip_setuju', $item->id) }}"
                                             method="POST" style="display:inline;">
                                             @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
+                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
                                         </form>
                                     </td>
                                 </tr>

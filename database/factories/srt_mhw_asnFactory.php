@@ -17,8 +17,6 @@ class srt_mhw_asnFactory extends Factory
         return [
             'users_id' => \App\Models\User::factory(),
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama_mhw' => $this->faker->name,
             'nim_mhw' => $this->faker->numerify('##########'),
             'nowa_mhw' => $this->faker->phoneNumber,

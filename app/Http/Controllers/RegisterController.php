@@ -15,14 +15,12 @@ class RegisterController extends Controller
 {
   function register()
   {
-    $jenjang_pendidikan = jenjang_pendidikan::get();
-    $departemen = departemen::get();
     $prodi = prodi::get();
+    $departemen = departemen::get();
 
     $data = [
-      'jenjang_pendidikan' => $jenjang_pendidikan,
-      'departemen' => $departemen,
       'prodi' => $prodi,
+      'departemen' => $departemen,
     ];
     return view('auth.register', $data);
   }
@@ -38,9 +36,7 @@ class RegisterController extends Controller
     Session::flash('nama_ibu', $request->input('nama_ibu'));
     Session::flash('status', $request->input('status'));
     Session::flash('almt_asl', $request->input('almt_asl'));
-    Session::flash('prd_id', $request->input('prd_id'));
     Session::flash('dpt_id', $request->input('dpt_id'));
-    Session::flash('jnjg_id', $request->input('jnjg_id'));
 
     $request->validate([
       'nama' => 'required',
@@ -53,9 +49,7 @@ class RegisterController extends Controller
       'status' => 'required',
       'almt_asl' => 'required',
       'password' => 'required|min:8',
-      'dpt_id' => 'required',
       'prd_id' => 'required',
-      'jnjg_id' => 'required',
       'foto' => 'required|mimes:jpeg,jpg,png|image|max:2048'
     ], [
       'nama.required' => 'Nama wajib diisi',
@@ -72,9 +66,7 @@ class RegisterController extends Controller
       'status.required' => 'Wajib mengisi pilihan mahasiswa / alumni',
       'nowa.required' => 'No handphone wajib diisi',
       'almt_asl.required' => 'Alamat asal rumah wajib diisi',
-      'dpt_id.required' => 'Departemen wajib diisi',
       'prd_id.required' => 'Prodi wajib diisi',
-      'jnjg_id.required' => 'Jenjang Pendidikan wajib diisi',
       'foto.required' => 'Foto wajib diisi',
       'foto.mimes' => 'Foto wajib berbentuk JPEG, JPG, dan PNG',
       'foto.image' => 'File harus berupa gambar',
@@ -97,9 +89,7 @@ class RegisterController extends Controller
       'nowa' => $request->nowa,
       'nama_ibu' => $request->nama_ibu,
       'almt_asl' => $request->almt_asl,
-      'dpt_id' => $request->dpt_id,
       'prd_id' => $request->prd_id,
-      'jnjg_id' => $request->jnjg_id,
       'foto' => $nama_foto
     ];
     User::create($data);
@@ -120,5 +110,11 @@ class RegisterController extends Controller
     } else {
       return redirect('/register')->withErrors('Email, password, atau data lain yang dimasukkan tidak sesuai');
     }
+  }
+
+  function getProdiByDepartemen($departemenId)
+  {
+    $prodi = prodi::where('dpt_id', $departemenId)->get();
+    return response()->json($prodi);
   }
 }

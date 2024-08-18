@@ -19,13 +19,13 @@ class SupervisorController extends Controller
 {
   public function index_akd()
   {
-    $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'admin')->count();
-    $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'admin')->count();
-    $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'admin')->count();
-    $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'admin')->count();
-    $srt_magang = Srt_Magang::where('role_surat', 'admin')->count();
-    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'admin')->count();
-    $legalisir = legalisir::where('role_surat', 'admin')->count();
+    $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'supervisor_akd')->count();
+    $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'supervisor_akd')->count();
+    $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'supervisor_akd')->count();
+    $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'supervisor_akd')->count();
+    $srt_magang = Srt_Magang::where('role_surat', 'supervisor_akd')->count();
+    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'supervisor_sd')->count();
+    $legalisir = legalisir::where('role_surat', 'supervisor_akd')->count();
     $total_surat =
       srt_mhw_asn::where('role_surat', 'mahasiswa')->count() +
       srt_masih_mhw::where('role_surat', 'mahasiswa')->count() +
@@ -131,13 +131,13 @@ class SupervisorController extends Controller
 
   public function index_sd()
   {
-    $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'admin')->count();
-    $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'admin')->count();
-    $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'admin')->count();
-    $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'admin')->count();
-    $srt_magang = Srt_Magang::where('role_surat', 'admin')->count();
-    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'admin')->count();
-    $legalisir = legalisir::where('role_surat', 'admin')->count();
+    $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'supervisor_sd')->count();
+    $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'supervisor_sd')->count();
+    $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'supervisor_sd')->count();
+    $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'supervisor_sd')->count();
+    $srt_magang = Srt_Magang::where('role_surat', 'supervisor_sd')->count();
+    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'supervisor_sd')->count();
+    $legalisir = legalisir::where('role_surat', 'supervisor_sd')->count();
     $total_surat =
       srt_mhw_asn::where('role_surat', 'mahasiswa')->count() +
       srt_masih_mhw::where('role_surat', 'mahasiswa')->count() +

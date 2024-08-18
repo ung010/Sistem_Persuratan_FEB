@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\departemen;
-use App\Models\jenjang_pendidikan;
 use App\Models\prodi;
 use App\Models\srt_izin_penelitian;
 use Carbon\Carbon;
@@ -28,28 +27,25 @@ class Srt_Izin_Penelitian_Controller extends Controller
         $query = DB::table('srt_izin_plt')
             ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->join('departement', 'srt_izin_plt.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_izin_plt.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('users_id', $user->id)
             ->select(
                 'srt_izin_plt.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'srt_izin_plt.judul_data',
                 'srt_izin_plt.semester',
                 'srt_izin_plt.jenis_surat',
                 'srt_izin_plt.nama_lmbg',
                 'srt_izin_plt.almt_lmbg',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_izin_plt.role_surat',
             );
 
@@ -67,12 +63,10 @@ class Srt_Izin_Penelitian_Controller extends Controller
 
         $data = $query->get();
 
-        $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
         $prodi = prodi::where('id', $user->prd_id)->first();
-        $departemen = departemen::where('id', $user->dpt_id)->first();
-        $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+        $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
-        return view('srt_izin_plt.index', compact('data', 'user', 'departemen', 'jenjang_prodi'));
+        return view('srt_izin_plt.index', compact('data', 'user', 'departemen', 'prodi'));
     }
 
     public function create(Request $request)
@@ -102,8 +96,6 @@ class Srt_Izin_Penelitian_Controller extends Controller
         DB::table('srt_izin_plt')->insert([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'lampiran' => $request->lampiran,
             'jenis_surat' => $request->jenis_surat,
@@ -129,12 +121,10 @@ class Srt_Izin_Penelitian_Controller extends Controller
             return redirect()->route('srt_izin_plt.index')->withErrors('Data tidak ditemukan.');
         }
 
-        $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
         $prodi = prodi::where('id', $user->prd_id)->first();
-        $departemen = departemen::where('id', $user->dpt_id)->first();
-        $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+        $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
-        return view('srt_izin_plt.edit', compact('data', 'user', 'jenjang_prodi', 'departemen'));
+        return view('srt_izin_plt.edit', compact('data', 'user', 'prodi', 'departemen'));
     }
 
 
@@ -220,8 +210,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
         $srt_izin_plt = DB::table('srt_izin_plt')
             ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->join('departement', 'srt_izin_plt.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_izin_plt.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_izin_plt.id', $id)
             ->select(
                 'srt_izin_plt.id',
@@ -230,22 +219,20 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'srt_izin_plt.nama_mhw',
                 'users.id as users_id',
                 'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'srt_izin_plt.semester',
                 'srt_izin_plt.judul_data',
                 'srt_izin_plt.nama_lmbg',
                 'srt_izin_plt.jbt_lmbg',
                 'srt_izin_plt.kota_lmbg',
                 'srt_izin_plt.almt_lmbg',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_izin_plt.role_surat',
             )
             ->first();
@@ -290,10 +277,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
         ]);
 
         $srt_izin_plt = DB::table('srt_izin_plt')
-            ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->join('departement', 'srt_izin_plt.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_izin_plt.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->where('srt_izin_plt.id', $id)
             ->select(
                 'srt_izin_plt.id',
@@ -327,15 +311,13 @@ class Srt_Izin_Penelitian_Controller extends Controller
         $srt_izin_plt = DB::table('srt_izin_plt')
             ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->join('departement', 'srt_izin_plt.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_izin_plt.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_izin_plt.id', $id)
             ->select(
                 'srt_izin_plt.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
@@ -343,13 +325,12 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'users.foto',
                 'users.email',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'srt_izin_plt.lampiran',
                 'srt_izin_plt.nama_lmbg',
                 'srt_izin_plt.jbt_lmbg',
                 'srt_izin_plt.kota_lmbg',
                 'srt_izin_plt.almt_lmbg',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_izin_plt.role_surat',
             )
             ->first();
@@ -397,8 +378,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
         $query = DB::table('srt_izin_plt')
             ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->join('departement', 'srt_izin_plt.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_izin_plt.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('role_surat', 'supervisor_akd')
             ->select(
                 'srt_izin_plt.id',
@@ -406,7 +386,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'srt_izin_plt.tanggal_surat',
                 'srt_izin_plt.nama_lmbg',
                 'users.nmr_unik',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd'
             );
 
         if ($search) {
@@ -414,7 +394,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                 ->orWhere('nama_lmbg', 'like', "%{$search}%")
                 ->orWhere('users.nmr_unik', 'like', "%{$search}%")
-                ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
@@ -440,8 +420,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
         $query = DB::table('srt_izin_plt')
             ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->join('departement', 'srt_izin_plt.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_izin_plt.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('role_surat', 'manajer')
             ->select(
                 'srt_izin_plt.id',
@@ -449,7 +428,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'srt_izin_plt.tanggal_surat',
                 'srt_izin_plt.nama_lmbg',
                 'users.nmr_unik',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
             );
 
         if ($search) {
@@ -457,7 +436,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                 ->orWhere('nama_lmbg', 'like', "%{$search}%")
                 ->orWhere('users.nmr_unik', 'like', "%{$search}%")
-                ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 

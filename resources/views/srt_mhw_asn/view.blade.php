@@ -112,7 +112,7 @@
             <tr>
                 <td>Departemen/Semester</td>
                 <td>:</td>
-                <td>{{ $srt_mhw_asn->nama_dpt }} / {{ $srt_mhw_asn->semester }}</td>
+                <td>{{ $srt_mhw_asn->nama_prd }} / {{ $srt_mhw_asn->semester }}</td>
             </tr>
             <tr>
                 <td>Pada Tahun Ajaran</td>

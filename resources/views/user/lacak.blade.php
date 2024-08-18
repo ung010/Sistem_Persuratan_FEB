@@ -17,7 +17,7 @@
                 $noAction = 0;
                 break;
 
-            case 'wd':
+            case 'manajer_sukses':
                 $noAction = 5;
                 break;
 

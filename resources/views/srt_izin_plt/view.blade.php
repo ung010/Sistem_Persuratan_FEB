@@ -85,7 +85,7 @@
             <tr>
                 <td>Departemen / Program Studi</td>
                 <td>:</td>
-                <td>{{ $srt_izin_plt->nama_dpt}} / {{ $srt_izin_plt->jenjang_prodi }}</td>
+                <td>{{ $srt_izin_plt->nama_dpt}} / {{ $srt_izin_plt->nama_prd }}</td>
             </tr>
             <tr>
                 <td>Alamat Rumah</td>

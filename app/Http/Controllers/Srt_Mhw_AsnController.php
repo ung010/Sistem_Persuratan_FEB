@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\jenjang_pendidikan;
 use App\Models\prodi;
 use App\Models\srt_mhw_asn;
 use Carbon\Carbon;
@@ -24,20 +23,27 @@ class Srt_Mhw_AsnController extends Controller
     $search = $request->input('search');
 
     $query = DB::table('srt_mhw_asn')
+      ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
+      ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users_id', $user->id)
       ->select(
-        'id',
+        'srt_mhw_asn.id',
+        'users.id as users_id',
+        'prodi.id as prd_id',
+        'departement.id as departement_id',
+        'users.nama',
+        'users.nmr_unik',
+        'users.nowa',
+        'prodi.nama_prd',
         'nama_mhw',
-        'nim_mhw',
-        'nowa_mhw',
         'thn_awl',
-        'jenjang_prodi',
         'thn_akh',
         'semester',
         'nama_ortu',
         'nip_ortu',
         'ins_ortu',
-        'role_surat'
+        'role_surat',
       );
 
     if ($search) {
@@ -54,11 +60,8 @@ class Srt_Mhw_AsnController extends Controller
 
     $data = $query->get();
 
-    $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
     $prodi = Prodi::where('id', $user->prd_id)->first();
-    $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
-
-    return view('srt_mhw_asn.index', compact('data', 'user', 'jenjang_prodi'));
+    return view('srt_mhw_asn.index', compact('data', 'user', 'prodi'));
   }
 
   public function create(Request $request)
@@ -78,30 +81,17 @@ class Srt_Mhw_AsnController extends Controller
     ]);
 
     $user = Auth::user();
-    $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
-    $prodi = Prodi::where('id', $user->prd_id)->first();
-
-    if ($jenjang && $prodi) {
-      $jenjang_prodi = $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd;
-    } else {
-      return redirect()->back()->withErrors('Data jenjang atau program studi tidak ditemukan.');
-    }
 
     DB::table('srt_mhw_asn')->insert([
       'users_id' => $user->id,
       'prd_id' => $user->prd_id,
-      'dpt_id' => $user->dpt_id,
-      'jnjg_id' => $user->jnjg_id,
       'nama_mhw' => $user->nama,
-      'nim_mhw' => $user->nmr_unik,
-      'nowa_mhw' => $user->nowa,
       'thn_awl' => $request->thn_awl,
       'thn_akh' => $request->thn_akh,
       'semester' => $request->semester,
       'nama_ortu' => $request->nama_ortu,
       'nip_ortu' => $request->nip_ortu,
       'ins_ortu' => $request->ins_ortu,
-      'jenjang_prodi' => $jenjang_prodi,
       'tanggal_surat' => Carbon::now()->format('Y-m-d'),
     ]);
 
@@ -118,11 +108,9 @@ class Srt_Mhw_AsnController extends Controller
       return redirect()->route('srt_mhw_asn.index')->withErrors('Data tidak ditemukan.');
     }
 
-    $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
     $prodi = Prodi::where('id', $user->prd_id)->first();
-    $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
 
-    return view('srt_mhw_asn.edit', compact('data', 'user', 'jenjang_prodi'));
+    return view('srt_mhw_asn.edit', compact('data', 'user', 'prodi'));
   }
 
 
@@ -163,18 +151,15 @@ class Srt_Mhw_AsnController extends Controller
     $srt_mhw_asn = DB::table('srt_mhw_asn')
       ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
-      ->join('departement', 'srt_mhw_asn.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_mhw_asn.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_mhw_asn.id', $id)
       ->select(
         'srt_mhw_asn.id',
         'users.id as users_id',
         'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
         'users.nama',
         'users.nmr_unik',
-        'departement.nama_dpt',
+        'prodi.nama_prd',
         'srt_mhw_asn.thn_awl',
         'srt_mhw_asn.thn_akh',
         'srt_mhw_asn.nama_ortu',
@@ -243,19 +228,17 @@ class Srt_Mhw_AsnController extends Controller
     $srt_mhw_asn = DB::table('srt_mhw_asn')
       ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
-      ->join('departement', 'srt_mhw_asn.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_mhw_asn.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_mhw_asn.id', $id)
       ->select(
         'srt_mhw_asn.id',
         'users.id as users_id',
-        'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
         'users.nama',
         'users.nmr_unik',
         'departement.nama_dpt',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+        'prodi.nama_prd',
         'srt_mhw_asn.thn_awl',
         'srt_mhw_asn.thn_akh',
         'users.almt_asl',
@@ -345,7 +328,7 @@ class Srt_Mhw_AsnController extends Controller
         'id',
         'nama_mhw',
       )
-      ->where('role_surat', 'manajer'); // Menambahkan kondisi untuk role_surat = admin
+      ->where('role_surat', 'manajer');
 
     if ($search) {
       $query->where(function ($q) use ($search) {

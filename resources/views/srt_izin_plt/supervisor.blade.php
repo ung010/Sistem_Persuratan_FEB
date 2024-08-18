@@ -31,7 +31,7 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
                                     <td>{{ $item->nmr_unik }}</td>
-                                    <td>{{ $item->jenjang_prodi }}</td>
+                                    <td>{{ $item->nama_prd }}</td>
                                     <td>{{ $item->nama_lmbg }}</td>
                                     <td>
                                         <form action="{{ route('srt_izin_plt.sv_setuju', $item->id) }}" method="POST"

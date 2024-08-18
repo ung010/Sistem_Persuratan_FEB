@@ -25,7 +25,7 @@
                                 <td>{{ $srt_pmhn_kmbali_biaya->no_surat }}</td>
                                 <td>{{ $srt_pmhn_kmbali_biaya->nama_mhw }}</td>
                                 <td>{{ $srt_pmhn_kmbali_biaya->nmr_unik }}</td>
-                                <td>{{ $srt_pmhn_kmbali_biaya->jenjang_prodi }}</td>
+                                <td>{{ $srt_pmhn_kmbali_biaya->nama_prd }}</td>
                                 <td>{{ $srt_pmhn_kmbali_biaya->tanggal_surat }}</td>
                                 <td>
                                     <a href='{{ url('/legal/srt_pmhn_kmbali_biaya/view/' . $srt_pmhn_kmbali_biaya->id) }}'
@@ -38,7 +38,7 @@
                     <h3>Surat belum legal</h3>
                 @endif
             @else
-                <h3>Surat belum kosong</h3>
+                <h3>Surat kosong</h3>
             @endif
         </div>
     </div>

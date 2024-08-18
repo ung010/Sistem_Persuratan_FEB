@@ -37,7 +37,7 @@
                             @include('user.lacak')
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
-                                    <button class="btn btn-success btn-sm">Berhasil</button>
+                                    <button class="btn btn-success btn-sm" disabled>Berhasil</button>
                                 @elseif ($item->role_surat == 'tolak')
                                     <a href="{{ url('/srt_mhw_asn/edit/' . $item->id) }}"
                                         class="btn btn-danger btn-sm">Ditolak</a>
@@ -84,17 +84,17 @@
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="text" id="nim_mhw" name="nim_mhw" value="{{ $user->nmr_unik }}"
+                                <input type="text" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">Program Studi</label>
-                                <input type="text" name="jenjang_prodi" id="jenjang_prodi" value="{{ $jenjang_prodi }}"
+                                <input type="text" name="nama_prd" id="nama_prd" value="{{ $prodi->nama_prd }}" 
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">No Whatsapp</label>
-                                <input type="text" id="nowa_mhw" name="nowa_mhw" value="{{ $user->nowa }}"
+                                <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group d-flex">

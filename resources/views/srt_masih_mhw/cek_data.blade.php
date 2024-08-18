@@ -25,10 +25,10 @@
                 <div class="d-flex flex-column">
                     <p>Nama: {{ $srt_masih_mhw->nama }}</p>
                     <p>Tempat, Tanggal Lahir: {{ $srt_masih_mhw->ttl }}</p>
-                    <p>NIM: {{ $srt_masih_mhw->ttl }}</p>
-                    <p>Alamat Asal: {{ $srt_masih_mhw->ttl }}</p>
+                    <p>NIM: {{ $srt_masih_mhw->nmr_unik }}</p>
+                    <p>Alamat Asal: {{ $srt_masih_mhw->almt_asl }}</p>
                     <p>Departemen: {{ $srt_masih_mhw->nama_dpt }}</p>
-                    <p>Jenjang Pendidikan: {{ $srt_masih_mhw->nama_jnjg }}</p>
+                    <p>Program Studi: {{ $srt_masih_mhw->nama_prd }}</p>
                     <p>No Whatsapp: {{ $srt_masih_mhw->nowa }}</p>
                     <p>Alasan Pembuatan Surat: {{ $srt_masih_mhw->tujuan_buat_srt }}</p>
                     <p>Kartu Tanda Mahasiswa</p>
@@ -37,8 +37,8 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Ditolak</button>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal">Disetujui</button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Tolak</button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal">Setuju</button>
                 </div>
             </div>
         </div>

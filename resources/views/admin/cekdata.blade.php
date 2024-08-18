@@ -20,13 +20,12 @@
                     <p>NIM: {{ $user->nmr_unik }}</p>
                     <p>Tempat Tanggal Lahir: {{ $user->ttl }}</p>
                     <p>Nama Ibu: {{ $user->nama_ibu }}</p>
-                    <p>Jenjang Pendidikan: {{ $user->nama_jnjg }}</p>
                     <p>Departemen: {{ $user->nama_dpt }}</p>
-                    <p>Prodgam Studi: {{ $user->jenjang_prodi }}</p>
+                    <p>Program Studi: {{ $user->nama_prd }}</p>
                     <p>Alamat Asal: {{ $user->almt_asl }}</p>
                     <p>No Whatsapp: {{ $user->nowa }}</p>
                     <p>Status:
-                        {{ $user->role === 'non_mahasiswa' ? 'Mahasiswa' : ($user->role === 'non_alumni' ? 'Alumni' : '') }}
+                        {{ $user->status === 'mahasiswa' ? 'Mahasiswa' : ($user->role === 'alumni' ? 'Alumni' : '') }}
                     </p>
                     <p>Kartu Tanda Mahasiswa</p>
                     <img src="{{ $user->foto ? asset('storage/foto/mahasiswa/' . $user->foto) : asset('asset/Rectangle 8.png') }}"

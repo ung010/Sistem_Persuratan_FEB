@@ -14,10 +14,10 @@
                     <p class="heading-card">CEK DATA</p>
                 </div>
                 <div class="d-flex flex-column">
-                    <p>Nama: {{ $srt_pmhn_kmbali_biaya->nama }}</p>
+                    <p>Nama: {{ $srt_pmhn_kmbali_biaya->nama_mhw }}</p>
                     <p>NIM: {{ $srt_pmhn_kmbali_biaya->nmr_unik }}</p>
                     <p>Tempat Tanggal Lahir: {{ $srt_pmhn_kmbali_biaya->ttl }}</p>
-                    <p>Program Studi: {{ $srt_pmhn_kmbali_biaya->jenjang_prodi }}</p>
+                    <p>Program Studi: {{ $srt_pmhn_kmbali_biaya->nama_prd }}</p>
                     <p>Alamat Asal: {{ $srt_pmhn_kmbali_biaya->almt_asl }}</p>
                     <p>No Whatsapp: {{ $srt_pmhn_kmbali_biaya->nowa }}</p>
                     <p>Kartu Tanda Mahasiswa</p>
@@ -41,9 +41,9 @@
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal"
-                        type="button">Ditolak</button>
+                        type="button">Tolak</button>
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal"
-                        type="button">Disetujui</button>
+                        type="button">Setujui</button>
                 </div>
             </div>
         </div>

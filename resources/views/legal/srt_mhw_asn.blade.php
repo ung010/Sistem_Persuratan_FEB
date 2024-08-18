@@ -24,7 +24,7 @@
                             <tr>
                                 <td>{{ $srt_mhw_asn->no_surat }}</td>
                                 <td>{{ $srt_mhw_asn->nama_mhw }}</td>
-                                <td>{{ $srt_mhw_asn->nim_mhw }}</td>
+                                <td>{{ $srt_mhw_asn->nmr_unik }}</td>
                                 <td>{{ $srt_mhw_asn->thn_awl }} / {{ $srt_mhw_asn->thn_akh }}</td>
                                 <td>{{ $srt_mhw_asn->tanggal_surat }}</td>
                                 <td>

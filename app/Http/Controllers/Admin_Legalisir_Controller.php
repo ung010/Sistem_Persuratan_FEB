@@ -61,21 +61,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -88,7 +86,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -195,21 +192,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -222,7 +217,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -344,21 +338,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -371,7 +363,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -478,21 +469,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -505,7 +494,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -618,15 +606,14 @@ class Admin_Legalisir_Controller extends Controller
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -639,7 +626,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -761,21 +747,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -788,7 +772,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();

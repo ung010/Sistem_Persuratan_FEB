@@ -26,7 +26,7 @@
                                 <td>{{ $srt_masih_mhw->no_surat }}</td>
                                 <td>{{ $srt_masih_mhw->nama_mhw }}</td>
                                 <td>{{ $srt_masih_mhw->nmr_unik }}</td>
-                                <td>{{ $srt_masih_mhw->jenjang_prodi }}</td>
+                                <td>{{ $srt_masih_mhw->nama_prd }}</td>
                                 <td>{{ $srt_masih_mhw->tujuan_buat_srt }}</td>
                                 <td>{{ $srt_masih_mhw->tanggal_surat }}</td>
                                 <td>

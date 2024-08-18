@@ -32,7 +32,7 @@
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $item->nmr_unik }}</td>
                                     <td>{{ $item->nama_dpt }}</td>
-                                    <td>{{ $item->jenjang_prodi }}</td>
+                                    <td>{{ $item->nama_prd }}</td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#editUser" data-id="{{ $item->id }}"
@@ -120,7 +120,7 @@
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $item->nmr_unik }}</td>
                                     <td>{{ $item->nama_dpt }}</td>
-                                    <td>{{ $item->jenjang_prodi }}</td>
+                                    <td>{{ $item->nama_prd }}</td>
                                     <td>
                                         <form action="{{ route('admin.restore', $item->id) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda yakin ingin mengembalikan akun ini?')">

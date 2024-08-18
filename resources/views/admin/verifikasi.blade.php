@@ -32,7 +32,7 @@
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->nmr_unik }}</td>
                             <td>{{ $item->nama_dpt }}</td>
-                            <td>{{ $item->jenjang_prodi }}</td>
+                            <td>{{ $item->nama_prd }}</td>
                             <td>
                                 <a href='{{ url('/admin/verif_user/cekdata/'.$item->id) }}' class="btn btn-warning btn-sm">Cek Data</a>
                             </td>

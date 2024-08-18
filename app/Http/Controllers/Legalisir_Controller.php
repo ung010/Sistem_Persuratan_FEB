@@ -21,21 +21,19 @@ class Legalisir_Controller extends Controller
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('users_id', $user->id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -48,7 +46,6 @@ class Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             );
 
@@ -59,18 +56,16 @@ class Legalisir_Controller extends Controller
                     ->orWhere('departement.nama_dpt', 'like', "%{$search}%")
                     ->orWhere('users.almt_asl', 'like', "%{$search}%")
                     ->orWhere('almt_kirim', 'like', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
         $data = $query->get();
 
-        $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
         $prodi = prodi::where('id', $user->prd_id)->first();
-        $departemen = departemen::where('id', $user->dpt_id)->first();
-        $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+        $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
-        return view('legalisir.index', compact('data', 'user', 'departemen', 'jenjang_prodi'));
+        return view('legalisir.index', compact('data', 'user', 'departemen', 'prodi'));
     }
 
     public function create(Request $request)
@@ -114,8 +109,6 @@ class Legalisir_Controller extends Controller
         $data = [
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'ambil' => $request->ambil,
             'jenis_lgl' => $request->jenis_lgl,
@@ -146,12 +139,10 @@ class Legalisir_Controller extends Controller
             return redirect()->route('legalisir.index')->withErrors('Data tidak ditemukan.');
         }
 
-        $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
         $prodi = prodi::where('id', $user->prd_id)->first();
-        $departemen = departemen::where('id', $user->dpt_id)->first();
-        $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+        $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
-        return view('legalisir.edit', compact('data', 'user', 'jenjang_prodi', 'departemen'));
+        return view('legalisir.edit', compact('data', 'user', 'prodi', 'departemen'));
     }
 
 
@@ -215,6 +206,6 @@ class Legalisir_Controller extends Controller
             'catatan_surat' => '-',
         ]));
 
-        return redirect()->route('legalisir.index')->with('success', 'Surat berhasil diperbarui');
+        return redirect()->route('legalisir.index')->with('success', 'Legalisir berhasil diperbarui');
     }
 }

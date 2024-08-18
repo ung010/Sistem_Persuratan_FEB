@@ -34,13 +34,13 @@
                                             <form action="{{ route('srt_masih_mhw.setuju_manajer', $item->id) }}"
                                                 method="POST" style="display:inline;">
                                                 @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
+                                                <button type="submit" class="btn btn-success btn-sm">Setujui</button>
                                             </form>
                                         @elseif($item->tujuan_akhir == 'wd')
                                             <form action="{{ route('srt_masih_mhw.setuju_wd', $item->id) }}" method="POST"
                                                 style="display:inline;">
                                                 @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
+                                                <button type="submit" class="btn btn-success btn-sm">Setujui</button>
                                             </form>
                                         @endif
                                     </td>

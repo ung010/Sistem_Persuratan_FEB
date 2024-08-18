@@ -31,7 +31,7 @@
                                         <form action="{{ route('srt_mhw_asn.sv_setuju', $item->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
+                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
                                         </form>
                                         {{-- <a href='{{ route('srt_mhw_asn.sv_setuju', $item->id) }}' class="btn btn-success btn-sm">Disetujui</a> --}}
                                     </td>

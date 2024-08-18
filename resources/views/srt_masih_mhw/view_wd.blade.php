@@ -69,7 +69,7 @@
   <br />
   <p style="font-size: 12px; margin: 0; text-align: justify">
     Yang namanya tersebut di atas adalah benar – benar mahasiswa {{
-    $srt_masih_mhw->nama_jnjg }} Fakultas Ekonomika dan Bisnis Universitas
+    $srt_masih_mhw->nama_prd }} Fakultas Ekonomika dan Bisnis Universitas
     Diponegoro Semarang Tahun Akademik : {{ $srt_masih_mhw->thn_awl }} / {{
     $srt_masih_mhw->thn_akh }}
   </p>

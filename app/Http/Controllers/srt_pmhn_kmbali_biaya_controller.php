@@ -9,7 +9,6 @@ use App\Models\departemen;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\jenjang_pendidikan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -28,27 +27,24 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $query = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
-            ->join('departement', 'srt_pmhn_kmbali_biaya.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_pmhn_kmbali_biaya.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('users_id', $user->id)
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
                 'departement.nama_dpt',
+                'prodi.nama_prd',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
-                'jenjang_pendidikan.nama_jnjg',
                 'srt_pmhn_kmbali_biaya.skl',
                 'srt_pmhn_kmbali_biaya.bukti_bayar',
                 'srt_pmhn_kmbali_biaya.buku_tabung',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_pmhn_kmbali_biaya.role_surat',
             );
 
@@ -59,22 +55,20 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
                     ->orWhere('departement.nama_dpt', 'like', "%{$search}%")
                     ->orWhere('users.almt_asl', 'like', "%{$search}%")
                     ->orWhere('users.nowa', 'like', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
         $data = $query->get();
 
-        $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
         $prodi = prodi::where('id', $user->prd_id)->first();
-        $departemen = departemen::where('id', $user->dpt_id)->first();
-        $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+        $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
         $kota = $user->kota;
         $tanggal_lahir = $user->tanggal_lahir;
         $kota_tanggal_lahir = ($kota && $tanggal_lahir) ? $kota . ', ' . \Carbon\Carbon::parse($tanggal_lahir)->format('d F Y') : 'N/A';
 
-        return view('srt_pmhn_kmbali_biaya.index', compact('data', 'user', 'departemen', 'jenjang_prodi', 'kota_tanggal_lahir'));
+        return view('srt_pmhn_kmbali_biaya.index', compact('data', 'user', 'departemen', 'prodi', 'kota_tanggal_lahir'));
     }
 
     public function create(Request $request)
@@ -113,8 +107,6 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         DB::table('srt_pmhn_kmbali_biaya')->insert([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'skl' => $nama_skl,
             'bukti_bayar' => $nama_bukti,
@@ -135,16 +127,14 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             return redirect()->route('srt_pmhn_kmbali_biaya.index')->withErrors('Data tidak ditemukan.');
         }
 
-        $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
         $prodi = prodi::where('id', $user->prd_id)->first();
-        $departemen = departemen::where('id', $user->dpt_id)->first();
-        $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+        $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
         $kota = $user->kota;
         $tanggal_lahir = $user->tanggal_lahir;
         $kota_tanggal_lahir = ($kota && $tanggal_lahir) ? $kota . ', ' . \Carbon\Carbon::parse($tanggal_lahir)->format('d F Y') : 'N/A';
 
-        return view('srt_pmhn_kmbali_biaya.edit', compact('data', 'user', 'jenjang_prodi', 'departemen', 'kota_tanggal_lahir'));
+        return view('srt_pmhn_kmbali_biaya.edit', compact('data', 'user', 'prodi', 'departemen', 'kota_tanggal_lahir'));
     }
 
 
@@ -256,8 +246,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
-            ->join('departement', 'srt_pmhn_kmbali_biaya.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_pmhn_kmbali_biaya.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_pmhn_kmbali_biaya.id', $id)
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
@@ -265,18 +254,16 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
                 'srt_pmhn_kmbali_biaya.tanggal_surat',
                 'srt_pmhn_kmbali_biaya.nama_mhw',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_pmhn_kmbali_biaya.role_surat',
             )
             ->first();
@@ -323,8 +310,6 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
-            ->join('departement', 'srt_pmhn_kmbali_biaya.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_pmhn_kmbali_biaya.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->where('srt_pmhn_kmbali_biaya.id', $id)
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
@@ -358,28 +343,25 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
-            ->join('departement', 'srt_pmhn_kmbali_biaya.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_pmhn_kmbali_biaya.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_pmhn_kmbali_biaya.id', $id)
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
                 'users.id as users_id',
                 'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
-                'users.nama',
+                'departement.id as dpt_id',
+                'srt_pmhn_kmbali_biaya.nama_mhw',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'users.foto',
                 'users.email',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'srt_pmhn_kmbali_biaya.skl',
                 'srt_pmhn_kmbali_biaya.bukti_bayar',
                 'srt_pmhn_kmbali_biaya.buku_tabung',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_pmhn_kmbali_biaya.role_surat',
             )
             ->first();
@@ -427,8 +409,6 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $query = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
-            ->join('departement', 'srt_pmhn_kmbali_biaya.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_pmhn_kmbali_biaya.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->where('role_surat', 'supervisor_sd')
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
@@ -465,8 +445,6 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $query = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
-            ->join('departement', 'srt_pmhn_kmbali_biaya.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_pmhn_kmbali_biaya.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->where('role_surat', 'manajer')
             ->select(
                 'srt_pmhn_kmbali_biaya.id',

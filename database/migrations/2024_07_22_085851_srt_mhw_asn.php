@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('no_surat')->nullable();
             $table->string('nama_mhw')->nullable();
-            $table->bigInteger('nim_mhw')->nullable();
-            $table->string('nowa_mhw')->nullable();
-            $table->string('jenjang_prodi')->nullable();
             $table->year('thn_awl');
             $table->year('thn_akh');
             $table->tinyInteger('semester');
@@ -28,12 +25,8 @@ return new class extends Migration
             $table->text('catatan_surat')->nullable()->default('-');
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_akd', 'manajer'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
-            $table->unsignedBigInteger('dpt_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
-            $table->unsignedBigInteger('jnjg_id')->nullable();
-            $table->foreign('dpt_id')->references('id')->on('departement')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
-            $table->foreign('jnjg_id')->references('id')->on('jenjang_pendidikan')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->timestamps();
         });

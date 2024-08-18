@@ -16,7 +16,7 @@
                 <div class="d-flex flex-column">
                     <p>Nama: {{ $srt_bbs_pnjm->nama_mhw }}</p>
                     <p>NIM: {{ $srt_bbs_pnjm->nmr_unik }}</p>
-                    <p>Program Studi: {{ $srt_bbs_pnjm->jenjang_prodi }}</p>
+                    <p>Program Studi: {{ $srt_bbs_pnjm->nama_prd }}</p>
                     <p>Alamat di Semarang: {{ $srt_bbs_pnjm->almt_smg }}</p>
                     <p>No Whatsapp: {{ $srt_bbs_pnjm->nowa }}</p>
                     <p>Dosen Wali: {{ $srt_bbs_pnjm->dosen_wali }}</p>
@@ -26,8 +26,8 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal" type="button">Ditolak</button>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal" type="button">Disetujui</button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal" type="button">Tolak</button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal" type="button">Setujui</button>
                 </div>
             </div>
         </div>

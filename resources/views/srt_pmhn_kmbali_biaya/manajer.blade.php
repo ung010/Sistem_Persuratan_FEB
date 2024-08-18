@@ -33,7 +33,7 @@
                                         <form action="{{ route('srt_pmhn_kmbali_biaya.manajer_setuju', $item->id) }}"
                                             method="POST" style="display:inline;">
                                             @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
+                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
                                         </form>
                                     </td>
                                 </tr>

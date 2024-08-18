@@ -31,14 +31,14 @@
                             <td>
                                 {{ $item->nama_dpt }}
                             </td>
-                            <td>{{ $item->jenjang_prodi }}</td>
+                            <td>{{ $item->nama_prd }}</td>
                             <td>
                                 {{ $item->almt_asl }} / {{ $item->nowa }}
                             </td>
                             @include('user.lacak')
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
-                                    <button class="btn btn-success btn-sm">Berhasil</button>
+                                    <button class="btn btn-success btn-sm" disabled>Berhasil</button>
                                 @elseif ($item->role_surat == 'tolak')
                                     <a href="{{ url('/srt_pmhn_kmbali_biaya/edit/' . $item->id) }}"
                                         class="btn btn-danger btn-sm">Ditolak</a>
@@ -128,7 +128,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Program Studi</label>
-                                <input type="text" id="jenjang_prodi" name="jenjang_prodi" value="{{ $jenjang_prodi }}"
+                                <input type="text" id="nama_prd" name="nama_prd" value="{{ $prodi->nama_prd }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">

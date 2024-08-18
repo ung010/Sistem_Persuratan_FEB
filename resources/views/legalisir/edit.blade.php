@@ -110,8 +110,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Program Studi</label>
-                                <input type="text" id="jenjang_prodi" name="jenjang_prodi"
-                                    value="{{ $jenjang_prodi }}" class="form-control" readonly>
+                                <input type="text" id="nama_prd" name="nama_prd"
+                                    value="{{ $prodi->nama_prd }}" class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">No Whatsapp</label>

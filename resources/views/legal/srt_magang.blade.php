@@ -25,7 +25,7 @@
                                 <td>{{ $srt_magang->no_surat }}</td>
                                 <td>{{ $srt_magang->nama_mhw }}</td>
                                 <td>{{ $srt_magang->nmr_unik }}</td>
-                                <td>{{ $srt_magang->jenjang_prodi }}</td>
+                                <td>{{ $srt_magang->nama_prd }}</td>
                                 <td>{{ $srt_magang->tanggal_surat }}</td>
                                 <td>
                                     <a href='{{ url('/legal/srt_magang/view/' . $srt_magang->id) }}'

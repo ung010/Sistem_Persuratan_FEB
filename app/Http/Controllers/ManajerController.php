@@ -19,13 +19,13 @@ class ManajerController extends Controller
 {
   public function index()
   {
-    $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'admin')->count();
-    $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'admin')->count();
-    $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'admin')->count();
-    $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'admin')->count();
-    $srt_magang = Srt_Magang::where('role_surat', 'admin')->count();
-    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'admin')->count();
-    $legalisir = legalisir::where('role_surat', 'admin')->count();
+    $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'manajer')->count();
+    $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'manajer')->count();
+    $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'manajer')->count();
+    $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'manajer')->count();
+    $srt_magang = Srt_Magang::where('role_surat', 'manajer')->count();
+    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'manajer')->count();
+    $legalisir = legalisir::where('role_surat', 'manajer')->count();
     $total_surat =
       srt_mhw_asn::where('role_surat', 'mahasiswa')->count() +
       srt_masih_mhw::where('role_surat', 'mahasiswa')->count() +

@@ -29,7 +29,7 @@
                     <p>Nama: {{ $legalisir->nama }}</p>
                     <p>NIM: {{ $legalisir->nmr_unik }}</p>
                     <p>Departemen: {{ $legalisir->nama_dpt }}</p>
-                    <p>Program Studi: {{ $legalisir->jenjang_prodi }}</p>
+                    <p>Program Studi: {{ $legalisir->nama_prd }}</p>
                     <p>Alamat Asal: {{ $legalisir->almt_asl }}</p>
                     <p>No Whatsapp: {{ $legalisir->nowa }}</p>
                     <p>Pengambilan: {{ $legalisir->ambil }}</p>
@@ -44,11 +44,11 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Ditolak</button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Tolak</button>
                     <form action="{{ route('legalisir_admin.admin_dikirim_ijazah_setuju', $legalisir->id) }}"
                         method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-success">Disetujui</button>
+                        <button type="submit" class="btn btn-success">Setujui</button>
                     </form>
                 </div>
             </div>

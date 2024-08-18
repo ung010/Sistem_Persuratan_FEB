@@ -60,6 +60,8 @@ Route::middleware('guest')->group(function () {
     Route::post('/', [LoginController::class, 'login'])->name('auth.login');
     Route::get('/register', [RegisterController::class, 'register'])->name('register');
     Route::post('/register/create', [RegisterController::class, 'create'])->name('register.create');
+    
+    Route::get('/get-prodi/{departemenId}', [RegisterController::class, 'getProdiByDepartemen']);
 
 });
 
@@ -76,6 +78,7 @@ Route::middleware('auth')->group(function () {
     route::get('/non_user', [NonController::class, 'home_non_mhw'])->name('non_mhw.home')->
     middleware('UserAkses:non_mahasiswa');
     Route::get('/non_user/my_account', [NonController::class, 'edit_non_mhw'])->name('non_mhw.edit')->middleware('UserAkses:non_mahasiswa');
+    Route::get('/get-prodi/{departemen_id}', [NonController::class, 'getProdiByDepartemen'])->middleware('UserAkses:non_mahasiswa');
     Route::post('/non_user/my_account/update', [NonController::class, 'account_non_mhw'])->name('non_mhw.account_non_mhw')->
     middleware('UserAkses:non_mahasiswa');
 

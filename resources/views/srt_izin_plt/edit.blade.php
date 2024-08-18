@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 <label for="">Program Studi</label>
                                 <input type="text" id="jenjang_prodi" name="jenjang_prodi"
-                                    value="{{ $jenjang_prodi }}" class="form-control" readonly>
+                                    value="{{ $prodi->nama_prd }}" class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">Email</label>

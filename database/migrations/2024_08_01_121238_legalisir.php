@@ -30,12 +30,8 @@ return new class extends Migration
             $table->text('catatan_surat')->nullable()->default('-');
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
-            $table->unsignedBigInteger('dpt_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
-            $table->unsignedBigInteger('jnjg_id')->nullable();
-            $table->foreign('dpt_id')->references('id')->on('departement')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
-            $table->foreign('jnjg_id')->references('id')->on('jenjang_pendidikan')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->timestamps();
         });

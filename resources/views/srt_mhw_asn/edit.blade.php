@@ -45,7 +45,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Program Studi</label>
-                                <input type="text" name="jenjang_prodi" id="jenjang_prodi" value="{{ $jenjang_prodi }}"
+                                <input type="text" name="jenjang_prodi" id="jenjang_prodi" value="{{ $prodi->nama_prd }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">

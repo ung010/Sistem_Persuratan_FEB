@@ -69,6 +69,7 @@ class RegisterTest extends TestCase
             'password' => 'mountain082',
         ]);
 
+        $response->assertStatus(302);
         $response->assertSessionHasErrors(['email', 'nmr_unik']);
     }
 
@@ -90,6 +91,7 @@ class RegisterTest extends TestCase
             'password' => 'mountain082',
         ]);
 
+        $response->assertStatus(302);
         $response->assertSessionHasErrors(['email', 'nmr_unik']);
     }
 }

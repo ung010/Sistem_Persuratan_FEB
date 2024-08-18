@@ -47,7 +47,7 @@
     <tr>
       <td>Program Studi</td>
       <td>:</td>
-      <td>{{ $srt_pmhn_kmbali_biaya->jenjang_prodi }}</td>
+      <td>{{ $srt_pmhn_kmbali_biaya->nama_prd }}</td>
     </tr>
     <tr>
       <td>Tempat / Tanggal Lahir</td>

@@ -17,7 +17,7 @@
                     <p>Nama: {{ $srt_magang->nama }}</p>
                     <p>NIM: {{ $srt_magang->nmr_unik }}</p>
                     <p>Departemen: {{ $srt_magang->nama_dpt }}</p>
-                    <p>Program Studi: {{ $srt_magang->jenjang_prodi }}</p>
+                    <p>Program Studi: {{ $srt_magang->nama_prd }}</p>
                     <p>Alamat di Semarang: {{ $srt_magang->almt_smg }}</p>
                     <p>IPK: {{ $srt_magang->ipk }}</p>
                     <p>SKSK: {{ $srt_magang->sksk }}</p>
@@ -33,8 +33,8 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Ditolak</button>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal">Disetujui</button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Tolak</button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal">Setujui</button>
                 </div>
             </div>
         </div>

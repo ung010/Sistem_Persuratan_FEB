@@ -30,18 +30,41 @@ class MahasiswaController extends Controller
 
   function edit()
   {
-    $jenjang_pendidikan = jenjang_pendidikan::get();
-    $departemen = departemen::get();
-    $prodi = prodi::get();
     $user = Auth::user();
 
-    $data = [
-      'jenjang_pendidikan' => $jenjang_pendidikan,
-      'departemen' => $departemen,
-      'prodi' => $prodi,
-      'user' => $user,
-    ];
-    return view('mahasiswa.account', $data);
+    $data = DB::table('users')
+      ->join('prodi', 'users.prd_id', '=', 'prodi.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+      ->where('users.id', $user->id)
+      ->select(
+        'users.id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
+        'users.nama',
+        'users.nmr_unik',
+        'users.nowa',
+        'users.email',
+        'users.kota',
+        'users.tanggal_lahir',
+        'users.almt_asl',
+        'users.foto',
+        'users.nama_ibu',
+        'users.password',
+        'users.role',
+        'users.status',
+        'users.catatan_user'
+      )
+      ->first();
+
+    $data = (array) $data;
+
+    $departemen = Departemen::get();
+    $prodi = Prodi::get();
+
+    $data['departemen'] = $departemen;
+    $data['prodi'] = $prodi;
+    $data['user'] = $user;
+    return view('mahasiswa.account', compact('data' ,'user', 'departemen', 'prodi'));
   }
 
   function update(Request $request)
@@ -57,9 +80,8 @@ class MahasiswaController extends Controller
       'nowa' => 'required',
       'nama_ibu' => 'required',
       'almt_asl' => 'required',
-      'dpt_id' => 'required',
+      // 'dpt_id' => 'required',
       'prd_id' => 'required',
-      'jnjg_id' => 'required',
       'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
     ], [
       'nama.required' => 'Nama wajib diisi',
@@ -72,9 +94,8 @@ class MahasiswaController extends Controller
       'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
       'nowa.required' => 'No handphone wajib diisi',
       'almt_asl.required' => 'Alamat asal rumah wajib diisi',
-      'dpt_id.required' => 'Departemen wajib diisi',
       'prd_id.required' => 'Prodi wajib diisi',
-      'jnjg_id.required' => 'Jenjang pendidikan wajib diisi',
+      // 'dpt_id.required' => 'Departemen wajib diisi',
       'foto.image' => 'File harus berupa gambar',
       'foto.mimes' => 'File harus berupa gambar dengan format jpeg, png, atau jpg',
       'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte'
@@ -88,8 +109,6 @@ class MahasiswaController extends Controller
       'tanggal_lahir' => $request->tanggal_lahir,
       'nowa' => $request->nowa,
       'almt_asl' => $request->almt_asl,
-      'jnjg_id' => $request->jnjg_id,
-      'dpt_id' => $request->dpt_id,
       'prd_id' => $request->prd_id,
       'password' => $request->filled('password') ? Hash::make($request->password) : DB::raw('password'),
       'foto' => $request->hasFile('foto') ? $this->handleFileUpload($request->file('foto')) : DB::raw('foto')

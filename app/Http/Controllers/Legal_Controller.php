@@ -19,22 +19,19 @@ class Legal_Controller extends Controller
         $srt_masih_mhw = DB::table('srt_masih_mhw')
             ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-            ->join('departement', 'srt_masih_mhw.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_masih_mhw.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_masih_mhw.id', $id)
             ->select(
                 'srt_masih_mhw.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'srt_masih_mhw.nama_mhw',
                 'srt_masih_mhw.no_surat',
                 'users.nmr_unik',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_masih_mhw.tujuan_buat_srt',
                 'srt_masih_mhw.role_surat',
                 'srt_masih_mhw.tujuan_akhir',
@@ -54,20 +51,18 @@ class Legal_Controller extends Controller
         $srt_masih_mhw = DB::table('srt_masih_mhw')
             ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-            ->join('departement', 'srt_masih_mhw.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_masih_mhw.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_masih_mhw.id', $id)
             ->select(
                 'srt_masih_mhw.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'srt_masih_mhw.nama_mhw',
                 'users.nmr_unik',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'srt_masih_mhw.thn_awl',
                 'srt_masih_mhw.thn_akh',
                 'srt_masih_mhw.almt_smg',
@@ -106,16 +101,27 @@ class Legal_Controller extends Controller
     function srt_mhw_asn($id)
     {
         $srt_mhw_asn = DB::table('srt_mhw_asn')
-            ->where('id', $id)
+            ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_mhw_asn.id', $id)
             ->select(
-                'id',
-                'no_surat',
-                'nama_mhw',
-                'nim_mhw',
-                'thn_awl',
-                'thn_akh',
-                'role_surat',
-                'tanggal_surat'
+                'srt_mhw_asn.id',
+                'users.id as users_id',
+                'prodi.id as prodi_id',
+                'departement.id as departement_id',
+                'users.nama',
+                'users.nmr_unik',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'srt_mhw_asn.thn_awl',
+                'srt_mhw_asn.thn_akh',
+                'srt_mhw_asn.nama_ortu',
+                'srt_mhw_asn.nip_ortu',
+                'srt_mhw_asn.ins_ortu',
+                'srt_mhw_asn.tanggal_surat',
+                'srt_mhw_asn.no_surat',
+                'srt_mhw_asn.semester'
             )
             ->first();
 
@@ -133,18 +139,17 @@ class Legal_Controller extends Controller
         $srt_mhw_asn = DB::table('srt_mhw_asn')
             ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
-            ->join('departement', 'srt_mhw_asn.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_mhw_asn.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_mhw_asn.id', $id)
             ->select(
                 'srt_mhw_asn.id',
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
                 'users.nama',
                 'users.nmr_unik',
                 'departement.nama_dpt',
+                'prodi.nama_prd',
                 'srt_mhw_asn.thn_awl',
                 'srt_mhw_asn.thn_akh',
                 'srt_mhw_asn.nama_ortu',
@@ -180,8 +185,7 @@ class Legal_Controller extends Controller
         $srt_magang = DB::table('srt_magang')
             ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_magang.users_id', '=', 'users.id')
-            ->join('departement', 'srt_magang.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_magang.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_magang.id', $id)
             ->select(
                 'srt_magang.id',
@@ -189,15 +193,13 @@ class Legal_Controller extends Controller
                 'srt_magang.tanggal_surat',
                 'srt_magang.nama_mhw',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
                 'srt_magang.role_surat',
             )
             ->first();
@@ -214,8 +216,7 @@ class Legal_Controller extends Controller
         $srt_magang = DB::table('srt_magang')
             ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_magang.users_id', '=', 'users.id')
-            ->join('departement', 'srt_magang.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_magang.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_magang.id', $id)
             ->select(
                 'srt_magang.id',
@@ -223,15 +224,14 @@ class Legal_Controller extends Controller
                 'srt_magang.tanggal_surat',
                 'srt_magang.nama_mhw',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.email',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'srt_magang.semester',
                 'srt_magang.ipk',
                 'srt_magang.sksk',
@@ -240,7 +240,6 @@ class Legal_Controller extends Controller
                 'srt_magang.kota_lmbg',
                 'srt_magang.almt_lmbg',
                 'srt_magang.almt_smg',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_magang.role_surat',
             )
             ->first();
@@ -274,8 +273,7 @@ class Legal_Controller extends Controller
         $srt_izin_plt = DB::table('srt_izin_plt')
             ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->join('departement', 'srt_izin_plt.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_izin_plt.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_izin_plt.id', $id)
             ->select(
                 'srt_izin_plt.id',
@@ -283,9 +281,8 @@ class Legal_Controller extends Controller
                 'srt_izin_plt.tanggal_surat',
                 'srt_izin_plt.nama_mhw',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nmr_unik',
                 'srt_izin_plt.judul_data',
                 'srt_izin_plt.nama_lmbg',
@@ -305,8 +302,7 @@ class Legal_Controller extends Controller
         $srt_izin_plt = DB::table('srt_izin_plt')
             ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->join('departement', 'srt_izin_plt.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_izin_plt.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_izin_plt.id', $id)
             ->select(
                 'srt_izin_plt.id',
@@ -314,23 +310,21 @@ class Legal_Controller extends Controller
                 'srt_izin_plt.tanggal_surat',
                 'srt_izin_plt.nama_mhw',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'srt_izin_plt.semester',
                 'srt_izin_plt.judul_data',
                 'srt_izin_plt.nama_lmbg',
                 'srt_izin_plt.jbt_lmbg',
                 'srt_izin_plt.kota_lmbg',
                 'srt_izin_plt.almt_lmbg',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_izin_plt.role_surat',
             )
             ->first();
@@ -364,8 +358,7 @@ class Legal_Controller extends Controller
         $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
-            ->join('departement', 'srt_pmhn_kmbali_biaya.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_pmhn_kmbali_biaya.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_pmhn_kmbali_biaya.id', $id)
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
@@ -373,12 +366,10 @@ class Legal_Controller extends Controller
                 'srt_pmhn_kmbali_biaya.tanggal_surat',
                 'srt_pmhn_kmbali_biaya.nama_mhw',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nmr_unik',
-                'jenjang_pendidikan.nama_jnjg',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
                 'srt_pmhn_kmbali_biaya.role_surat',
             )
             ->first();
@@ -395,8 +386,7 @@ class Legal_Controller extends Controller
         $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
-            ->join('departement', 'srt_pmhn_kmbali_biaya.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_pmhn_kmbali_biaya.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_pmhn_kmbali_biaya.id', $id)
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
@@ -404,18 +394,16 @@ class Legal_Controller extends Controller
                 'srt_pmhn_kmbali_biaya.tanggal_surat',
                 'srt_pmhn_kmbali_biaya.nama_mhw',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_pmhn_kmbali_biaya.role_surat',
             )
             ->first();
@@ -449,8 +437,7 @@ class Legal_Controller extends Controller
         $srt_bbs_pnjm = DB::table('srt_bbs_pnjm')
             ->join('prodi', 'srt_bbs_pnjm.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
-            ->join('departement', 'srt_bbs_pnjm.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_bbs_pnjm.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_bbs_pnjm.id', $id)
             ->select(
                 'srt_bbs_pnjm.id',
@@ -458,13 +445,12 @@ class Legal_Controller extends Controller
                 'srt_bbs_pnjm.tanggal_surat',
                 'srt_bbs_pnjm.nama_mhw',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'srt_bbs_pnjm.dosen_wali',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
                 'srt_bbs_pnjm.role_surat',
             )
             ->first();
@@ -481,8 +467,7 @@ class Legal_Controller extends Controller
         $srt_bbs_pnjm = DB::table('srt_bbs_pnjm')
             ->join('prodi', 'srt_bbs_pnjm.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
-            ->join('departement', 'srt_bbs_pnjm.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'srt_bbs_pnjm.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_bbs_pnjm.id', $id)
             ->select(
                 'srt_bbs_pnjm.id',
@@ -490,17 +475,15 @@ class Legal_Controller extends Controller
                 'srt_bbs_pnjm.tanggal_surat',
                 'srt_bbs_pnjm.nama_mhw',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'srt_bbs_pnjm.dosen_wali',
                 'srt_bbs_pnjm.almt_smg',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'srt_bbs_pnjm.role_surat',
             )
             ->first();

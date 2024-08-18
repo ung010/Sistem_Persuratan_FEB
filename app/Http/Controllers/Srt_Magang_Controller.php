@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\departemen;
-use App\Models\jenjang_pendidikan;
 use App\Models\prodi;
 use App\Models\Srt_Magang;
 use Carbon\Carbon;
@@ -28,21 +27,19 @@ class Srt_Magang_Controller extends Controller
     $query = DB::table('srt_magang')
       ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_magang.users_id', '=', 'users.id')
-      ->join('departement', 'srt_magang.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_magang.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users_id', $user->id)
       ->select(
         'srt_magang.id',
         'users.id as users_id',
-        'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
         'users.nama',
         'users.nmr_unik',
         'users.nowa',
         'users.email',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'srt_magang.semester',
         'srt_magang.ipk',
         'srt_magang.sksk',
@@ -51,7 +48,6 @@ class Srt_Magang_Controller extends Controller
         'srt_magang.kota_lmbg',
         'srt_magang.almt_lmbg',
         'srt_magang.almt_smg',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
         'srt_magang.role_surat',
       );
 
@@ -69,12 +65,10 @@ class Srt_Magang_Controller extends Controller
 
     $data = $query->get();
 
-    $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
     $prodi = prodi::where('id', $user->prd_id)->first();
-    $departemen = departemen::where('id', $user->dpt_id)->first();
-    $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+    $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
-    return view('srt_magang.index', compact('data', 'user', 'departemen', 'jenjang_prodi'));
+    return view('srt_magang.index', compact('data', 'user', 'departemen', 'prodi'));
   }
 
   public function create(Request $request)
@@ -104,8 +98,6 @@ class Srt_Magang_Controller extends Controller
     DB::table('srt_magang')->insert([
       'users_id' => $user->id,
       'prd_id' => $user->prd_id,
-      'dpt_id' => $user->dpt_id,
-      'jnjg_id' => $user->jnjg_id,
       'nama_mhw' => $user->nama,
       'ipk' => $request->ipk,
       'sksk' => $request->sksk,
@@ -131,12 +123,10 @@ class Srt_Magang_Controller extends Controller
       return redirect()->route('srt_magang.index')->withErrors('Data tidak ditemukan.');
     }
 
-    $jenjang = jenjang_pendidikan::where('id', $user->jnjg_id)->first();
     $prodi = prodi::where('id', $user->prd_id)->first();
-    $departemen = departemen::where('id', $user->dpt_id)->first();
-    $jenjang_prodi = ($jenjang && $prodi) ? $jenjang->nama_jnjg . ' - ' . $prodi->nama_prd : 'N/A';
+    $departemen = departemen::where('id', $prodi->dpt_id)->first();
 
-    return view('srt_magang.edit', compact('data', 'user', 'jenjang_prodi', 'departemen'));
+    return view('srt_magang.edit', compact('data', 'user', 'prodi', 'departemen'));
   }
 
 
@@ -228,8 +218,7 @@ class Srt_Magang_Controller extends Controller
     $srt_magang = DB::table('srt_magang')
       ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_magang.users_id', '=', 'users.id')
-      ->join('departement', 'srt_magang.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_magang.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_magang.id', $id)
       ->select(
         'srt_magang.id',
@@ -239,13 +228,12 @@ class Srt_Magang_Controller extends Controller
         'users.id as users_id',
         'prodi.id as prodi_id',
         'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
         'users.nama',
         'users.nmr_unik',
         'users.nowa',
         'users.email',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'srt_magang.semester',
         'srt_magang.ipk',
         'srt_magang.sksk',
@@ -254,7 +242,6 @@ class Srt_Magang_Controller extends Controller
         'srt_magang.kota_lmbg',
         'srt_magang.almt_lmbg',
         'srt_magang.almt_smg',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
         'srt_magang.role_surat',
       )
       ->first();
@@ -301,8 +288,7 @@ class Srt_Magang_Controller extends Controller
     $srt_magang = DB::table('srt_magang')
       ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_magang.users_id', '=', 'users.id')
-      ->join('departement', 'srt_magang.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_magang.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_magang.id', $id)
       ->select(
         'srt_magang.id',
@@ -336,22 +322,20 @@ class Srt_Magang_Controller extends Controller
     $srt_magang = DB::table('srt_magang')
       ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_magang.users_id', '=', 'users.id')
-      ->join('departement', 'srt_magang.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_magang.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('srt_magang.id', $id)
       ->select(
         'srt_magang.id',
         'users.id as users_id',
         'prodi.id as prodi_id',
         'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
         'users.nama',
         'users.nmr_unik',
         'users.nowa',
         'users.foto',
         'users.email',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
+        'prodi.nama_prd',
         'srt_magang.semester',
         'srt_magang.ipk',
         'srt_magang.sksk',
@@ -360,7 +344,6 @@ class Srt_Magang_Controller extends Controller
         'srt_magang.kota_lmbg',
         'srt_magang.almt_lmbg',
         'srt_magang.almt_smg',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
         'srt_magang.role_surat',
       )
       ->first();
@@ -408,8 +391,7 @@ class Srt_Magang_Controller extends Controller
     $query = DB::table('srt_magang')
       ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_magang.users_id', '=', 'users.id')
-      ->join('departement', 'srt_magang.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_magang.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('role_surat', 'supervisor_akd')
       ->select(
         'srt_magang.id',
@@ -417,7 +399,7 @@ class Srt_Magang_Controller extends Controller
         'srt_magang.tanggal_surat',
         'srt_magang.nama_lmbg',
         'users.nmr_unik',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+        'prodi.nama_prd'
       );
 
     if ($search) {
@@ -425,7 +407,7 @@ class Srt_Magang_Controller extends Controller
         $q->where('nama_mhw', 'like', "%{$search}%")
           ->orWhere('nama_lmbg', 'like', "%{$search}%")
           ->orWhere('users.nmr_unik', 'like', "%{$search}%")
-          ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+          ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
       });
     }
 
@@ -451,8 +433,7 @@ class Srt_Magang_Controller extends Controller
     $query = DB::table('srt_magang')
       ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
       ->join('users', 'srt_magang.users_id', '=', 'users.id')
-      ->join('departement', 'srt_magang.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'srt_magang.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('role_surat', 'manajer')
       ->select(
         'srt_magang.id',
@@ -460,7 +441,7 @@ class Srt_Magang_Controller extends Controller
         'srt_magang.tanggal_surat',
         'srt_magang.nama_lmbg',
         'users.nmr_unik',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+        'prodi.nama_prd',
       );
 
     if ($search) {
@@ -468,7 +449,7 @@ class Srt_Magang_Controller extends Controller
         $q->where('nama_mhw', 'like', "%{$search}%")
           ->orWhere('nama_lmbg', 'like', "%{$search}%")
           ->orWhere('users.nmr_unik', 'like', "%{$search}%")
-          ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+          ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
       });
     }
 

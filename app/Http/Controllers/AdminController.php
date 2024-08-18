@@ -101,8 +101,7 @@ class AdminController extends Controller
   {
     $data = DB::table('users')
       ->join('prodi', 'users.prd_id', '=', 'prodi.id')
-      ->join('departement', 'users.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users.role', 'mahasiswa')
       ->whereIn('users.status', ['mahasiswa', 'alumni'])
       ->select(
@@ -110,23 +109,24 @@ class AdminController extends Controller
         'users.nama',
         'users.nmr_unik',
         'users.email',
+        'prodi.dpt_id',
         'departement.nama_dpt',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+        'prodi.nama_prd',
       )
       ->get();
 
     $dataDeleted = DB::table('users')
       ->join('prodi', 'users.prd_id', '=', 'prodi.id')
-      ->join('departement', 'users.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users.role', 'del_mahasiswa')
       ->whereIn('users.status', ['mahasiswa', 'alumni'])
       ->select(
         'users.id',
         'users.nama',
         'users.nmr_unik',
+        'users.email',
         'departement.nama_dpt',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+        'prodi.nama_prd',
       )
       ->get();
 
@@ -140,7 +140,6 @@ class AdminController extends Controller
     $data = DB::table('users')
       ->join('prodi', 'users.prd_id', '=', 'prodi.id')
       ->join('departement', 'users.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
       ->where('users.role', 'mahasiswa')
       ->whereIn('users.status', ['mahasiswa', 'alumni'])
       ->where(function ($q) use ($query) {
@@ -148,8 +147,7 @@ class AdminController extends Controller
           ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
           ->orWhere('users.email', 'LIKE', "%{$query}%")
           ->orWhere('prodi.nama_prd', 'LIKE', "%{$query}%")
-          ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
-          ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'LIKE', "%{$query}%");
+          ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%");
       })
       ->select(
         'users.id',
@@ -157,7 +155,6 @@ class AdminController extends Controller
         'users.nmr_unik',
         'prodi.nama_prd',
         'departement.nama_dpt',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi')
       )
       ->get();
 
@@ -168,16 +165,17 @@ class AdminController extends Controller
   {
     $data = DB::table('users')
       ->join('prodi', 'users.prd_id', '=', 'prodi.id')
-      ->join('departement', 'users.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users.role', 'non_mahasiswa')
       ->whereIn('users.status', ['mahasiswa', 'alumni'])
       ->select(
         'users.id',
         'users.nama',
         'users.nmr_unik',
+        'users.email',
+        'prodi.dpt_id',
         'departement.nama_dpt',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+        'prodi.nama_prd',
       )
       ->get();
 
@@ -191,56 +189,53 @@ class AdminController extends Controller
     $data = DB::table('users')
       ->join('prodi', 'users.prd_id', '=', 'prodi.id')
       ->join('departement', 'users.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
       ->where('users.role', 'non_mahasiswa')
       ->whereIn('users.status', ['mahasiswa', 'alumni'])
       ->where(function ($q) use ($query) {
         $q->where('users.nama', 'LIKE', "%{$query}%")
           ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
           ->orWhere('users.email', 'LIKE', "%{$query}%")
-          ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
-          ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'LIKE', "%{$query}%");
+          ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%");
       })
       ->select(
         'users.id',
         'users.nama',
         'users.nmr_unik',
         'departement.nama_dpt',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
       )
       ->get();
 
     return view('admin.verifikasi', compact('data'));
   }
 
-  function soft_delete_view(Request $request)
-  {
-    $query = $request->input('query');
+  // function soft_delete_view(Request $request)
+  // {
+  //   $query = $request->input('query');
 
-    $data = DB::table('users')
-      ->join('prodi', 'users.prd_id', '=', 'prodi.id')
-      ->join('departement', 'users.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
-      ->where('users.role', 'del_mahasiswa')
-      ->whereIn('users.status', ['mahasiswa', 'alumni'])
-      ->where(function ($q) use ($query) {
-        $q->where('users.nama', 'LIKE', "%{$query}%")
-          ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
-          ->orWhere('users.email', 'LIKE', "%{$query}%")
-          ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
-          ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'LIKE', "%{$query}%");
-      })
-      ->select(
-        'users.id',
-        'users.nama',
-        'users.nmr_unik',
-        'departement.nama_dpt',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
-      )
-      ->get();
+  //   $data = DB::table('users')
+  //     ->join('prodi', 'users.prd_id', '=', 'prodi.id')
+  //     ->join('departement', 'users.dpt_id', '=', 'departement.id')
+  //     ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
+  //     ->where('users.role', 'del_mahasiswa')
+  //     ->whereIn('users.status', ['mahasiswa', 'alumni'])
+  //     ->where(function ($q) use ($query) {
+  //       $q->where('users.nama', 'LIKE', "%{$query}%")
+  //         ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
+  //         ->orWhere('users.email', 'LIKE', "%{$query}%")
+  //         ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
+  //         ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'LIKE', "%{$query}%");
+  //     })
+  //     ->select(
+  //       'users.id',
+  //       'users.nama',
+  //       'users.nmr_unik',
+  //       'departement.nama_dpt',
+  //       DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+  //     )
+  //     ->get();
 
-    return view('admin.soft_del', compact('data'));
-  }
+  //   return view('admin.soft_del', compact('data'));
+  // }
 
   public function soft_delete($id)
   {
@@ -261,14 +256,10 @@ class AdminController extends Controller
 
   function restore($id)
   {
-    // Mengambil user berdasarkan id menggunakan Query Builder
     $user = DB::table('users')->where('id', $id)->first();
 
-    // Memeriksa apakah user ditemukan
     if ($user) {
-      // Memeriksa apakah role user adalah 'del_mahasiswa'
       if ($user->role === 'del_mahasiswa') {
-        // Mengupdate role user menjadi 'mahasiswa'
         DB::table('users')->where('id', $id)->update(['role' => 'mahasiswa']);
 
         return redirect('/admin/user')->with('success', 'Akun berhasil dipulihkan');
@@ -322,14 +313,12 @@ class AdminController extends Controller
   {
     $user = DB::table('users')
       ->join('prodi', 'users.prd_id', '=', 'prodi.id')
-      ->join('departement', 'users.dpt_id', '=', 'departement.id')
-      ->join('jenjang_pendidikan', 'users.jnjg_id', '=', 'jenjang_pendidikan.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users.id', $id)
       ->select(
         'users.id',
         'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'jenjang_pendidikan.id as jenjang_pendidikan_id',
+        'departement.id as dpt_id',
         'users.nama',
         'users.nmr_unik',
         DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
@@ -338,10 +327,10 @@ class AdminController extends Controller
         'users.foto',
         'users.role',
         'users.email',
+        'users.status',
         'users.almt_asl',
         'departement.nama_dpt',
-        'jenjang_pendidikan.nama_jnjg',
-        DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+        'prodi.nama_prd',
       )
       ->first();
     return view('admin.cekdata', compact('user'));
