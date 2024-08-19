@@ -29,6 +29,7 @@
                                 <th>Cek Data</th>
                                 <th>Unduh</th>
                                 <th>Status</th>
+                                <th>Kirim</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,6 +67,17 @@
                                             Ditolak
                                         @endif
                                     </td>
+                                    <td>
+                                        @if ($item->role_surat == 'manajer_sukses')
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                data-target="#uploadModal" data-id="{{ $item->id }}"
+                                                data-nama="{{ $item->nama_mhw }}">
+                                                Kirim
+                                            </button>
+                                        @else
+                                            <button class="btn btn-secondary btn-sm" disabled>Kirim</button>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -74,6 +86,65 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadModalLabel">Notifikasi Mahasiswa</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ isset($item) ? route('legalisir_admin.admin_ditempat_ijz_trs_resi', $item->id) : '#' }}"
+                        method="POST" id="uploadForm">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="no_resi">No Resi</label>
+                                <input type="text" class="form-control" id="no_resi" name="no_resi" required>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="diambil_ditempat"
+                                    name="diambil_ditempat">
+                                <label class="form-check-label" for="diambil_ditempat">Diambil Ditempat</label>
+                                <br>
+                                *Centang apabila surat diambil ditempat
+                            </div>
+                            <input type="hidden" id="id" name="id">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script>
+            $('#uploadModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var modal = $(this);
+
+                modal.find('#id').val(id);
+                modal.find('form').attr('action', '/legalisir/admin/ditempat/ijz_trs/no_resi/' + id);
+
+                $('#diambil_ditempat').change(function() {
+                    if (this.checked) {
+                        $('#no_resi').val('Diambil Ditempat');
+                        $('#no_resi').prop('disabled', true);
+                    } else {
+                        $('#no_resi').val('');
+                        $('#no_resi').prop('disabled', false);
+                    }
+                });
+            });
+        </script>
 @endsection
 
 @section('script')
