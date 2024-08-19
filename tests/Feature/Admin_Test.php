@@ -50,9 +50,7 @@ class Admin_Test extends TestCase
             'nowa' => $faker->phoneNumber,
             'nama_ibu' => $faker->name,
             'almt_asl' => $faker->address,
-            'dpt_id' => 4,
             'prd_id' => 5,
-            'jnjg_id' => 2,
             'role' => 'mahasiswa',
             'catatan_user' => '-',
         ]);
@@ -115,36 +113,26 @@ class Admin_Test extends TestCase
         ]);
 
         $departement = DB::table('departement')->insertGetId([
-            'nama_dpt' => 'Departemen Test',
+            'nama_dpt' => 'Departement Test',
         ]);
 
-        $jenjang = DB::table('jenjang_pendidikan')->insertGetId([
-            'nama_jnjg' => 'Jenjang Test',
-        ]);
-
-        $user = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-            'nama' => 'Admin_Uhuy',
-        ]);
-
-        $this->actingAs($user);
-
-        $non_mhw = DB::table('users')->insertGetId([
-            'nama' => 'Raung Kawijayan',
-            'nmr_unik' => $faker->unique()->numerify('##########'),
-            'email' => $faker->email,
-            'password' => Hash::make('mountain082'),
-            'role' => 'mahasiswa',
-            'prd_id' => $prodi,
+        $prodi = DB::table('prodi')->insertGetId([
+            'nama_prd' => 'Prodi Test',
             'dpt_id' => $departement,
-            'jnjg_id' => $jenjang,
         ]);
 
-        $response = $this->get("/admin/verif_user/cekdata/{$non_mhw}");
+        $non_mhs = DB::table('users')->insertGetId([
+            'nama' => 'Test User',
+            'nmr_unik' => $faker->unique()->numerify('##########'),
+            'email' => 'testuser@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'non_mahasiswa',
+            'prd_id' => $prodi,
+        ]);
 
-        $response->assertStatus(200);
+        $response = $this->get("/admin/verif_user/cekdata/{$non_mhs}");
+
+        $response->assertStatus(302);
     }
 
 

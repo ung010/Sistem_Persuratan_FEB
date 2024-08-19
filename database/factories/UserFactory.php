@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'nowa' => $this->faker->phoneNumber,
             'nama_ibu' => $this->faker->name,
             'almt_asl' => $this->faker->address,
-            'prd_id' => 5,
+            'prd_id' => 1,
             'role' => 'mahasiswa',
             // 'role' => $this->faker->randomElement(['mahasiswa', 'non_mahasiswa', 'del_mahasiswa']),
             'catatan_user' => '-',

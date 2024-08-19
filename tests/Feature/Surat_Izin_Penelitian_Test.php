@@ -31,9 +31,7 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -65,8 +63,6 @@ class Surat_Izin_Penelitian_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama' => 'Raung Calon Sarjana',
         ]);
 
@@ -75,8 +71,6 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $surat = DB::table('srt_izin_plt')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
@@ -108,8 +102,6 @@ class Surat_Izin_Penelitian_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama' => 'Raung Calon Sarjana',
         ]);
         $this->actingAs($user);
@@ -117,8 +109,6 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $surat = DB::table('srt_izin_plt')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
@@ -173,8 +163,6 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $suratId = DB::table('srt_izin_plt')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
@@ -282,8 +270,6 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $surat = \App\Models\srt_izin_penelitian::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
@@ -339,8 +325,6 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $surat = \App\Models\srt_izin_penelitian::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
@@ -386,8 +370,6 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $surat = \App\Models\srt_izin_penelitian::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),

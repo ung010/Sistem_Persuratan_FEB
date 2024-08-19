@@ -600,8 +600,7 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',

@@ -32,9 +32,7 @@ class Surat_Masih_MHW_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -61,9 +59,7 @@ class Surat_Masih_MHW_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -91,8 +87,6 @@ class Surat_Masih_MHW_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama' => 'Raung Calon Sarjana',
         ]);
 
@@ -101,8 +95,6 @@ class Surat_Masih_MHW_Test extends TestCase
         $surat = DB::table('srt_masih_mhw')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'thn_awl' => 2020,
             'thn_akh' => 2024,
@@ -131,8 +123,6 @@ class Surat_Masih_MHW_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama' => 'Raung Calon Sarjana',
         ]);
         $this->actingAs($user);
@@ -140,8 +130,6 @@ class Surat_Masih_MHW_Test extends TestCase
         $surat = DB::table('srt_masih_mhw')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'thn_awl' => 2020,
             'thn_akh' => 2024,
@@ -197,8 +185,6 @@ class Surat_Masih_MHW_Test extends TestCase
             'almt_smg' => 'Semarang',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
         ]);
 
         $response = $this->get("/srt_masih_mhw/admin/cek_surat/{$suratId}");
@@ -292,8 +278,6 @@ class Surat_Masih_MHW_Test extends TestCase
             'almt_smg' => 'Semarang',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
         ]);
 
         $response = $this->get("/srt_masih_mhw/manajer_wd/cek_surat/{$suratId}");
@@ -389,8 +373,6 @@ class Surat_Masih_MHW_Test extends TestCase
         $surat = \App\Models\srt_masih_mhw::factory()->create([
             'users_id' => $admin->id,
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama_mhw' => $admin->nama,
             'thn_awl' => 2020,
             'thn_akh' => 2024,
@@ -442,8 +424,6 @@ class Surat_Masih_MHW_Test extends TestCase
         $surat = \App\Models\srt_masih_mhw::factory()->create([
             'users_id' => $supervisor->id,
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama_mhw' => $supervisor->nama,
             'thn_awl' => 2020,
             'thn_akh' => 2024,
@@ -485,8 +465,6 @@ class Surat_Masih_MHW_Test extends TestCase
         $surat = \App\Models\srt_masih_mhw::factory()->create([
             'users_id' => $manajer->id,
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama_mhw' => $manajer->nama,
             'thn_awl' => 2020,
             'thn_akh' => 2024,
@@ -522,8 +500,6 @@ class Surat_Masih_MHW_Test extends TestCase
         $surat = \App\Models\srt_masih_mhw::factory()->create([
             'users_id' => $manajer->id,
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
             'nama_mhw' => $manajer->nama,
             'thn_awl' => 2020,
             'thn_akh' => 2024,

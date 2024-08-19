@@ -46,9 +46,7 @@ class MahasiswaTest extends TestCase
             'nama_ibu' => $faker->name('female'),
             'nowa' => $faker->phoneNumber,
             'almt_asl' => $faker->address,
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
             'password' => 'mountain082',
         ]);
 

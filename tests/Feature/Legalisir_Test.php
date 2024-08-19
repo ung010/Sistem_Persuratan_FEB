@@ -28,9 +28,7 @@ class Legalisir_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
             'nama' => 'Deborah Jacobi',
         ]);
 
@@ -84,9 +82,7 @@ class Legalisir_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
             'nama' => 'Deborah Jacobi',
         ]);
 
@@ -131,9 +127,7 @@ class Legalisir_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -171,8 +165,6 @@ class Legalisir_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -208,8 +200,6 @@ class Legalisir_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -242,8 +232,6 @@ class Legalisir_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -251,8 +239,6 @@ class Legalisir_Test extends TestCase
         $surat = DB::table('legalisir')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
@@ -304,8 +290,6 @@ class Legalisir_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -313,8 +297,6 @@ class Legalisir_Test extends TestCase
         $surat = DB::table('legalisir')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'ambil' => 'ditempat',
             'jenis_lgl' => 'transkrip',
@@ -453,8 +435,6 @@ class Legalisir_Test extends TestCase
         $suratId = DB::table('legalisir')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
@@ -545,8 +525,6 @@ class Legalisir_Test extends TestCase
         $suratId = DB::table('legalisir')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'ambil' => 'ditempat',
             'jenis_lgl' => 'transkrip',
@@ -639,8 +617,6 @@ class Legalisir_Test extends TestCase
         $surat = \App\Models\legalisir::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
@@ -689,8 +665,6 @@ class Legalisir_Test extends TestCase
         $surat = \App\Models\legalisir::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
             'ambil' => 'dikirim',
             'jenis_lgl' => 'transkrip',

@@ -29,9 +29,7 @@ class Surat_ASN_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -62,18 +60,13 @@ class Surat_ASN_Test extends TestCase
         $surat = DB::table('srt_mhw_asn')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
-            'nim_mhw' => $user->nmr_unik,
-            'nowa_mhw' => $user->nowa,
             'thn_awl' => 2020,
             'thn_akh' => 2024,
             'semester' => 6,
             'nama_ortu' => 'Nama Ortu Lama',
             'nip_ortu' => '1234567890',
             'ins_ortu' => 'Instansi Lama',
-            'jenjang_prodi' => 'S1 - Ekonomi',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
@@ -92,27 +85,20 @@ class Surat_ASN_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
         ]);
         $this->actingAs($user);
 
         $surat = DB::table('srt_mhw_asn')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
-            'nim_mhw' => $user->nmr_unik,
-            'nowa_mhw' => $user->nowa,
             'thn_awl' => 2020,
             'thn_akh' => 2024,
             'semester' => 6,
             'nama_ortu' => 'Nama Ortu Lama',
             'nip_ortu' => '1234567890',
             'ins_ortu' => 'Instansi Lama',
-            'jenjang_prodi' => 'S1 - Ekonomi',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
@@ -165,19 +151,14 @@ class Surat_ASN_Test extends TestCase
         $suratId = DB::table('srt_mhw_asn')->insertGetId([
             'users_id' => $admin->id,
             'nama_mhw' => 'Raung Calon Sarjana',
-            'nim_mhw' => '123456789',
-            'nowa_mhw' => '08123456789',
             'thn_awl' => 2020,
             'thn_akh' => 2024,
             'semester' => 6,
             'nama_ortu' => 'Jane Doe',
             'nip_ortu' => '987654321',
             'ins_ortu' => 'Some Institution',
-            'jenjang_prodi' => 'S1 - Ekonomi',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
         ]);
 
         $response = $this->get("/srt_mhw_asn/admin/cek_surat/{$suratId}");

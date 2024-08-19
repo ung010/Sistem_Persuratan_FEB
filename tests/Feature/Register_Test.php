@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 use Tests\TestCase;
 
-class RegisterTest extends TestCase
+class Register_Test extends TestCase
 {
     // use RefreshDatabase;
     /**

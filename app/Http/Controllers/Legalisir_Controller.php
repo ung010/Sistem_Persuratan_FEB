@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\departemen;
-use App\Models\jenjang_pendidikan;
 use App\Models\prodi;
 
 class Legalisir_Controller extends Controller
