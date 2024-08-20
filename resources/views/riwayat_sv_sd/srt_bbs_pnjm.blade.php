@@ -12,9 +12,9 @@
                 </div>
                 <br>
                 <div class="card d-inline-block">
-                    <div class="card-header d-flex align-items-center">
-                        <a class="btn btn-secondary" href="/riwayat_srt/sv_sd/srt_pmhn_kmbali_biaya">Pengembalian Biaya Pendidikan</a>
-                        <a class="btn btn-secondary" href="/riwayat_srt/sv_sd/srt_bbs_pnjm">Keterangan Bebas Pinjam</a>
+                    <div class="card-header d-flex align-items-center gap-2">
+                        <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/sv_sd/srt_pmhn_kmbali_biaya">Pengembalian Biaya Pendidikan</a>
+                        <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/sv_sd/srt_bbs_pnjm">Keterangan Bebas Pinjam</a>
                     </div>
                 </div>
             </div>

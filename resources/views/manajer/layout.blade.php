@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>Manajer Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- DataTables CSS -->
@@ -52,15 +52,11 @@
                                     Biaya
                                     Pendidikan</a>
                                 <a href="/legalisir/manajer/ditempat/ijazah" class="link-dark rounded">Legalisir Diambil
-                                    Ditempat</a>
+                                    di Tempat</a>
                                 <a href="/legalisir/manajer/dikirim/ijazah" class="link-dark rounded">Legalisir
                                     Dikirim</a>
                             </div>
                         </div>
-                    </li>
-                    <li class="mb-1">
-                        <a href="/manajer/manage_spv" class="link-dark"><img src="{{ asset('asset/icons/user.png') }}"
-                                alt="Icon" style="height: 16px;"> Manajemen Supervisor</a>
                     </li>
                     <li class="mb-1">
                         <button class="btn btn-toggle align-items-center rounded collapsed p-0 link-dark"
@@ -71,22 +67,21 @@
 
                         <div class="collapse" id="orders-collapse-riwayat" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/riwayat_srt/manajer/srt_mhw_asn" class="link-dark rounded">Surat keterangan
-                                    untuk
-                                    anak
-                                    ASN</a>
-                                <a href="/riwayat_srt/manajer/srt_masih_mhw" class="link-dark rounded">Surat Keterangan
-                                    Masih
-                                    Mahasiswa</a>
-                                <a href="/riwayat_srt/manajer/srt_magang" class="link-dark rounded">Surat Magang</a>
-                                <a href="/riwayat_srt/manajer/srt_izin_plt" class="link-dark rounded">Surat Izin
-                                    Penelitian</a>
-                                <a href="/riwayat_srt/manajer/srt_pmhn_kmbali_biaya" class="link-dark rounded">Surat
-                                    Permohonan
+                                <a href="/riwayat_srt/manajer/srt_mhw_asn" class="link-dark rounded">Keterangan Masih Kuliah (Bagi
+                                ASN)</a>
+                                <a href="/riwayat_srt/manajer/srt_masih_mhw" class="link-dark rounded">Keterangan Masih
+                                Mahasiswa</a>
+                                <a href="/riwayat_srt/manajer/srt_magang" class="link-dark rounded">Izin Magang</a>
+                                <a href="/riwayat_srt/manajer/srt_izin_plt" class="link-dark rounded">Izin Penelitian</a>
+                                <a href="/riwayat_srt/manajer/srt_pmhn_kmbali_biaya" class="link-dark rounded">Permohonan
                                     Pengembalian Biaya Pendidikan</a>
                                 <a href="/riwayat_srt/manajer/legalisir" class="link-dark rounded">Legalisir</a>
                             </div>
                         </div>
+                    </li>
+                    <li class="mb-1">
+                        <a href="/manajer/manage_spv" class="link-dark"><img src="{{ asset('asset/icons/user.png') }}"
+                                alt="Icon" style="height: 16px;"> Manajemen Supervisor</a>
                     </li>
                     <li class="mb-1">
                         <a href="/survey/manajer" class="link-dark"><img src="{{ asset('asset/icons/survey.png') }}"

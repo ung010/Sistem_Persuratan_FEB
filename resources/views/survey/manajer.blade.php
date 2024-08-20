@@ -39,27 +39,42 @@
             </div>
         </div>
         <br>
-        <div class="d-flex gap-3 flex-wrap justify-content-between">
-            @foreach ($feedbacks as $key => $feedback)
-                @if ($key < 4)
-                    <div class="card flex-even">
-                        <div
-                            class="card-body d-flex flex-column gap-3 align-items-center align-content-center">
-                            <p>Kritik Dan Saran</p>
-                            <div class="card mb-3">
-                                <div
-                                    class="card-header d-flex justify-content-center align-items-center align-content-center text-center">
-                                    <p class="m-3">{{ strlen($feedback->feedback) > 100 ? substr($feedback->feedback, 0, 100) . '...' : $feedback->feedback }}</p>
+        <!-- Kritik dan Saran Carousel -->
+        <div id="feedbackCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach ($feedbacks->chunk(4) as $feedbackChunk)
+                    <div class="carousel-item @if($loop->first) active @endif">
+                        <div class="d-flex gap-3 justify-content-between">
+                            @foreach ($feedbackChunk as $feedback)
+                                <div class="card flex-even">
+                                    <div class="card-body d-flex flex-column gap-3 align-items-center align-content-center">
+                                        <p>Kritik Dan Saran</p>
+                                        <div class="card mb-3">
+                                            <div class="card-header d-flex justify-content-center align-items-center align-content-center text-center">
+                                                <p class="m-3">{{ strlen($feedback->feedback) > 100 ? substr($feedback->feedback, 0, 100) . '...' : $feedback->feedback }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
-                @endif
-            @endforeach
+                @endforeach
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#feedbackCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#feedbackCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
         <br>
-        <div class="d-flex justify-content-end">
+        <!-- <div class="d-flex justify-content-end">
             <button class="btn btn-warning">Ambil Data Survey</button>
-        </div>
+        </div> -->
     </div>
 @endsection

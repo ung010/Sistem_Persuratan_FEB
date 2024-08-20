@@ -7,15 +7,15 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">LEGALISIR IJAZAH</p>
+                        <p class="heading-card">LEGALISIR DIAMBIL DI TEMPAT</p>
                     </div>
                 </div>
                 <br>
                 <div class="card d-inline-block">
-                    <div class="card-header d-flex align-items-center">
-                        <a class="btn btn-secondary" href="/legalisir/admin/ditempat/ijazah">Ijazah</a>
-                        <a class="btn btn-secondary" href="/legalisir/admin/ditempat/transkrip">Transkrip</a>
-                        <a class="btn btn-secondary" href="/legalisir/admin/ditempat/ijz_trs">Ijazah dan Transkrip</a>
+                    <div class="card-header d-flex align-items-center gap-2">
+                        <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/ijazah">Ijazah</a>
+                        <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/transkrip">Transkrip</a>
+                        <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/ijz_trs">Ijazah dan Transkrip</a>
                     </div>
                 </div>
             </div>
@@ -27,8 +27,8 @@
                                 <th>No</th>
                                 <th>Nama Mahasiswa</th>
                                 <th>Cek Data</th>
-                                <th>Unduh</th>
                                 <th>Status</th>
+                                <th>Unduh</th>
                                 <th>Kirim</th>
                             </tr>
                         </thead>
@@ -47,14 +47,6 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($item->role_surat == 'manajer_sukses')
-                                            <a href="{{ url('/legalisir/admin/ditempat/ijazah/download/' . $item->id) }}"
-                                                class="btn btn-primary btn-sm">Unduh</a>
-                                        @else
-                                            <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
-                                        @endif
-                                    </td>
-                                    <td>
                                         @if ($item->role_surat == 'admin')
                                             Verif Admin
                                         @elseif ($item->role_surat == 'supervisor_akd')
@@ -65,6 +57,14 @@
                                             Manajer telah verifikasi
                                         @else
                                             Ditolak
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($item->role_surat == 'manajer_sukses')
+                                            <a href="{{ url('/legalisir/admin/ditempat/ijazah/download/' . $item->id) }}"
+                                                class="btn btn-primary btn-sm">Unduh</a>
+                                        @else
+                                            <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
                                         @endif
                                     </td>
                                     <td>

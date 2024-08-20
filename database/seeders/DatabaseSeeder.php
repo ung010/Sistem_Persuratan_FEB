@@ -120,7 +120,7 @@ class DatabaseSeeder extends Seeder
         $users = [
             [
 
-                'nama' => 'Capstone TA Kel 31',
+                'nama' => 'DiSetRa',
                 'nmr_unik' => '21120120150155',
                 'email' => 'mahasiswa@gmail.com',
                 'password' => bcrypt('mountain082'),
@@ -229,7 +229,11 @@ class DatabaseSeeder extends Seeder
             $thn_akh = $thn_awl + 1;
             $semester = $faker_srt_mhw_asn->numberBetween(3, 13);
             $role_surat = $faker_srt_mhw_asn->randomElement($list_role);
-            $tanggal_surat = Carbon::now()->toDateString();
+            $tanggal_surat = Carbon::create(
+                rand(2000, 2024),
+                rand(1, 12),
+                rand(1, 28)
+            )->toDateString();
 
             $prodi = DB::table('prodi')->where('id', $user->prd_id)->value('nama_prd');
 
@@ -268,7 +272,11 @@ class DatabaseSeeder extends Seeder
             $semester = $faker_srt_masih_mhw->numberBetween(3, 13);
             $tujuan_buat_srt = $faker_srt_masih_mhw->randomElement($alasan_acak);
             $role_surat = $faker_srt_masih_mhw->randomElement($list_role);
-            $tanggal_surat = Carbon::now()->toDateString();
+            $tanggal_surat = Carbon::create(
+                rand(2000, 2024),
+                rand(1, 12),
+                rand(1, 28)
+            )->toDateString();
 
             DB::table('srt_masih_mhw')->insert([
                 'users_id' => $random_user_id,
@@ -297,7 +305,11 @@ class DatabaseSeeder extends Seeder
             $random_user_id = $faker_srt_magang->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
-            $tanggal_surat = Carbon::now()->toDateString();
+            $tanggal_surat = Carbon::create(
+                rand(2000, 2024),
+                rand(1, 12),
+                rand(1, 28)
+            )->toDateString();
             $ipk = round($faker_srt_magang->randomFloat(2, 3.00, 3.99), 2);
             $sksk = $faker_srt_magang->numberBetween(120, 140);
             $semester = $faker_srt_magang->numberBetween(3, 13);
@@ -340,7 +352,11 @@ class DatabaseSeeder extends Seeder
             $random_user_id = $faker_srt_plt->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
-            $tanggal_surat = Carbon::now()->toDateString();
+            $tanggal_surat = Carbon::create(
+                rand(2000, 2024),
+                rand(1, 12),
+                rand(1, 28)
+            )->toDateString();
             $judul_data = $faker_srt_plt->randomElement($judul);
             $jenis_surat = $faker_srt_plt->randomElement($jenis);
             $lampiran = $faker_srt_plt->randomElement(['1 Eksemplar', '2 Eksemplar']);
@@ -376,7 +392,11 @@ class DatabaseSeeder extends Seeder
             $random_user_id = $faker_srt_pmhn_kmbali_biaya->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
-            $tanggal_surat = Carbon::now()->toDateString();
+            $tanggal_surat = Carbon::create(
+                rand(2000, 2024),
+                rand(1, 12),
+                rand(1, 28)
+            )->toDateString();
 
             DB::table('srt_pmhn_kmbali_biaya')->insert([
                 'users_id' => $random_user_id,
@@ -399,7 +419,11 @@ class DatabaseSeeder extends Seeder
             $random_user_id = $faker_srt_bbs_pnjm->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
-            $tanggal_surat = Carbon::now()->toDateString();
+            $tanggal_surat = Carbon::create(
+                rand(2000, 2024),
+                rand(1, 12),
+                rand(1, 28)
+            )->toDateString();
             $almt_smg = $faker_srt_bbs_pnjm->address();
             $dosen_wali = $faker_srt_bbs_pnjm->name();
 
@@ -461,7 +485,11 @@ class DatabaseSeeder extends Seeder
             $random_user_id = $faker_survey->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $rating = $faker_survey->randomElement($ratings);
-            $tanggal_surat = Carbon::now()->toDateString();
+            $tanggal_surat = Carbon::create(
+                rand(2000, 2024),
+                rand(1, 12),
+                rand(1, 28)
+            )->toDateString();
 
             DB::table('survey')->insert([
                 'users_id' => $random_user_id,

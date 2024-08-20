@@ -6,15 +6,15 @@
             <div class="card d-inline-block intersection-card">
                 <div class="card-body d-flex gap-2 align-items-center">
                     <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                    <p class="heading-card">LEGALISIR IJAZAH</p>
+                    <p class="heading-card">LEGALISIR DIKIRIM</p>
                 </div>
             </div>
             <br>
             <div class="card d-inline-block">
-                <div class="card-header d-flex align-items-center">
-                    <a class="btn btn-secondary" href="/legalisir/admin/ditempat/ijazah">Ijazah</a>
-                    <a class="btn btn-secondary" href="/legalisir/admin/ditempat/transkrip">Transkrip</a>
-                    <a class="btn btn-secondary" href="/legalisir/admin/ditempat/ijz_trs">Ijazah dan Transkrip</a>
+                <div class="card-header d-flex align-items-center gap-2">
+                    <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/ijazah">Ijazah</a>
+                    <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/transkrip">Transkrip</a>
+                    <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/ijz_trs">Ijazah dan Transkrip</a>
                 </div>
             </div>
         </div>

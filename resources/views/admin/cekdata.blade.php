@@ -6,7 +6,7 @@
             <div class="card d-inline-block intersection-card">
                 <div class="card-body d-flex gap-2 align-items-center">
                     <img src="{{ asset('asset/icons/big admin.png') }}" alt="big admin" class="heading-image">
-                    <p class="heading-card">MANAJEMEN USER</p>
+                    <p class="heading-card">VERIFIKASI DATA MAHASISWA</p>
                 </div>
             </div>
         </div>
@@ -33,10 +33,10 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#catatanModal">Ditolak</button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#catatanModal">Tolak</button>
                     <form action="{{ route('admin.verifikasi.user', $user->id) }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-success">Disetujui</button>
+                        <button type="submit" class="btn btn-success">Setujui</button>
                     </form>
                 </div>
             </div>

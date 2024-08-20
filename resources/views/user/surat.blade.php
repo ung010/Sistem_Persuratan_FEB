@@ -56,7 +56,7 @@
                     margin: 0;
                     font-family: 'Times New Roman', Times, serif;
                   ">
-                                KFAKULTAS EKONOMIKA DAN BISNIS
+                                FAKULTAS EKONOMIKA DAN BISNIS
                             </p>
                         </div>
                     </td>

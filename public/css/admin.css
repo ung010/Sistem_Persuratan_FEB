@@ -63,8 +63,9 @@
     text-overflow: ellipsis;
     /* white-space: nowrap; */
     overflow: hidden;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
+    text-align: center;
     margin: 0;
 }
 
@@ -72,3 +73,47 @@
     max-width: 55px;
     width: 100%;
 }
+
+.btn-fixed-size {
+    width: 150px; 
+    height: 60px; 
+    display: flex;
+    text-align: center; 
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-fixed-size-one {
+    width: 150px; 
+    height: 40px; 
+    display: flex;
+    text-align: center; 
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-fixed-size-custom {
+    width: 250px; 
+    height: 30px; 
+    display: flex;
+    text-align: center; 
+    align-items: center;
+    justify-content: center;
+}
+
+/* .carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); 
+    border-radius: 50%; 
+    width: 50px;
+    height: 50px;
+    background-size: 50%, 50%; 
+} */
+
+/* .carousel-control-prev-icon {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 16 16"><path d="M11.354 1.354a.5.5 0 0 0-.707 0L4.5 7.5l6.147 6.146a.5.5 0 0 0 .707-.707L5.707 7.5l5.647-5.646a.5.5 0 0 0 0-.707z"/></svg>');
+} */
+
+/* .carousel-control-next-icon {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 16 16"><path d="M4.646 1.354a.5.5 0 0 1 .707 0l6.147 6.146a.5.5 0 0 1 0 .707L5.354 14.354a.5.5 0 1 1-.707-.707L10.793 8 4.646 1.854a.5.5 0 0 1 0-.707z"/></svg>');
+} */

@@ -191,7 +191,9 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'nama_mhw',
                 'role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses']);
+            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -380,6 +382,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
             ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('role_surat', 'supervisor_akd')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_izin_plt.id',
                 'srt_izin_plt.nama_mhw',
@@ -422,6 +425,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
             ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('role_surat', 'manajer')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_izin_plt.id',
                 'srt_izin_plt.nama_mhw',

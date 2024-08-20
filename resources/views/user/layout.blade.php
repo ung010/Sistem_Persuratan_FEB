@@ -35,9 +35,10 @@
                     <a class="nav-link dropdown-toggle navbar-text" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">PERSURATAN</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/srt_mhw_asn">Surat keterangan untuk anak ASN</a></li>
+                        <li><a class="dropdown-item" href="/srt_mhw_asn">Surat Keterangan Masih Kuliah (Bagi
+                        ASN)</a></li>
                         <li><a class="dropdown-item" href="/srt_masih_mhw">Surat Keterangan Masih Mahasiswa</a></li>
-                        <li><a class="dropdown-item" href="/srt_magang">Surat Magang</a></li>
+                        <li><a class="dropdown-item" href="/srt_magang">Surat Izin Magang</a></li>
                         <li><a class="dropdown-item" href="/srt_izin_plt">Surat Izin Penelitian</a></li>
                         <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya">Surat Permohonan Pengembalian Biaya
                                 Pendidikan</a></li>

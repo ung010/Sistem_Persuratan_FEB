@@ -7,12 +7,12 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big admin.png') }}" alt="big admin" class="heading-image">
-                        <p class="heading-card">MANAJEMEN USER</p>
+                        <p class="heading-card">VERIFIKASI DATA MAHASISWA</p>
                     </div>
                 </div>
             </div>
-            <div class="card-body my-3">
-                <div class="d-flex justify-content-center align-items-end align-content-center flex-column gap-5">
+            <div class="card-body my-3 d-flex flex-column">
+                <div class="d-flex justify-content-center align-items-center align-content-center flex-column gap-5">
                     <table class="table table-responsive" id="table">
                         <thead>
                     <tr>

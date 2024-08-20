@@ -33,12 +33,12 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Email</label>
-                    <input type="email" name="email" value="{{ Session::get('email') }}" id=""
+                    <input type="email" name="email" placeholder="contoh@gmail.com atau contoh@student.undip.ac.id" value="{{ Session::get('email') }}" id=""
                         class="form-control">
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Password</label>
-                    <input type="password" id="password" name="password" value="{{ Session::get('password') }}"
+                    <input type="password" id="password" name="password" placeholder="Minimal 8 Karakter" value="{{ Session::get('password') }}"
                         class="form-control">
                 </div>
                 <div class="form-group mb-3">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="">No Handphone</label>
-                    <input type="number" name="nowa" value="{{ Session::get('nowa') }}" class="form-control">
+                    <input type="number" name="nowa" placeholder="089342774921" value="{{ Session::get('nowa') }}" class="form-control">
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Alamat Asal</label>
@@ -105,7 +105,7 @@
                     </div>
                     <p class="text-danger" style="font-size: 10px; font-weight: 700;">*Mahasiswa Aktif silahkan Upload
                         KTM
-                        *Alumni Silahkan Upload Screenshot
+                        *Alumni Silahkan Upload Screenshot Akun SIAP Alumni
                     </p>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">

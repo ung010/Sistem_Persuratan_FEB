@@ -7,14 +7,14 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">SURAT KETERANGAN MAHASISWA</p>
+                        <p class="heading-card">SURAT KETERANGAN MASIH MAHASISWA OLEH MANAJER</p>
                     </div>
                 </div>
                 <br>
                 <div class="card d-inline-block">
-                    <div class="card-header d-flex align-items-center">
-                        <a href="/srt_masih_mhw/admin" class="btn btn-secondary">MANAJER</a>
-                        <a href="/srt_masih_mhw/manajer_wd" class="btn btn-secondary">WAKIL DEKAN</a>
+                    <div class="card-header d-flex align-items-center gap-2">
+                        <a href="/srt_masih_mhw/admin" class="btn btn-secondary btn-fixed-size-one">MANAJER</a>
+                        <a href="/srt_masih_mhw/manajer_wd" class="btn btn-secondary btn-fixed-size-one">WAKIL DEKAN</a>
                     </div>
                 </div>
             </div>

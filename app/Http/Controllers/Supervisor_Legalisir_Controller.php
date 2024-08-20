@@ -18,6 +18,7 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
@@ -60,6 +61,7 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
@@ -102,6 +104,7 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah_transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
@@ -144,6 +147,7 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
@@ -186,6 +190,7 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
@@ -228,6 +233,7 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah_transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',

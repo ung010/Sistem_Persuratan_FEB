@@ -5,7 +5,7 @@
         <div class="card d-inline-block intersection-card">
             <div class="card-body d-flex gap-2 align-items-center">
                 <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                <p class="heading-card">SURAT IJIN MAGANG</p>
+                <p class="heading-card">SURAT IZIN MAGANG</p>
             </div>
         </div>
         <div class="card mt-3">

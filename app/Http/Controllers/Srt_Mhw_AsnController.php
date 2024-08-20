@@ -210,7 +210,8 @@ class Srt_Mhw_AsnController extends Controller
         'id',
         'nama_mhw',
       )
-      ->where('role_surat', 'admin');
+      ->where('role_surat', 'admin')
+      ->orderBy('tanggal_surat', 'asc');
 
     if ($search) {
       $query->where(function ($q) use ($search) {
@@ -296,7 +297,8 @@ class Srt_Mhw_AsnController extends Controller
         'id',
         'nama_mhw',
       )
-      ->where('role_surat', 'supervisor_akd');
+      ->where('role_surat', 'supervisor_akd')
+      ->orderBy('tanggal_surat', 'asc');
 
     if ($search) {
       $query->where(function ($q) use ($search) {
@@ -328,7 +330,8 @@ class Srt_Mhw_AsnController extends Controller
         'id',
         'nama_mhw',
       )
-      ->where('role_surat', 'manajer');
+      ->where('role_surat', 'manajer')
+      ->orderBy('tanggal_surat', 'asc');
 
     if ($search) {
       $query->where(function ($q) use ($search) {

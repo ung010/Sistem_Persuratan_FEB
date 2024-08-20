@@ -85,7 +85,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="uploadModalLabel">Unggah Surat Izin Penelitian</h5>
+                        <h5 class="modal-title" id="uploadModalLabel">Unggah Surat Permohonan Pengembalian Biaya Pendidikan</h5>
                         <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
@@ -126,7 +126,7 @@
             var action = "{{ route('srt_pmhn_kmbali_biaya.admin_unggah', ['id' => ':id']) }}";
 
             form.attr('action', action.replace(':id', id));
-            modal.find('.modal-title').text('Unggah Surat Izin Penelitian: ' + nama);
+            modal.find('.modal-title').text('Unggah Surat Permohonan Pengembalian Biaya Pendidikan: ' + nama);
         });
     </script>
 @endsection

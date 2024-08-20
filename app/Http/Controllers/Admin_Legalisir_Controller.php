@@ -21,6 +21,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah');
 
@@ -152,6 +154,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'transkrip');
 
@@ -283,6 +287,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah_transkrip');
 
@@ -429,6 +435,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah');
 
@@ -560,6 +568,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'transkrip');
 
@@ -691,6 +701,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah_transkrip');
 

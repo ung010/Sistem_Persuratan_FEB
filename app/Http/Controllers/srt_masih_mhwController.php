@@ -250,7 +250,8 @@ class srt_masih_mhwController extends Controller
         'nama_mhw',
       )
       ->where('role_surat', 'admin')
-      ->where('tujuan_akhir', 'manajer');
+      ->where('tujuan_akhir', 'manajer')
+      ->orderBy('tanggal_surat', 'asc');
 
     if ($search) {
       $query->where(function ($q) use ($search) {
@@ -275,6 +276,8 @@ class srt_masih_mhwController extends Controller
         'tujuan_akhir'
       )
       ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+      ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+      ->orderBy('tanggal_surat', 'asc')
       ->where('tujuan_akhir', 'wd');
 
     if ($search) {
@@ -520,7 +523,8 @@ class srt_masih_mhwController extends Controller
         'nama_mhw',
         'tujuan_buat_srt'
       )
-      ->where('role_surat', 'supervisor_akd');
+      ->where('role_surat', 'supervisor_akd')
+      ->orderBy('tanggal_surat', 'asc');
 
     if ($search) {
       $query->where(function ($q) use ($search) {
@@ -555,7 +559,9 @@ class srt_masih_mhwController extends Controller
         'tujuan_buat_srt',
         'tujuan_akhir'
       )
-      ->where('role_surat', 'manajer');
+      ->where('role_surat', 'manajer')
+      ->orderBy('tanggal_surat', 'asc');
+      
     if ($search) {
       $query->where(function ($q) use ($search) {
         $q->where('nama_mhw', 'like', "%{$search}%")

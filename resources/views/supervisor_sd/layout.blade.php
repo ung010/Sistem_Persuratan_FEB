@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>Supervisor Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- DataTables CSS -->
@@ -47,11 +47,6 @@
                         </div>
                     </li>
                     <li class="mb-1">
-                        <a href="/supervisor_sd/manage_admin" class="link-dark"><img
-                                src="{{ asset('asset/icons/user.png') }}" alt="Icon" style="height: 16px;">
-                            Manajemen User</a>
-                    </li>
-                    <li class="mb-1">
                         <button class="btn btn-toggle align-items-center rounded collapsed p-0 link-dark"
                             data-bs-toggle="collapse" data-bs-target="#orders-collapse-riwayat"
                             aria-expanded="false"><img src="{{ asset('asset/icons/mail.png') }}" alt="Icon"
@@ -67,6 +62,11 @@
                                     Pinjam</a>
                             </div>
                         </div>
+                    </li>
+                    <li class="mb-1">
+                        <a href="/supervisor_sd/manage_admin" class="link-dark"><img
+                                src="{{ asset('asset/icons/user.png') }}" alt="Icon" style="height: 16px;">
+                            Manajemen Admin</a>
                     </li>
                     <li class="mb-1">
                         <a href="/survey/sv_sd" class="link-dark"><img src="{{ asset('asset/icons/survey.png') }}"

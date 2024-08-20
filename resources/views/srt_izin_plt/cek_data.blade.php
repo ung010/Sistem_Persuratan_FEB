@@ -5,7 +5,7 @@
         <div class="card d-inline-block intersection-card">
             <div class="card-body d-flex gap-2 align-items-center">
                 <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                <p class="heading-card">SURAT IJIN PENELITIAN</p>
+                <p class="heading-card">SURAT IZIN PENELITIAN</p>
             </div>
         </div>
         <div class="card mt-3">
@@ -32,8 +32,8 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal" type="button">Ditolak</button>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal" type="button">Disetujui</button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal" type="button">Tolak</button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal" type="button">Setujui</button>
                 </div>
             </div>
         </div>

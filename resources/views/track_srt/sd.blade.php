@@ -7,15 +7,15 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">Tracking Surat</p>
+                        <p class="heading-card">Tracking Surat Supervisor Sumber Daya</p>
                     </div>
                 </div>
                 <br>
                 <div class="card d-inline-block">
-                    <div class="card-header d-flex align-items-center">
-                        <a class="btn btn-secondary" href="/tracking/sv_akd">Supervisor Akademik</a>
-                        <a class="btn btn-secondary" href="/tracking/sv_sd">Supervisor Sumber Daya</a>
-                        <a class="btn btn-secondary" href="/tracking/manajer">Manajer Tata Usaha</a>
+                    <div class="card-header d-flex align-items-center gap-2">
+                        <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/sv_akd">Supervisor Akademik</a>
+                        <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/sv_sd">Supervisor Sumber Daya</a>
+                        <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/manajer">Manajer Tata Usaha</a>
                     </div>
                 </div>
             </div>
@@ -23,8 +23,7 @@
                 <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center px-5 mx-5">
                     <div class="card flex-even" style="background-color: #DDE5E9">
                         <div class="card-body row">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                            <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
                                 <p class="tracking">Surat Permohonan Pengembalian Biaya Pendidikan</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
@@ -40,8 +39,7 @@
                     </div>
                     <div class="card flex-even" style="background-color: #FAEEAF">
                         <div class="card-body row">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail">
+                            <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
                                 <p class="tracking">Surat Keterangan Bebas Pinjam</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-center">

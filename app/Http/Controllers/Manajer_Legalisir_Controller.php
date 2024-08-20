@@ -18,6 +18,7 @@ class Manajer_Legalisir_Controller extends Controller
             ->where('role_surat', 'manajer')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
@@ -62,6 +63,7 @@ class Manajer_Legalisir_Controller extends Controller
             ->where('role_surat', 'manajer')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
@@ -106,6 +108,7 @@ class Manajer_Legalisir_Controller extends Controller
             ->where('role_surat', 'manajer')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah_transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
@@ -150,6 +153,7 @@ class Manajer_Legalisir_Controller extends Controller
             ->where('role_surat', 'manajer')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
@@ -194,6 +198,7 @@ class Manajer_Legalisir_Controller extends Controller
             ->where('role_surat', 'manajer')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
@@ -238,6 +243,7 @@ class Manajer_Legalisir_Controller extends Controller
             ->where('role_surat', 'manajer')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah_transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',

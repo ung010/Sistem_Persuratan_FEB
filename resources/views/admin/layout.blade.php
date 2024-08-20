@@ -48,38 +48,44 @@
                                 <a href="/srt_pmhn_kmbali_biaya/admin" class="link-dark rounded">Permohonan Pengembalian
                                     Biaya
                                     Pendidikan</a>
-                                <a href="/srt_bbs_pnjm/admin" class="link-dark rounded">Keterangan Bebas Pinjam</a>
+                                <a href="/srt_bbs_pnjm/admin" class="link-dark rounded">Surat Bebas Pinjam</a>
                                 <a href="/legalisir/admin/ditempat/ijazah" class="link-dark rounded">Legalisir Diambil
-                                    Ditempat</a>
+                                    di Tempat</a>
                                 <a href="/legalisir/admin/dikirim/ijazah" class="link-dark rounded">Legalisir
                                     Dikirim</a>
                             </div>
                         </div>
                     </li>
                     <li class="mb-1">
-                        <a href="/admin/user" class="link-dark"><img src="{{ asset('asset/icons/user.png') }}"
-                                alt="Icon" style="height: 16px;"> Manajemen User</a>
+                        <button class="btn btn-toggle align-items-center rounded collapsed p-0 link-dark"
+                            data-bs-toggle="collapse" data-bs-target="#orders-collapse-tracking"
+                            aria-expanded="false"><img src="{{ asset('asset/icons/tracking.png') }}" alt="Icon"
+                                style="height: 16px;"> Tracking Surat</button>
+
+                        <div class="collapse" id="orders-collapse-tracking" style="margin-left: 20px">
+                            <div class="d-flex flex-column gap-1 ml-2">
+                                <a href="/tracking/manajer" class="link-dark rounded">Manajer</a>
+                                <a href="/tracking/sv_akd" class="link-dark rounded">Supervisor Akademik</a>
+                                <a href="/tracking/sv_sd" class="link-dark rounded">Supervisor Sumber Daya</a>
+                            </div>
                     </li>
                     <li class="mb-1">
                         <button class="btn btn-toggle align-items-center rounded collapsed p-0 link-dark"
                             data-bs-toggle="collapse" data-bs-target="#orders-collapse-riwayat"
                             aria-expanded="false"><img src="{{ asset('asset/icons/mail.png') }}" alt="Icon"
-                                style="height: 16px;"> Riwayat
-                            Surat</button>
+                                style="height: 16px;"> Riwayat Surat</button>
 
                         <div class="collapse" id="orders-collapse-riwayat" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/riwayat_srt/admin/srt_mhw_asn" class="link-dark rounded">Surat keterangan
-                                    untuk anak
-                                    ASN</a>
-                                <a href="/riwayat_srt/admin/srt_masih_mhw" class="link-dark rounded">Surat Keterangan
+                                <a href="/riwayat_srt/admin/srt_mhw_asn" class="link-dark rounded">Keterangan Masih Kuliah (Bagi
+                                ASN)</a>
+                                <a href="/riwayat_srt/admin/srt_masih_mhw" class="link-dark rounded">Keterangan
                                     Masih
                                     Mahasiswa</a>
-                                <a href="/riwayat_srt/admin/srt_magang" class="link-dark rounded">Surat Magang</a>
-                                <a href="/riwayat_srt/admin/srt_izin_plt" class="link-dark rounded">Surat Izin
+                                <a href="/riwayat_srt/admin/srt_magang" class="link-dark rounded">Izin Magang</a>
+                                <a href="/riwayat_srt/admin/srt_izin_plt" class="link-dark rounded">Izin
                                     Penelitian</a>
-                                <a href="/riwayat_srt/admin/srt_pmhn_kmbali_biaya" class="link-dark rounded">Surat
-                                    Permohonan
+                                <a href="/riwayat_srt/admin/srt_pmhn_kmbali_biaya" class="link-dark rounded">Permohonan
                                     Pengembalian Biaya Pendidikan</a>
                                 <a href="/riwayat_srt/admin/srt_bbs_pnjm" class="link-dark rounded">Surat Bebas
                                     Pinjam</a>
@@ -88,23 +94,13 @@
                         </div>
                     </li>
                     <li class="mb-1">
+                        <a href="/admin/user" class="link-dark"><img src="{{ asset('asset/icons/user.png') }}"
+                                alt="Icon" style="height: 16px;"> Manajemen User</a>
+                    </li>
+                    <li class="mb-1">
                         <a href="/admin/verif_user" class="link-dark"><img src="{{ asset('asset/icons/data.png') }}"
                                 alt="Icon" style="height: 16px;"> Verifikasi Data
                             Mahasiswa</a>
-                    </li>
-                    <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed p-0 link-dark"
-                            data-bs-toggle="collapse" data-bs-target="#orders-collapse-tracking"
-                            aria-expanded="false"><img src="{{ asset('asset/icons/tracking.png') }}" alt="Icon"
-                                style="height: 16px;"> Tracking
-                            Surat</button>
-
-                        <div class="collapse" id="orders-collapse-tracking" style="margin-left: 20px">
-                            <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/tracking/manajer" class="link-dark rounded">Manajer</a>
-                                <a href="/tracking/sv_akd" class="link-dark rounded">Supervisor Akademik</a>
-                                <a href="/tracking/sv_sd" class="link-dark rounded">Supervisor Sumber Daya</a>
-                            </div>
                     </li>
                     <li class="mb-1">
                         <a href="/survey/admin" class="link-dark"><img src="{{ asset('asset/icons/survey.png') }}"

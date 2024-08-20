@@ -1,4 +1,5 @@
-@extends('user.surat') @section('content')
+@extends('user.surat') 
+@section('content')
 <table style="width: 100%; text-align: center">
   <tr>
     <td>
@@ -94,43 +95,50 @@
     {{ $srt_masih_mhw->tujuan_buat_srt }}
   </p>
   <br />
-  <table
-    style="
-      text-align: justify;
-      font-size: 12px;
-      font-family: 'Times New Roman', Times, serif;
-      width: 100%;
-    "
-  >
-    <tr>
-      <td style="padding-right: 300px;"></td>
-      <td style="padding-bottom: 1rem;">
-        Semarang, {{ $srt_masih_mhw->tanggal_surat }}
-      </td>
-    </tr>
-    <tr>
-      <td style="padding-right: 300px;">Yang berkepentingan</td>
-      <td>an. Dekan,</td>
-    </tr>
-    <tr>
-      <td style="padding-right: 300px;"></td>
-      <td style="padding-bottom: 1rem">Wakil Dekan Akademik dan Kemahasiswaan,</td>
-    </tr>
-    <tr>
-      <td style="padding-bottom: 1rem; padding-right: 300px;">
-      </td>
-      <td style="padding-bottom: 1rem;">
-        <img src="{{ public_path($qrCodePath) }}" alt="QR Code" />
-      </td>
-    </tr>
-    <tr>
-      <td style="padding-right: 300px;">{{ $srt_masih_mhw->nama_mhw }}</td>
-      <td>Prof. Firmansyah, SE., M.Si., Ph.D.</td>
-    </tr>
-    <tr>
-      <td style="padding-right: 300px;">NIM. {{ $srt_masih_mhw->nmr_unik }}</td>
-      <td>NIP. 197404271999031001</td>
-    </tr>
-  </table>
+  <div style="display: flex; flex-direction: column; height: 300px; justify-content: space-between;">
+    <table
+      style="
+        text-align: justify;
+        font-size: 12px;
+        font-family: 'Times New Roman', Times, serif;
+        width: 100%;
+      "
+    >
+      <tr>
+        <td style="padding-right: 300px;"></td>
+        <td style="padding-bottom: 1rem;">
+          Semarang, {{ $srt_masih_mhw->tanggal_surat }}
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-right: 300px;">Yang berkepentingan</td>
+        <td>an. Dekan,</td>
+      </tr>
+      <tr>
+        <td style="padding-right: 300px;"></td>
+        <td style="padding-bottom: 1rem">Wakil Dekan Akademik dan Kemahasiswaan,</td>
+      </tr>
+    </table>
+    <div style="text-align: center;">
+      <img src="{{ public_path($qrCodePath) }}" alt="QR Code" style="display: inline-block;" />
+    </div>
+    <table
+      style="
+        text-align: justify;
+        font-size: 12px;
+        font-family: 'Times New Roman', Times, serif;
+        width: 100%;
+      "
+    >
+      <tr>
+        <td style="padding-right: 300px;">{{ $srt_masih_mhw->nama_mhw }}</td>
+        <td>Prof. Firmansyah, SE., M.Si., Ph.D.</td>
+      </tr>
+      <tr>
+        <td style="padding-right: 300px;">NIM. {{ $srt_masih_mhw->nmr_unik }}</td>
+        <td>NIP. 197404271999031001</td>
+      </tr>
+    </table>
+  </div>
 </div>
 @endsection

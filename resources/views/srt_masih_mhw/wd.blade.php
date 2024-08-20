@@ -7,14 +7,14 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">SURAT KETERANGAN MAHASISWA</p>
+                        <p class="heading-card">SURAT KETERANGAN MASIH MAHASISWA OLEH WAKIL DEKAN</p>
                     </div>
                 </div>
                 <br>
                 <div class="card d-inline-block">
-                    <div class="card-header d-flex align-items-center">
-                        <a href="/srt_masih_mhw/admin" class="btn btn-secondary">MANAJER</a>
-                        <a href="/srt_masih_mhw/manajer_wd" class="btn btn-secondary">WAKIL DEKAN</a>
+                    <div class="card-header d-flex align-items-center gap-2">
+                        <a href="/srt_masih_mhw/admin" class="btn btn-secondary btn-fixed-size-one">MANAJER</a>
+                        <a href="/srt_masih_mhw/manajer_wd" class="btn btn-secondary btn-fixed-size-one">WAKIL DEKAN</a>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadModalLabel">Unggah Surat Masih Kuliah</h5>
+                    <h5 class="modal-title" id="uploadModalLabel">Unggah Surat Masih Mahasiswa</h5>
                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
@@ -132,7 +132,7 @@
             var action = "{{ route('srt_masih_mhw.wd_unggah', ['id' => ':id']) }}"; // Ubah ke route yang sesuai
 
             form.attr('action', action.replace(':id', id));
-            modal.find('.modal-title').text('Unggah Surat Masih Kuliah: ' + nama);
+            modal.find('.modal-title').text('Unggah Surat Masih Mahasiswa: ' + nama);
         });
     </script>
 @endsection

@@ -7,7 +7,7 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">SURAT IJIN PENELITIAN</p>
+                        <p class="heading-card">SURAT IZIN PENELITIAN</p>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                                         <form action="{{ route('srt_izin_plt.manajer_setuju', $item->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Disetujui</button>
+                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
                                         </form>
                                     </td>
                                 </tr>

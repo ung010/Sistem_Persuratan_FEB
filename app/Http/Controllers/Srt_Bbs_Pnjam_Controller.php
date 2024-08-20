@@ -189,7 +189,8 @@ class Srt_Bbs_Pnjam_Controller extends Controller
         'id',
         'nama_mhw',
       )
-      ->where('role_surat', 'admin');
+      ->where('role_surat', 'admin')
+      ->orderBy('tanggal_surat', 'asc');
 
     if ($search) {
       $query->where(function ($q) use ($search) {
@@ -272,6 +273,7 @@ class Srt_Bbs_Pnjam_Controller extends Controller
     $query = DB::table('srt_bbs_pnjm')
       ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
       ->where('role_surat', 'supervisor_sd')
+      ->orderBy('tanggal_surat', 'asc')
       ->select(
         'srt_bbs_pnjm.id',
         'srt_bbs_pnjm.nama_mhw',

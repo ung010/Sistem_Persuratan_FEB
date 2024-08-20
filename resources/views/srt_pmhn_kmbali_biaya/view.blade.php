@@ -1,4 +1,5 @@
-@extends('user.surat') @section('content')
+@extends('user.surat') 
+@section('content')
 <table style="width: 100%; text-align: center">
   <tr>
     <td>
@@ -120,44 +121,47 @@
     Demikian permohonan saya, atas perhatian Bapak saya ucapkan terima kasih.
   </p>
   <br />
-  <table
-    style="
-      text-align: justify;
-      font-size: 12px;
-      font-family: 'Times New Roman', Times, serif;
-      width: 100%;
-    "
-  >
-    <tr>
-      <td style="padding-right: 100px;">Mengetahui,</td>
-      <td style="padding-bottom: 1rem;">
-        Semarang, {{ $srt_pmhn_kmbali_biaya->tanggal_surat }}
-      </td>
-    </tr>
-    <tr>
-      <td style="padding-right: 100px;">a.n Dekan</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td style="padding-right: 100px;">Wakil Dekan Sumber Daya</td>
-      <td style="padding-bottom: 1rem">Pemohon</td>
-    </tr>
-    <tr>
-      <td style="padding-bottom: 1rem; padding-right: 100px;">
+  <div style="display: grid; grid-template-rows: auto auto 1fr; height: 200px; width: 100%;">
+    <div style="grid-row: 1; padding-right: 100px;">
+      Mengetahui,
+    </div>
+    <div style="grid-row: 2; text-align: right;">
+      Semarang, {{ $srt_pmhn_kmbali_biaya->tanggal_surat }}
+    </div>
+    <div style="grid-row: 3; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+      <div style="margin-bottom: 1rem;">
         <img src="{{ public_path($qrCodePath) }}" alt="QR Code" />
-      </td>
-      <td style="padding-bottom: 1rem;">
-      </td>
-    </tr>
-    <tr>
-      <td style="padding-right: 100px;">Dr. Warsito Kawedar, S.E., M.Si., Akt.</td>
-      <td>{{ $srt_pmhn_kmbali_biaya->nama_mhw }}</td>
-    </tr>
-    <tr>
-      <td style="padding-right: 100px;">NIP. 197405101998021001</td>
-      <td>NIM. {{ $srt_pmhn_kmbali_biaya->nmr_unik }}</td>
-    </tr>
-  </table>
+      </div>
+      <div>
+        <table
+          style="
+            text-align: justify;
+            font-size: 12px;
+            font-family: 'Times New Roman', Times, serif;
+            width: 100%;
+            border-collapse: collapse;
+          "
+        >
+          <tr>
+            <td style="padding-right: 100px;">a.n Dekan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td style="padding-right: 100px;">Wakil Dekan Sumber Daya</td>
+            <td style="padding-bottom: 1rem">Pemohon</td>
+          </tr>
+          <tr>
+            <td style="padding-right: 100px;">Dr. Warsito Kawedar, S.E., M.Si., Akt.</td>
+            <td>{{ $srt_pmhn_kmbali_biaya->nama_mhw }}</td>
+          </tr>
+          <tr>
+            <td style="padding-right: 100px;">NIP. 197405101998021001</td>
+            <td>NIM. {{ $srt_pmhn_kmbali_biaya->nmr_unik }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
   <br>
   <p
     style="

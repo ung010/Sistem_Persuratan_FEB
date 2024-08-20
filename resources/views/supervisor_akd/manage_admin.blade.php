@@ -7,7 +7,7 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big admin.png') }}" alt="big admin" class="heading-image">
-                        <p class="heading-card">MANAJEMEN USER</p>
+                        <p class="heading-card">MANAJEMEN ADMIN</p>
                     </div>
                 </div>
             </div>

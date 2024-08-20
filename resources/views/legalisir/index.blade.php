@@ -157,7 +157,7 @@
                                 <div class="col-10">
                                     <select name="ambil" id="ambil" required class="form-select">
                                         <option value="">Select Option</option>
-                                        <option value="ditempat">Diambil Ditempat</option>
+                                        <option value="ditempat">Diambil di Tempat</option>
                                         <option value="dikirim">Dikirim</option>
                                     </select>
                                 </div>

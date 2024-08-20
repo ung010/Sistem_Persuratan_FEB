@@ -7,15 +7,15 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">LEGALISIR IJAZAH</p>
+                        <p class="heading-card">LEGALISIR DIKIRIM</p>
                     </div>
                 </div>
                 <br>
                 <div class="card d-inline-block">
-                    <div class="card-header d-flex align-items-center">
-                        <a class="btn btn-secondary" href="/legalisir/admin/dikirim/ijazah">Ijazah</a>
-                        <a class="btn btn-secondary" href="/legalisir/admin/dikirim/transkrip">Transkrip</a>
-                        <a class="btn btn-secondary" href="/legalisir/admin/dikirim/ijz_trs">Ijazah dan Transkrip</a>
+                    <div class="card-header d-flex align-items-center gap-2">
+                        <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/dikirim/ijazah">Ijazah</a>
+                        <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/dikirim/transkrip">Transkrip</a>
+                        <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/dikirim/ijz_trs">Ijazah dan Transkrip</a>
                     </div>
                 </div>
             </div>
@@ -27,6 +27,7 @@
                                 <th>No</th>
                                 <th>Nama Mahasiswa</th>
                                 <th>Cek Data</th>
+                                <th>Status</th>
                                 <th>Unduh</th>
                                 <th>No Resi</th>
                             </tr>
@@ -43,6 +44,19 @@
                                                 class="btn btn-warning btn-sm">Cek Data</a>
                                         @else
                                             <button class="btn btn-secondary btn-sm" disabled>Cek Data</button>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($item->role_surat == 'admin')
+                                            Verif Admin
+                                        @elseif ($item->role_surat == 'supervisor_akd')
+                                            Verif Supervisor Akademik
+                                        @elseif ($item->role_surat == 'manajer')
+                                            Verif Manajer
+                                        @elseif ($item->role_surat == 'manajer_sukses')
+                                            Manajer telah verifikasi
+                                        @else
+                                            Ditolak
                                         @endif
                                     </td>
                                     <td>

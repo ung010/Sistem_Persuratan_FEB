@@ -21,7 +21,6 @@ class ManajerController extends Controller
   {
     $srt_mhw_asn = srt_mhw_asn::where('role_surat', 'manajer')->count();
     $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'manajer')->count();
-    $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'manajer')->count();
     $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'manajer')->count();
     $srt_magang = Srt_Magang::where('role_surat', 'manajer')->count();
     $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'manajer')->count();
@@ -29,7 +28,6 @@ class ManajerController extends Controller
     $total_surat =
       srt_mhw_asn::where('role_surat', 'mahasiswa')->count() +
       srt_masih_mhw::where('role_surat', 'mahasiswa')->count() +
-      srt_bbs_pnjm::where('role_surat', 'mahasiswa')->count() +
       srt_izin_penelitian::where('role_surat', 'mahasiswa')->count() +
       Srt_Magang::where('role_surat', 'mahasiswa')->count() +
       srt_pmhn_kmbali_biaya::where('role_surat', 'mahasiswa')->count() +
@@ -38,7 +36,6 @@ class ManajerController extends Controller
     return view('manajer.index', compact(
       'srt_mhw_asn',
       'srt_masih_mhw',
-      'srt_bbs_pnjm',
       'srt_izin_plt',
       'srt_magang',
       'srt_pmhn_kmbali_biaya',

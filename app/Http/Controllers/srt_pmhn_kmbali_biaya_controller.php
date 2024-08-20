@@ -227,7 +227,9 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
                 'nama_mhw',
                 'role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses']);
+            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_sd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -410,6 +412,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
             ->where('role_surat', 'supervisor_sd')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
                 'srt_pmhn_kmbali_biaya.nama_mhw',
@@ -446,6 +449,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
             ->where('role_surat', 'manajer')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
                 'srt_pmhn_kmbali_biaya.nama_mhw',

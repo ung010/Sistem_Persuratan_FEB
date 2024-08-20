@@ -131,7 +131,7 @@
                                     <select name="ambil" id="ambil" required class="form-select">
                                         <option value="">Select Option</option>
                                         <option value="ditempat" {{ $data->ambil == 'ditempat' ? 'selected' : '' }}>
-                                            Diambil Ditempat
+                                            Diambil di Tempat
                                         </option>
                                         <option value="dikirim" {{ $data->ambil == 'dikirim' ? 'selected' : '' }}>Dikirim
                                         </option>
