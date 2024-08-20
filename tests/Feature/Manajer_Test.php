@@ -20,7 +20,7 @@ class Manajer_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_update_manajemen_sv_akd(): void
+    public function test_update_manajemen_supervisor(): void
     {
         $this->withoutExceptionHandling();
 

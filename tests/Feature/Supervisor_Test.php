@@ -10,21 +10,21 @@ use Tests\TestCase;
 
 class Supervisor_Test extends TestCase
 {
-    public function test_view_halaman_sv_akd(): void
+    public function test_view_halaman_salah_satu_sv(): void
     {
         $response = $this->get('/supervisor_akd');
 
         $response->assertStatus(302);
     }
 
-    public function test_view_halaman_admin_sv_akademik(): void
+    public function test_view_halaman_manajemen_admin(): void
     {
         $response = $this->get('/supervisor_akd/manage_admin');
 
         $response->assertStatus(302);
     }
 
-    public function test_buat_admin_sv_akademik(): void
+    public function test_buat_akun_admin(): void
     {
         $this->withoutExceptionHandling();
         $faker = \Faker\Factory::create();
@@ -48,7 +48,7 @@ class Supervisor_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_update_manajemen_admin(): void
+    public function test_update_akun_admin(): void
     {
         $this->withoutExceptionHandling();
 
@@ -86,7 +86,7 @@ class Supervisor_Test extends TestCase
         ]);
     }
 
-    public function test_permanent_delete_admin()
+    public function test_permanent_hapus_akun_admin()
     {
         $user = \App\Models\User::factory()->create([
             'email' => 'akd@gmail.com',
@@ -95,17 +95,17 @@ class Supervisor_Test extends TestCase
         ]);
         $this->actingAs($user);
 
-        $non_mhw = \App\Models\User::factory()->create([
+        $admin = \App\Models\User::factory()->create([
             'role' => 'admin',
         ]);
 
-        $response = $this->post("/supervisor_akd/manage_admin/delete/{$non_mhw->id}");
+        $response = $this->post("/supervisor_akd/manage_admin/delete/{$admin->id}");
 
         $response->assertRedirect('/');
         $response->assertSessionHas('success', 'Data admin berhasil dihapuskan');
 
         $this->assertDatabaseMissing('users', [
-            'id' => $non_mhw->id,
+            'id' => $admin->id,
         ]);
     }
 }

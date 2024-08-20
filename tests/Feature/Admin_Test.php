@@ -97,14 +97,14 @@ class Admin_Test extends TestCase
         ]);
     }
 
-    public function test_view_halaman_manajemen_akun_belum_approve(): void
+    public function test_view_halaman_verifikasi_akun(): void
     {
         $response = $this->get('/admin/verif_user');
 
         $response->assertStatus(302);
     }
 
-    public function test_cek_verif_user()
+    public function test_cek_verif_akun()
     {
         $faker = \Faker\Factory::create();
 
@@ -121,7 +121,7 @@ class Admin_Test extends TestCase
             'dpt_id' => $departement,
         ]);
 
-        $non_mhs = DB::table('users')->insertGetId([
+        $non_mhw = DB::table('users')->insertGetId([
             'nama' => 'Test User',
             'nmr_unik' => $faker->unique()->numerify('##########'),
             'email' => 'testuser@example.com',
@@ -130,13 +130,13 @@ class Admin_Test extends TestCase
             'prd_id' => $prodi,
         ]);
 
-        $response = $this->get("/admin/verif_user/cekdata/{$non_mhs}");
+        $response = $this->get("/admin/verif_user/cekdata/{$non_mhw}");
 
         $response->assertStatus(302);
     }
 
 
-    public function test_approve_non_mahasiswa()
+    public function test_setujui_akun()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -155,6 +155,7 @@ class Admin_Test extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.verifikasi'));
+        $response->assertStatus(302);
         $response->assertSessionHas('success', 'Akun telah diverifikasi');
 
         $this->assertDatabaseHas('users', [
@@ -163,7 +164,7 @@ class Admin_Test extends TestCase
         ]);
     }
 
-    public function test_tolak_non_mahasiswa()
+    public function test_tolak_akun()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -183,6 +184,7 @@ class Admin_Test extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.verifikasi'));
+        $response->assertStatus(302);
         $response->assertSessionHas('success', 'Catatan berhasil ditambahkan');
 
         $this->assertDatabaseHas('users', [
@@ -217,6 +219,7 @@ class Admin_Test extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.user'));
+        $response->assertStatus(302);
         $response->assertSessionHas('success', 'Akun berhasil dihapus sementara');
 
         $this->assertDatabaseHas('users', [
@@ -225,7 +228,7 @@ class Admin_Test extends TestCase
         ]);
     }
 
-    public function test_restore_akun_soft_delete()
+    public function test_restore_akun()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -244,6 +247,7 @@ class Admin_Test extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.user'));
+        $response->assertStatus(302);
         $response->assertSessionHas('success', 'Akun berhasil dipulihkan');
 
         $this->assertDatabaseHas('users', [
@@ -269,6 +273,7 @@ class Admin_Test extends TestCase
         $response = $this->post("/admin/soft_delete/h_delete/{$non_mhw->id}");
 
         $response->assertRedirect(route('admin.user'));
+        $response->assertStatus(302);
         $response->assertSessionHas('success', 'Berhasil menghapus permanen akun');
 
         $this->assertDatabaseMissing('users', [
