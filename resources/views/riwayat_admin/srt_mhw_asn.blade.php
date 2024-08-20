@@ -7,7 +7,7 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">RIWAYAT SURAT</p>
+                        <p class="heading-card">RIWAYAT SURAT KETERANGAN MASIH KULIAH</p>
                     </div>
                 </div>
                 <br>
@@ -20,7 +20,7 @@
                     </div>
                     <div class="card-header d-flex align-items-center gap-2">
                         <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_pmhn_kmbali_biaya">Pengembalian Biaya Pendidikan</a>
-                        <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_bbs_pnjm">Keterangan Bebas Pinjam</a>
+                        <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_bbs_pnjm">Bebas Pinjam</a>
                         <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_magang">Magang</a>
                     </div>
                 </div>

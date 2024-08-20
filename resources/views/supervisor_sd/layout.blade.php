@@ -40,7 +40,7 @@
                         </button>
                         <div class="collapse" id="orders-collapse" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/srt_pmhn_kmbali_biaya/supervisor" class="link-dark rounded">Surat Permohonan
+                                <a href="/srt_pmhn_kmbali_biaya/supervisor" class="link-dark rounded">Permohonan
                                     Pengembalian Biaya Pendidikan</a>
                                 <a href="/srt_bbs_pnjm/supervisor" class="link-dark rounded">Surat Bebas Pinjam</a>
                             </div>
@@ -55,8 +55,7 @@
 
                         <div class="collapse" id="orders-collapse-riwayat" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/riwayat_srt/sv_sd/srt_pmhn_kmbali_biaya" class="link-dark rounded">Surat
-                                    Permohonan
+                                <a href="/riwayat_srt/sv_sd/srt_pmhn_kmbali_biaya" class="link-dark rounded">Permohonan
                                     Pengembalian Biaya Pendidikan</a>
                                 <a href="/riwayat_srt/sv_sd/srt_bbs_pnjm" class="link-dark rounded">Surat Bebas
                                     Pinjam</a>

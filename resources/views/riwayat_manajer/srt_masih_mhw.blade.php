@@ -7,7 +7,7 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">RIWAYAT SURAT</p>
+                        <p class="heading-card">RIWAYAT SURAT KETERANGAN MAHASISWA</p>
                     </div>
                 </div>
                 <br>
@@ -15,8 +15,8 @@
                     <div class="card-header d-flex align-items-center gap-2">
                         <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/srt_mhw_asn">Keterangan Masih Kuliah</a>
                         <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/srt_masih_mhw">Keterangan Mahasiswa</a>
-                        <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/srt_magang">Penelitian</a>
-                        <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/srt_izin_plt">Magang</a>
+                        <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/srt_magang">Magang</a>
+                        <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/srt_izin_plt">Penelitian</a>
                         <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/srt_pmhn_kmbali_biaya">Pengembalian Biaya
                             Pendidikan</a>
                         <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/legalisir">Legalisir</a>
