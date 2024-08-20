@@ -17,10 +17,25 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $primaryKey = 'id';
     protected $fillable = [
-        'name',
+        'nama',
+        'id',
+        'nmr_unik',
+        'kota',
+        'tanggal_lahir',
+        'nowa',
+        'almt_asl',
+        'nama_ibu',
+        'role',
+        'prd_id',
+        'foto',
+        'role',
+        'status',
         'email',
+        'akses',
         'password',
+        'catatan_user',
     ];
 
     /**
@@ -29,7 +44,24 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'nmr_unik',
+        'kota',
+        'tanggal_lahir',
+        'nowa',
+        'almt_asl',
+        'nama_ibu',
+        'role',
+        'prd_id',
+        'foto',
+        'role',
+        'status',
+        'email',
+        'akses',
         'password',
+        'catatan_user',
+        'remember_token',
+        'create_at',
+        'update_at',
         'remember_token',
     ];
 
@@ -42,4 +74,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getJenjangProdiAttribute()
+    {
+        return $this->jenjang_pendidikan->nama_jnjg . ' - ' . $this->prodi->nama_prd;
+    }
+
+    public function getTempatTanggalLahirAttribute()
+    {
+        return $this->kota . ', ' . $this->tanggal_lahir;
+    }
+
+    public function prodi()
+    {
+        return $this->belongsTo(Prodi::class, 'prd_id');
+    }
 }
