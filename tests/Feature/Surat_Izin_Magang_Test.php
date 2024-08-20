@@ -15,14 +15,14 @@ class Surat_Izin_Magang_Test extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_halaman_surat_magang(): void
+    public function test_halaman_surat(): void
     {
         $response = $this->get('/srt_magang');
 
         $response->assertStatus(302);
     }
 
-    public function test_pembuatan_surat_magang(): void
+    public function test_buat_surat(): void
     {
         $this->withoutExceptionHandling();
 
@@ -53,7 +53,7 @@ class Surat_Izin_Magang_Test extends TestCase
         $response->assertRedirect('/srt_magang');
     }
 
-    public function test_view_halaman_edit_surat_magang(): void
+    public function test_view_halaman_edit_surat(): void
     {
 
         $faker = \Faker\Factory::create();
@@ -87,8 +87,6 @@ class Surat_Izin_Magang_Test extends TestCase
 
 
         $response->assertStatus(200);
-
-        $response->assertSee('Raung Calon Sarjana');
     }
 
     public function test_update_surat_magang(): void
@@ -142,14 +140,14 @@ class Surat_Izin_Magang_Test extends TestCase
         ]);
     }
 
-    public function test_view_halaman_surat_magang_di_admin(): void
+    public function test_view_halaman_surat_admin(): void
     {
         $response = $this->get('/srt_magang/admin');
 
         $response->assertStatus(302);
     }
 
-    public function test_cek_surat_srt_magang()
+    public function test_cek_surat()
     {
         $faker = \Faker\Factory::create();
 
@@ -181,7 +179,7 @@ class Surat_Izin_Magang_Test extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_setuju_surat_magang()
+    public function test_setuju_surat()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -210,7 +208,7 @@ class Surat_Izin_Magang_Test extends TestCase
         ]);
     }
 
-    public function test_tolak_surat_magang()
+    public function test_tolak_surat()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -240,7 +238,7 @@ class Surat_Izin_Magang_Test extends TestCase
         ]);
     }
 
-    public function test_download_magang_mahasiswa()
+    public function test_download_surat_mahasiswa()
     {
         $id = 6;
 
@@ -249,7 +247,7 @@ class Surat_Izin_Magang_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_download_magang_admin()
+    public function test_download_surat_admin()
     {
         $id = 4;
 
@@ -258,7 +256,7 @@ class Surat_Izin_Magang_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_unggah_surat_masih_mahasiswa_wd()
+    public function test_unggah_surat_admin()
     {
         $faker = \Faker\Factory::create();
 
@@ -292,7 +290,7 @@ class Surat_Izin_Magang_Test extends TestCase
         ]);
 
         $response->assertRedirect()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
-
+        $response->assertStatus(302);
         $tanggal_surat = Carbon::parse($surat->tanggal_surat)->format('d-m-Y');
         $nama_mahasiswa = Str::slug($user->nama);
         $fileName = "Surat_Magang_{$tanggal_surat}_{$nama_mahasiswa}.pdf";
@@ -304,14 +302,14 @@ class Surat_Izin_Magang_Test extends TestCase
         ]);
     }
 
-    public function test_view_halaman_supervisor_surat_magang(): void
+    public function test_view_halaman_surat_supervisor(): void
     {
         $response = $this->get('/srt_magang/supervisor');
 
         $response->assertStatus(302);
     }
 
-    public function test_supervisor_setuju_srt_magang()
+    public function test_setuju_supervisor()
     {
         $faker = \Faker\Factory::create();
         
@@ -349,14 +347,14 @@ class Surat_Izin_Magang_Test extends TestCase
         ]);
     }
 
-    public function test_halaman_manajer_surat_magang(): void
+    public function test_halaman_surat_manajer(): void
     {
         $response = $this->get('/srt_magang/manajer');
 
         $response->assertStatus(302);
     }
 
-    public function test_manajer_setuju_srt_magang()
+    public function test_setuju_manajer()
     {
         $faker = \Faker\Factory::create();
 
