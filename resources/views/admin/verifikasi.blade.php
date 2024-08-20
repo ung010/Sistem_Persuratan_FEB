@@ -20,8 +20,8 @@
                         <th class="col-md-1">Nama Mahasiswa</th>
                         <th class="col-md-1">NIM</th>
                         <th class="col-md-1">Departemen</th>
-                        <th class="col-md-1">Program Studi</th>
-                        <th class="col-md-1">Aksi</th>
+                        <th class="col-md-2">Program Studi</th>
+                        <th class="col-md-2">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

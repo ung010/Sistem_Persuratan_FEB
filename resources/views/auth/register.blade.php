@@ -108,9 +108,14 @@
                         *Alumni Silahkan Upload Screenshot Akun SIAP Alumni
                     </p>
                 </div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <label for="foto" class="btn btn-secondary">Upload Identitas</label>
-                    <input type="file" name="foto" id="foto" class="d-none">
+                <div class="form-group d-flex">
+                    <label for="" class="col-4">Upload Identitas</label>
+                    <div class="col-8">
+                        <input type="file" name="foto" id="foto" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="d-flex justify-content-end align-items-center" >
                     <button type="submit" name="submit" class="btn btn-warning">Sign Up</button>
                 </div>
             </form>
