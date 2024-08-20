@@ -9,18 +9,18 @@ use Illuminate\Support\Facades\DB;
 
 use Tests\TestCase;
 
-class RegisterTest extends TestCase
+class Register_Test extends TestCase
 {
     // use RefreshDatabase;
     /**
      * A basic feature test example.
      */
-    public function test_halaman_register(): void
+    public function test_view_halaman_register(): void
     {
         $response = $this->get('/register');
 
         $response->assertStatus(200);
-        $response->assertSee('Register');
+        $response->assertSee('Isi Data Diri');
     }
 
     public function test_buat_user_baru(): void
@@ -69,6 +69,7 @@ class RegisterTest extends TestCase
             'password' => 'mountain082',
         ]);
 
+        $response->assertStatus(302);
         $response->assertSessionHasErrors(['email', 'nmr_unik']);
     }
 
@@ -90,6 +91,7 @@ class RegisterTest extends TestCase
             'password' => 'mountain082',
         ]);
 
+        $response->assertStatus(302);
         $response->assertSessionHasErrors(['email', 'nmr_unik']);
     }
 }

@@ -31,8 +31,6 @@ class srt_mhw_asn extends Model
         'catatan_surat',
         'role_surat',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'tanggal_surat',
         'users_id',
     ];
@@ -54,8 +52,6 @@ class srt_mhw_asn extends Model
         'catatan_surat',
         'role_surat',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'users_id',
         'remember_token',
         'create_at',

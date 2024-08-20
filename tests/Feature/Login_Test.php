@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+class Login_Test extends TestCase
 {
     /**
      * A basic feature test example.
@@ -34,8 +34,8 @@ class LoginTest extends TestCase
     public function test_gagal_login_karna_email_dan_password_salah(): void
     {
         $dataLogin = [
-            'email' => '123@gmail.com',
-            'password' => 'icikiwir'
+            'email' => 'mahasiswa@gmail.com',
+            'password' => 'river082'
         ];
 
         $response = $this->post('/', $dataLogin);
@@ -44,5 +44,12 @@ class LoginTest extends TestCase
         $response->assertRedirect('/');
 
         $response->assertSessionHas('errors');
+    }
+
+    public function test_logout(): void
+    {
+        $response = $this->get('/logout');
+
+        $response->assertStatus(302);
     }
 }

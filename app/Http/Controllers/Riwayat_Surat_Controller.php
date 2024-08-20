@@ -24,7 +24,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_admin.srt_mhw_asn', compact('data'));
     }
@@ -46,7 +46,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_admin.srt_masih_mhw', compact('data'));
     }
@@ -68,7 +68,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_admin.legalisir', compact('data'));
     }
@@ -90,7 +90,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_admin.srt_bbs_pnjm', compact('data'));
     }
@@ -112,7 +112,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_admin.srt_izin_plt', compact('data'));
     }
@@ -134,7 +134,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_admin.srt_pmhn_kmbali_biaya', compact('data'));
     }
@@ -156,7 +156,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_admin.srt_magang', compact('data'));
     }
@@ -178,7 +178,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_manajer.srt_mhw_asn', compact('data'));
     }
@@ -200,7 +200,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_manajer.srt_masih_mhw', compact('data'));
     }
@@ -222,7 +222,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_manajer.legalisir', compact('data'));
     }
@@ -244,7 +244,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_manajer.srt_izin_plt', compact('data'));
     }
@@ -266,7 +266,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_manajer.srt_pmhn_kmbali_biaya', compact('data'));
     }
@@ -288,7 +288,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_manajer.srt_magang', compact('data'));
     }
@@ -310,7 +310,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_sv_akd.srt_mhw_asn', compact('data'));
     }
@@ -332,7 +332,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_sv_akd.srt_masih_mhw', compact('data'));
     }
@@ -354,7 +354,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_sv_akd.legalisir', compact('data'));
     }
@@ -376,7 +376,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_sv_sd.srt_bbs_pnjm', compact('data'));
     }
@@ -398,7 +398,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_sv_akd.srt_izin_plt', compact('data'));
     }
@@ -420,7 +420,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_sv_sd.srt_pmhn_kmbali_biaya', compact('data'));
     }
@@ -442,7 +442,7 @@ class Riwayat_Surat_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('riwayat_sv_akd.srt_magang', compact('data'));
     }

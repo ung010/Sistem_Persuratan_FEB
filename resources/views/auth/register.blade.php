@@ -1,138 +1,144 @@
-@extends('template/auth')
-@section('inti_data')
-    <title>Register Akun</title>
+<!DOCTYPE html>
+<html lang="en">
 
-    <body class="panduan">
-        <div class="container py-5 login">
-            <div class="w-50 center border rounded px-3 py-3 mx-auto land">
-                <h1>Register</h1>
-                <form id="register-form" action="{{ route('register.create') }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" name="email" value="{{ Session::get('email') }}" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <div class="input-group">
-                            <input type="password" id="password" name="password" value="{{ Session::get('password') }}"
-                                class="form-control">
-                            <button type="button" class="btn btn-outline-secondary" id="togglePassword">Show</button>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="nama" class="form-label">Nama</label>
-                        <input type="text" name="nama" value="{{ Session::get('nama') }}" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="nmr_unik" class="form-label">NIM</label>
-                        <input type="number" name="nmr_unik" value="{{ Session::get('nmr_unik') }}" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="kota" class="form-label">Tempat Lahir</label>
-                        <input type="text" name="kota" value="{{ Session::get('kota') }}" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <style>
+        body {
+            background-image: url('{{ asset('asset/embung_feb2 1.png') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+    </style>
+</head>
+
+<body class="d-flex justify-content-center align-items-center flex-column gap-3">
+    @include('template/pesan')
+    <div class="card my-5" style="width: 510px">
+        <div class="card-body">
+            <form action="{{ route('register.create') }}" class="px-5 pb-5" method="post"
+                enctype="multipart/form-data">
+                @csrf
+                <div class="d-flex justify-content-center align-items-center">
+                    <h1>Isi Data Diri</h1>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Email</label>
+                    <input type="email" name="email" placeholder="contoh@gmail.com atau contoh@student.undip.ac.id" value="{{ Session::get('email') }}" id=""
+                        class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Minimal 8 Karakter" value="{{ Session::get('password') }}"
+                        class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Nama</label>
+                    <input type="text" name="nama" value="{{ Session::get('nama') }}" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">NIM</label>
+                    <input type="number" name="nmr_unik" value="{{ Session::get('nmr_unik') }}" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Tempat Lahir</label>
+                    <input type="text" name="kota" value="{{ Session::get('kota') }}" class="form-control">
+                </div>
+                <div class="form-group mb-3 d-flex">
+                    <label for="" class="col-4">Tanggal Lahir</label>
+                    <div class="col-4">
                         <input type="date" name="tanggal_lahir" value="{{ Session::get('tanggal_lahir') }}"
                             class="form-control">
                     </div>
-                    <div class="mb-3">
-                        <label for="nama_ibu" class="form-label">Nama Ibu</label>
-                        <input type="text" name="nama_ibu" value="{{ Session::get('nama_ibu') }}" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Nama Ibu</label>
+                    <input type="text" name="nama_ibu" value="{{ Session::get('nama_ibu') }}" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">No Handphone</label>
+                    <input type="number" name="nowa" placeholder="089342774921" value="{{ Session::get('nowa') }}" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Alamat Asal</label>
+                    <input type="text" name="almt_asl" value="{{ Session::get('almt_asl') }}" id=""
+                        class="form-control">
+                </div>
+                <label for="">Sebelum memilih prodi, pilih departemen terlebih dahulu</label>
+                <br>
+                <div class="form-group mb-3 d-flex justify-content-center gap-3 px-2">
+                    <div class="col-6">
+                        <label for="">Departemen</label>
+                        <select class="form-select" name='dpt_id' id="dpt_id">
+                            <option value="" selected>Select Option</option>
+                            @foreach ($departemen as $dpt)
+                                <option value="{{ $dpt->id }}">{{ $dpt->nama_dpt }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="nowa" class="form-label">No Handphone</label>
-                        <input type="number" name="nowa" value="{{ Session::get('nowa') }}" class="form-control">
+                    <div class="col-6">
+                        <label for="">Program Studi</label>
+                        <select class="form-select" name='prd_id' id="prd_id">
+                            <option value="" selected>Select Option</option>
+                        </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="almt_asl" class="form-label">Alamat Asal (Bila asli dari Semarang, masih wajib
-                            isi)</label>
-                        <input type="text" name="almt_asl" value="{{ Session::get('almt_asl') }}" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="jnjg_id" class="col-sm-2 col-form-label">Jenjang Pendidikan</label>
-                        <div class="col-sm-10">
-                            <select class="form-select" name='jnjg_id' value="{{ Session::get('jnjg_id') }}" id="jnjg_id">
-                                <option value="" selected>Select Option</option>
-                                <option value="1">S1</option>
-                                <option value="2">S2</option>
-                                <option value="3">S3</option>
-                            </select>
+                </div>
+                <div class="form-group mb-3 d-flex flex-column col-6">
+                    <div class="col-6 d-flex flex-column gap-1">
+                        <div class="d-flex gap-2">
+                            <input type="radio" name="status" id="" value="mahasiswa"
+                                {{ Session::get('status') == 'mahasiswa' ? 'checked' : '' }}> Mahasiswa Aktif
+                        </div>
+                        <div class="d-flex gap-2">
+                            <input type="radio" name="status" id="" value="alumni"
+                                {{ Session::get('status') == 'alumni' ? 'checked' : '' }}> Alumni
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="dpt_id" class="col-sm-2 col-form-label">Departemen</label>
-                        <div class="col-sm-10">
-                            <select class="form-select" name='dpt_id' value="{{ Session::get('dpt_id') }}" id="dpt_id">
-                                <option value="" selected>Select Option</option>
-                                <option value="1">Manajemen</option>
-                                <option value="2">IESP</option>
-                                <option value="3">Akuntansi</option>
-                                <option value="4">Doktor Ilmu Ekonomi</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="prd_id" class="col-sm-2 col-form-label">Prodi</label>
-                        <div class="col-sm-10">
-                            <select class="form-select" name='prd_id' value="{{ Session::get('prd_id') }}" id="prd_id">
-                                <option value="" selected>Select Option</option>
-                                <option value="1">Manajemen</option>
-                                <option value="2">Digital Bisnis</option>
-                                <option value="3">Ekonomi</option>
-                                <option value="4">Ekonomi Islam</option>
-                                <option value="5">Akuntansi</option>
-                                <option value="6">Pendidikan Profesi Akuntan</option>
-                                <option value="7">Doktor Ilmu Ekonomi</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="foto" class="form-label">Foto</label>
-                        <input type="file" name="foto" value="#" id="foto" class="form-control">
-                    </div>
-                    <h5>Pilih salah satu</h5>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" value="mahasiswa" id="mahasiswa" required>
-                        <label class="form-check-label" for="mahasiswa">
-                            Mahasiswa Aktif
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" value="alumni" id="alumni" required>
-                        <label class="form-check-label" for="alumni">
-                            Alumni
-                        </label>
-                    </div>
-                    <div class="mb-3 d-grid">
-                        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                    <div class="mb-3 d-grid">
-                        <a href='/' class="btn btn-warning">Login</a>
-                    </div>
-                </form>
-                <script>
-                    document.getElementById('register-form').addEventListener('submit', function(event) {
-                        var password = document.getElementById('password').value;
-                        var confirmPassword = document.getElementById('confirm-password').value;
-
-                        if (password !== confirmPassword) {
-                            alert('Konfirmasi password tidak cocok!');
-                            event.preventDefault(); // Mencegah pengiriman form jika password tidak cocok
-                        }
-                    });
-                </script>
-
-                <script>
-                    document.getElementById('togglePassword').addEventListener('click', function(e) {
-                        const passwordField = document.getElementById('password');
-                        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                        passwordField.setAttribute('type', type);
-                        this.textContent = type === 'password' ? 'Show' : 'Hide';
-                    });
-                </script>
-            </div>
+                    <p class="text-danger" style="font-size: 10px; font-weight: 700;">*Mahasiswa Aktif silahkan Upload
+                        KTM
+                        *Alumni Silahkan Upload Screenshot Akun SIAP Alumni
+                    </p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <label for="foto" class="btn btn-secondary">Upload Identitas</label>
+                    <input type="file" name="foto" id="foto" class="d-none">
+                    <button type="submit" name="submit" class="btn btn-warning">Sign Up</button>
+                </div>
+            </form>
         </div>
-    </body>
-@endsection
+    </div>
+</body>
+
+<script>
+    document.getElementById('dpt_id').addEventListener('change', function() {
+        var departemenId = this.value;
+        var prdDropdown = document.getElementById('prd_id');
+
+        prdDropdown.innerHTML = '<option value="" selected>Select Option</option>'; // Clear existing options
+
+        if (departemenId) {
+            fetch('/get-prodi/' + departemenId)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(function(prodi) {
+                        var option = document.createElement('option');
+                        option.value = prodi.id;
+                        option.text = prodi.nama_prd;
+                        prdDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+</script>
+
+</html>

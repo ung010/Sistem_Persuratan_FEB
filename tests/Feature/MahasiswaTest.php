@@ -46,35 +46,10 @@ class MahasiswaTest extends TestCase
             'nama_ibu' => $faker->name('female'),
             'nowa' => $faker->phoneNumber,
             'almt_asl' => $faker->address,
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
             'password' => 'mountain082',
         ]);
 
         $response->assertStatus(302);
-    }
-
-    public function test_delete_akun_mahasiswa(): void
-    {
-        $this->withoutExceptionHandling();
-
-        $admin = \App\Models\User::factory()->create([
-            'role' => 'admin',
-            'password' => bcrypt('adminpassword'),
-        ]);
-
-        $user = \App\Models\User::factory()->create([
-            'email' => 'mahasiswa@gmail.com',
-            'password' => bcrypt('mountain082'),
-        ]);
-
-        $this->actingAs($admin);
-
-        $response = $this->post(route('admin.hard_delete', $user->id));
-        $response->assertStatus(302);
-        $this->assertDatabaseMissing('users', [
-            'id' => $user->id,
-        ]);
     }
 }

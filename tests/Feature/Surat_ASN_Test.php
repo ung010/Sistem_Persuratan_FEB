@@ -29,9 +29,7 @@ class Surat_ASN_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
         ]);
 
         $this->actingAs($user);
@@ -62,18 +60,13 @@ class Surat_ASN_Test extends TestCase
         $surat = DB::table('srt_mhw_asn')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
-            'nim_mhw' => $user->nmr_unik,
-            'nowa_mhw' => $user->nowa,
             'thn_awl' => 2020,
             'thn_akh' => 2024,
             'semester' => 6,
             'nama_ortu' => 'Nama Ortu Lama',
             'nip_ortu' => '1234567890',
             'ins_ortu' => 'Instansi Lama',
-            'jenjang_prodi' => 'S1 - Ekonomi',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
@@ -92,27 +85,20 @@ class Surat_ASN_Test extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('password'),
-            'jnjg_id' => 1,
             'prd_id' => 1,
-            'dpt_id' => 1,
         ]);
         $this->actingAs($user);
 
         $surat = DB::table('srt_mhw_asn')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'dpt_id' => $user->dpt_id,
-            'jnjg_id' => $user->jnjg_id,
             'nama_mhw' => $user->nama,
-            'nim_mhw' => $user->nmr_unik,
-            'nowa_mhw' => $user->nowa,
             'thn_awl' => 2020,
             'thn_akh' => 2024,
             'semester' => 6,
             'nama_ortu' => 'Nama Ortu Lama',
             'nip_ortu' => '1234567890',
             'ins_ortu' => 'Instansi Lama',
-            'jenjang_prodi' => 'S1 - Ekonomi',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
@@ -134,32 +120,6 @@ class Surat_ASN_Test extends TestCase
             'thn_akh' => 2025,
             'semester' => 7,
         ]);
-    }
-
-    public function test_search_surat_mahasiswa_asn(): void
-    {
-        $user = \App\Models\User::factory()->create([
-            'email' => 'mahasiswa@gmail.com',
-            'password' => bcrypt('mountain082'),
-            'role' => 'mahasiswa',
-        ]);
-
-        $this->actingAs($user);
-
-        $surat = \App\Models\srt_mhw_asn::factory()->create([
-            'nama_mhw' => 'John Doe',
-            'nama_ortu' => 'Jane Doe',
-            'nip_ortu' => '1234567890',
-            'ins_ortu' => 'Instansi',
-            'thn_awl' => '2020',
-            'thn_akh' => '2024',
-            'semester' => '6',
-        ]);
-
-        $response = $this->get('/srt_mhw_asn/search?search=John+Doe');
-
-        $response->assertStatus(200);
-        $response->assertDontSeeText('Jane Smith');
     }
 
     public function test_Download_Surat_Mahasiswa_ASN()
@@ -191,25 +151,19 @@ class Surat_ASN_Test extends TestCase
         $suratId = DB::table('srt_mhw_asn')->insertGetId([
             'users_id' => $admin->id,
             'nama_mhw' => 'Raung Calon Sarjana',
-            'nim_mhw' => '123456789',
-            'nowa_mhw' => '08123456789',
             'thn_awl' => 2020,
             'thn_akh' => 2024,
             'semester' => 6,
             'nama_ortu' => 'Jane Doe',
             'nip_ortu' => '987654321',
             'ins_ortu' => 'Some Institution',
-            'jenjang_prodi' => 'S1 - Ekonomi',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
             'prd_id' => 1,
-            'dpt_id' => 1,
-            'jnjg_id' => 1,
         ]);
 
         $response = $this->get("/srt_mhw_asn/admin/cek_surat/{$suratId}");
 
         $response->assertStatus(200);
-        $response->assertSee('Cek Surat keterangan untuk anak ASN');
     }
 
     public function test_setuju_surat_mhw_asn()

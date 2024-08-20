@@ -29,8 +29,6 @@ class User extends Authenticatable
         'nama_ibu',
         'role',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'foto',
         'role',
         'status',
@@ -54,8 +52,6 @@ class User extends Authenticatable
         'nama_ibu',
         'role',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'foto',
         'role',
         'status',
@@ -89,18 +85,8 @@ class User extends Authenticatable
         return $this->kota . ', ' . $this->tanggal_lahir;
     }
 
-    public function departemen()
-    {
-        return $this->belongsTo(departemen::class, 'dpt_id', 'id');
-    }
-
     public function prodi()
     {
-        return $this->belongsTo(prodi::class, 'prd_id', 'id');
-    }
-
-    public function jenjang()
-    {
-        return $this->belongsTo(jenjang_pendidikan::class, 'jnjg_id', 'id');
+        return $this->belongsTo(Prodi::class, 'prd_id');
     }
 }

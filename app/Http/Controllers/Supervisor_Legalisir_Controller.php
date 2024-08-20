@@ -14,17 +14,17 @@ class Supervisor_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd'
             );
 
         if ($search) {
@@ -32,11 +32,11 @@ class Supervisor_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_sv.sv_dikirim_ijazah', compact('data'));
     }
@@ -57,17 +57,17 @@ class Supervisor_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd'
             );
 
         if ($search) {
@@ -75,11 +75,11 @@ class Supervisor_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_sv.sv_dikirim_transkrip', compact('data'));
     }
@@ -100,17 +100,17 @@ class Supervisor_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah_transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd'
             );
 
         if ($search) {
@@ -118,11 +118,11 @@ class Supervisor_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_sv.sv_dikirim_ijz_trs', compact('data'));
     }
@@ -143,17 +143,17 @@ class Supervisor_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd'
             );
 
         if ($search) {
@@ -161,11 +161,11 @@ class Supervisor_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_sv.sv_ditempat_ijazah', compact('data'));
     }
@@ -186,17 +186,17 @@ class Supervisor_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd'
             );
 
         if ($search) {
@@ -204,11 +204,11 @@ class Supervisor_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_sv.sv_ditempat_transkrip', compact('data'));
     }
@@ -229,17 +229,17 @@ class Supervisor_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'supervisor_akd')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah_transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'users.nmr_unik',
                 'legalisir.id',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
             );
 
         if ($search) {
@@ -247,11 +247,11 @@ class Supervisor_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_sv.sv_ditempat_ijz_trs', compact('data'));
     }

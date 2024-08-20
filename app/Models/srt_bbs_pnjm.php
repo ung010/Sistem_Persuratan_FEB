@@ -19,8 +19,6 @@ class srt_bbs_pnjm extends Model
         'catatan_surat',
         'role_surat',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'tanggal_surat',
         'users_id',
     ];
@@ -39,8 +37,6 @@ class srt_bbs_pnjm extends Model
         'catatan_surat',
         'role_surat',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'tanggal_surat',
         'users_id',
         'remember_token',

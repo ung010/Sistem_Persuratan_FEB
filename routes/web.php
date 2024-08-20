@@ -58,8 +58,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/', [LoginController::class, 'index'])->name('login');
     Route::get('/login', [LoginController::class, 'index'])->name('auth.login');
     Route::post('/', [LoginController::class, 'login'])->name('auth.login');
-    Route::get('/register', [RegisterController::class, 'register']);
+    Route::get('/register', [RegisterController::class, 'register'])->name('register');
     Route::post('/register/create', [RegisterController::class, 'create'])->name('register.create');
+    
+    Route::get('/get-prodi/{departemenId}', [RegisterController::class, 'getProdiByDepartemen']);
 
 });
 
@@ -70,12 +72,13 @@ route::get('/home', function () {
 Route::middleware('auth')->group(function () {
     route::get('/users', [UsersController::class, 'users']);
     Route::get('/logout', [LoginController::class, 'logout']);
-    
+
     route::get('/error_register', [UsersController::class, 'home']);
 
     route::get('/non_user', [NonController::class, 'home_non_mhw'])->name('non_mhw.home')->
     middleware('UserAkses:non_mahasiswa');
     Route::get('/non_user/my_account', [NonController::class, 'edit_non_mhw'])->name('non_mhw.edit')->middleware('UserAkses:non_mahasiswa');
+    Route::get('/get-prodi/{departemen_id}', [NonController::class, 'getProdiByDepartemen'])->middleware('UserAkses:non_mahasiswa');
     Route::post('/non_user/my_account/update', [NonController::class, 'account_non_mhw'])->name('non_mhw.account_non_mhw')->
     middleware('UserAkses:non_mahasiswa');
 
@@ -92,7 +95,7 @@ Route::middleware('auth')->group(function () {
 
     // Route Admin
     route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware('UserAkses:admin');
-    
+
     route::get('/admin/user', [AdminController::class, 'user'])->name('admin.user')->middleware('UserAkses:admin');
     Route::get('/admin/user/search', [AdminController::class, 'search_user'])->name('admin.user.search')->middleware('UserAkses:admin');
     Route::get('/admin/user/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit')->
@@ -117,15 +120,6 @@ Route::middleware('auth')->group(function () {
     route::post('/admin/soft_delete/h_delete/{id}', [AdminController::class, 'delete_user'])->name('admin.hard_delete')
     ->middleware('UserAkses:admin');
 
-
-    // Route::post('/admin/mahasiswa/Approve/{id}', [AdminController::class, 'aksesApprove'])->name('admin.aksesApprove')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/nonApprove/{id}', [AdminController::class, 'nonApprove'])->name('admin.nonApprove')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/bulkNonApprove', [AdminController::class, 'bulkNonApprove'])->name('admin.bulkNonApprove')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/bulkApprove', [AdminController::class, 'bulkApprove'])->name('admin.bulkApprove')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/nonApproveAll', [AdminController::class, 'nonApproveAll'])->name('admin.nonApproveAll')->middleware('UserAkses:admin');
-    // Route::post('/admin/mahasiswa/ApproveAll', [AdminController::class, 'ApproveAll'])->name('admin.ApproveAll')->middleware('UserAkses:admin');
-
-
     route::get('/supervisor_akd', [SupervisorController::class, 'index_akd'])->name('supervisor_akd.index')->
     middleware('UserAkses:supervisor_akd');
     route::get('/supervisor_akd/manage_admin', [SupervisorController::class, 'manage_admin_akd'])->name('supervisor_akd.manage_admin')->
@@ -148,7 +142,7 @@ Route::middleware('auth')->group(function () {
     ->middleware('UserAkses:supervisor_sd');
     Route::post('/supervisor_sd/manage_admin/edit/{id}',  [SupervisorController::class, 'edit_sd'])->name('supervisor_sd.edit_sd')
     ->middleware('UserAkses:supervisor_sd');
-    
+
     route::get('/manajer', [ManajerController::class, 'index'])->name('manajer.index')->
     middleware('UserAkses:manajer');
     route::get('/manajer/manage_spv', [ManajerController::class, 'manage_spv'])->name('manajer.manage_spv')->
@@ -436,7 +430,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/legalisir/update/{id}', [Legalisir_Controller::class, 'update'])->name('legalisir.update')->
     middleware('UserAkses:mahasiswa');
 
-    // Kirim Ijazah 
+    // Kirim Ijazah
 
     Route::get('/legalisir/admin/dikirim/ijazah', [Admin_Legalisir_Controller::class, 'kirim_ijazah'])->name('legalisir_admin.admin_dikirim_ijazah')->
     middleware('UserAkses:admin');
@@ -468,7 +462,7 @@ Route::middleware('auth')->group(function () {
     ->middleware('UserAkses:manajer');
 
     // Kirim Transkrip
-    
+
     Route::get('/legalisir/admin/dikirim/transkrip', [Admin_Legalisir_Controller::class, 'kirim_transkrip'])->name('legalisir_admin.admin_dikirim_transkrip')->
     middleware('UserAkses:admin');
     Route::get('/legalisir/admin/dikirim/transkrip/search', [Admin_Legalisir_Controller::class, 'kirim_transkrip'])->name('legalisir_admin.admin_dikirim_transkrip_search')->

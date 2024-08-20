@@ -1,80 +1,102 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="Generator" content="Microsoft Word 15 (filtered)">
-    <title>Surat Magang</title>
-    <style>
-        @font-face {
-            font-family: Wingdings;
-            panose-1: 5 0 0 0 0 0 0 0 0 0;
-        }
-
-        @font-face {
-            font-family: "Cambria Math";
-            panose-1: 2 4 5 3 5 4 6 3 2 4;
-        }
-
-        p.MsoNormal,
-        li.MsoNormal,
-        div.MsoNormal {
-            margin: 0in;
-            font-size: 12.0pt;
-            font-family: "Times New Roman", serif;
-        }
-
-        p.MsoHeader,
-        li.MsoHeader,
-        div.MsoHeader {
-            margin: 0in;
-            font-size: 12.0pt;
-            font-family: "Times New Roman", serif;
-        }
-
-        span.HeaderChar {
-            font-size: 10.0pt;
-        }
-
-        @page WordSection1 {
-            size: 8.5in 11.0in;
-            margin: 111.55pt .75in 35.95pt 63.0pt;
-        }
-
-        div.WordSection1 {
-            page: WordSection1;
-        }
-
-        ol {
-            margin-bottom: 0in;
-        }
-
-        ul {
-            margin-bottom: 0in;
-        }
-    </style>
-</head>
-
-<body lang=EN-US link=blue vlink="#954F72" style='word-wrap:break-word'>
-
-    <div class=WordSection1>
-        Manajer
-
-            No Surat                    : {{ $srt_bbs_pnjm->no_surat}}<br>
-            Nama                        : {{ $srt_bbs_pnjm->nama_mhw}}<br>
-            NIM                         : {{ $srt_bbs_pnjm->nmr_unik}}<br>
-            Program Studi               : {{ $srt_bbs_pnjm->jenjang_prodi }}<br>
-            Dosen Walis                 : {{ $srt_bbs_pnjm->dosen_wali }}<br>
-            Alamat Semarang             : {{ $srt_bbs_pnjm->almt_smg}}<br>
-            No Whatsapp                 : {{ $srt_bbs_pnjm->nowa}}<br>
-            Semarang, {{ $srt_bbs_pnjm->tanggal_surat}}<br>
-
-
-        <div>
-            <img src="{{ public_path($qrCodePath) }}" alt="QR Code">
-        </div>
+@extends('user.surat') @section('content')
+    <table style="width: 100%; text-align: center">
+        <tr>
+            <td>
+                <strong
+                    style="
+          font-size: 16px;
+          font-family: 'Times New Roman', Times, serif;
+          text-align: justify;
+        "><u>KETERANGAN
+                        BEBAS PINJAM</u></strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p style="font-size: 12px; margin: 0">
+                    Nomor: {{ $srt_bbs_pnjm->no_surat }}
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div style="padding: 0 1rem 0 1rem">
+        <p style="font-size: 12px; margin: 0; text-align: justify">
+            Yang bertanda tangan di bawah ini, Supervisor Sumberdaya Fakultas Ekonomika dan Bisnis Universitas Diponegoro,
+            menerangkan bahwa mahasiswa :
+        </p>
+        <br />
+        <table
+            style="
+      margin-left: 5%;
+      text-align: justify;
+      font-size: 12px;
+      font-family: 'Times New Roman', Times, serif;
+    ">
+            <tr>
+                <td>Nama</td>
+                <td>:</td>
+                <td>{{ $srt_bbs_pnjm->nama_mhw }}</td>
+            </tr>
+            <tr>
+                <td>NIM</td>
+                <td>:</td>
+                <td>{{ $srt_bbs_pnjm->nmr_unik }}</td>
+            </tr>
+            <tr>
+                <td>Program Studi</td>
+                <td>:</td>
+                <td>{{ $srt_bbs_pnjm->nama_prd }}</td>
+            </tr>
+            <tr>
+                <td>Dosen Wali</td>
+                <td>:</td>
+                <td>{{ $srt_bbs_pnjm->dosen_wali }}</td>
+            </tr>
+            <tr>
+                <td>Alamat Semarang</td>
+                <td>:</td>
+                <td>{{ $srt_bbs_pnjm->almt_smg }}</td>
+            </tr>
+            <tr>
+                <td>No Whatsapp</td>
+                <td>:</td>
+                <td>{{ $srt_bbs_pnjm->nowa }}</td>
+            </tr>
+        </table>
+        <br />
+        <p style="font-size: 12px; margin: 0; text-align: justify">
+            Dinyatakan telah "Bebas Pinjam" (tidak meminjam asset yang dimiliki oleh Fakultas Ekonomika dan Bisnis
+            Universitas Diponegoro)
+        </p>
+        <br />
+        <table
+            style="
+            margin-right: 5%;
+            text-align: justify;
+            font-size: 12px;
+            font-family: 'Times New Roman', Times, serif;
+          "
+            align="right">
+            <tr>
+                <td>
+                    Semarang, {{ $srt_bbs_pnjm->tanggal_surat }}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 1rem;">Supervisor Sumberdaya</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 1rem; text-align: center;">
+                    <img src="{{ public_path($qrCodePath) }}" alt="QR Code" />
+                </td>
+            </tr>
+            <tr>
+                <td>Suryani, S.E</td>
+            </tr>
+            <tr>
+                <td>NIP. H.7.198601242009082001</td>
+            </tr>
+        </table>
     </div>
-
-</body>
-
-</html>
+@endsection

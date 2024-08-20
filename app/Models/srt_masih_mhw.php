@@ -24,8 +24,6 @@ class srt_masih_mhw extends Model
         'catatan_surat',
         'role_surat',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'tanggal_surat',
         'users_id',
         'file_pdf',
@@ -49,8 +47,6 @@ class srt_masih_mhw extends Model
         'catatan_surat',
         'role_surat',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'tanggal_surat',
         'users_id',
         'file_pdf',
@@ -74,19 +70,9 @@ class srt_masih_mhw extends Model
         return $this->kota . ', ' . $this->tanggal_lahir;
     }
 
-    public function departemen()
-    {
-        return $this->belongsTo(departemen::class, 'dpt_id', 'id');
-    }
-
     public function prodi()
     {
         return $this->belongsTo(prodi::class, 'prd_id', 'id');
-    }
-
-    public function jenjang()
-    {
-        return $this->belongsTo(jenjang_pendidikan::class, 'jnjg_id', 'id');
     }
 
     public function users()

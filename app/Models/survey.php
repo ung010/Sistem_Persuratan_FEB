@@ -20,8 +20,6 @@ class survey extends Model
         'tidak_puas',
         'feedback',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'users_id',
     ];
 
@@ -40,8 +38,6 @@ class survey extends Model
         'tidak_puas',
         'feedback',
         'prd_id',
-        'dpt_id',
-        'jnjg_id',
         'tanggal_surat',
         'users_id',
         'remember_token',

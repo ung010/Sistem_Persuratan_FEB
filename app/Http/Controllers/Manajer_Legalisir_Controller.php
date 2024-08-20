@@ -14,17 +14,17 @@ class Manajer_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'manajer')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
             );
 
         if ($search) {
@@ -32,11 +32,11 @@ class Manajer_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_dikirim_ijazah', compact('data'));
     }
@@ -49,7 +49,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_dikirim_ijazah')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -59,17 +59,17 @@ class Manajer_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'manajer')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd'
             );
 
         if ($search) {
@@ -77,11 +77,11 @@ class Manajer_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_dikirim_transkrip', compact('data'));
     }
@@ -94,7 +94,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_dikirim_transkrip')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -104,17 +104,17 @@ class Manajer_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'manajer')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah_transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
             );
 
         if ($search) {
@@ -122,11 +122,11 @@ class Manajer_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_dikirim_ijz_trs', compact('data'));
     }
@@ -139,7 +139,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_dikirim_ijz_trs')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -149,17 +149,17 @@ class Manajer_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'manajer')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
             );
 
         if ($search) {
@@ -167,11 +167,11 @@ class Manajer_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_ditempat_ijazah', compact('data'));
     }
@@ -184,7 +184,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_ditempat_ijazah')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -194,17 +194,17 @@ class Manajer_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'manajer')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
             );
 
         if ($search) {
@@ -212,11 +212,11 @@ class Manajer_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_ditempat_transkrip', compact('data'));
     }
@@ -229,7 +229,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_ditempat_transkrip')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 
@@ -239,17 +239,17 @@ class Manajer_Legalisir_Controller extends Controller
 
         $query = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->where('role_surat', 'manajer')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah_transkrip')
+            ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'legalisir.id',
                 'users.nmr_unik',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
+                'prodi.nama_prd',
             );
 
         if ($search) {
@@ -257,11 +257,11 @@ class Manajer_Legalisir_Controller extends Controller
                 $q->where('nama_mhw', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
-                    ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'like', "%{$search}%");
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_manajer.manajer_ditempat_ijz_trs', compact('data'));
     }
@@ -274,7 +274,7 @@ class Manajer_Legalisir_Controller extends Controller
 
         $legalisir->save();
         return redirect()->route('legalisir_manajer.manajer_ditempat_ijz_trs')
-        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan 
+        ->with('success', 'Legalisir berhasil disetujui dan dilanjutkan
         ke admin untuk disetujui oleh Wakil dekan');
     }
 }

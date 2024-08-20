@@ -21,6 +21,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah');
 
@@ -31,7 +33,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_dikirim_ijazah', compact('data'));
     }
@@ -61,21 +63,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -88,7 +88,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -155,6 +154,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'transkrip');
 
@@ -165,7 +166,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_dikirim_transkrip', compact('data'));
     }
@@ -195,21 +196,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -222,7 +221,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -289,6 +287,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'dikirim')
             ->where('jenis_lgl', 'ijazah_transkrip');
 
@@ -299,7 +299,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_dikirim_ijz_trs', compact('data'));
     }
@@ -344,21 +344,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -371,7 +369,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -438,6 +435,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah');
 
@@ -448,7 +447,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_ditempat_ijazah', compact('data'));
     }
@@ -478,21 +477,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -505,7 +502,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -572,6 +568,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'transkrip');
 
@@ -582,7 +580,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_ditempat_transkrip', compact('data'));
     }
@@ -612,21 +610,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -639,7 +635,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();
@@ -706,6 +701,8 @@ class Admin_Legalisir_Controller extends Controller
                 'role_surat',
             )
             ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
+            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->orderBy('tanggal_surat', 'asc')
             ->where('ambil', 'ditempat')
             ->where('jenis_lgl', 'ijazah_transkrip');
 
@@ -716,7 +713,7 @@ class Admin_Legalisir_Controller extends Controller
             });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         return view('legalisir_admin.admin_ditempat_ijz_trs', compact('data'));
     }
@@ -761,21 +758,19 @@ class Admin_Legalisir_Controller extends Controller
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
-            ->join('departement', 'legalisir.dpt_id', '=', 'departement.id')
-            ->join('jenjang_pendidikan', 'legalisir.jnjg_id', '=', 'jenjang_pendidikan.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('legalisir.id', $id)
             ->select(
                 'legalisir.id',
                 'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as departement_id',
-                'jenjang_pendidikan.id as jenjang_pendidikan_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
                 'users.nama',
                 'users.nmr_unik',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
-                'jenjang_pendidikan.nama_jnjg',
+                'prodi.nama_prd',
                 'legalisir.no_resi',
                 'legalisir.ambil',
                 'legalisir.jenis_lgl',
@@ -788,7 +783,6 @@ class Admin_Legalisir_Controller extends Controller
                 'legalisir.kota_kirim',
                 'legalisir.file_ijazah',
                 'legalisir.file_transkrip',
-                DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
                 'legalisir.role_surat',
             )
             ->first();

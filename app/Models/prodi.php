@@ -11,6 +11,12 @@ class prodi extends Model
     protected $table = 'prodi';
     protected $primaryKey = 'id';
     protected $fillable = [
-        "nama_prd"
+        "nama_prd",
+        "dpt_id"
     ];
+
+    public function departement()
+    {
+        return $this->belongsTo(departemen::class, 'dpt_id');
+    }
 }
