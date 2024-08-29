@@ -36,10 +36,17 @@
                                 <td>{{ $srt_masih_mhw->nama_prd }}</td>
                                 <td>{{ $srt_masih_mhw->tujuan_buat_srt }}</td>
                                 <td>{{ $srt_masih_mhw->tanggal_surat }}</td>
+                                @if ($srt_masih_mhw->tujuan_akhir == 'wd')
                                 <td>
-                                    <a href='{{ url('/legal/srt_masih_mhw/view/' . $srt_masih_mhw->id) }}'
+                                    <a href='{{ url('/legal/srt_masih_mhw/view/wd/' . $srt_masih_mhw->id) }}'
                                         class="btn btn-primary btn-sm">Lihat Surat</a>
                                 </td>
+                                @else
+                                <td>
+                                    <a href='{{ url('/legal/srt_masih_mhw/view/manajer/' . $srt_masih_mhw->id) }}'
+                                        class="btn btn-primary btn-sm">Lihat Surat</a>
+                                </td>
+                                @endif
                             </tr>
                         </tbody>
                     </table>

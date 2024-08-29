@@ -79,7 +79,10 @@ class RegisterController extends Controller
     $nama_foto = date('ymdhis') . '.' . $foto_extensi;
     $foto->move(public_path('storage/foto/mahasiswa'), $nama_foto);
 
+    $id = mt_rand(1000000000000, 9999999999999);
+
     $data = [
+      'id' => $id,
       'nama' => $request->nama,
       'nmr_unik' => $request->nmr_unik,
       'email' => $request->email,

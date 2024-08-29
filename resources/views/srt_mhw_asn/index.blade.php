@@ -39,7 +39,7 @@
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm" disabled>Berhasil</button>
                                 @elseif ($item->role_surat == 'tolak')
-                                    <a href="{{ url('/srt_mhw_asn/edit/' . $item->id) }}"
+                                    <a href="{{ route('srt_mhw_asn.edit', ['id' => Hashids::encode($item->id)]) }}"
                                         class="btn btn-danger btn-sm">Ditolak</a>
                                 @else
                                     <button class="btn btn-primary btn-sm" disabled>Menunggu</button>
@@ -125,7 +125,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">NIP</label>
-                                <input type="number" name="nip_ortu" id="nip_ortu" class="form-control">
+                                <input type="text" name="nip_ortu" id="nip_ortu" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="">Instansi Orang Tua Bekerja</label>

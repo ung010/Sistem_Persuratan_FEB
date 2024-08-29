@@ -40,7 +40,8 @@ use Illuminate\Support\Facades\Route;
 
 // Legal
 Route::get('/legal/srt_masih_mhw/{id}', [Legal_Controller::class, 'srt_masih_mhw'])->name('srt_masih_mhw.legal');
-Route::get('/legal/srt_masih_mhw/view/{id}', [Legal_Controller::class, 'lihat_srt_masih_mhw'])->name('srt_masih_mhw.legal_lihat');
+Route::get('/legal/srt_masih_mhw/view/wd/{id}', [Legal_Controller::class, 'lihat_srt_masih_mhw_wd'])->name('srt_masih_mhw.legal_lihat_wd');
+Route::get('/legal/srt_masih_mhw/view/manajer/{id}', [Legal_Controller::class, 'lihat_srt_masih_mhw_manajer'])->name('srt_masih_mhw.legal_lihat_manajer');
 Route::get('/legal/srt_mhw_asn/{id}', [Legal_Controller::class, 'srt_mhw_asn'])->name('srt_mhw_asn.legal');
 Route::get('/legal/srt_mhw_asn/view/{id}', [Legal_Controller::class, 'lihat_srt_mhw_asn'])->name('srt_mhw_asn.legal_lihat');
 Route::get('/legal/srt_magang/{id}', [Legal_Controller::class, 'srt_magang'])->name('srt_magang.legal');

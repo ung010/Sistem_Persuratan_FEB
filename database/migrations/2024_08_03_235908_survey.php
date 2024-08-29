@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('survey', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->primary();
             $table->enum('rating', ['sangat_puas' ,'puas', 'netral', 'kurang_puas', 'tidak_puas']);
             $table->string('nama_mhw')->nullable();
             $table->text('feedback')->nullable();
             $table->date('tanggal_surat');
-            $table->unsignedBigInteger('users_id')->nullable();
+            $table->bigInteger('users_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

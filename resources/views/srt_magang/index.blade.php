@@ -38,7 +38,7 @@
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm" disabled>Berhasil</button>
                                 @elseif ($item->role_surat == 'tolak')
-                                    <a href="{{ url('/srt_magang/edit/' . $item->id) }}"
+                                    <a href="{{ route('srt_magang.edit', ['id' => Hashids::encode($item->id)]) }}"
                                         class="btn btn-danger btn-sm">Ditolak</a>
                                 @else
                                     <button class="btn btn-primary btn-sm" disabled>Menunggu</button>
@@ -113,14 +113,14 @@
                             </select>
                                 </div>
                             </div>
-                            <div class="form-group d-flex">
+                            <div class="form-group d-flex">                                
                                 <label for="" class="col-1">SKSK</label>
                                 <div class="col-5">
-                                    <input type="string" name="ipk" id="ipk" required class="form-control">
+                                    <input type="number" name="sksk" id="sksk" required class="form-control">
                                 </div>
                                 <label for="" class="col-1">IPK</label>
                                 <div class="col-5">
-                                    <input type="number" name="sksk" id="sksk" required class="form-control">
+                                    <input type="text" name="ipk" id="ipk" required class="form-control">
                                 </div>
                             </div>
                         </div>

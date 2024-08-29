@@ -15,6 +15,7 @@ use Mpdf\Mpdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Hashids;
 
 class Srt_Izin_Penelitian_Controller extends Controller
 {
@@ -92,8 +93,10 @@ class Srt_Izin_Penelitian_Controller extends Controller
         ]);
 
         $user = Auth::user();
+        $id_surat = mt_rand(1000000000000, 9999999999999);
 
         DB::table('srt_izin_plt')->insert([
+            'id' => $id_surat,
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
             'nama_mhw' => $user->nama,
@@ -115,7 +118,9 @@ class Srt_Izin_Penelitian_Controller extends Controller
     {
         $user = Auth::user();
 
-        $data = DB::table('srt_izin_plt')->where('id', $id)->first();
+        $decodedId = Hashids::decode($id);
+
+        $data = DB::table('srt_izin_plt')->where('id', $decodedId[0])->first();
 
         if (!$data) {
             return redirect()->route('srt_izin_plt.index')->withErrors('Data tidak ditemukan.');

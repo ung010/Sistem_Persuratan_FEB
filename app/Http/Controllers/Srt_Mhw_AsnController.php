@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\View;
 use Mpdf\Mpdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Hashids;
 
 class Srt_Mhw_AsnController extends Controller
 {
@@ -82,7 +83,10 @@ class Srt_Mhw_AsnController extends Controller
 
     $user = Auth::user();
 
+    $id_surat = mt_rand(1000000000000, 9999999999999);
+
     DB::table('srt_mhw_asn')->insert([
+      'id' => $id_surat,
       'users_id' => $user->id,
       'prd_id' => $user->prd_id,
       'nama_mhw' => $user->nama,
@@ -100,19 +104,19 @@ class Srt_Mhw_AsnController extends Controller
 
   public function edit($id)
   {
-    $user = Auth::user();
+      $user = Auth::user();
+      $decodedId = Hashids::decode($id);
 
-    $data = DB::table('srt_mhw_asn')->where('id', $id)->first();
+      $data = DB::table('srt_mhw_asn')->where('id', $decodedId[0])->first();
 
-    if (!$data) {
-      return redirect()->route('srt_mhw_asn.index')->withErrors('Data tidak ditemukan.');
-    }
+      if (!$data) {
+          return redirect()->route('srt_mhw_asn.index')->withErrors('Data tidak ditemukan.');
+      }
 
-    $prodi = Prodi::where('id', $user->prd_id)->first();
+      $prodi = Prodi::where('id', $user->prd_id)->first();
 
-    return view('srt_mhw_asn.edit', compact('data', 'user', 'prodi'));
+      return view('srt_mhw_asn.edit', compact('data', 'user', 'prodi'));
   }
-
 
   public function update(Request $request, $id)
   {
