@@ -25,7 +25,7 @@
                     <p>Alamat Asal: {{ $user->almt_asl }}</p>
                     <p>No Whatsapp: {{ $user->nowa }}</p>
                     <p>Status:
-                        {{ $user->status === 'mahasiswa' ? 'Mahasiswa' : ($user->role === 'alumni' ? 'Alumni' : '') }}
+                        {{ $user->status === 'mahasiswa' ? 'Mahasiswa' : ($user->status === 'alumni' ? 'Alumni' : '') }}
                     </p>
                     <p>Kartu Tanda Mahasiswa</p>
                     <img src="{{ $user->foto ? asset('storage/foto/mahasiswa/' . $user->foto) : asset('asset/Rectangle 8.png') }}"

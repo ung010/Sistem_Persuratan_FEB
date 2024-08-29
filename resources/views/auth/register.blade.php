@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Email</label>
-                    <input type="email" name="email" placeholder="contoh@gmail.com atau contoh@student.undip.ac.id"
+                    <input type="email" name="email" placeholder="contoh@students.undip.ac.id"
                         value="{{ Session::get('email') }}" id="" class="form-control">
                 </div>
                 <div class="form-group mb-3">
