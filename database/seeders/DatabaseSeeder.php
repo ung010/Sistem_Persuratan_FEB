@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
                 'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
                 'email' => $faker->unique()->userName . '@students.undip.ac.id',
                 'password' => Hash::make('mountain082'),
-                'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa', 'del_mahasiswa']),
+                'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa']),
                 'status' => $faker->randomElement(['mahasiswa', 'alumni']),
                 'nowa' => $faker->phoneNumber,
                 'kota' => $faker->city,
