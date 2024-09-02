@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
+use Hashids\Hashids;
 
 class Surat_ASN_Test extends TestCase
 {
@@ -49,6 +50,8 @@ class Surat_ASN_Test extends TestCase
 
     public function test_view_halaman_edit_surat_mahasiswa_asn(): void
     {
+        $this->withoutExceptionHandling();
+
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('mountain082'),
@@ -57,6 +60,7 @@ class Surat_ASN_Test extends TestCase
 
         $this->actingAs($user);
 
+        $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('srt_mhw_asn')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -70,7 +74,8 @@ class Surat_ASN_Test extends TestCase
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->get("/srt_mhw_asn/edit/{$surat}");
+        $encodedId = $hashids->encode($surat);
+        $response = $this->get("/srt_mhw_asn/edit/{$encodedId}");
 
         $response->assertStatus(200);
     }

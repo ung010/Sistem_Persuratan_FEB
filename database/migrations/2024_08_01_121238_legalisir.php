@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('legalisir', function (Blueprint $table) {
-            $table->bigInteger('id')->primary();
+            $table->bigIncrements('id');
             $table->string('no_resi')->default('-');
             $table->enum('jenis_lgl', ['ijazah' ,'transkrip', 'ijazah_transkrip']);
             $table->enum('ambil', ['ditempat' ,'dikirim']);
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->date('tanggal_surat');
             $table->text('catatan_surat')->nullable()->default('-');
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])->default('admin');
-            $table->bigInteger('users_id')->nullable();
+            $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade')->nullable();

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
+use Hashids\Hashids;
 
 class Surat_Masih_Mahasiswa_Test extends TestCase
 {
@@ -63,7 +64,7 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
         ]);
 
         $this->actingAs($user);
-
+        $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $response = $this->post('/srt_masih_mhw/create', [
             'thn_awl' => 2020,
             'thn_akh' => 2024,
@@ -79,6 +80,7 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
 
     public function test_view_halaman_edit_surat(): void
     {
+        $this->withoutExceptionHandling();
 
         $faker = \Faker\Factory::create();
 
@@ -87,11 +89,10 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'nama' => 'Raung Calon Sarjana',
         ]);
 
         $this->actingAs($user);
-
+        $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('srt_masih_mhw')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -104,8 +105,8 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->get("/srt_masih_mhw/edit/{$surat}");
-
+        $encodedId = $hashids->encode($surat);
+        $response = $this->get("/srt_masih_mhw/edit/{$encodedId}");
 
         $response->assertStatus(200);
     }

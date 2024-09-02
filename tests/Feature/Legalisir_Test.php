@@ -9,6 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Hashids\Hashids;
 
 class Legalisir_Test extends TestCase
 {
@@ -168,7 +169,7 @@ class Legalisir_Test extends TestCase
         ]);
 
         $this->actingAs($user);
-
+        $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('legalisir')->insertGetId([
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
@@ -183,7 +184,8 @@ class Legalisir_Test extends TestCase
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->get("/legalisir/edit/{$surat}");
+        $encodedId = $hashids->encode($surat);
+        $response = $this->get("/legalisir/edit/{$encodedId}");
 
 
         $response->assertStatus(200);
@@ -203,7 +205,7 @@ class Legalisir_Test extends TestCase
         ]);
 
         $this->actingAs($user);
-
+        $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('legalisir')->insertGetId([
             'keperluan' => $faker->sentence(),
             'tgl_lulus' => $faker->date('Y-m-d'),
@@ -213,8 +215,8 @@ class Legalisir_Test extends TestCase
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->get("/legalisir/edit/{$surat}");
-
+        $encodedId = $hashids->encode($surat);
+        $response = $this->get("/legalisir/edit/{$encodedId}");
 
         $response->assertStatus(200);
 

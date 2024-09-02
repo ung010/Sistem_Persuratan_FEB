@@ -28,8 +28,10 @@ class Register_Test extends TestCase
         $this->withoutExceptionHandling();
         $faker = \Faker\Factory::create();
 
+        $email = $faker->unique()->userName . '@students.undip.ac.id';
+
         $response = $this->post('/register/create', [
-            'email' => $faker->unique()->safeEmail,
+            'email' => $email,
             'nama' => $faker->name,
             'nmr_unik' => $faker->unique()->numerify('##########'),
             'kota' => $faker->city,

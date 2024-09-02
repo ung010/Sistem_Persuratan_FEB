@@ -122,7 +122,7 @@ class DatabaseSeeder extends Seeder
         $users = [
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'DiSetRa',
+                'nama' => 'Raung Calon Sarjana',
                 'nmr_unik' => '21120120150155',
                 'email' => 'mahasiswa@gmail.com',
                 'password' => bcrypt('mountain082'),

@@ -6,26 +6,26 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class Non_MahasiswaTest extends TestCase
+class Mahasiswa_Test extends TestCase
 {
     /**
      * A basic feature test example.
      */
-    public function test_view_halaman_user_role_non_mahasiswa(): void
+    public function test_view_halaman_user_role_mahasiswa(): void
     {
-        $response = $this->get('/non_user');
+        $response = $this->get('/user');
 
         $response->assertStatus(302);
     }
 
-    public function test_view_halaman_my_account_user_role_non_mahasiswa(): void
+    public function test_view_halaman_my_account_user_role_mahasiswa(): void
     {
-        $response = $this->get('/non_user/my_account');
+        $response = $this->get('/user/my_account');
 
         $response->assertStatus(302);
     }
 
-    public function test_edit_user_role_non_mahasiswa(): void
+    public function test_edit_user_role_mahasiswa(): void
     {
         $this->withoutExceptionHandling();
         $faker = \Faker\Factory::create();
@@ -37,7 +37,7 @@ class Non_MahasiswaTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post('/non_user/my_account/update', [
+        $response = $this->post('/user/my_account/update', [
             'email' => $faker->unique()->safeEmail,
             'nama' => $faker->name,
             'nmr_unik' => $faker->unique()->numerify('##########'),
