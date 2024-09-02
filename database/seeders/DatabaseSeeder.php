@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class DatabaseSeeder extends Seeder
 {
@@ -97,14 +98,18 @@ class DatabaseSeeder extends Seeder
 
         $faker = Faker::create('id_ID');
         $gender = 'female';
+        $imageDirectory = public_path('storage/foto/mahasiswa');
+        $imageFiles = File::files($imageDirectory);
 
         foreach (range(1, 20) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
+            $randomImage = $faker->randomElement($imageFiles);
+            $imageName = basename($randomImage);
             DB::table('users')->insert([
                 'id' => $id,
                 'nama' => $faker->name,
                 'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
-                'email' => $faker->unique()->userName . '@gmail.com',
+                'email' => $faker->unique()->userName . '@students.undip.ac.id',
                 'password' => Hash::make('mountain082'),
                 'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa', 'del_mahasiswa']),
                 'status' => $faker->randomElement(['mahasiswa', 'alumni']),
@@ -114,17 +119,22 @@ class DatabaseSeeder extends Seeder
                 'tanggal_lahir' => $faker->date($format = 'Y-m-d', $max = '2008-01-01', $min = '1999-01-01',),
                 'almt_asl' => $faker->address,
                 'catatan_user' => '-',
-                'foto' => $faker->imageUrl(400, 400, 'people'),
+                'foto' => $imageName,
                 'prd_id' => $faker->numberBetween(1, 10),
             ]);
         }
 
+        $imageDirectory = public_path('storage/foto/mahasiswa');
+        $imageFiles = File::files($imageDirectory);
+        $randomImage = $faker->randomElement($imageFiles);
+        $imageName = basename($randomImage);
+
         $users = [
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'Raung Calon Sarjana',
+                'nama' => 'Raung',
                 'nmr_unik' => '21120120150155',
-                'email' => 'mahasiswa@gmail.com',
+                'email' => 'raung@students.undip.ac.id',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
                 'status' => 'mahasiswa',
@@ -135,12 +145,13 @@ class DatabaseSeeder extends Seeder
                 'prd_id' => 1,
                 'catatan_user' => '-',
                 'nama_ibu' => 'Rosa0',
+                'foto' => $imageName,
             ],
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'Leo',
+                'nama' => 'Didan',
                 'nmr_unik' => '64568775634',
-                'email' => 'leo@gmail.com',
+                'email' => 'didan@students.undip.ac.id',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
                 'status' => 'mahasiswa',
@@ -151,12 +162,13 @@ class DatabaseSeeder extends Seeder
                 'prd_id' => 2,
                 'catatan_user' => '-',
                 'nama_ibu' => 'leo',
+                'foto' => $imageName,
             ],
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'Alumni',
+                'nama' => 'Setyawan',
                 'nmr_unik' => '211201201444444',
-                'email' => 'alumni@gmail.com',
+                'email' => 'setyawan@students.undip.ac.id',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
                 'status' => 'alumni',
@@ -167,13 +179,14 @@ class DatabaseSeeder extends Seeder
                 'prd_id' => 3,
                 'catatan_user' => '-',
                 'nama_ibu' => 'Rosa1',
+                'foto' => $imageName,
             ],
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Andi Prihandoyo, S.T.',
                 'nmr_unik' => 'H.7.197704082021101001',
                 'email' => 'andiprihandoyo01@staff.undip.ac.id',
-                'password' => bcrypt('admin12345'),
+                'password' => bcrypt('mountain082'),
                 'role' => 'admin',
             ],
             [
@@ -181,7 +194,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Luluk Evriyanti, S.E',
                 'nmr_unik' => 'H.7.199504252024052001',
                 'email' => 'lulukevriyanti02@staff.undip.ac.id',
-                'password' => bcrypt('admin12345'),
+                'password' => bcrypt('mountain082'),
                 'role' => 'admin',
             ],
             [
@@ -194,25 +207,25 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'Supervisor akademik',
-                'nmr_unik' => '201',
-                'email' => 'akademik@gmail.com',
+                'nama' => 'R M Endhar Priyo Utomo, S.S',
+                'nmr_unik' => '197901102014091002',
+                'email' => 'akademik@staff.undip.ac.id',
                 'password' => bcrypt('mountain082'),
                 'role' => 'supervisor_akd',
             ],
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'Supervisor Sumber Daya',
-                'nmr_unik' => '301',
-                'email' => 'sumber@gmail.com',
+                'nama' => 'Suryani, S.E.',
+                'nmr_unik' => 'H.7.198601242009082001',
+                'email' => 'sumber@staff.undip.ac.id',
                 'password' => bcrypt('mountain082'),
                 'role' => 'supervisor_sd',
             ],
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'Manajer',
-                'nmr_unik' => '401',
-                'email' => 'manajer@gmail.com',
+                'nama' => 'Mia Prameswari, S.E., M.Si',
+                'nmr_unik' => '197901142006042001',
+                'email' => 'manajer@staff.undip.ac.id',
                 'password' => bcrypt('mountain082'),
                 'role' => 'manajer',
             ],
