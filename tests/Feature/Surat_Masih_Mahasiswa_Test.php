@@ -64,7 +64,6 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
         ]);
 
         $this->actingAs($user);
-        $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $response = $this->post('/srt_masih_mhw/create', [
             'thn_awl' => 2020,
             'thn_akh' => 2024,
@@ -76,6 +75,35 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
 
         $response->assertStatus(302);
         $response->assertRedirect('/srt_masih_mhw');
+    }
+
+    public function test_gagal_buat_surat_magang_baru_karena_data_kurang(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'mahasiswa@gmail.com',
+            'password' => bcrypt('password'),
+            'prd_id' => 1,
+        ]);
+
+        $this->actingAs($user);
+
+        try {
+            $this->post('/srt_masih_mhw/create', [
+                'thn_awl' => 2020,
+                'thn_akh' => 2024,
+                'semester' => 6,
+                'almt_smg' => $faker->address(),
+                'tujuan_akhir' => 'wd',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Tujuan pembuatan surat wajib diisi', $e->validator->errors()->first('tujuan_buat_srt'));
+            return;
+        }
+        $response->assertStatus(302);
     }
 
     public function test_view_halaman_edit_surat(): void

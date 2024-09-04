@@ -48,6 +48,35 @@ class Supervisor_Test extends TestCase
         $response->assertStatus(302);
     }
 
+    public function test_gagal_membuat_admin_karena_tidak_memasukkan_password(): void
+    {
+        $this->withoutExceptionHandling();
+        
+        $faker = \Faker\Factory::create();
+
+        $sv = \App\Models\User::factory()->create([
+            'email' => 'akd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_akd',
+        ]);
+
+        $this->actingAs($sv);
+
+        try {
+            $this->post('/supervisor_akd/manage_admin/create', [
+                'email' => $faker->unique()->safeEmail,
+                'nama' => $faker->name,
+                'nmr_unik' => $faker->unique()->numerify('##########'),
+                'role' => 'admin',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Password wajib diisi', $e->validator->errors()->first('password'));
+            return;
+        }
+    
+        $this->fail('ValidationException for password was not thrown.');
+    }
+
     public function test_update_akun_admin(): void
     {
         $this->withoutExceptionHandling();

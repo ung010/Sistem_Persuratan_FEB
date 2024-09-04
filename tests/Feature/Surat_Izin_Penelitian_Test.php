@@ -54,6 +54,39 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $response->assertRedirect('/srt_izin_plt');
     }
 
+    public function test_gagal_buat_surat_magang_baru_karena_data_kurang(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'mahasiswa@gmail.com',
+            'password' => bcrypt('password'),
+            'prd_id' => 1,
+        ]);
+
+        $this->actingAs($user);
+
+        try {
+            $this->post('/srt_izin_plt/create', [
+                'nama_mhw' => $faker->name,
+                'semester' => $faker->randomDigitNotNull,
+                'almt_lmbg' => $faker->address(),
+                'jbt_lmbg' => $faker->jobTitle(),
+                'kota_lmbg' => $faker->city(),
+                'nama_lmbg' => $faker->company(),
+                'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
+                'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
+                'tanggal_surat' => $faker->date('Y-m-d'),
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Judul/Tema Pengambilan Data Wajib diisi', $e->validator->errors()->first('judul_data'));
+            return;
+        }
+        $response->assertStatus(302);
+    }
+
     public function test_view_halaman_edit_surat_izin_penelitian(): void
     {
         $this->withoutExceptionHandling();

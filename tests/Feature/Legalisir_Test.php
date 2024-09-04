@@ -121,7 +121,7 @@ class Legalisir_Test extends TestCase
         ]);
     }
 
-    public function test_error_pembuatan_legalisir_salah_format(): void
+    public function test_gagal_pembuatan_legalisir_salah_format(): void
     {
         $faker = \Faker\Factory::create();
 
@@ -279,6 +279,55 @@ class Legalisir_Test extends TestCase
             'keperluan' => 'Berpegian',
             'file_ijazah' => $formatted_ijazah,
         ]);
+    }
+
+    public function test_gagal_update_ijazah_karena_data_kurang(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'mahasiswa@gmail.com',
+            'password' => bcrypt('mountain082'),
+            'role' => 'mahasiswa',
+            'prd_id' => 1,
+        ]);
+
+        $this->actingAs($user);
+
+        $surat = DB::table('legalisir')->insertGetId([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'nama_mhw' => $user->nama,
+            'ambil' => 'dikirim',
+            'jenis_lgl' => 'ijazah',
+            'file_ijazah' => 'file_ijazah.pdf',
+            'keperluan' => $faker->sentence(),
+            'tgl_lulus' => $faker->date('Y-m-d'),
+            'almt_kirim' => $faker->address(),
+            'kcmt_kirim' => $faker->city(),
+            'klh_kirim' => $faker->city(),
+            'kdps_kirim' => $faker->randomNumber(4, true),
+            'kota_kirim' => $faker->city(),
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $file_ijazah = UploadedFile::fake()->create('file_ijazah.pdf', 100, 'application/pdf');
+
+        try {
+            $this->post("/legalisir/update/{$surat}", [
+                'file_ijazah' => $file_ijazah,
+                'ambil' => 'dikirim',
+                'jenis_lgl' => 'ijazah',
+                'kcmt_kirim' => 'Wlingi',
+                'tgl_lulus' => '2024-11-02',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Kolom keperluan wajib diisi', $e->validator->errors()->first('keperluan'));
+            return;
+        }
+        $response->assertStatus(302);
     }
 
     public function test_update_transkrip_ditempat(): void

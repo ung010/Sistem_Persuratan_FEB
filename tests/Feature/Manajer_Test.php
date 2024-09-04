@@ -57,4 +57,41 @@ class Manajer_Test extends TestCase
             'email' => $newEmail,
         ]);
     }
+
+    public function test_gagal_mengedit_akun_sv_dengan_email_terduplikat(): void
+    {
+
+        $this->withoutExceptionHandling();
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'manajer@gmail.com',
+            'password' => bcrypt('mountain082'),
+            'role' => 'manajer',
+        ]);
+        $this->actingAs($user);
+
+        $sv = DB::table('users')->insertGetId([
+            'nama' => $faker->name,
+            'nmr_unik' => $faker->unique()->numerify('######'),
+            'email' => $faker->unique()->safeEmail,
+            'password' => Hash::make('mountain082'),
+            'role' => 'supervisor_akd',
+        ]);
+
+        try {
+            $this->post("/manajer/manage_spv/edit/{$sv}", [
+                'nama' => $faker->unique()->name,
+                'nmr_unik' => $faker->unique()->numerify('######'),
+                'email' => 'raung@students.undip.ac.id',
+                'password' => Hash::make('12345678'),
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Email sudah digunakan, silakan masukkan Email yang lain', $e->validator->errors()->first('email'));
+            return;
+        }
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('email');
+    }
 }

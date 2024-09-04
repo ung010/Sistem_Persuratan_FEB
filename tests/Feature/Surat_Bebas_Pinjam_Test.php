@@ -48,6 +48,33 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $response->assertRedirect('/srt_bbs_pnjm');
     }
 
+    public function test_gagal_buat_surat_bbs_pnjm_baru_karena_data_kurang(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'mahasiswa@gmail.com',
+            'password' => bcrypt('password'),
+            'prd_id' => 1,
+        ]);
+
+        $this->actingAs($user);
+
+        try {
+            $this->post('/srt_bbs_pnjm/create', [
+                'nama_mhw' => $faker->name,
+                'dosen_wali' => $faker->name(),
+                'tanggal_surat' => $faker->date('Y-m-d'),
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Alamat kos / tempat tinggal semarang wajib diisi', $e->validator->errors()->first('almt_smg'));
+            return;
+        }
+        $response->assertStatus(302);
+    }
+
     public function test_view_halaman_edit_surat_bebas_pinjam(): void
     {
         $this->withoutExceptionHandling();

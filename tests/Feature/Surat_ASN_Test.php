@@ -48,6 +48,35 @@ class Surat_ASN_Test extends TestCase
         $response->assertRedirect('/srt_mhw_asn');
     }
 
+    public function test_gagal_buat_surat_asn_baru_karena_data_kurang(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'mahasiswa@gmail.com',
+            'password' => bcrypt('password'),
+            'prd_id' => 1,
+        ]);
+
+        $this->actingAs($user);
+
+        try {
+            $this->post('/srt_mhw_asn/create', [
+                'thn_awl' => 2020,
+                'thn_akh' => 2024,
+                'semester' => 6,
+                'nama_ortu' => $faker->name,
+                'nip_ortu' => $faker->numerify('#######'),
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Instansi orang tua wajib diisi', $e->validator->errors()->first('ins_ortu'));
+            return;
+        }
+        $response->assertStatus(302);
+    }
+
     public function test_view_halaman_edit_surat_mahasiswa_asn(): void
     {
         $this->withoutExceptionHandling();

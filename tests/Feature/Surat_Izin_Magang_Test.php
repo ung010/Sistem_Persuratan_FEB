@@ -54,6 +54,39 @@ class Surat_Izin_Magang_Test extends TestCase
         $response->assertRedirect('/srt_magang');
     }
 
+    public function test_gagal_buat_surat_magang_baru_karena_data_kurang(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'mahasiswa@gmail.com',
+            'password' => bcrypt('password'),
+            'prd_id' => 1,
+        ]);
+
+        $this->actingAs($user);
+
+        try {
+            $this->post('/srt_magang/create', [
+                'nama_mhw' => $faker->name,
+                'ipk' => '3.50',
+                'sksk' => 150,
+                'semester' => $faker->randomDigitNotNull,
+                'almt_smg' => $faker->address(),
+                'almt_lmbg' => $faker->address(),
+                'nama_lmbg' => $faker->company(),
+                'jbt_lmbg' => $faker->jobTitle(),
+                'tanggal_surat' => $faker->date('Y-m-d'),
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Kota perusahaan / lembaga wajib diisi', $e->validator->errors()->first('kota_lmbg'));
+            return;
+        }
+        $response->assertStatus(302);
+    }
+
     public function test_view_halaman_edit_surat(): void
     {
         $this->withoutExceptionHandling();
