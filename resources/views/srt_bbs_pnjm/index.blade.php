@@ -4,6 +4,7 @@
     <div class="d-flex flex-column justify-content-center align-items-center gap-3"
         style="margin-top: 2%; margin-left: 5%; margin-right: 5%;">
         <img src="{{ asset('asset/Mask group.png') }}" alt="header" class="w-100">
+        
         <button class="btn btn-primary" onclick="addData()">Buat Surat</button>
 
         <div class="container-fluid">
@@ -33,7 +34,7 @@
                             </td>
                             <td>{{ $item->nama_prd }}</td>
                             <td>{{ $item->almt_smg }} / {{ $item->nowa }}</td>
-                            @include('user.lacak')
+                            @include('user.lacak_sv')
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm" disabled>Berhasil</button>

@@ -35,7 +35,7 @@
                             <td>
                                 {{ $item->almt_asl }} / {{ $item->nowa }}
                             </td>
-                            @include('user.lacak')
+                            @include('user.lacak_wd2')
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm" disabled>Berhasil</button>

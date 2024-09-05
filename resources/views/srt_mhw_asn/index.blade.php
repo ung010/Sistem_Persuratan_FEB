@@ -34,7 +34,7 @@
                             <td>{{ $item->nama_ortu }}</td>
                             <td>{{ $item->nip_ortu }}</td>
                             <td>{{ $item->ins_ortu }}</td>
-                            @include('user.lacak')
+                            @include('user.lacak_manajer')
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm" disabled>Berhasil</button>

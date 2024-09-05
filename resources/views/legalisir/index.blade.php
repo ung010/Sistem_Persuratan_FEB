@@ -45,7 +45,12 @@
                                 @endif
                             </td>
                             <td>
-                                {{ $item->no_resi }}
+                                @if ($item->role_surat == 'mahasiswa' && $item->ambil == 'ditempat')
+                                    Diambil ditempat
+                                @else
+                                    {{ $item->no_resi }}
+                                @endif
+                                
                             </td>
                         </tr>
                     @endforeach

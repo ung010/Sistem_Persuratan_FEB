@@ -21,10 +21,6 @@
                 $noAction = 0;
                 break;
 
-            case 'manajer_sukses':
-                $noAction = 5;
-                break;
-
             case 'mahasiswa':
                 $noAction = 6;
                 break;
@@ -69,15 +65,6 @@
             </div>
             <p class="lacak-text">
                 Manajer
-            </p>
-        </div>
-        <div class="d-flex flex-column gap-1 justify-content-center align-content-center align-items-center">
-            <div
-                class="rounded-circle border lacak d-flex justify-content-center align-items-center {{ $noAction > 5 ? 'bg-primary text-white' : ($noAction == 5 ? 'bg-success text-white' : '') }}">
-                5
-            </div>
-            <p class="lacak-text">
-                Wakil Dekan 1
             </p>
         </div>
     </div>
