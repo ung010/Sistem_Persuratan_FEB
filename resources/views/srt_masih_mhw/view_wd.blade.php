@@ -98,45 +98,71 @@
   <div style="display: flex; flex-direction: column; height: 300px; justify-content: space-between;">
     <table
       style="
-        text-align: justify;
-        font-size: 12px;
-        font-family: 'Times New Roman', Times, serif;
-        width: 100%;
-      "
+      text-align: left;
+      font-size: 12px;
+      font-family: 'Times New Roman', Times, serif;
+      width: 100%;
+      border-spacing: 0;
+    "
     >
       <tr>
-        <td style="padding-right: 300px;"></td>
-        <td style="padding-bottom: 1rem;">
+        <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+        </td>
+        <td style="width: 33%; vertical-align: top; text-align: center;">
+        </td>
+        <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
           Semarang, {{ $srt_masih_mhw->tanggal_surat }}
+        </td>
+        <p></p>
+      </tr>
+      <tr>
+        <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+          Yang berkepentingan
+        </td>
+        <td style="width: 33%; vertical-align: top; text-align: center;">
+        </td>
+        <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+          an. Dekan,
         </td>
       </tr>
       <tr>
-        <td style="padding-right: 300px;">Yang berkepentingan</td>
-        <td>an. Dekan,</td>
+        <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+        </td>
+        <td style="width: 33%; vertical-align: top; text-align: center;">
+        </td>
+        <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+          Wakil Dekan Akademik dan Kemahasiswaan,
+        </td>
       </tr>
       <tr>
-        <td style="padding-right: 300px;"></td>
-        <td style="padding-bottom: 1rem">Wakil Dekan Akademik dan Kemahasiswaan,</td>
-      </tr>
-    </table>
-    <div style="text-align: center;">
-      <img src="{{ public_path($qrCodePath) }}" alt="QR Code" style="display: inline-block;" />
-    </div>
-    <table
-      style="
-        text-align: justify;
-        font-size: 12px;
-        font-family: 'Times New Roman', Times, serif;
-        width: 100%;
-      "
-    >
-      <tr>
-        <td style="padding-right: 300px;">{{ $srt_masih_mhw->nama_mhw }}</td>
-        <td>Prof. Firmansyah, SE., M.Si., Ph.D.</td>
+        <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+        </td>
+        <td style="width: 33%; vertical-align: top; text-align: center;">
+          <img src="{{ public_path($qrCodePath) }}" alt="QR Code" style="max-width: 100px;"/>
+        </td>
+        <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+            {{-- <img src="{{ public_path('asset/ttd-wd1.png') }}" alt="Tanda Tangan" style="max-width: 150px; margin: 0 auto;"/> --}}
+        </td>
       </tr>
       <tr>
-        <td style="padding-right: 300px;">NIM. {{ $srt_masih_mhw->nmr_unik }}</td>
-        <td>NIP. 197404271999031001</td>
+        <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+          {{ $srt_masih_mhw->nama_mhw }}
+        </td>
+        <td style="width: 23%; vertical-align: top; text-align: center;">
+        </td>
+        <td style="width: 43%; vertical-align: top; padding-left: 10px; text-align: left;">
+          Prof. Dr. Harjum Muharam, S.E., M.E.
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+          NIM. {{ $srt_masih_mhw->nmr_unik }}
+        </td>
+        <td style="width: 33%; vertical-align: top; text-align: center;">
+        </td>
+        <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+          NIP. 197202182000031001
+        </td>
       </tr>
     </table>
   </div>

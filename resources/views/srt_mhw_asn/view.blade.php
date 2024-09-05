@@ -150,33 +150,68 @@
         <br />
         <table
             style="
-            margin-right: 5%;
-            text-align: justify;
+            text-align: left;
             font-size: 12px;
             font-family: 'Times New Roman', Times, serif;
-          "
-            align="right">
+            width: 100%;
+            border-spacing: 0;
+        "
+        >
             <tr>
-                <td style="padding-bottom: 1rem;">
-                    Semarang, {{ $srt_mhw_asn->tanggal_surat }}
-                </td>
+            <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+            </td>
+            <td style="width: 33%; vertical-align: top; text-align: center;">
+            </td>
+            <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                Semarang, {{ $srt_mhw_asn->tanggal_surat }}
+            </td>
+            <p></p>
             </tr>
             <tr>
-                <td>Dekan,</td>
+            <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+            </td>
+            <td style="width: 33%; vertical-align: top; text-align: center;">
+            </td>
+            <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                Dekan,
+            </td>
             </tr>
             <tr>
-                <td style="padding-bottom: 1rem;">Ub.Manajer/Kabag.Tata Usaha,</td>
+            <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+            </td>
+            <td style="width: 33%; vertical-align: top; text-align: center;">
+            </td>
+            <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                Ub. Kepala Bagian/Manajer Bagian Tata Usaha
+            </td>
             </tr>
             <tr>
-                <td style="padding-bottom: 1rem; text-align: center;">
-                    <img src="{{ public_path($qrCodePath) }}" alt="QR Code" />
-                </td>
+            <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+            </td>
+            <td style="width: 33%; vertical-align: top; text-align: center;">
+                <img src="{{ public_path($qrCodePath) }}" alt="QR Code" style="max-width: 100px;"/>
+            </td>
+            <td style="width: 33%; vertical-align: middle; padding-left: 10px; text-align: left;">
+                <img src="{{ public_path('asset/ttd-manajer.png') }}" alt="Tanda Tangan" style="max-width: 200px; margin: 0 auto;"/>
+            </td>
             </tr>
             <tr>
-                <td>Mia Prameswari, S.E., M.Si.</td>
+            <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+            </td>
+            <td style="width: 33%; vertical-align: top; text-align: center;">
+            </td>
+            <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                Mia Prameswari, S.E., M.Si.
+            </td>
             </tr>
             <tr>
-                <td>NIP. 197901142006042001</td>
+            <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+            </td>
+            <td style="width: 33%; vertical-align: top; text-align: center;">
+            </td>
+            <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                NIP. 197901142006042001
+            </td>
             </tr>
         </table>
     </div>

@@ -72,30 +72,58 @@
         <br />
         <table
             style="
-            margin-right: 5%;
-            text-align: justify;
+            text-align: left;
             font-size: 12px;
             font-family: 'Times New Roman', Times, serif;
-          "
-            align="right">
+            width: 100%;
+            border-spacing: 0;
+        ">
             <tr>
-                <td>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                </td>
+                <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
                     Semarang, {{ $srt_bbs_pnjm->tanggal_surat }}
                 </td>
             </tr>
             <tr>
-                <td style="padding-bottom: 1rem;">Supervisor Sumberdaya</td>
-            </tr>
-            <tr>
-                <td style="padding-bottom: 1rem; text-align: center;">
-                    <img src="{{ public_path($qrCodePath) }}" alt="QR Code" />
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                </td>
+                <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                    Supervisor Sumberdaya
                 </td>
             </tr>
             <tr>
-                <td>Suryani, S.E</td>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                    <p></p>
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                    <img src="{{ public_path($qrCodePath) }}" alt="QR Code" style="max-width: 100px;"/>
+                </td>
+                <td style="padding-bottom: 1rem;">
+                    <img src="{{ public_path('asset/ttd-spvsd.png') }}" alt="Tanda Tangan" style="max-width: 100px;"/>
+                </td>
             </tr>
             <tr>
-                <td>NIP. H.7.198601242009082001</td>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                </td>
+                <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                    Suryani, S.E.
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                </td>
+                <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                    NPPU. H.7.198601242009082001
+                </td>
             </tr>
         </table>
     </div>

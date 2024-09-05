@@ -33,7 +33,11 @@
                             </td>
                             <td>{{ $item->ttl }}</td>
                             <td>{{ $item->tujuan_buat_srt }}</td>
-                            @include('user.lacak')
+                            @if ($item->tujuan_akhir == 'manajer' )
+                                @include('user.lacak_manajer')
+                            @else
+                                @include('user.lacak')
+                            @endif
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm" disabled>Berhasil</button>
