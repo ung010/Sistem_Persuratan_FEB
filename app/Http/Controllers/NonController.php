@@ -69,7 +69,6 @@ class NonController extends Controller
   public function account_non_mhw(Request $request)
   {
     $userId = Auth::id();
-
     $request->validate([
       'nama' => 'required',
       'nmr_unik' => 'required|unique:users,nmr_unik,' . $userId,
@@ -98,6 +97,18 @@ class NonController extends Controller
       'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte'
     ]);
 
+    $user = DB::table('users')->where('id', $userId)->first();
+
+    if ($request->hasFile('foto')) {
+      if ($user->foto && file_exists(public_path('storage/foto/mahasiswa/' . $user->foto))) {
+          unlink(public_path('storage/foto/mahasiswa/' . $user->foto));
+      }
+
+      $foto = $this->handleFileUpload($request->file('foto'));
+    } else {
+      $foto = $user->foto;
+    }
+  
     DB::table('users')->where('id', $userId)->update([
       'nama' => $request->nama,
       'nmr_unik' => $request->nmr_unik,
@@ -108,19 +119,19 @@ class NonController extends Controller
       'almt_asl' => $request->almt_asl,
       'prd_id' => $request->prd_id,
       'password' => $request->filled('password') ? Hash::make($request->password) : DB::raw('password'),
-      'foto' => $request->hasFile('foto') ? $this->handleFileUpload($request->file('foto')) : DB::raw('foto')
+      'foto' => $foto
     ]);
+
     return redirect()->back()->with('success', 'Berhasil mengupdate data diri');
   }
 
   private function handleFileUpload($file)
   {
-    $fileExtension = $file->extension();
-    $fileName = date('ymdhis') . '.' . $fileExtension;
-    $file->move(public_path('storage/foto/mahasiswa'), $fileName);
-    return $fileName;
+      $fileExtension = $file->extension();
+      $fileName = date('ymdhis') . '.' . $fileExtension;
+      $file->move(public_path('storage/foto/mahasiswa'), $fileName);
+      return $fileName;
   }
-
 
   function del_mhw()
   {

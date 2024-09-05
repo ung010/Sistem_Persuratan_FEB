@@ -99,10 +99,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="">Identitas</label>
-                                <img src="{{ asset('storage/foto/mahasiswa/' . $user->foto) }}" alt="identitas"
-                                    style="max-width: 280px">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label for="foto" class="btn btn-secondary">Ganti Gambar</label>
+                                <input type="file" name="foto" id="foto" class="d-none" accept="image/*">
+                            </div>
+                            <div class="mt-3">
+                                <img id="img-preview" src="#" alt="Preview Image" class="img-fluid" style="display: none; max-height: 200px;">
+                                
+                                <img id="img-old" src="{{ asset('storage/foto/mahasiswa/' . $user->foto) }}" alt="identitas" style="max-width: 280px;">
                             </div>
                         </div>
                     </div>
@@ -117,7 +121,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Trigger ketika halaman pertama kali dimuat jika departemen sudah dipilih
             var selectedDepartemenId = $('#dpt_id').val();
             if (selectedDepartemenId) {
                 $.ajax({
@@ -125,7 +128,7 @@
                     type: "GET",
                     dataType: "json",
                     success: function(data) {
-                        $('#prd_id').empty(); // Kosongkan opsi prodi
+                        $('#prd_id').empty();
                         $('#prd_id').append('<option value="" selected>Select Option</option>');
                         $.each(data, function(key, value) {
                             var isSelected = value.id == '{{ $user->prd_id }}' ? 'selected' :
@@ -137,7 +140,6 @@
                 });
             }
 
-            // Trigger ketika dropdown departemen berubah
             $('#dpt_id').change(function() {
                 var departemen_id = $(this).val();
                 if (departemen_id) {
@@ -160,6 +162,27 @@
                     $('#prd_id').append('<option value="" selected>Select Option</option>');
                 }
             });
+        });
+    </script>
+
+    <script>
+        document.getElementById('foto').addEventListener('change', function(event) {
+            const fileInput = event.target;
+            const preview = document.getElementById('img-preview');
+            const oldImage = document.getElementById('img-old');
+            
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                
+  
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    oldImage.style.display = 'none';
+                }
+                
+                reader.readAsDataURL(fileInput.files[0]);
+            }
         });
     </script>
 @endsection

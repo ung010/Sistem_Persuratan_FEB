@@ -114,7 +114,6 @@
                     <input type="file" name="foto" id="foto" class="d-none">
                     <button type="submit" name="submit" class="btn btn-warning">Sign Up</button>
                 </div>
-                <!-- Element to show image preview -->
                 <div class="mt-3">
                     <img id="img-preview" src="#" alt="Preview Image" class="img-fluid" style="display: none; max-height: 200px;">
                 </div>
