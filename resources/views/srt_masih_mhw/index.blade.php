@@ -33,12 +33,16 @@
                             </td>
                             <td>{{ $item->ttl }}</td>
                             <td>{{ $item->tujuan_buat_srt }}</td>
-                            @include('user.lacak')
+                            @if ($item->tujuan_akhir == 'manajer' )
+                                @include('user.lacak_manajer')
+                            @else
+                                @include('user.lacak')
+                            @endif
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm" disabled>Berhasil</button>
                                 @elseif ($item->role_surat == 'tolak')
-                                    <a href="{{ url('/srt_masih_mhw/edit/' . $item->id) }}"
+                                    <a href="{{ route('srt_masih_mhw.edit', ['id' => Hashids::encode($item->id)]) }}"
                                         class="btn btn-danger btn-sm">Ditolak</a>
                                 @else
                                     <button class="btn btn-primary btn-sm" disabled>Menunggu</button>
@@ -106,9 +110,9 @@
                             <div class="form-group d-flex">
                                 <label for="" class="col-4">Tahun Ajaran</label>
                                 <div class="col-8 d-flex">
-                                    <input type="number" name="thn_awl" id="thn_awl" class="form-control">
+                                    <input type="number" name="thn_awl" id="thn_awl" class="form-control" min="2000" maxlength="4" required>
                                     <p>/</p>
-                                    <input type="number" name="thn_akh" id="thn_akh" class="form-control">
+                                    <input type="number" name="thn_akh" id="thn_akh" class="form-control" min="2000" maxlength="4" required>
                                 </div>
                             </div>
                             <div class="form-group d-flex">

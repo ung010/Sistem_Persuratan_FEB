@@ -81,16 +81,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group d-flex">
+                            <div class="form-group d-flex">                                
                                 <label for="" class="col-1">SKSK</label>
-                                <div class="col-5">
-                                    <input type="string" name="ipk" id="ipk" required class="form-control"
-                                        value="{{ $data->ipk }}">
-                                </div>
-                                <label for="" class="col-1">IPK</label>
                                 <div class="col-5">
                                     <input type="number" name="sksk" id="sksk" required class="form-control"
                                         value="{{ $data->sksk }}">
+                                </div>
+                                <label for="" class="col-1">IPK</label>
+                                <div class="col-5">
+                                    <input type="text" name="ipk" id="ipk" required class="form-control"
+                                        value="{{ $data->ipk }}">
                                 </div>
                             </div>
                         </div>

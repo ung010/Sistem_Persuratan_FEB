@@ -36,13 +36,12 @@
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#editUser" data-id="{{ $item->id }}"
-                                            data-nama="{{ $item->nama }}" data-email="{{ $item->email }}">
-                                            Edit
-                                        </button>
+                                            data-nama="{{ $item->nama }}" data-email="{{ $item->email }}"
+                                            data-status="{{ $item->status }}">Edit</button>
                                         <form action="{{ route('admin.soft_delete', $item->id) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus sementara akun ini?')">
                                             @csrf
-                                            @method('POST') <!-- atau POST jika menggunakan POST -->
+                                            @method('POST')
                                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                         </form>
                                     </td>
@@ -67,12 +66,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editUserLabel">Edit User</h5>
-                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" enctype="multipart/form-data" id="uploadForm">
                     @csrf
                     <div class="modal-body">
+                        <div class="form-group">
+                            <label for="status" class="form-label">Status Mahasiswa</label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="mahasiswa">Mahasiswa Aktif</option>
+                                <option value="alumni">Alumni</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" name="email" class="form-control" id="edit-email">
@@ -143,33 +148,36 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection
 
-@section('script')
-    <script>
-        $(document).ready(function() {
-            $('#table').DataTable();
-            $('#tableDeleted').DataTable();
-        });
-    </script>
+    @section('script')
+        <script>
+            $(document).ready(function() {
+                $('#table').DataTable();
+                $('#tableDeleted').DataTable();
+            });
+        </script>
 
-    <script>
-        $('#editUser').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-            var nama = button.data('nama');
-            var email = button.data('email');
+        <script>
+            $('#editUser').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var nama = button.data('nama');
+                var email = button.data('email');
+                var status = button.data('status');
 
-            $('#edit-email').val(email);
+                $('#edit-email').val(email);
 
-            var modal = $(this);
-            var form = modal.find('form');
-            var action = "{{ route('admin.update', ['id' => ':id']) }}";
+                $('#status').val(status);
 
-            form.attr('action', action.replace(':id', id));
-            modal.find('.modal-title').text('Edit User: ' + nama);
-        });
-    </script>
-@endsection
+                var modal = $(this);
+                var form = modal.find('form');
+                var action = "{{ route('admin.update', ['id' => ':id']) }}";
+
+                form.attr('action', action.replace(':id', id));
+                modal.find('.modal-title').text('Edit User: ' + nama);
+            });
+        </script>
+    @endsection

@@ -45,6 +45,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'nmr_unik',
+        'id',
         'kota',
         'tanggal_lahir',
         'nowa',
@@ -74,11 +75,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function getJenjangProdiAttribute()
-    {
-        return $this->jenjang_pendidikan->nama_jnjg . ' - ' . $this->prodi->nama_prd;
-    }
 
     public function getTempatTanggalLahirAttribute()
     {

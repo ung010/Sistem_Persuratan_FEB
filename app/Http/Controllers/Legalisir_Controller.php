@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\departemen;
 use App\Models\prodi;
+use Hashids;
 
 class Legalisir_Controller extends Controller
 {
@@ -105,7 +106,10 @@ class Legalisir_Controller extends Controller
             $file_transkrip->move(public_path('storage/pdf/legalisir/transkrip'), $nama_transkrip);
         }
 
+        $id_surat = mt_rand(1000000000000, 9999999999999);
+
         $data = [
+            'id' => $id_surat,
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
             'nama_mhw' => $user->nama,
@@ -132,7 +136,9 @@ class Legalisir_Controller extends Controller
     {
         $user = Auth::user();
 
-        $data = DB::table('legalisir')->where('id', $id)->first();
+        $decodedId = Hashids::decode($id);
+
+        $data = DB::table('legalisir')->where('id', $decodedId[0])->first();
 
         if (!$data) {
             return redirect()->route('legalisir.index')->withErrors('Data tidak ditemukan.');

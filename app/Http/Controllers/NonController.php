@@ -60,16 +60,15 @@ class NonController extends Controller
   }
 
 
-  public function getProdiByDepartemen($departemen_id)
-  {
+  public function getProdi($departemen_id)
+{
     $prodi = Prodi::where('dpt_id', $departemen_id)->get();
     return response()->json($prodi);
-  }
+}
 
   public function account_non_mhw(Request $request)
   {
     $userId = Auth::id();
-
     $request->validate([
       'nama' => 'required',
       'nmr_unik' => 'required|unique:users,nmr_unik,' . $userId,
@@ -80,7 +79,8 @@ class NonController extends Controller
       'nama_ibu' => 'required',
       'almt_asl' => 'required',
       'prd_id' => 'required',
-      'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
+      'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+      'status' => 'required'
     ], [
       'nama.required' => 'Nama wajib diisi',
       'nmr_unik.required' => 'NIM wajib diisi',
@@ -95,9 +95,22 @@ class NonController extends Controller
       'prd_id.required' => 'Prodi wajib diisi',
       'foto.image' => 'File harus berupa gambar',
       'foto.mimes' => 'File harus berupa gambar dengan format jpeg, png, atau jpg',
-      'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte'
+      'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte',
+      'status.required' => 'Status mahasiswa / alumni wajib diisi'
     ]);
 
+    $user = DB::table('users')->where('id', $userId)->first();
+
+    if ($request->hasFile('foto')) {
+      if ($user->foto && file_exists(public_path('storage/foto/mahasiswa/' . $user->foto))) {
+          unlink(public_path('storage/foto/mahasiswa/' . $user->foto));
+      }
+
+      $foto = $this->handleFileUpload($request->file('foto'));
+    } else {
+      $foto = $user->foto;
+    }
+  
     DB::table('users')->where('id', $userId)->update([
       'nama' => $request->nama,
       'nmr_unik' => $request->nmr_unik,
@@ -108,19 +121,21 @@ class NonController extends Controller
       'almt_asl' => $request->almt_asl,
       'prd_id' => $request->prd_id,
       'password' => $request->filled('password') ? Hash::make($request->password) : DB::raw('password'),
-      'foto' => $request->hasFile('foto') ? $this->handleFileUpload($request->file('foto')) : DB::raw('foto')
+      'foto' => $foto,
+      'status' => $request->status,
+      'catatan_user' => '-',
     ]);
+
     return redirect()->back()->with('success', 'Berhasil mengupdate data diri');
   }
 
   private function handleFileUpload($file)
   {
-    $fileExtension = $file->extension();
-    $fileName = date('ymdhis') . '.' . $fileExtension;
-    $file->move(public_path('storage/foto/mahasiswa'), $fileName);
-    return $fileName;
+      $fileExtension = $file->extension();
+      $fileName = date('ymdhis') . '.' . $fileExtension;
+      $file->move(public_path('storage/foto/mahasiswa'), $fileName);
+      return $fileName;
   }
-
 
   function del_mhw()
   {

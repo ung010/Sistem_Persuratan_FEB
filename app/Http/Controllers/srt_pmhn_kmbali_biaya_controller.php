@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use App\Models\srt_pmhn_kmbali_biaya;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Hashids;
 
 class srt_pmhn_kmbali_biaya_controller extends Controller
 {
@@ -102,17 +103,29 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $buku_tabung = $request->file('buku_tabung');
         $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.' . $buku_tabung->getClientOriginalExtension();
         $buku_tabung->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_buku);
+        
+        $existingSurat = DB::table('srt_pmhn_kmbali_biaya')
+        ->where('users_id', $user->id)
+        ->first();
+        if ($existingSurat) {
+          if ($existingSurat->role_surat === 'mahasiswa') {
+            $id_surat = mt_rand(1000000000000, 9999999999999);
 
-
-        DB::table('srt_pmhn_kmbali_biaya')->insert([
-            'users_id' => $user->id,
-            'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
-            'skl' => $nama_skl,
-            'bukti_bayar' => $nama_bukti,
-            'buku_tabung' => $nama_buku,
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-        ]);
+            DB::table('srt_pmhn_kmbali_biaya')->insert([
+                'id' => $id_surat,
+                'users_id' => $user->id,
+                'prd_id' => $user->prd_id,
+                'nama_mhw' => $user->nama,
+                'skl' => $nama_skl,
+                'bukti_bayar' => $nama_bukti,
+                'buku_tabung' => $nama_buku,
+                'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+            ]);
+          } else {
+              return redirect()->back()->withErrors(['error' => 'Hanya boleh mengajukan satu 
+              surat sampai surat disetujui seutuhnya']);
+          }
+      }        
 
         return redirect()->route('srt_pmhn_kmbali_biaya.index')->with('success', 'Surat berhasil dibuat');
     }
@@ -121,7 +134,9 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
     {
         $user = Auth::user();
 
-        $data = DB::table('srt_pmhn_kmbali_biaya')->where('id', $id)->first();
+        $decodedId = Hashids::decode($id);
+
+        $data = DB::table('srt_pmhn_kmbali_biaya')->where('id', $decodedId[0])->first();
 
         if (!$data) {
             return redirect()->route('srt_pmhn_kmbali_biaya.index')->withErrors('Data tidak ditemukan.');

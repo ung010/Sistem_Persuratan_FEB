@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class DatabaseSeeder extends Seeder
 {
@@ -97,14 +98,20 @@ class DatabaseSeeder extends Seeder
 
         $faker = Faker::create('id_ID');
         $gender = 'female';
+        $imageDirectory = public_path('storage/foto/mahasiswa');
+        $imageFiles = File::files($imageDirectory);
 
-        foreach (range(1, 20) as $index) {
+        foreach (range(1, 50) as $index) {
+            $id = mt_rand(1000000000000, 9999999999999);
+            $randomImage = $faker->randomElement($imageFiles);
+            $imageName = basename($randomImage);
             DB::table('users')->insert([
-                'nama' => $faker->name,
+                'id' => $id,
+                'nama' => $faker->firstName . ' ' . $faker->lastName,
                 'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
-                'email' => $faker->unique()->userName . '@gmail.com',
+                'email' => $faker->unique()->userName . '@students.undip.ac.id',
                 'password' => Hash::make('mountain082'),
-                'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa', 'del_mahasiswa']),
+                'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa']),
                 'status' => $faker->randomElement(['mahasiswa', 'alumni']),
                 'nowa' => $faker->phoneNumber,
                 'kota' => $faker->city,
@@ -112,17 +119,22 @@ class DatabaseSeeder extends Seeder
                 'tanggal_lahir' => $faker->date($format = 'Y-m-d', $max = '2008-01-01', $min = '1999-01-01',),
                 'almt_asl' => $faker->address,
                 'catatan_user' => '-',
-                'foto' => $faker->imageUrl(400, 400, 'people'),
+                'foto' => $imageName,
                 'prd_id' => $faker->numberBetween(1, 10),
             ]);
         }
 
+        $imageDirectory = public_path('storage/foto/mahasiswa');
+        $imageFiles = File::files($imageDirectory);
+        $randomImage = $faker->randomElement($imageFiles);
+        $imageName = basename($randomImage);
+
         $users = [
             [
-
-                'nama' => 'DiSetRa',
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Raung',
                 'nmr_unik' => '21120120150155',
-                'email' => 'mahasiswa@gmail.com',
+                'email' => 'raung@students.undip.ac.id',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
                 'status' => 'mahasiswa',
@@ -133,12 +145,13 @@ class DatabaseSeeder extends Seeder
                 'prd_id' => 1,
                 'catatan_user' => '-',
                 'nama_ibu' => 'Rosa0',
+                'foto' => $imageName,
             ],
             [
-
-                'nama' => 'Leo',
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Didan',
                 'nmr_unik' => '64568775634',
-                'email' => 'leo@gmail.com',
+                'email' => 'didan@students.undip.ac.id',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
                 'status' => 'mahasiswa',
@@ -149,12 +162,13 @@ class DatabaseSeeder extends Seeder
                 'prd_id' => 2,
                 'catatan_user' => '-',
                 'nama_ibu' => 'leo',
+                'foto' => $imageName,
             ],
             [
-
-                'nama' => 'Raung Calon Sarjana',
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Setyawan',
                 'nmr_unik' => '211201201444444',
-                'email' => 'alumni@gmail.com',
+                'email' => 'setyawan@students.undip.ac.id',
                 'password' => bcrypt('mountain082'),
                 'role' => 'mahasiswa',
                 'status' => 'alumni',
@@ -165,43 +179,52 @@ class DatabaseSeeder extends Seeder
                 'prd_id' => 3,
                 'catatan_user' => '-',
                 'nama_ibu' => 'Rosa1',
+                'foto' => $imageName,
             ],
             [
-
-                'nama' => 'admin1',
-                'nmr_unik' => '101',
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Andi Prihandoyo, S.T.',
+                'nmr_unik' => 'H.7.197704082021101001',
+                'email' => 'andiprihandoyo01@staff.undip.ac.id',
+                'password' => bcrypt('mountain082'),
+                'role' => 'admin',
+            ],
+            [
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Luluk Evriyanti, S.E',
+                'nmr_unik' => 'H.7.199504252024052001',
+                'email' => 'lulukevriyanti02@staff.undip.ac.id',
+                'password' => bcrypt('mountain082'),
+                'role' => 'admin',
+            ],
+            [
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Ex - Admin',
+                'nmr_unik' => 'xxx',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'admin',
             ],
             [
-
-                'nama' => 'admin2',
-                'nmr_unik' => '102',
-                'email' => 'testingadmin1@gmail.com',
-                'password' => bcrypt('mountain082'),
-                'role' => 'admin',
-            ],
-            [
-
-                'nama' => 'Supervisor akademik',
-                'nmr_unik' => '201',
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'R M Endhar Priyo Utomo, S.S',
+                'nmr_unik' => '197901102014091002',
                 'email' => 'akademik@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'supervisor_akd',
             ],
             [
-
-                'nama' => 'Supervisor Sumber Daya',
-                'nmr_unik' => '301',
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Suryani, S.E.',
+                'nmr_unik' => 'H.7.198601242009082001',
                 'email' => 'sumber@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'supervisor_sd',
             ],
             [
-
-                'nama' => 'Manajer',
-                'nmr_unik' => '401',
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Mia Prameswari, S.E., M.Si',
+                'nmr_unik' => '197901142006042001',
                 'email' => 'manajer@gmail.com',
                 'password' => bcrypt('mountain082'),
                 'role' => 'manajer',
@@ -220,7 +243,7 @@ class DatabaseSeeder extends Seeder
 
         $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer'];
 
-        foreach (range(1, 20) as $index) {
+        foreach (range(1, 50) as $index) {
 
             $random_user_id = $faker_srt_mhw_asn->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -236,9 +259,11 @@ class DatabaseSeeder extends Seeder
             )->toDateString();
 
             $prodi = DB::table('prodi')->where('id', $user->prd_id)->value('nama_prd');
+            $id = mt_rand(1000000000000, 9999999999999);
 
             DB::table('srt_mhw_asn')->insert([
-                'users_id' => $random_user_id,
+                'id' => $id,
+                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
                 'thn_awl' => $thn_awl,
@@ -260,9 +285,9 @@ class DatabaseSeeder extends Seeder
             ->toArray();
 
         $alasan_acak = ['sakit', 'berpegian', 'menjenguk', 'acara keluarga', 'urusan pribadi'];
-        $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses'];
+        $list_role = ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'];
 
-        foreach (range(1, 20) as $index) {
+        foreach (range(1, 50) as $index) {
 
             $random_user_id = $faker_srt_masih_mhw->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -278,7 +303,9 @@ class DatabaseSeeder extends Seeder
                 rand(1, 28)
             )->toDateString();
 
+            $id = mt_rand(1000000000000, 9999999999999);
             DB::table('srt_masih_mhw')->insert([
+                'id' => $id,
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
@@ -300,8 +327,8 @@ class DatabaseSeeder extends Seeder
             ->pluck('id')
             ->toArray();
 
-        foreach (range(5, 25) as $index) {
-
+        foreach (range(1, 50) as $index) {
+            $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_magang->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
@@ -316,13 +343,14 @@ class DatabaseSeeder extends Seeder
             $jbt_lmbg = $faker_srt_magang->jobTitle();
 
             DB::table('srt_magang')->insert([
+                'id' => $id,
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
                 'ipk' => $ipk,
                 'sksk' => $sksk,
                 'jbt_lmbg' => $jbt_lmbg,
-                'role_surat' => $faker_srt_magang->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_srt_magang->randomElement(['admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
                 'nama_lmbg' => $faker_srt_magang->company(),
                 'kota_lmbg' => $faker_srt_magang->city(),
                 'almt_lmbg' => $faker_srt_magang->address(),
@@ -347,8 +375,8 @@ class DatabaseSeeder extends Seeder
             'Disertasi'
         ];
 
-        foreach (range(1, 25) as $index) {
-
+        foreach (range(1, 50) as $index) {
+            $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_plt->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
@@ -364,6 +392,7 @@ class DatabaseSeeder extends Seeder
             $jbt_lmbg = $faker_srt_plt->jobTitle();
 
             DB::table('srt_izin_plt')->insert([
+                'id' => $id,
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
@@ -371,7 +400,7 @@ class DatabaseSeeder extends Seeder
                 'lampiran' => $lampiran,
                 'jbt_lmbg' => $jbt_lmbg,
                 'jenis_surat' => $jenis_surat,
-                'role_surat' => $faker_srt_plt->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_srt_plt->randomElement(['admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
                 'nama_lmbg' => $faker_srt_plt->company(),
                 'kota_lmbg' => $faker_srt_plt->city(),
                 'almt_lmbg' => $faker_srt_plt->address(),
@@ -388,7 +417,7 @@ class DatabaseSeeder extends Seeder
             ->toArray();
 
         foreach (range(5, 25) as $index) {
-
+            $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_pmhn_kmbali_biaya->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
@@ -399,10 +428,11 @@ class DatabaseSeeder extends Seeder
             )->toDateString();
 
             DB::table('srt_pmhn_kmbali_biaya')->insert([
+                'id' => $id,
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
-                'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['mahasiswa', 'admin', 'supervisor_sd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['admin', 'supervisor_sd', 'manajer', 'manajer_sukses']),
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }
@@ -414,8 +444,8 @@ class DatabaseSeeder extends Seeder
             ->pluck('id')
             ->toArray();
 
-        foreach (range(5, 20) as $index) {
-
+        foreach (range(1, 50) as $index) {
+            $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_bbs_pnjm->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
@@ -428,6 +458,7 @@ class DatabaseSeeder extends Seeder
             $dosen_wali = $faker_srt_bbs_pnjm->name();
 
             DB::table('srt_bbs_pnjm')->insert([
+                'id' => $id,
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
                 'almt_smg' => $almt_smg,
@@ -447,11 +478,10 @@ class DatabaseSeeder extends Seeder
 
         $urusan = ['Bekerja di luar negeri', 'Melamar Kerja', 'Melamar Istri', 'Ambil pendidikan tinggi di LN'];
         $jenis_legalisir = ['ijazah', 'transkrip', 'ijazah_transkrip'];
-        $cara_pengambilan = ['ditempat', 'dikirim'];
 
 
-        foreach (range(1, 25) as $index) {
-
+        foreach (range(1, 50) as $index) {
+            $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_lgl->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
@@ -460,12 +490,13 @@ class DatabaseSeeder extends Seeder
             $tanggal_lulus = $faker_lgl->date($format = 'Y-m-d', $max = '2024-08-01', $min = '2019-01-01',);
 
             DB::table('legalisir')->insert([
+                'id' => $id,
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
                 'tgl_lulus' => $tanggal_lulus,
                 'keperluan' => $keperluan,
                 'jenis_lgl' => $faker_lgl->randomElement($jenis_legalisir),
-                'ambil' => $faker_lgl->randomElement($cara_pengambilan),
+                'ambil' => 'ditempat',
                 'role_surat' => $faker_lgl->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
                 'prd_id' => $user->prd_id,
                 'tanggal_surat' => $tanggal_surat,
@@ -481,7 +512,8 @@ class DatabaseSeeder extends Seeder
 
         $ratings = ['sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas'];
 
-        foreach (range(1, 20) as $index) {
+        foreach (range(1, 50) as $index) {
+            $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_survey->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $rating = $faker_survey->randomElement($ratings);
@@ -492,6 +524,7 @@ class DatabaseSeeder extends Seeder
             )->toDateString();
 
             DB::table('survey')->insert([
+                'id' => $id,
                 'users_id' => $random_user_id,
                 'nama_mhw' => $faker_survey->name,
                 'rating' => $rating,

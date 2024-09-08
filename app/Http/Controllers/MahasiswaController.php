@@ -81,7 +81,7 @@ class MahasiswaController extends Controller
       'nama_ibu' => 'required',
       'almt_asl' => 'required',
       // 'dpt_id' => 'required',
-      'prd_id' => 'required',
+      // 'prd_id' => 'required',
       'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
     ], [
       'nama.required' => 'Nama wajib diisi',
@@ -94,7 +94,7 @@ class MahasiswaController extends Controller
       'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
       'nowa.required' => 'No handphone wajib diisi',
       'almt_asl.required' => 'Alamat asal rumah wajib diisi',
-      'prd_id.required' => 'Prodi wajib diisi',
+      // 'prd_id.required' => 'Prodi wajib diisi',
       // 'dpt_id.required' => 'Departemen wajib diisi',
       'foto.image' => 'File harus berupa gambar',
       'foto.mimes' => 'File harus berupa gambar dengan format jpeg, png, atau jpg',
@@ -109,7 +109,7 @@ class MahasiswaController extends Controller
       'tanggal_lahir' => $request->tanggal_lahir,
       'nowa' => $request->nowa,
       'almt_asl' => $request->almt_asl,
-      'prd_id' => $request->prd_id,
+      // 'prd_id' => $request->prd_id,
       'password' => $request->filled('password') ? Hash::make($request->password) : DB::raw('password'),
       'foto' => $request->hasFile('foto') ? $this->handleFileUpload($request->file('foto')) : DB::raw('foto')
     ]);

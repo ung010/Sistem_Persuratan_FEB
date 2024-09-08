@@ -33,13 +33,13 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Email</label>
-                    <input type="email" name="email" placeholder="contoh@gmail.com atau contoh@student.undip.ac.id" value="{{ Session::get('email') }}" id=""
-                        class="form-control">
+                    <input type="email" name="email" placeholder="contoh@students.undip.ac.id"
+                        value="{{ Session::get('email') }}" id="" class="form-control">
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Minimal 8 Karakter" value="{{ Session::get('password') }}"
-                        class="form-control">
+                    <input type="password" id="password" name="password" placeholder="Minimal 8 Karakter"
+                        value="{{ Session::get('password') }}" class="form-control">
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Nama</label>
@@ -66,7 +66,8 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="">No Handphone</label>
-                    <input type="number" name="nowa" placeholder="089342774921" value="{{ Session::get('nowa') }}" class="form-control">
+                    <input type="number" name="nowa" placeholder="089342774921" value="{{ Session::get('nowa') }}"
+                        class="form-control">
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Alamat Asal</label>
@@ -94,6 +95,7 @@
                 </div>
                 <div class="form-group mb-3 d-flex flex-column col-6">
                     <div class="col-6 d-flex flex-column gap-1">
+                        <label for="">Status</label>
                         <div class="d-flex gap-2">
                             <input type="radio" name="status" id="" value="mahasiswa"
                                 {{ Session::get('status') == 'mahasiswa' ? 'checked' : '' }}> Mahasiswa Aktif
@@ -113,32 +115,44 @@
                     <input type="file" name="foto" id="foto" class="d-none">
                     <button type="submit" name="submit" class="btn btn-warning">Sign Up</button>
                 </div>
+                <div class="mt-3">
+                    <img id="img-preview" src="#" alt="Preview Image" class="img-fluid" style="display: none; max-height: 200px;">
+                </div>
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('foto').addEventListener('change', function() {
+            const [file] = this.files;
+            if (file) {
+                const imgPreview = document.getElementById('img-preview');
+                imgPreview.src = URL.createObjectURL(file);
+                imgPreview.style.display = 'block'; // Show the image
+            }
+        });
+
+        document.getElementById('dpt_id').addEventListener('change', function() {
+            var departemenId = this.value;
+            var prdDropdown = document.getElementById('prd_id');
+
+            prdDropdown.innerHTML = '<option value="" selected>Select Option</option>'; // Clear existing options
+
+            if (departemenId) {
+                fetch('/get-prodi/' + departemenId)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(function(prodi) {
+                            var option = document.createElement('option');
+                            option.value = prodi.id;
+                            option.text = prodi.nama_prd;
+                            prdDropdown.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
 </body>
-
-<script>
-    document.getElementById('dpt_id').addEventListener('change', function() {
-        var departemenId = this.value;
-        var prdDropdown = document.getElementById('prd_id');
-
-        prdDropdown.innerHTML = '<option value="" selected>Select Option</option>'; // Clear existing options
-
-        if (departemenId) {
-            fetch('/get-prodi/' + departemenId)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(function(prodi) {
-                        var option = document.createElement('option');
-                        option.value = prodi.id;
-                        option.text = prodi.nama_prd;
-                        prdDropdown.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    });
-</script>
 
 </html>

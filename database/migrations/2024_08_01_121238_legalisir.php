@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('legalisir', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('no_resi')->default('-');
             $table->enum('jenis_lgl', ['ijazah' ,'transkrip', 'ijazah_transkrip']);
             $table->enum('ambil', ['ditempat' ,'dikirim']);

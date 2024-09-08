@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('survey', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->enum('rating', ['sangat_puas' ,'puas', 'netral', 'kurang_puas', 'tidak_puas']);
             $table->string('nama_mhw')->nullable();
             $table->text('feedback')->nullable();

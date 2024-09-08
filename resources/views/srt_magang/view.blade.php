@@ -100,40 +100,67 @@
     <div style="display: grid; grid-template-columns: 1fr auto; align-items: center; text-align: center;">
         <table
             style="
-            text-align: justify;
-            font-size: 12px;
-            font-family: 'Times New Roman', Times, serif;
-            margin-right: auto;
-        ">
-            <tr>
-                <td style="padding-bottom: 1rem">
-                    Semarang, {{ $srt_magang->tanggal_surat }}
-                </td>
-            </tr>
-            <tr>
-                <td>a.n Dekan,</td>
-            </tr>
-            <tr>
-                <td style="padding-bottom: 1rem">Wakil Dekan Akademik dan Kemahasiswaan,</td>
-            </tr>
-        </table>
-        <div style="text-align: center;">
-            <img src="{{ public_path($qrCodePath) }}" alt="QR Code" style="display: block; margin: 0 auto;" />
-        </div>
-    </div>
-    <div style="text-align: right;">
-        <table
-            style="
-            text-align: justify;
+            text-align: left;
             font-size: 12px;
             font-family: 'Times New Roman', Times, serif;
             width: 100%;
-        ">
+            border-spacing: 0;
+            "
+        >
             <tr>
-                <td>Prof. Firmansyah, SE., M.Si., Ph.D.</td>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                </td>
+                <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                Semarang, {{ $srt_magang->tanggal_surat }}
+                </td>
+                <p></p>
+            <tr>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                </td>
+                <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                    an. Dekan,
+                </td>
             </tr>
             <tr>
-                <td>NIP. 197404271999031001</td>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                </td>
+                <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                    Wakil Dekan Akademik dan Kemahasiswaan,
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                    <img src="{{ public_path($qrCodePath) }}" alt="QR Code" style="max-width: 100px;"/>
+                </td>
+                <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                    {{-- <img src="{{ public_path('asset/ttd-wd1.png') }}" alt="Tanda Tangan" style="max-width: 150px; margin: 0 auto;"/> --}}
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 23%; vertical-align: top; text-align: center;">
+                </td>
+                <td style="width: 43%; vertical-align: top; padding-left: 10px; text-align: left;">
+                  Prof. Dr. Harjum Muharam, S.E., M.E.
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 33%; vertical-align: top; padding-right: 10px;">
+                </td>
+                <td style="width: 33%; vertical-align: top; text-align: center;">
+                </td>
+                <td style="width: 33%; vertical-align: top; padding-left: 10px; text-align: left;">
+                  NIP. 197202182000031001
+                </td>
             </tr>
         </table>
     </div>

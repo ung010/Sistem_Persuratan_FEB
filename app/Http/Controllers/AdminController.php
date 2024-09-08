@@ -103,11 +103,11 @@ class AdminController extends Controller
       ->join('prodi', 'users.prd_id', '=', 'prodi.id')
       ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users.role', 'mahasiswa')
-      ->whereIn('users.status', ['mahasiswa', 'alumni'])
       ->select(
         'users.id',
         'users.nama',
         'users.nmr_unik',
+        'users.status',
         'users.email',
         'prodi.dpt_id',
         'departement.nama_dpt',
@@ -119,7 +119,6 @@ class AdminController extends Controller
       ->join('prodi', 'users.prd_id', '=', 'prodi.id')
       ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
       ->where('users.role', 'del_mahasiswa')
-      ->whereIn('users.status', ['mahasiswa', 'alumni'])
       ->select(
         'users.id',
         'users.nama',
@@ -300,6 +299,7 @@ class AdminController extends Controller
     ]);
 
     $user->email = $request->email;
+    $user->status = $request->status;
 
     if ($request->filled('password')) {
       $user->password = Hash::make($request->password);

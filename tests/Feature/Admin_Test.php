@@ -60,7 +60,6 @@ class Admin_Test extends TestCase
         $response->assertStatus(200);
     }
 
-
     public function test_update_manajemen_user(): void
     {
         $this->withoutExceptionHandling();
@@ -95,6 +94,39 @@ class Admin_Test extends TestCase
             'id' => $mhw,
             'email' => $newEmail,
         ]);
+    }
+
+    public function test_gagal_mengedit_user_karena_nim_terduplikat(): void
+    {
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('mountain082'),
+            'role' => 'admin',
+        ]);
+
+        $this->actingAs($user);
+
+        $mhw = DB::table('users')->insertGetId([
+            'nama' => $faker->name(),
+            'nmr_unik' => $faker->unique()->numerify('##########'),
+            'email' => $faker->email,
+            'password' => Hash::make('mountain082'),
+        ]);
+
+        try {
+            $response = $this->post("/admin/user/update/{$mhw}", [
+                'email' => $faker->email,
+                'nmr_unik' => 21120120150155,
+                'password' => Hash::make('12345678'),
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('NIM sudah digunakan, silakan masukkan NIM yang lain', $e->validator->errors()->first('nmr_unik'));
+            return;
+        }
+
+        $response->assertStatus(302);
     }
 
     public function test_view_halaman_verifikasi_akun(): void

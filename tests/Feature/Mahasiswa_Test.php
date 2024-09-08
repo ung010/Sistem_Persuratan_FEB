@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class MahasiswaTest extends TestCase
+class Mahasiswa_Test extends TestCase
 {
     /**
      * A basic feature test example.
@@ -51,5 +51,40 @@ class MahasiswaTest extends TestCase
         ]);
 
         $response->assertStatus(302);
+    }
+
+    public function test_gagal_mengedit_akun_dengan_email_terduplikat(): void
+    {
+
+        $this->withoutExceptionHandling();
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'mahasiswa@gmail.com',
+            'password' => bcrypt('mountain082'),
+        ]);
+
+        $this->actingAs($user);
+
+        try {
+            $this->post('/user/my_account/update', [
+                'email' => 'raung@students.undip.ac.id',
+                'nama' => $faker->name,
+                'nmr_unik' => $faker->unique()->numerify('##########'),
+                'kota' => $faker->city,
+                'tanggal_lahir' => $faker->date('Y-m-d'),
+                'nama_ibu' => $faker->name('female'),
+                'nowa' => $faker->phoneNumber,
+                'almt_asl' => $faker->address,
+                'prd_id' => 1,
+                'password' => 'mountain082',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Email sudah digunakan, silakan masukkan Email yang lain', $e->validator->errors()->first('email'));
+            return;
+        }
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('email');
     }
 }

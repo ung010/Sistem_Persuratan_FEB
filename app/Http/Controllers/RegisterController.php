@@ -41,7 +41,7 @@ class RegisterController extends Controller
     $request->validate([
       'nama' => 'required',
       'nmr_unik' => 'required|unique:users',
-      'email' => 'required|email|unique:users',
+      'email' => 'required|email|unique:users|regex:/^[a-zA-Z0-9._%+-]+@students\.undip\.ac\.id$/',
       'kota' => 'required',
       'tanggal_lahir' => 'required',
       'nama_ibu' => 'required',
@@ -58,6 +58,7 @@ class RegisterController extends Controller
       'email.required' => 'Email wajib diisi',
       'email.email' => 'Email harus valid',
       'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
+      'email.regex' => 'Email harus menggunakan @students.undip.ac.id',
       'password.required' => 'Password wajib diisi',
       'nama_ibu.required' => 'Nama ibu wajib diisi',
       'password.min' => 'Password minimal 8 karakter',
@@ -78,7 +79,10 @@ class RegisterController extends Controller
     $nama_foto = date('ymdhis') . '.' . $foto_extensi;
     $foto->move(public_path('storage/foto/mahasiswa'), $nama_foto);
 
+    $id = mt_rand(1000000000000, 9999999999999);
+
     $data = [
+      'id' => $id,
       'nama' => $request->nama,
       'nmr_unik' => $request->nmr_unik,
       'email' => $request->email,

@@ -86,7 +86,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">NIP</label>
-                                <input type="number" name="nip_ortu" id="nip_ortu" class="form-control"
+                                <input type="text" name="nip_ortu" id="nip_ortu" class="form-control"
                                     value="{{ $data->nip_ortu }}">
                             </div>
                             <div class="form-group">

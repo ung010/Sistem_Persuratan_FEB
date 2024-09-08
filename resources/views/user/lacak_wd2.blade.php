@@ -77,7 +77,7 @@
                 5
             </div>
             <p class="lacak-text">
-                Wakil Dekan 1
+                Wakil Dekan 2
             </p>
         </div>
     </div>

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Hashids;
 
 class srt_masih_mhwController extends Controller
 {
@@ -91,8 +92,25 @@ class srt_masih_mhwController extends Controller
     ]);
 
     $user = Auth::user();
+    
+    $existingSurat = DB::table('srt_masih_mhw')
+    ->where('users_id', $user->id)
+    ->get();
+
+    foreach ($existingSurat as $surat) {
+      if ($surat->tujuan_akhir === 'wd' && $request->tujuan_akhir === 'wd' && $surat->role_surat !== 'mahasiswa') {
+          return redirect()->back()->withErrors(['error' => 'Surat dengan tujuan akhir Wakil Dekan sudah ada dan belum selesai.']);
+      }
+  
+      if ($surat->tujuan_akhir === 'manajer' && $request->tujuan_akhir === 'manajer' && $surat->role_surat !== 'mahasiswa') {
+          return redirect()->back()->withErrors(['error' => 'Surat dengan tujuan akhir Manajer sudah ada dan belum selesai.']);
+      }
+    }
+
+    $id_surat = mt_rand(1000000000000, 9999999999999);
 
     DB::table('srt_masih_mhw')->insert([
+      'id' => $id_surat,
       'users_id' => $user->id,
       'prd_id' => $user->prd_id,
       'nama_mhw' => $user->nama,
@@ -112,7 +130,9 @@ class srt_masih_mhwController extends Controller
   {
     $user = Auth::user();
 
-    $data = DB::table('srt_masih_mhw')->where('id', $id)->first();
+    $decodedId = Hashids::decode($id);
+
+    $data = DB::table('srt_masih_mhw')->where('id', $decodedId[0])->first();
 
     if (!$data) {
       return redirect()->route('srt_masih_mhw.index')->withErrors('Data tidak ditemukan.');
@@ -225,18 +245,11 @@ class srt_masih_mhwController extends Controller
 
     QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
 
-    // $mpdf = new Mpdf();
-    // $html = View::make('srt_masih_mhw.view_manajer', compact('srt_masih_mhw', 'qrCodePath'))->render();
-    // $mpdf->WriteHTML($html);
-
     $pdf = Pdf::loadView('srt_masih_mhw.view_manajer', compact('srt_masih_mhw', 'qrCodePath'));
-
-
 
     $namaMahasiswa = $srt_masih_mhw->nama;
     $tanggalSurat = Carbon::now()->format('Y-m-d');
     $fileName = 'Surat_Masih_Mahasiswa_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
-    // $mpdf->Output($fileName, 'D');
     return $pdf->download($fileName);
   }
 

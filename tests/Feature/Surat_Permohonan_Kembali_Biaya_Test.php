@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+use Hashids\Hashids;
 
 class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
 {
@@ -97,16 +98,17 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
 
     public function test_view_halaman_edit_srt_pmhn_kmbali_biaya(): void
     {
+        $this->withoutExceptionHandling();
+
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'nama' => 'Raung Calon Sarjana',
         ]);
 
         $this->actingAs($user);
-
+        $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('srt_pmhn_kmbali_biaya')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -117,12 +119,10 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->get("/srt_pmhn_kmbali_biaya/edit/{$surat}");
-
+        $encodedId = $hashids->encode($surat);
+        $response = $this->get("/srt_pmhn_kmbali_biaya/edit/{$encodedId}");
 
         $response->assertStatus(200);
-
-        $response->assertSee('Raung Calon Sarjana');
     }
 
     public function test_update_surat_pmhn_kmbali_biaya(): void

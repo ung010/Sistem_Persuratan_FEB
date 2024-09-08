@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Mpdf\Mpdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Hashids;
 
 class Srt_Bbs_Pnjam_Controller extends Controller
 {
@@ -75,14 +76,27 @@ class Srt_Bbs_Pnjam_Controller extends Controller
 
     $user = Auth::user();
 
-    DB::table('srt_bbs_pnjm')->insert([
-      'users_id' => $user->id,
-      'prd_id' => $user->prd_id,
-      'nama_mhw' => $user->nama,
-      'dosen_wali' => $request->dosen_wali,
-      'almt_smg' => $request->almt_smg,
-      'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-    ]);
+    $existingSurat = DB::table('srt_bbs_pnjm')
+        ->where('users_id', $user->id)
+        ->first();
+        if ($existingSurat) {
+          if ($existingSurat->role_surat === 'mahasiswa') {
+            $id_surat = mt_rand(1000000000000, 9999999999999);
+
+            DB::table('srt_bbs_pnjm')->insert([
+              'id' => $id_surat,
+              'users_id' => $user->id,
+              'prd_id' => $user->prd_id,
+              'nama_mhw' => $user->nama,
+              'dosen_wali' => $request->dosen_wali,
+              'almt_smg' => $request->almt_smg,
+              'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+            ]);
+          } else {
+              return redirect()->back()->withErrors(['error' => 'Hanya boleh mengajukan satu 
+              surat sampai surat disetujui seutuhnya']);
+          }
+      }
 
     return redirect()->route('srt_bbs_pnjm.index')->with('success', 'Surat berhasil dibuat');
   }
@@ -91,7 +105,9 @@ class Srt_Bbs_Pnjam_Controller extends Controller
   {
     $user = Auth::user();
 
-    $data = DB::table('srt_bbs_pnjm')->where('id', $id)->first();
+    $decodedId = Hashids::decode($id);
+
+    $data = DB::table('srt_bbs_pnjm')->where('id', $decodedId[0])->first();
 
     if (!$data) {
       return redirect()->route('srt_bbs_pnjm.index')->withErrors('Data tidak ditemukan.');

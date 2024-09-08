@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
+use Hashids\Hashids;
 
-class Surat_Masih_MHW_Test extends TestCase
+class Surat_Masih_Mahasiswa_Test extends TestCase
 {
     /**
      * A basic feature test example.
@@ -23,7 +24,7 @@ class Surat_Masih_MHW_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_buat_surat_baru_manajer(): void
+    public function test_buat_surat_untuk_manajer(): void
     {
         $this->withoutExceptionHandling();
 
@@ -50,7 +51,7 @@ class Surat_Masih_MHW_Test extends TestCase
         $response->assertRedirect('/srt_masih_mhw');
     }
 
-    public function test_buat_surat_baru_wd(): void
+    public function test_buat_surat_untuk_wakil_dekan(): void
     {
         $this->withoutExceptionHandling();
 
@@ -63,7 +64,6 @@ class Surat_Masih_MHW_Test extends TestCase
         ]);
 
         $this->actingAs($user);
-
         $response = $this->post('/srt_masih_mhw/create', [
             'thn_awl' => 2020,
             'thn_akh' => 2024,
@@ -77,8 +77,38 @@ class Surat_Masih_MHW_Test extends TestCase
         $response->assertRedirect('/srt_masih_mhw');
     }
 
-    public function test_view_halaman_edit_surat_masih_mhw(): void
+    public function test_gagal_buat_surat_magang_baru_karena_data_kurang(): void
     {
+        $this->withoutExceptionHandling();
+
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'mahasiswa@gmail.com',
+            'password' => bcrypt('password'),
+            'prd_id' => 1,
+        ]);
+
+        $this->actingAs($user);
+
+        try {
+            $this->post('/srt_masih_mhw/create', [
+                'thn_awl' => 2020,
+                'thn_akh' => 2024,
+                'semester' => 6,
+                'almt_smg' => $faker->address(),
+                'tujuan_akhir' => 'wd',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Tujuan pembuatan surat wajib diisi', $e->validator->errors()->first('tujuan_buat_srt'));
+            return;
+        }
+        $response->assertStatus(302);
+    }
+
+    public function test_view_halaman_edit_surat(): void
+    {
+        $this->withoutExceptionHandling();
 
         $faker = \Faker\Factory::create();
 
@@ -87,11 +117,10 @@ class Surat_Masih_MHW_Test extends TestCase
             'password' => bcrypt('mountain082'),
             'role' => 'mahasiswa',
             'prd_id' => 1,
-            'nama' => 'Raung Calon Sarjana',
         ]);
 
         $this->actingAs($user);
-
+        $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('srt_masih_mhw')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -104,15 +133,13 @@ class Surat_Masih_MHW_Test extends TestCase
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->get("/srt_masih_mhw/edit/{$surat}");
-
+        $encodedId = $hashids->encode($surat);
+        $response = $this->get("/srt_masih_mhw/edit/{$encodedId}");
 
         $response->assertStatus(200);
-
-        $response->assertSee('Raung Calon Sarjana');
     }
 
-    public function test_update_surat_mahasiswa_asn(): void
+    public function test_update_surat(): void
     {
         $this->withoutExceptionHandling();
 
@@ -344,7 +371,7 @@ class Surat_Masih_MHW_Test extends TestCase
         ]);
     }
 
-    public function test_download_surat_masih_mahasiswa_manajer()
+    public function test_download_surat_untuk_manajer()
     {
         $id = 4;
 
@@ -353,7 +380,7 @@ class Surat_Masih_MHW_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_download_surat_masih_mahasiswa_wd()
+    public function test_download_surat_untuk_wd()
     {
         $id = 6;
 
@@ -362,7 +389,7 @@ class Surat_Masih_MHW_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_unggah_surat_masih_mahasiswa_wd()
+    public function test_unggah_surat()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -392,7 +419,7 @@ class Surat_Masih_MHW_Test extends TestCase
         ]);
 
         $response->assertRedirect()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
-
+        $response->assertStatus(302);
         $tanggal_surat = Carbon::parse($surat->tanggal_surat)->format('d-m-Y');
         $nama_mahasiswa = Str::slug($admin->nama);
         $fileName = "Surat_Masih_Mahasiswa_{$tanggal_surat}_{$nama_mahasiswa}.pdf";

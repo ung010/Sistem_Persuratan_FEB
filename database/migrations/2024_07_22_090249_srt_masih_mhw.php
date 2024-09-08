@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('srt_masih_mhw', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('no_surat')->nullable();
             $table->string('nama_mhw')->nullable();
             $table->year('thn_awl');

@@ -15,6 +15,7 @@ use Mpdf\Mpdf;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Hashids;
 
 class Srt_Magang_Controller extends Controller
 {
@@ -95,7 +96,25 @@ class Srt_Magang_Controller extends Controller
 
     $user = Auth::user();
 
+    function normalizeLembagaName($name) {
+      return strtolower(preg_replace('/[\.\s]+/', '', $name));
+    }
+
+    $normalizedNamaLembaga = normalizeLembagaName($request->nama_lmbg);
+
+    $existingNamaLembaga = DB::table('srt_magang')
+    ->where('users_id', $user->id)
+    ->whereRaw("LOWER(REPLACE(REPLACE(nama_lmbg, '.', ''), ' ', '')) = ?", [$normalizedNamaLembaga])
+    ->first();
+
+    if ($existingNamaLembaga && $existingNamaLembaga->role_surat !== 'mahasiswa') {
+        return redirect()->back()->withErrors(['error' => 'Nama lembaga ini sudah pernah diajukan.']);
+    }
+
+    $id_surat = mt_rand(1000000000000, 9999999999999);
+
     DB::table('srt_magang')->insert([
+      'id' => $id_surat,
       'users_id' => $user->id,
       'prd_id' => $user->prd_id,
       'nama_mhw' => $user->nama,
@@ -117,7 +136,9 @@ class Srt_Magang_Controller extends Controller
   {
     $user = Auth::user();
 
-    $data = DB::table('srt_magang')->where('id', $id)->first();
+    $decodedId = Hashids::decode($id);
+
+    $data = DB::table('srt_magang')->where('id', $decodedId[0])->first();
 
     if (!$data) {
       return redirect()->route('srt_magang.index')->withErrors('Data tidak ditemukan.');

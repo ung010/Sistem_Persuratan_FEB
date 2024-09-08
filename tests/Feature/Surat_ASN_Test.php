@@ -7,13 +7,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
+use Hashids\Hashids;
 
 class Surat_ASN_Test extends TestCase
 {
     /**
      * A basic feature test example.
      */
-    public function test_halaman_surat_mahasiswa_asn(): void
+    public function test_view_halaman_surat(): void
     {
         $response = $this->get('/srt_mhw_asn');
 
@@ -47,8 +48,39 @@ class Surat_ASN_Test extends TestCase
         $response->assertRedirect('/srt_mhw_asn');
     }
 
+    public function test_gagal_buat_surat_asn_baru_karena_data_kurang(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'mahasiswa@gmail.com',
+            'password' => bcrypt('password'),
+            'prd_id' => 1,
+        ]);
+
+        $this->actingAs($user);
+
+        try {
+            $this->post('/srt_mhw_asn/create', [
+                'thn_awl' => 2020,
+                'thn_akh' => 2024,
+                'semester' => 6,
+                'nama_ortu' => $faker->name,
+                'nip_ortu' => $faker->numerify('#######'),
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertEquals('Instansi orang tua wajib diisi', $e->validator->errors()->first('ins_ortu'));
+            return;
+        }
+        $response->assertStatus(302);
+    }
+
     public function test_view_halaman_edit_surat_mahasiswa_asn(): void
     {
+        $this->withoutExceptionHandling();
+
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
             'password' => bcrypt('mountain082'),
@@ -57,6 +89,7 @@ class Surat_ASN_Test extends TestCase
 
         $this->actingAs($user);
 
+        $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('srt_mhw_asn')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -70,7 +103,8 @@ class Surat_ASN_Test extends TestCase
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->get("/srt_mhw_asn/edit/{$surat}");
+        $encodedId = $hashids->encode($surat);
+        $response = $this->get("/srt_mhw_asn/edit/{$encodedId}");
 
         $response->assertStatus(200);
     }
@@ -122,7 +156,7 @@ class Surat_ASN_Test extends TestCase
         ]);
     }
 
-    public function test_Download_Surat_Mahasiswa_ASN()
+    public function test_download_surat()
     {
         $id = 1;
 
@@ -131,14 +165,14 @@ class Surat_ASN_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_halaman_surat_mahasiswa_asn_admin(): void
+    public function test_view_halaman_surat_admin(): void
     {
         $response = $this->get('/srt_mhw_asn/admin');
 
         $response->assertStatus(302);
     }
 
-    public function test_cek_surat_mhw_asn()
+    public function test_cek_surat()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -148,7 +182,7 @@ class Surat_ASN_Test extends TestCase
 
         $this->actingAs($admin);
 
-        $suratId = DB::table('srt_mhw_asn')->insertGetId([
+        $surat = DB::table('srt_mhw_asn')->insertGetId([
             'users_id' => $admin->id,
             'nama_mhw' => 'Raung Calon Sarjana',
             'thn_awl' => 2020,
@@ -161,12 +195,12 @@ class Surat_ASN_Test extends TestCase
             'prd_id' => 1,
         ]);
 
-        $response = $this->get("/srt_mhw_asn/admin/cek_surat/{$suratId}");
+        $response = $this->get("/srt_mhw_asn/admin/cek_surat/{$surat}");
 
         $response->assertStatus(200);
     }
 
-    public function test_setuju_surat_mhw_asn()
+    public function test_setuju_surat()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -176,26 +210,26 @@ class Surat_ASN_Test extends TestCase
 
         $this->actingAs($admin);
 
-        $srtMhwAsn = \App\Models\Srt_Mhw_Asn::factory()->create([
+        $surat = \App\Models\Srt_Mhw_Asn::factory()->create([
             'no_surat' => null,
             'role_surat' => 'admin',
         ]);
 
-        $response = $this->post("/srt_mhw_asn/admin/cek_surat/setuju/{$srtMhwAsn->id}", [
+        $response = $this->post("/srt_mhw_asn/admin/cek_surat/setuju/{$surat->id}", [
             'no_surat' => '123456789',
         ]);
 
         $response->assertRedirect(route('srt_mhw_asn.admin'));
         $response->assertSessionHas('success', 'No surat berhasil ditambahkan');
-
+        $response->assertStatus(302);
         $this->assertDatabaseHas('srt_mhw_asn', [
-            'id' => $srtMhwAsn->id,
+            'id' => $surat->id,
             'no_surat' => '123456789',
             'role_surat' => 'supervisor_akd',
         ]);
     }
 
-    public function test_tolak_surat_mhw_asn()
+    public function test_tolak_surat()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -206,26 +240,26 @@ class Surat_ASN_Test extends TestCase
         $this->actingAs($admin);
 
 
-        $srtMhwAsn = \App\Models\Srt_Mhw_Asn::factory()->create([
+        $surat = \App\Models\Srt_Mhw_Asn::factory()->create([
             'catatan_surat' => null,
             'role_surat' => 'admin',
         ]);
 
-        $response = $this->post("/srt_mhw_asn/admin/cek_surat/tolak/{$srtMhwAsn->id}", [
+        $response = $this->post("/srt_mhw_asn/admin/cek_surat/tolak/{$surat->id}", [
             'catatan_surat' => 'Dokumen tidak lengkap',
         ]);
 
         $response->assertRedirect(route('srt_mhw_asn.admin'));
         $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
-
+        $response->assertStatus(302);
         $this->assertDatabaseHas('srt_mhw_asn', [
-            'id' => $srtMhwAsn->id,
+            'id' => $surat->id,
             'catatan_surat' => 'Dokumen tidak lengkap',
             'role_surat' => 'tolak',
         ]);
     }
 
-    public function test_halaman_surat_mahasiswa_asn_sv(): void
+    public function test_halaman_surat_supervisor(): void
     {
         $response = $this->get('/srt_mhw_asn/supervisor');
 
@@ -242,22 +276,22 @@ class Surat_ASN_Test extends TestCase
 
         $this->actingAs($supervisor);
 
-        $srtMhwAsn = \App\Models\Srt_Mhw_Asn::factory()->create([
+        $surat = \App\Models\Srt_Mhw_Asn::factory()->create([
             'role_surat' => 'supervisor_akd',
         ]);
 
-        $response = $this->post("/srt_mhw_asn/supervisor/setuju/{$srtMhwAsn->id}");
+        $response = $this->post("/srt_mhw_asn/supervisor/setuju/{$surat->id}");
 
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Surat berhasil disetujui');
-
+        $response->assertStatus(302);
         $this->assertDatabaseHas('srt_mhw_asn', [
-            'id' => $srtMhwAsn->id,
+            'id' => $surat->id,
             'role_surat' => 'manajer',
         ]);
     }
 
-    public function test_halaman_surat_mahasiswa_asn_manajer(): void
+    public function test_view_halaman_surat_manajer(): void
     {
         $response = $this->get('/srt_mhw_asn/manajer');
 
@@ -282,7 +316,7 @@ class Surat_ASN_Test extends TestCase
 
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Surat berhasil disetujui');
-
+        $response->assertStatus(302);
         $this->assertDatabaseHas('srt_mhw_asn', [
             'id' => $srtMhwAsn->id,
             'role_surat' => 'mahasiswa',
