@@ -46,7 +46,8 @@
                             </td>
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
-                                    <a href="{{ url('/srt_magang/download/' . $item->id) }}" class="btn btn-primary btn-sm">Unduh</a>
+                                    <a href="{{ url('/srt_magang/download/' . $item->id) }}"
+                                        class="btn btn-primary btn-sm">Unduh</a>
                                 @else
                                     <button class="btn btn-secondary btn-sm" disabled>Unduh</button>
                                 @endif
@@ -77,27 +78,33 @@
                         <div class="d-flex flex-column gap-2">
                             <div class="form-group">
                                 <label for="">Nama Mahasiswa</label>
-                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}" class="form-control" readonly>
+                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}"
+                                    class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}" class="form-control" readonly>
+                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                    class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">Departemen</label>
-                                <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}" class="form-control" readonly>
+                                <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}"
+                                    class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">Program Studi</label>
-                                <input type="text" id="nama_prd" name="nama_prd" value="{{ $prodi->nama_prd }}" class="form-control" readonly>
+                                <input type="text" id="nama_prd" name="nama_prd" value="{{ $prodi->nama_prd }}"
+                                    class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">No Whatsapp</label>
-                                <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}" class="form-control" readonly>
+                                <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}"
+                                    class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">Email</label>
-                                <input type="text" id="email" name="email" value="{{ $user->email }}" class="form-control" readonly>
+                                <input type="text" id="email" name="email" value="{{ $user->email }}"
+                                    class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">Alamat Di Semarang</label>
@@ -107,20 +114,22 @@
                                 <label for="" class="col-4">Semester</label>
                                 <div class="col-8">
                                     <select name="semester" id="semester" required class="form-select">
-                                @for ($i = 1; $i <= 14; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
+                                        @for ($i = 1; $i <= 14; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    </select>
                                 </div>
                             </div>
-                            <div class="form-group d-flex">                                
-                                <label for="" class="col-1">SKSK</label>
+                            <div class="form-group d-flex">
+                                <label for="sksk" class="col-1">SKSK</label>
                                 <div class="col-5">
-                                    <input type="number" name="sksk" id="sksk" required class="form-control">
+                                    <input type="number" name="sksk" id="sksk" required class="form-control"
+                                        min="1" max="170" placeholder="Masukkan nilai SKSK">
                                 </div>
-                                <label for="" class="col-1">IPK</label>
+                                <label for="ipk" class="col-1">IPK</label>
                                 <div class="col-5">
-                                    <input type="text" name="ipk" id="ipk" required class="form-control">
+                                    <input type="number" name="ipk" id="ipk" required class="form-control"
+                                        min="0.00" max="4.00" step="0.01" placeholder="0,00 - 4,00">
                                 </div>
                             </div>
                         </div>

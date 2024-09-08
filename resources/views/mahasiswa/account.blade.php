@@ -64,16 +64,6 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-6 d-flex flex-column gap-1">
-                                    <div class="d-flex gap-2">
-                                        <input type="radio" name="status" value="mahasiswa" {{ $user->status == 'mahasiswa' ? 'checked' : '' }}> Mahasiswa Aktif
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <input type="radio" name="status" value="alumni" {{ $user->status == 'alumni' ? 'checked' : '' }}> Alumni
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
                                 <label for="">Identitas</label>
                                 <img src="{{ asset('storage/foto/mahasiswa/' . $user->foto) }}" alt="identitas" style="max-width: 280px">
                             </div>

@@ -95,6 +95,22 @@ class Srt_Magang_Controller extends Controller
     ]);
 
     $user = Auth::user();
+
+    function normalizeLembagaName($name) {
+      return strtolower(preg_replace('/[\.\s]+/', '', $name));
+    }
+
+    $normalizedNamaLembaga = normalizeLembagaName($request->nama_lmbg);
+
+    $existingNamaLembaga = DB::table('srt_magang')
+    ->where('users_id', $user->id)
+    ->whereRaw("LOWER(REPLACE(REPLACE(nama_lmbg, '.', ''), ' ', '')) = ?", [$normalizedNamaLembaga])
+    ->first();
+
+    if ($existingNamaLembaga && $existingNamaLembaga->role_surat !== 'mahasiswa') {
+        return redirect()->back()->withErrors(['error' => 'Nama lembaga ini sudah pernah diajukan.']);
+    }
+
     $id_surat = mt_rand(1000000000000, 9999999999999);
 
     DB::table('srt_magang')->insert([

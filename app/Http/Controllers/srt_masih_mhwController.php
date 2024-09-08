@@ -92,6 +92,21 @@ class srt_masih_mhwController extends Controller
     ]);
 
     $user = Auth::user();
+    
+    $existingSurat = DB::table('srt_masih_mhw')
+    ->where('users_id', $user->id)
+    ->get();
+
+    foreach ($existingSurat as $surat) {
+      if ($surat->tujuan_akhir === 'wd' && $request->tujuan_akhir === 'wd' && $surat->role_surat !== 'mahasiswa') {
+          return redirect()->back()->withErrors(['error' => 'Surat dengan tujuan akhir Wakil Dekan sudah ada dan belum selesai.']);
+      }
+  
+      if ($surat->tujuan_akhir === 'manajer' && $request->tujuan_akhir === 'manajer' && $surat->role_surat !== 'mahasiswa') {
+          return redirect()->back()->withErrors(['error' => 'Surat dengan tujuan akhir Manajer sudah ada dan belum selesai.']);
+      }
+    }
+
     $id_surat = mt_rand(1000000000000, 9999999999999);
 
     DB::table('srt_masih_mhw')->insert([

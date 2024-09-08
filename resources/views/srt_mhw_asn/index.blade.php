@@ -100,9 +100,9 @@
                             <div class="form-group d-flex">
                                 <label for="" class="col-4">Tahun Ajaran</label>
                                 <div class="col-8 d-flex">
-                                    <input type="number" name="thn_awl" id="thn_awl" class="form-control">
+                                    <input type="number" name="thn_awl" id="thn_awl" class="form-control" min="2000" max="2100" maxlength="4" required>
                                     <p>/</p>
-                                    <input type="number" name="thn_akh" id="thn_akh" class="form-control">
+                                    <input type="number" name="thn_akh" id="thn_akh" class="form-control" min="2000" max="2100" maxlength="4" required>
                                 </div>
                             </div>
                             <div class="form-group d-flex">
@@ -146,6 +146,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function validateYearInput(input) {
+            input.value = input.value.slice(0, 4);
+        }
+    
+        document.getElementById('thn_awl').addEventListener('input', function() {
+            validateYearInput(this);
+        });
+    
+        document.getElementById('thn_akh').addEventListener('input', function() {
+            validateYearInput(this);
+        });
+    </script>
 @endsection
 
 @section('script')

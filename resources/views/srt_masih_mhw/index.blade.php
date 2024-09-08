@@ -110,9 +110,9 @@
                             <div class="form-group d-flex">
                                 <label for="" class="col-4">Tahun Ajaran</label>
                                 <div class="col-8 d-flex">
-                                    <input type="number" name="thn_awl" id="thn_awl" class="form-control">
+                                    <input type="number" name="thn_awl" id="thn_awl" class="form-control" min="2000" maxlength="4" required>
                                     <p>/</p>
-                                    <input type="number" name="thn_akh" id="thn_akh" class="form-control">
+                                    <input type="number" name="thn_akh" id="thn_akh" class="form-control" min="2000" maxlength="4" required>
                                 </div>
                             </div>
                             <div class="form-group d-flex">

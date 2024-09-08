@@ -60,11 +60,11 @@ class NonController extends Controller
   }
 
 
-  public function getProdiByDepartemen($departemen_id)
-  {
+  public function getProdi($departemen_id)
+{
     $prodi = Prodi::where('dpt_id', $departemen_id)->get();
     return response()->json($prodi);
-  }
+}
 
   public function account_non_mhw(Request $request)
   {
@@ -79,7 +79,8 @@ class NonController extends Controller
       'nama_ibu' => 'required',
       'almt_asl' => 'required',
       'prd_id' => 'required',
-      'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
+      'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+      'status' => 'required'
     ], [
       'nama.required' => 'Nama wajib diisi',
       'nmr_unik.required' => 'NIM wajib diisi',
@@ -94,7 +95,8 @@ class NonController extends Controller
       'prd_id.required' => 'Prodi wajib diisi',
       'foto.image' => 'File harus berupa gambar',
       'foto.mimes' => 'File harus berupa gambar dengan format jpeg, png, atau jpg',
-      'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte'
+      'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte',
+      'status.required' => 'Status mahasiswa / alumni wajib diisi'
     ]);
 
     $user = DB::table('users')->where('id', $userId)->first();
@@ -119,7 +121,9 @@ class NonController extends Controller
       'almt_asl' => $request->almt_asl,
       'prd_id' => $request->prd_id,
       'password' => $request->filled('password') ? Hash::make($request->password) : DB::raw('password'),
-      'foto' => $foto
+      'foto' => $foto,
+      'status' => $request->status,
+      'catatan_user' => '-',
     ]);
 
     return redirect()->back()->with('success', 'Berhasil mengupdate data diri');

@@ -54,14 +54,12 @@ Route::get('/legal/srt_bbs_pnjm/{id}', [Legal_Controller::class, 'srt_bbs_pnjm']
 Route::get('/legal/srt_bbs_pnjm/view/{id}', [Legal_Controller::class, 'lihat_srt_bbs_pnjm'])->name('srt_bbs_pnjm.legal_lihat');
 
 
-
 Route::middleware('guest')->group(function () {
     Route::get('/', [LoginController::class, 'index'])->name('login');
     Route::get('/login', [LoginController::class, 'index'])->name('auth.login');
     Route::post('/', [LoginController::class, 'login'])->name('auth.login');
     Route::get('/register', [RegisterController::class, 'register'])->name('register');
     Route::post('/register/create', [RegisterController::class, 'create'])->name('register.create');
-    
     Route::get('/get-prodi/{departemenId}', [RegisterController::class, 'getProdiByDepartemen']);
 
 });
@@ -79,7 +77,6 @@ Route::middleware('auth')->group(function () {
     route::get('/non_user', [NonController::class, 'home_non_mhw'])->name('non_mhw.home')->
     middleware('UserAkses:non_mahasiswa');
     Route::get('/non_user/my_account', [NonController::class, 'edit_non_mhw'])->name('non_mhw.edit')->middleware('UserAkses:non_mahasiswa');
-    Route::get('/get-prodi/{departemen_id}', [NonController::class, 'getProdiByDepartemen'])->middleware('UserAkses:non_mahasiswa');
     Route::post('/non_user/my_account/update', [NonController::class, 'account_non_mhw'])->name('non_mhw.account_non_mhw')->
     middleware('UserAkses:non_mahasiswa');
 

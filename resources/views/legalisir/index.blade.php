@@ -50,7 +50,7 @@
                                 @else
                                     {{ $item->no_resi }}
                                 @endif
-                                
+
                             </td>
                         </tr>
                     @endforeach
@@ -63,8 +63,7 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <h3>ISI DATA</h3>
                 </div>
-                <form action="{{ route('legalisir.store') }}" method="POST" class="row px-5"
-                    enctype="multipart/form-data">
+                <form action="{{ route('legalisir.store') }}" method="POST" class="row px-5" enctype="multipart/form-data">
                     @csrf
                     @if ($errors->any())
                         <div>
@@ -78,9 +77,9 @@
                     <div class="col-6">
                         <div class="d-flex flex-column gap-2">
                             <div class="form-group">
-                                <label for="">Jenis Legalisir</label>
+                                <label for="jenis_lgl">Jenis Legalisir</label>
                                 <select name="jenis_lgl" id="jenis_lgl" required class="form-select">
-                                    <option value="">Select Option</option>
+                                    <option value="">Pilih Jenis Legalisir</option>
                                     <option value="ijazah">Ijazah</option>
                                     <option value="transkrip">Transkrip</option>
                                     <option value="ijazah_transkrip">Ijazah dan Transkrip</option>
@@ -92,53 +91,13 @@
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="">Departemen</label>
-                                <input type="text" id="nama_dpt" name="nama_dpt"
-                                    value="{{ $departemen->nama_dpt }}" class="form-control" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Alamat Asal</label>
-                                <input type="text" id="almt_asl" name="almt_asl" value="{{ $user->almt_asl }}"
+                                <label for="">NIM</label>
+                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="">Alamat Tujuan Pengiriman</label>
-                                <input type="text" name="almt_smg" id="almt_smg" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Kecamatan</label>
-                                <input type="text" name="kcmt_kirim" id="kcmt_kirim" class="form-control">
-                            </div>
-                            <div class="form-group d-flex">
-                                <label for="" class="col-2">Kodepos</label>
-                                <div class="col-10">
-                                    <input type="number" name="kdps_kirim" id="kdps_kirim" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group d-flex">
-                                <label for="" class="col-4">Ijazah</label>
-                                <div class="col-8">
-                                    <input type="file" name="file_ijazah" id="file_ijazah" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group d-flex">
-                                <label for="" class="col-4">Transkrip</label>
-                                <div class="col-8">
-                                    <input type="file" name="file_transkrip" id="file_transkrip"
-                                        class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="d-flex flex-column gap-2">
-                            <div class="form-group">
-                                <label for="">Keperluan</label>
-                                <input type="text" name="keperluan" id="keperluan" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="">NIM</label>
-                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                <label for="">Departemen</label>
+                                <input type="text" id="nama_dpt" name="nama_dpt" value="{{ $departemen->nama_dpt }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
@@ -147,9 +106,18 @@
                                     value="{{ $prodi->nama_prd }}" class="form-control" readonly>
                             </div>
                             <div class="form-group">
+                                <label for="">Alamat Asal</label>
+                                <input type="text" id="almt_asl" name="almt_asl" value="{{ $user->almt_asl }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
                                 <label for="">No Whatsapp</label>
                                 <input type="text" id="nowa" name="nowa" value="{{ $user->nowa }}"
                                     class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Keperluan</label>
+                                <input type="text" name="keperluan" id="keperluan" class="form-control">
                             </div>
                             <div class="form-group d-flex">
                                 <label for="" class="col-2">Tanggal Lulus</label>
@@ -157,22 +125,53 @@
                                     <input type="date" name="tgl_lulus" id="tgl_lulus" class="form-control">
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex flex-column gap-2">
                             <div class="form-group d-flex">
-                                <label for="" class="col-2">Pengambilan</label>
+                                <label for="ambil" class="col-2">Metode Ambil</label>
                                 <div class="col-10">
                                     <select name="ambil" id="ambil" required class="form-select">
-                                        <option value="">Select Option</option>
+                                        <option value="">Pilih Metode</option>
                                         <option value="ditempat">Diambil di Tempat</option>
                                         <option value="dikirim">Dikirim</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="">Kelurahan</label>
+                            <div class="form-group" id="file_ijazah_group" style="visibility:hidden">
+                                <label for="file_ijazah" class="col-4">Ijazah</label>
+                                <div class="col-8">
+                                    <input type="file" name="file_ijazah" id="file_ijazah" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group" id="file_transkrip_group" style="visibility:hidden">
+                                <label for="file_transkrip" class="col-4">Transkrip</label>
+                                <div class="col-8">
+                                    <input type="file" name="file_transkrip" id="file_transkrip"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group" id="alamat_group" style="visibility:hidden;">
+                                <label for="almt_smg">Alamat Tujuan Pengiriman</label>
+                                <input type="text" name="almt_smg" id="almt_smg" class="form-control">
+                            </div>
+                            <div class="form-group d-flex" id="kodepos_group" style="visibility:hidden;">
+                                <label for="kdps_kirim" class="col-2">Kodepos</label>
+                                <div class="col-10">
+                                    <input type="number" name="kdps_kirim" id="kdps_kirim" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group" id="kelurahan_group" style="visibility:hidden;">
+                                <label for="klh_kirim">Kelurahan</label>
                                 <input type="text" name="klh_kirim" id="klh_kirim" class="form-control">
                             </div>
-                            <div class="form-group">
-                                <label for="">Kota / Kabupaten</label>
+                            <div class="form-group" id="kecamatan_group" style="visibility:hidden;">
+                                <label for="kcmt_kirim">Kecamatan</label>
+                                <input type="text" name="kcmt_kirim" id="kcmt_kirim" class="form-control">
+                            </div>
+                            <div class="form-group" id="kota_group" style="visibility:hidden;">
+                                <label for="kota_kirim">Kota / Kabupaten</label>
                                 <input type="text" name="kota_kirim" id="kota_kirim" class="form-control">
                             </div>
                         </div>
@@ -190,6 +189,76 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Fungsi untuk menampilkan atau menyembunyikan kolom Ijazah dan Transkrip berdasarkan pilihan
+        document.addEventListener('DOMContentLoaded', function() {
+            var jenisLegalisir = document.getElementById('jenis_lgl');
+            var ijazahGroup = document.getElementById('file_ijazah_group');
+            var transkripGroup = document.getElementById('file_transkrip_group');
+
+            // Fungsi untuk mengontrol tampilan kolom dengan visibility
+            function toggleVisibility() {
+                var value = jenisLegalisir.value;
+                if (value === 'ijazah') {
+                    ijazahGroup.style.visibility = 'visible';
+                    transkripGroup.style.visibility = 'hidden';
+                } else if (value === 'transkrip') {
+                    ijazahGroup.style.visibility = 'hidden';
+                    transkripGroup.style.visibility = 'visible';
+                } else if (value === 'ijazah_transkrip') {
+                    ijazahGroup.style.visibility = 'visible';
+                    transkripGroup.style.visibility = 'visible';
+                } else {
+                    ijazahGroup.style.visibility = 'hidden';
+                    transkripGroup.style.visibility = 'hidden';
+                }
+            }
+
+            // Jalankan fungsi saat dropdown berubah
+            jenisLegalisir.addEventListener('change', toggleVisibility);
+
+            // Jalankan fungsi saat halaman dimuat untuk memastikan kolom disembunyikan pada awalnya
+            toggleVisibility();
+        });
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ambilSelect = document.getElementById('ambil');
+        var alamatGroup = document.getElementById('alamat_group');
+        var kecamatanGroup = document.getElementById('kecamatan_group');
+        var kodeposGroup = document.getElementById('kodepos_group');
+        var kelurahanGroup = document.getElementById('kelurahan_group');
+        var kotaGroup = document.getElementById('kota_group');
+
+        // Fungsi untuk mengontrol visibilitas
+        function toggleVisibility() {
+            var value = ambilSelect.value;
+            if (value === 'dikirim') {
+                // Tampilkan kolom alamat, kecamatan, kodepos, kelurahan, dan kota
+                alamatGroup.style.visibility = 'visible';
+                kecamatanGroup.style.visibility = 'visible';
+                kodeposGroup.style.visibility = 'visible';
+                kelurahanGroup.style.visibility = 'visible';
+                kotaGroup.style.visibility = 'visible';
+            } else {
+                // Sembunyikan kolom-kolom tersebut
+                alamatGroup.style.visibility = 'hidden';
+                kecamatanGroup.style.visibility = 'hidden';
+                kodeposGroup.style.visibility = 'hidden';
+                kelurahanGroup.style.visibility = 'hidden';
+                kotaGroup.style.visibility = 'hidden';
+            }
+        }
+
+        // Jalankan fungsi saat dropdown berubah
+        ambilSelect.addEventListener('change', toggleVisibility);
+
+        // Jalankan fungsi saat halaman dimuat untuk memastikan kolom disembunyikan pada awalnya
+        toggleVisibility();
+    });
+</script>
 @endsection
 
 @section('script')

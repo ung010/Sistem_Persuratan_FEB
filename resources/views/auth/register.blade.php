@@ -95,6 +95,7 @@
                 </div>
                 <div class="form-group mb-3 d-flex flex-column col-6">
                     <div class="col-6 d-flex flex-column gap-1">
+                        <label for="">Status</label>
                         <div class="d-flex gap-2">
                             <input type="radio" name="status" id="" value="mahasiswa"
                                 {{ Session::get('status') == 'mahasiswa' ? 'checked' : '' }}> Mahasiswa Aktif
