@@ -199,13 +199,11 @@
     </div>
 
     <script>
-        // Fungsi untuk menampilkan atau menyembunyikan kolom Ijazah dan Transkrip berdasarkan pilihan
         document.addEventListener('DOMContentLoaded', function() {
             var jenisLegalisir = document.getElementById('jenis_lgl');
             var ijazahGroup = document.getElementById('file_ijazah_group');
             var transkripGroup = document.getElementById('file_transkrip_group');
 
-            // Fungsi untuk mengontrol tampilan kolom dengan visibility
             function toggleVisibility() {
                 var value = jenisLegalisir.value;
                 if (value === 'ijazah') {
@@ -223,50 +221,55 @@
                 }
             }
 
-            // Jalankan fungsi saat dropdown berubah
             jenisLegalisir.addEventListener('change', toggleVisibility);
 
-            // Jalankan fungsi saat halaman dimuat untuk memastikan kolom disembunyikan pada awalnya
             toggleVisibility();
         });
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var ambilSelect = document.getElementById('ambil');
-        var alamatGroup = document.getElementById('alamat_group');
-        var kecamatanGroup = document.getElementById('kecamatan_group');
-        var kodeposGroup = document.getElementById('kodepos_group');
-        var kelurahanGroup = document.getElementById('kelurahan_group');
-        var kotaGroup = document.getElementById('kota_group');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ambilSelect = document.getElementById('ambil');
+            var alamatGroup = document.getElementById('alamat_group');
+            var kecamatanGroup = document.getElementById('kecamatan_group');
+            var kodeposGroup = document.getElementById('kodepos_group');
+            var kelurahanGroup = document.getElementById('kelurahan_group');
+            var kotaGroup = document.getElementById('kota_group');
 
-        // Fungsi untuk mengontrol visibilitas
-        function toggleVisibility() {
-            var value = ambilSelect.value;
-            if (value === 'dikirim') {
-                // Tampilkan kolom alamat, kecamatan, kodepos, kelurahan, dan kota
-                alamatGroup.style.visibility = 'visible';
-                kecamatanGroup.style.visibility = 'visible';
-                kodeposGroup.style.visibility = 'visible';
-                kelurahanGroup.style.visibility = 'visible';
-                kotaGroup.style.visibility = 'visible';
-            } else {
-                // Sembunyikan kolom-kolom tersebut
-                alamatGroup.style.visibility = 'hidden';
-                kecamatanGroup.style.visibility = 'hidden';
-                kodeposGroup.style.visibility = 'hidden';
-                kelurahanGroup.style.visibility = 'hidden';
-                kotaGroup.style.visibility = 'hidden';
+            function toggleVisibility() {
+                var value = ambilSelect.value;
+                if (value === 'dikirim') {
+                    alamatGroup.style.visibility = 'visible';
+                    kecamatanGroup.style.visibility = 'visible';
+                    kodeposGroup.style.visibility = 'visible';
+                    kelurahanGroup.style.visibility = 'visible';
+                    kotaGroup.style.visibility = 'visible';
+                } else {
+                    alamatGroup.style.visibility = 'hidden';
+                    kecamatanGroup.style.visibility = 'hidden';
+                    kodeposGroup.style.visibility = 'hidden';
+                    kelurahanGroup.style.visibility = 'hidden';
+                    kotaGroup.style.visibility = 'hidden';
+                }
             }
-        }
 
-        // Jalankan fungsi saat dropdown berubah
-        ambilSelect.addEventListener('change', toggleVisibility);
+            ambilSelect.addEventListener('change', toggleVisibility);
 
-        // Jalankan fungsi saat halaman dimuat untuk memastikan kolom disembunyikan pada awalnya
-        toggleVisibility();
-    });
-</script>
+            toggleVisibility();
+        });
+    </script>
+
+    <script>
+        const kodeposInput = document.getElementById('kdps_kirim');
+
+        kodeposInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            
+            if (this.value.length > 5) {
+                this.value = this.value.slice(0, 5);
+            }
+        });
+    </script>    
 @endsection
 
 @section('script')
