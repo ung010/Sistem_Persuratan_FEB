@@ -103,29 +103,28 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $buku_tabung = $request->file('buku_tabung');
         $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.' . $buku_tabung->getClientOriginalExtension();
         $buku_tabung->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_buku);
-        
-        $existingSurat = DB::table('srt_pmhn_kmbali_biaya')
-        ->where('users_id', $user->id)
-        ->first();
-        if ($existingSurat) {
-          if ($existingSurat->role_surat === 'mahasiswa') {
-            $id_surat = mt_rand(1000000000000, 9999999999999);
 
-            DB::table('srt_pmhn_kmbali_biaya')->insert([
-                'id' => $id_surat,
-                'users_id' => $user->id,
-                'prd_id' => $user->prd_id,
-                'nama_mhw' => $user->nama,
-                'skl' => $nama_skl,
-                'bukti_bayar' => $nama_bukti,
-                'buku_tabung' => $nama_buku,
-                'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-            ]);
-          } else {
-              return redirect()->back()->withErrors(['error' => 'Hanya boleh mengajukan satu 
-              surat sampai surat disetujui seutuhnya']);
-          }
-      }        
+        $existingSurat = DB::table('srt_pmhn_kmbali_biaya')
+          ->where('users_id', $user->id)
+          ->where('role_surat', '!=', 'mahasiswa')
+          ->first();
+  
+        if ($existingSurat) {
+            return redirect()->back()->withErrors(['error' => 'Hanya diperbolehkan satu surat yang diproses hingga surat itu selesai']);
+        }
+        
+        $id_surat = mt_rand(1000000000000, 9999999999999);
+
+        DB::table('srt_pmhn_kmbali_biaya')->insert([
+            'id' => $id_surat,
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'nama_mhw' => $user->nama,
+            'skl' => $nama_skl,
+            'bukti_bayar' => $nama_bukti,
+            'buku_tabung' => $nama_buku,
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);                    
 
         return redirect()->route('srt_pmhn_kmbali_biaya.index')->with('success', 'Surat berhasil dibuat');
     }

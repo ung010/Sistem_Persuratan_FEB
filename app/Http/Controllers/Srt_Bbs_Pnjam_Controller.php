@@ -77,26 +77,25 @@ class Srt_Bbs_Pnjam_Controller extends Controller
     $user = Auth::user();
 
     $existingSurat = DB::table('srt_bbs_pnjm')
-        ->where('users_id', $user->id)
-        ->first();
-        if ($existingSurat) {
-          if ($existingSurat->role_surat === 'mahasiswa') {
-            $id_surat = mt_rand(1000000000000, 9999999999999);
+      ->where('users_id', $user->id)
+      ->where('role_surat', '!=', 'mahasiswa')
+      ->first();
 
-            DB::table('srt_bbs_pnjm')->insert([
-              'id' => $id_surat,
-              'users_id' => $user->id,
-              'prd_id' => $user->prd_id,
-              'nama_mhw' => $user->nama,
-              'dosen_wali' => $request->dosen_wali,
-              'almt_smg' => $request->almt_smg,
-              'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-            ]);
-          } else {
-              return redirect()->back()->withErrors(['error' => 'Hanya boleh mengajukan satu 
-              surat sampai surat disetujui seutuhnya']);
-          }
-      }
+      if ($existingSurat) {
+        return redirect()->back()->withErrors(['error' => 'Hanya diperbolehkan satu surat yang diproses hingga surat itu selesai']);
+      }          
+
+      $id_surat = mt_rand(1000000000000, 9999999999999);
+
+      DB::table('srt_bbs_pnjm')->insert([
+        'id' => $id_surat,
+        'users_id' => $user->id,
+        'prd_id' => $user->prd_id,
+        'nama_mhw' => $user->nama,
+        'dosen_wali' => $request->dosen_wali,
+        'almt_smg' => $request->almt_smg,
+        'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+      ]);
 
     return redirect()->route('srt_bbs_pnjm.index')->with('success', 'Surat berhasil dibuat');
   }

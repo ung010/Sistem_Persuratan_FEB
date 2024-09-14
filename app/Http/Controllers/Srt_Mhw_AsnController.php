@@ -80,37 +80,37 @@ class Srt_Mhw_AsnController extends Controller
       'nip_ortu.required' => 'NIP orang tua wajib diisi',
       'ins_ortu.required' => 'Instansi orang tua wajib diisi',
     ]);
-
+      
     $user = Auth::user();
-
+  
     $existingSurat = DB::table('srt_mhw_asn')
         ->where('users_id', $user->id)
+        ->where('role_surat', '!=', 'mahasiswa')
         ->first();
-        if ($existingSurat) {
-          if ($existingSurat->role_surat === 'mahasiswa') {
-              $id_surat = mt_rand(1000000000000, 9999999999999);
 
-              DB::table('srt_mhw_asn')->insert([
-                'id' => $id_surat,
-                'users_id' => $user->id,
-                'prd_id' => $user->prd_id,
-                'nama_mhw' => $user->nama,
-                'thn_awl' => $request->thn_awl,
-                'thn_akh' => $request->thn_akh,
-                'semester' => $request->semester,
-                'nama_ortu' => $request->nama_ortu,
-                'nip_ortu' => $request->nip_ortu,
-                'ins_ortu' => $request->ins_ortu,
-                'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-              ]);
-          } else {
-              return redirect()->back()->withErrors(['error' => 'Hanya boleh mengajukan satu 
-              surat sampai surat disetujui seutuhnya']);
-          }
-      }
+    if ($existingSurat) {
+        return redirect()->back()->withErrors(['error' => 'Hanya diperbolehkan satu surat yang diproses hingga surat itu selesai']);
+    }
+
+    $id_surat = mt_rand(1000000000000, 9999999999999);
+
+    DB::table('srt_mhw_asn')->insert([
+        'id' => $id_surat,
+        'users_id' => $user->id,
+        'prd_id' => $user->prd_id,
+        'nama_mhw' => $user->nama,
+        'thn_awl' => $request->thn_awl,
+        'thn_akh' => $request->thn_akh,
+        'semester' => $request->semester,
+        'nama_ortu' => $request->nama_ortu,
+        'nip_ortu' => $request->nip_ortu,
+        'ins_ortu' => $request->ins_ortu,
+        'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+    ]);
 
     return redirect()->route('srt_mhw_asn.index')->with('success', 'Surat berhasil dibuat');
   }
+  
 
   public function edit($id)
   {
