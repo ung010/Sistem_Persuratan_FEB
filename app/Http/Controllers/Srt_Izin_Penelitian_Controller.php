@@ -169,6 +169,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
             'jbt_lmbg' => $request->jbt_lmbg,
             'almt_lmbg' => $request->almt_lmbg,
             'kota_lmbg' => $request->kota_lmbg,
+            'semester' => $request->semester,
             'role_surat' => 'admin',
             'catatan_surat' => '-',
         ]);

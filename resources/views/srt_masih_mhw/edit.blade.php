@@ -3,7 +3,15 @@
 @section('content')
     <div class="d-flex flex-column justify-content-center align-items-center gap-3"
         style="margin-top: 2%; margin-left: 5%; margin-right: 5%;">
-        <img src="{{ asset('asset/Mask group.png') }}" alt="header" class="w-100">
+        <div class="position-relative w-100" style="overflow: hidden;">
+            <img src="{{ asset('asset/Mask group.png') }}" alt="header" class="w-100">
+            <!-- Overlay dengan transparansi -->
+            <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);">
+            </div>
+            <h2 class="position-absolute top-50 start-50 translate-middle text-white text-center" style="font-size: 2.5rem; ; white-space: nowrap;">
+                Surat Keterangan Masih Mahasiswa
+            </h2>
+        </div>
     </div>
 
     <div class="d-flex mt-5 mb-3" style="margin-left: 5%; margin-right: 5%;">
@@ -58,7 +66,7 @@
                                 <label for="" class="col-4">Tahun Ajaran</label>
                                 <div class="col-8 d-flex">
                                     <input type="number" name="thn_awl" id="thn_awl" class="form-control" value="{{ $data->thn_awl }}">
-                                    <p>/</p>
+                                    <p class="m-0" style="padding: 0 10px; line-height: 2;">/</p>
                                     <input type="number" name="thn_akh" id="thn_akh" class="form-control" value="{{ $data->thn_akh }}">
                                 </div>
                             </div>
