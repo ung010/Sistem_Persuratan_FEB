@@ -93,12 +93,12 @@
                                 <label for="" class="col-1" style="line-height: 2;">SKSK</label>
                                 <div class="col-5">
                                     <input type="number" name="sksk" id="sksk" required class="form-control"
-                                        value="{{ $data->sksk }}">
+                                        value="{{ $data->sksk }}" min="1" max="170">
                                 </div>
                                 <label for="" class="m-0" style="padding: 0 10px; line-height: 2;">IPK</label>
                                 <div class="col-5">
-                                    <input type="text" name="ipk" id="ipk" required class="form-control"
-                                        value="{{ $data->ipk }}">
+                                    <input type="number" name="ipk" id="ipk" required class="form-control"
+                                        value="{{ $data->ipk }}" min="0.00" max="4.00" step="0.01">
                                 </div>
                             </div>
                         </div>
@@ -136,4 +136,25 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function validateSKSInput(input) {
+            input.value = input.value.slice(0, 3);
+        }
+    
+        document.getElementById('sksk').addEventListener('input', function() {
+            validateSKSInput(this);
+        });
+
+        function validateIPKInput(input)
+    
+        document.getElementById('ipk').addEventListener('input', function() {
+            validateIPKInput(this);
+        });
+    </script>
+    
+@endsection
+
+@section('script')
+    @include('user.form-script')
 @endsection

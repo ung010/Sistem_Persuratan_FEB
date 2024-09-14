@@ -137,7 +137,7 @@
                                 <label for="ipk" class="m-0" style="padding: 0 10px; line-height: 2;">IPK</label>
                                 <div class="col-5">
                                     <input type="number" name="ipk" id="ipk" required class="form-control"
-                                        min="0.00" max="4.00" step="0.01" placeholder="0,00 - 4,00">
+                                        min="0.00" max="4.00" step="0.01" placeholder="0.00 - 4.00">
                                 </div>
                             </div>
                         </div>
