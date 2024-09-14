@@ -512,6 +512,19 @@ class DatabaseSeeder extends Seeder
 
         $ratings = ['sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas'];
 
+        $feedback = [
+            'Tampilan website sangat menarik, tetapi loading halamannya masih terlalu lama.',
+            'Navigasi menu di website agak membingungkan, mungkin bisa diperjelas lagi.',
+            'Website ini sudah cukup bagus, namun fitur pencarian terkadang tidak memberikan hasil yang relevan.',
+            'Desain responsifnya bagus, tetapi ada beberapa elemen yang tidak ditampilkan dengan baik di perangkat mobile.',
+            'Saran saya, tambahkan fitur filter untuk mempermudah pencarian produk di website.',
+            'Website sangat informatif, tetapi mungkin bisa diperbaiki dari segi kecepatan akses.',
+            'Ada beberapa bug yang muncul ketika mengakses halaman login.',
+            'Sebaiknya ditambahkan lebih banyak panduan penggunaan agar pengguna baru lebih mudah memahami.',
+            'Website ini sangat fungsional, namun tampilannya bisa dibuat lebih modern dan user-friendly.',
+            'Konten sudah cukup lengkap, tetapi ada beberapa link yang tidak berfungsi dengan baik.'
+        ];
+
         foreach (range(1, 50) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_survey->randomElement($user_ids);
@@ -528,7 +541,7 @@ class DatabaseSeeder extends Seeder
                 'users_id' => $random_user_id,
                 'nama_mhw' => $faker_survey->name,
                 'rating' => $rating,
-                'feedback' => $faker_survey->sentence,
+                'feedback' => $faker_survey->randomElement($feedback),
                 'tanggal_surat' => $tanggal_surat,
                 'prd_id' => $user->prd_id,
             ]);
