@@ -106,10 +106,28 @@ class Legalisir_Controller extends Controller
             $file_transkrip->move(public_path('storage/pdf/legalisir/transkrip'), $nama_transkrip);
         }
 
-        $id_surat = mt_rand(1000000000000, 9999999999999);
-
+        $existingSurat = DB::table('legalisir')
+        ->where('users_id', $user->id)
+        ->first();
+    
+        if ($existingSurat) {
+            if ($request->jenis_lgl === 'ijazah' && $existingSurat->jenis_lgl === 'ijazah_transkrip') {
+                return redirect()->back()->withErrors(['error' => 'Anda sudah mengajukan legalisir ijazah dan transkrip, tidak bisa mengajukan lagi.']);
+            }
+        
+            if ($request->jenis_lgl === 'transkrip' && $existingSurat->jenis_lgl === 'ijazah_transkrip') {
+                return redirect()->back()->withErrors(['error' => 'Sudah mengajukan legalisir ijazah dan transkrip, tidak bisa mengajukan lagi.']);
+            }
+        
+            if ($request->jenis_lgl === 'ijazah_transkrip' && in_array($existingSurat->jenis_lgl, ['ijazah', 'transkrip'])) {
+                return redirect()->back()->withErrors(['error' => 'Tidak bisa mengajukan legalisir karena sudah mengajukan sebelumnya']);
+            }
+        }
+    
+        $id_lgl = mt_rand(1000000000000, 9999999999999);
+        
         $data = [
-            'id' => $id_surat,
+            'id' => $id_lgl,
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
             'nama_mhw' => $user->nama,
@@ -126,10 +144,10 @@ class Legalisir_Controller extends Controller
             'file_transkrip' => $nama_transkrip,
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ];
-
+        
         DB::table('legalisir')->insert($data);
 
-        return redirect()->route('legalisir.index')->with('success', 'Surat berhasil dibuat');
+        return redirect()->route('legalisir.index')->with('success', 'Legalisir berhasil dibuat');
     }
 
     public function edit($id)

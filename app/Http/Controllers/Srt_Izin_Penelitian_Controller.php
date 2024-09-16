@@ -96,31 +96,31 @@ class Srt_Izin_Penelitian_Controller extends Controller
 
         $existingSurat = DB::table('srt_izin_plt')
         ->where('users_id', $user->id)
+        ->where('role_surat', '!=', 'mahasiswa')
+        ->where('jenis_surat', $request->jenis_surat)
         ->first();
-        if ($existingSurat) {
-          if ($existingSurat->role_surat === 'mahasiswa') {
-            $id_surat = mt_rand(1000000000000, 9999999999999);
 
-            DB::table('srt_izin_plt')->insert([
-                'id' => $id_surat,
-                'users_id' => $user->id,
-                'prd_id' => $user->prd_id,
-                'nama_mhw' => $user->nama,
-                'lampiran' => $request->lampiran,
-                'jenis_surat' => $request->jenis_surat,
-                'semester' => $request->semester,
-                'judul_data' => $request->judul_data,
-                'nama_lmbg' => $request->nama_lmbg,
-                'jbt_lmbg' => $request->jbt_lmbg,
-                'almt_lmbg' => $request->almt_lmbg,
-                'kota_lmbg' => $request->kota_lmbg,
-                'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-            ]);
-          } else {
-              return redirect()->back()->withErrors(['error' => 'Hanya boleh mengajukan satu 
-              surat sampai surat disetujui seutuhnya']);
-          }
-      }
+        if ($existingSurat) {
+            return redirect()->back()->withErrors(['error' => 'Hanya diperbolehkan mengajukan satu surat dengan permohonan data yang sama sampai surat selesai.']);
+        }
+
+        $id_surat = mt_rand(1000000000000, 9999999999999);
+
+        DB::table('srt_izin_plt')->insert([
+            'id' => $id_surat,
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'nama_mhw' => $user->nama,
+            'lampiran' => $request->lampiran,
+            'jenis_surat' => $request->jenis_surat,
+            'semester' => $request->semester,
+            'judul_data' => $request->judul_data,
+            'nama_lmbg' => $request->nama_lmbg,
+            'jbt_lmbg' => $request->jbt_lmbg,
+            'almt_lmbg' => $request->almt_lmbg,
+            'kota_lmbg' => $request->kota_lmbg,
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
 
         return redirect()->route('srt_izin_plt.index')->with('success', 'Surat berhasil dibuat');
     }
@@ -169,6 +169,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
             'jbt_lmbg' => $request->jbt_lmbg,
             'almt_lmbg' => $request->almt_lmbg,
             'kota_lmbg' => $request->kota_lmbg,
+            'semester' => $request->semester,
             'role_surat' => 'admin',
             'catatan_surat' => '-',
         ]);

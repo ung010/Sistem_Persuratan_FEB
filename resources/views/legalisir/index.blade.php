@@ -3,7 +3,15 @@
 @section('content')
     <div class="d-flex flex-column justify-content-center align-items-center gap-3"
         style="margin-top: 2%; margin-left: 5%; margin-right: 5%;">
-        <img src="{{ asset('asset/Mask group.png') }}" alt="header" class="w-100">
+        <div class="position-relative w-100" style="overflow: hidden;">
+            <img src="{{ asset('asset/Mask group.png') }}" alt="header" class="w-100">
+            <!-- Overlay dengan transparansi -->
+            <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);">
+            </div>
+            <h2 class="position-absolute top-50 start-50 translate-middle text-white text-center" style="font-size: 2.5rem; ; white-space: nowrap;">
+                Legalisir
+            </h2>
+        </div>
         <button class="btn btn-primary" onclick="addData()">Buat Surat</button>
 
         <div class="container-fluid">
@@ -74,8 +82,8 @@
                             </ul>
                         </div>
                     @endif
-                    <div class="col-6">
-                        <div class="d-flex flex-column gap-2">
+                    <div class="col-6 d-flex flex-column gap-2 h-100">
+                        <div class="d-flex flex-column gap-2 h-100">
                             <div class="form-group">
                                 <label for="jenis_lgl">Jenis Legalisir</label>
                                 <select name="jenis_lgl" id="jenis_lgl" required class="form-select">
@@ -120,7 +128,7 @@
                                 <input type="text" name="keperluan" id="keperluan" class="form-control">
                             </div>
                             <div class="form-group d-flex">
-                                <label for="" class="col-2">Tanggal Lulus</label>
+                                <label for="" class="col-2" style="line-height: 2;">Tanggal Lulus</label>
                                 <div class="col-10">
                                     <input type="date" name="tgl_lulus" id="tgl_lulus" class="form-control">
                                 </div>
@@ -129,8 +137,8 @@
                     </div>
                     <div class="col-6">
                         <div class="d-flex flex-column gap-2">
-                            <div class="form-group d-flex">
-                                <label for="ambil" class="col-2">Metode Ambil</label>
+                            <div class="form-group">
+                            <label for="ambil">Metode Ambil</label>
                                 <div class="col-10">
                                     <select name="ambil" id="ambil" required class="form-select">
                                         <option value="">Pilih Metode</option>
@@ -156,7 +164,7 @@
                                 <label for="almt_smg">Alamat Tujuan Pengiriman</label>
                                 <input type="text" name="almt_smg" id="almt_smg" class="form-control">
                             </div>
-                            <div class="form-group d-flex" id="kodepos_group" style="visibility:hidden;">
+                            <div class="form-group" id="kodepos_group" style="visibility:hidden;">
                                 <label for="kdps_kirim" class="col-2">Kodepos</label>
                                 <div class="col-10">
                                     <input type="number" name="kdps_kirim" id="kdps_kirim" class="form-control">
@@ -191,13 +199,11 @@
     </div>
 
     <script>
-        // Fungsi untuk menampilkan atau menyembunyikan kolom Ijazah dan Transkrip berdasarkan pilihan
         document.addEventListener('DOMContentLoaded', function() {
             var jenisLegalisir = document.getElementById('jenis_lgl');
             var ijazahGroup = document.getElementById('file_ijazah_group');
             var transkripGroup = document.getElementById('file_transkrip_group');
 
-            // Fungsi untuk mengontrol tampilan kolom dengan visibility
             function toggleVisibility() {
                 var value = jenisLegalisir.value;
                 if (value === 'ijazah') {
@@ -215,50 +221,55 @@
                 }
             }
 
-            // Jalankan fungsi saat dropdown berubah
             jenisLegalisir.addEventListener('change', toggleVisibility);
 
-            // Jalankan fungsi saat halaman dimuat untuk memastikan kolom disembunyikan pada awalnya
             toggleVisibility();
         });
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var ambilSelect = document.getElementById('ambil');
-        var alamatGroup = document.getElementById('alamat_group');
-        var kecamatanGroup = document.getElementById('kecamatan_group');
-        var kodeposGroup = document.getElementById('kodepos_group');
-        var kelurahanGroup = document.getElementById('kelurahan_group');
-        var kotaGroup = document.getElementById('kota_group');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ambilSelect = document.getElementById('ambil');
+            var alamatGroup = document.getElementById('alamat_group');
+            var kecamatanGroup = document.getElementById('kecamatan_group');
+            var kodeposGroup = document.getElementById('kodepos_group');
+            var kelurahanGroup = document.getElementById('kelurahan_group');
+            var kotaGroup = document.getElementById('kota_group');
 
-        // Fungsi untuk mengontrol visibilitas
-        function toggleVisibility() {
-            var value = ambilSelect.value;
-            if (value === 'dikirim') {
-                // Tampilkan kolom alamat, kecamatan, kodepos, kelurahan, dan kota
-                alamatGroup.style.visibility = 'visible';
-                kecamatanGroup.style.visibility = 'visible';
-                kodeposGroup.style.visibility = 'visible';
-                kelurahanGroup.style.visibility = 'visible';
-                kotaGroup.style.visibility = 'visible';
-            } else {
-                // Sembunyikan kolom-kolom tersebut
-                alamatGroup.style.visibility = 'hidden';
-                kecamatanGroup.style.visibility = 'hidden';
-                kodeposGroup.style.visibility = 'hidden';
-                kelurahanGroup.style.visibility = 'hidden';
-                kotaGroup.style.visibility = 'hidden';
+            function toggleVisibility() {
+                var value = ambilSelect.value;
+                if (value === 'dikirim') {
+                    alamatGroup.style.visibility = 'visible';
+                    kecamatanGroup.style.visibility = 'visible';
+                    kodeposGroup.style.visibility = 'visible';
+                    kelurahanGroup.style.visibility = 'visible';
+                    kotaGroup.style.visibility = 'visible';
+                } else {
+                    alamatGroup.style.visibility = 'hidden';
+                    kecamatanGroup.style.visibility = 'hidden';
+                    kodeposGroup.style.visibility = 'hidden';
+                    kelurahanGroup.style.visibility = 'hidden';
+                    kotaGroup.style.visibility = 'hidden';
+                }
             }
-        }
 
-        // Jalankan fungsi saat dropdown berubah
-        ambilSelect.addEventListener('change', toggleVisibility);
+            ambilSelect.addEventListener('change', toggleVisibility);
 
-        // Jalankan fungsi saat halaman dimuat untuk memastikan kolom disembunyikan pada awalnya
-        toggleVisibility();
-    });
-</script>
+            toggleVisibility();
+        });
+    </script>
+
+    <script>
+        const kodeposInput = document.getElementById('kdps_kirim');
+
+        kodeposInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            
+            if (this.value.length > 5) {
+                this.value = this.value.slice(0, 5);
+            }
+        });
+    </script>    
 @endsection
 
 @section('script')
