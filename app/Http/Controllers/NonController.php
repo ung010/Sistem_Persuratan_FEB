@@ -119,6 +119,7 @@ class NonController extends Controller
       'tanggal_lahir' => $request->tanggal_lahir,
       'nowa' => $request->nowa,
       'almt_asl' => $request->almt_asl,
+      'nama_ibu' => $request->nama_ibu,
       'prd_id' => $request->prd_id,
       'password' => $request->filled('password') ? Hash::make($request->password) : DB::raw('password'),
       'foto' => $foto,
