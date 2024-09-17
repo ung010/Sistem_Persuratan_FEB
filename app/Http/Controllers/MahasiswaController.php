@@ -125,4 +125,3 @@ class MahasiswaController extends Controller
     return $fileName;
   }
 }
-
