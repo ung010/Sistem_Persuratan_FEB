@@ -248,12 +248,12 @@ class DatabaseSeeder extends Seeder
             $random_user_id = $faker_srt_mhw_asn->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
-            $thn_awl = $faker_srt_mhw_asn->numberBetween(2010, 2020);
+            $thn_awl = $faker_srt_mhw_asn->numberBetween(2023, 2024);
             $thn_akh = $thn_awl + 1;
             $semester = $faker_srt_mhw_asn->numberBetween(3, 13);
             $role_surat = $faker_srt_mhw_asn->randomElement($list_role);
             $tanggal_surat = Carbon::create(
-                rand(2000, 2024),
+                rand(2023, 2024),
                 rand(1, 12),
                 rand(1, 28)
             )->toDateString();
@@ -292,13 +292,13 @@ class DatabaseSeeder extends Seeder
             $random_user_id = $faker_srt_masih_mhw->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
-            $thn_awl = $faker_srt_masih_mhw->numberBetween(2010, 2020);
+            $thn_awl = $faker_srt_masih_mhw->numberBetween(2023, 2024);
             $thn_akh = $thn_awl + 1;
             $semester = $faker_srt_masih_mhw->numberBetween(3, 13);
             $tujuan_buat_srt = $faker_srt_masih_mhw->randomElement($alasan_acak);
             $role_surat = $faker_srt_masih_mhw->randomElement($list_role);
             $tanggal_surat = Carbon::create(
-                rand(2000, 2024),
+                rand(2023, 2024),
                 rand(1, 12),
                 rand(1, 28)
             )->toDateString();
@@ -333,7 +333,7 @@ class DatabaseSeeder extends Seeder
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
             $tanggal_surat = Carbon::create(
-                rand(2000, 2024),
+                rand(2023, 2024),
                 rand(1, 12),
                 rand(1, 28)
             )->toDateString();
@@ -381,7 +381,7 @@ class DatabaseSeeder extends Seeder
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
             $tanggal_surat = Carbon::create(
-                rand(2000, 2024),
+                rand(2023, 2024),
                 rand(1, 12),
                 rand(1, 28)
             )->toDateString();
@@ -422,7 +422,7 @@ class DatabaseSeeder extends Seeder
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
             $tanggal_surat = Carbon::create(
-                rand(2000, 2024),
+                rand(2023, 2024),
                 rand(1, 12),
                 rand(1, 28)
             )->toDateString();
@@ -450,7 +450,7 @@ class DatabaseSeeder extends Seeder
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
             $tanggal_surat = Carbon::create(
-                rand(2000, 2024),
+                rand(2023, 2024),
                 rand(1, 12),
                 rand(1, 28)
             )->toDateString();
