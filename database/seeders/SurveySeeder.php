@@ -56,7 +56,7 @@ class SurveySeeder extends Seeder
 
             $rating = $faker_survey->randomElement($ratings);
             $tanggal_survey = Carbon::create(
-                rand(2000, 2024),
+                rand(2023, 2024),
                 rand(1, 12),
                 rand(1, 28)
             )->toDateString();
