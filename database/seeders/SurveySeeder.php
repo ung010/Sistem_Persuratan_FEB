@@ -2,16 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\departemen;
-use App\Models\prodi;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\File;
 
 class SurveySeeder extends Seeder
 {
@@ -47,7 +41,13 @@ class SurveySeeder extends Seeder
         foreach (range(1, 50) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_survey->randomElement($user_ids);
+
             $user = DB::table('users')->where('id', $random_user_id)->first();
+
+            if (!$user) {
+                continue;
+            }
+
             $nama_mhw = $user->nama;
 
             if ($nama_mhw === 'Raung') {
