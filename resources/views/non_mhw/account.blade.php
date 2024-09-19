@@ -1,26 +1,6 @@
 @extends('user.layout')
 
 @section('content')
-    <style>
-        /* Untuk menyembunyikan panah dropdown di semua browser */
-        .hide-select-arrow {
-            -webkit-appearance: none;
-            /* Chrome, Safari, Opera */
-            -moz-appearance: none;
-            /* Firefox */
-            appearance: none;
-            /* Modern browsers */
-            background: transparent;
-            /* Menghapus background default */
-            border: 1px solid #ced4da;
-            /* Menjaga border yang konsisten */
-            padding: 0.375rem 0.75rem;
-            /* Padding konsisten dengan kontrol lainnya */
-            border-radius: 0.25rem;
-            /* Border radius konsisten dengan kontrol lainnya */
-        }
-    </style>
-
     <div class="d-flex justify-content-center align-items-center gap-4" style="margin-top: 1%;">
         <div class="card">
             <div class="card-body p-5 row">
@@ -31,57 +11,51 @@
                     class="row">
                     @csrf
                     <div class="col-6">
-                        <a href="/non_user" class="btn btn-primary">Kembali</a>
-                        <h5>Alasan penolakan : {{ $user->catatan_user }}</h3>
-                            <div class="d-flex flex-column gap-2">
-                                <div class="form-group">
-                                    <label for="">Email</label>
-                                    <input type="email" name="email" value="{{ $user->email }}" id=""
-                                        class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Password</label>
-                                    <input type="password" name="password" id="" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Nama</label>
-                                    <input type="text" name="nama" value="{{ $user->nama }}" id=""
-                                        class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">NIM</label>
-                                    <input type="number" name="nmr_unik" value="{{ $user->nmr_unik }}" id=""
-                                        class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Nama Ibu</label>
-                                    <input type="text" name="nama_ibu" value="{{ $user->nama_ibu }}" id=""
-                                        class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">No Handphone</label>
-                                    <input type="text" name="nowa" value="{{ $user->nowa }}" id=""
-                                        class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Alamat Asal</label>
-                                    <input type="text" name="almt_asl" value="{{ $user->almt_asl }}" id=""
-                                        class="form-control">
-                                </div>
+                        <div class="d-flex flex-column gap-2">
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="email" name="email" value="{{ $user->email }}" class="form-control">
                             </div>
+                            <div class="form-group">
+                                <label for="">Password</label>
+                                <input type="password" name="password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Nama</label>
+                                <input type="text" name="nama" value="{{ $user->nama }}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="">NIM</label>
+                                <input type="number" name="nmr_unik" value="{{ $user->nmr_unik }}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Nama Ibu</label>
+                                <input type="text" name="nama_ibu" value="{{ $user->nama_ibu }}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="">No Handphone</label>
+                                <input type="text" name="nowa" value="{{ $user->nowa }}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Alamat Asal</label>
+                                <input type="text" name="almt_asl" value="{{ $user->almt_asl }}" class="form-control">
+                            </div>
+                            <div class="mt-3">
+                                <h5>Alasan penolakan: {{ $user->catatan_user }}</h5>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-6">
                         <div class="d-flex flex-column gap-2">
                             <div class="form-group">
                                 <label for="">Tempat Lahir</label>
-                                <input type="text" name="kota" value="{{ $user->kota }}" id=""
-                                    class="form-control">
+                                <input type="text" name="kota" value="{{ $user->kota }}" class="form-control">
                             </div>
                             <div class="form-group d-flex">
                                 <label for="" class="col-4">Tanggal Lahir</label>
                                 <div class="col-4">
                                     <input type="date" name="tanggal_lahir" value="{{ $user->tanggal_lahir }}"
-                                        id="" class="form-control">
+                                        class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -113,11 +87,11 @@
                             <div class="form-group row">
                                 <div class="col-6 d-flex flex-column gap-1">
                                     <div class="d-flex gap-2">
-                                        <input type="radio" name="status" id="" value="mahasiswa"
+                                        <input type="radio" name="status" value="mahasiswa"
                                             {{ $user->status == 'mahasiswa' ? 'checked' : '' }}> Mahasiswa Aktif
                                     </div>
                                     <div class="d-flex gap-2">
-                                        <input type="radio" name="status" id="" value="alumni"
+                                        <input type="radio" name="status" value="alumni"
                                             {{ $user->status == 'alumni' ? 'checked' : '' }}> Alumni
                                     </div>
                                 </div>
@@ -129,13 +103,13 @@
                             <div class="mt-3">
                                 <img id="img-preview" src="#" alt="Preview Image" class="img-fluid"
                                     style="display: none; max-height: 200px;">
-
                                 <img id="img-old" src="{{ asset('storage/foto/mahasiswa/' . $user->foto) }}"
                                     alt="identitas" style="max-width: 280px;">
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-end mt-3">
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="/non_user" class="btn btn-primary">Kembali</a>
                         <button type="submit" class="btn btn-primary">Perbarui</button>
                     </div>
                 </form>
@@ -168,7 +142,6 @@
 
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
-
 
                 reader.onload = function(e) {
                     preview.src = e.target.result;

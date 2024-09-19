@@ -34,10 +34,8 @@ class Survey_Controller extends Controller
         $survey = new Survey();
         $survey->users_id = $userId;
         $survey->nama_mhw = Auth::user()->nama;
-        $survey->dpt_id = Auth::user()->dpt_id;
         $survey->prd_id = Auth::user()->prd_id;
-        $survey->jnjg_id = Auth::user()->jnjg_id;
-        $survey->tanggal_surat = Carbon::now()->toDateString();
+        $survey->tanggal_survey = Carbon::now()->toDateString();
 
         $survey->rating = $request->input('rating');
 
