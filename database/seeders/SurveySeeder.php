@@ -55,7 +55,7 @@ class SurveySeeder extends Seeder
             }
 
             $rating = $faker_survey->randomElement($ratings);
-            $tanggal_surat = Carbon::create(
+            $tanggal_survey = Carbon::create(
                 rand(2000, 2024),
                 rand(1, 12),
                 rand(1, 28)
@@ -67,7 +67,7 @@ class SurveySeeder extends Seeder
                 'nama_mhw' => $nama_mhw,
                 'rating' => $rating,
                 'feedback' => $faker_survey->randomElement($feedback),
-                'tanggal_surat' => $tanggal_surat,
+                'tanggal_survey' => $tanggal_survey,
                 'prd_id' => $user->prd_id,
             ]);
         }

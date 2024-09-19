@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('rating', ['sangat_puas' ,'puas', 'netral', 'kurang_puas', 'tidak_puas']);
             $table->string('nama_mhw')->nullable();
             $table->text('feedback')->nullable();
-            $table->date('tanggal_surat');
+            $table->date('tanggal_survey');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade');
