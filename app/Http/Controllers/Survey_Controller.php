@@ -55,7 +55,7 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_surat')->get();
+        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
 
         return view('survey.admin', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
@@ -68,7 +68,7 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_surat')->get();
+        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
 
         return view('survey.supervisor_akd', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
@@ -81,7 +81,7 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_surat')->get();
+        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
 
         return view('survey.supervisor_sd', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
@@ -94,7 +94,7 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_surat')->get();
+        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
 
         return view('survey.manajer', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
