@@ -95,7 +95,7 @@ class Survey_Controller extends Controller
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
         $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
-
+        // Test
         return view('survey.manajer', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
 }
