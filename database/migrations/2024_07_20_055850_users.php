@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('nama_ibu')->nullable();
             $table->string('password');
             $table->enum('status', ['mahasiswa', 'alumni']);
-            $table->enum('role', ['non_mahasiswa', 'del_mahasiswa', 'mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'])->default('non_mahasiswa');
+            $table->enum('role', ['non_mahasiswa', 'del_mahasiswa', 'mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1', 'wd2'])->default('non_mahasiswa');
             $table->text('catatan_user')->nullable()->default('-');
             $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();

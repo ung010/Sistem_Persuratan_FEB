@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
                 'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
                 'email' => $faker->unique()->userName . '@students.undip.ac.id',
-                'password' => Hash::make('mountain082'),
+                'password' => Hash::make('`1234567'),
                 'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa']),
                 'status' => $faker->randomElement(['mahasiswa', 'alumni']),
                 'nowa' => $faker->phoneNumber,
@@ -136,7 +136,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Raung',
                 'nmr_unik' => '21120120150155',
                 'email' => 'raung@students.undip.ac.id',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'mahasiswa',
                 'status' => 'mahasiswa',
                 'kota' => 'Blitar',
@@ -148,46 +148,46 @@ class DatabaseSeeder extends Seeder
                 'nama_ibu' => 'Rosa0',
                 'foto' => $imageName,
             ],
-            [
-                'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'Didan',
-                'nmr_unik' => '64568775634',
-                'email' => 'didan@students.undip.ac.id',
-                'password' => bcrypt('mountain082'),
-                'role' => 'mahasiswa',
-                'status' => 'mahasiswa',
-                'kota' => 'leo',
-                'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 11 - 2003'),
-                'nowa' => '081214549624',
-                'almt_asl' => 'Jl Kenari No 20 RT 2 RW 3 Tembalang Semarang',
-                'prd_id' => 2,
-                'catatan_user' => '-',
-                'nama_ibu' => 'leo',
-                'foto' => $imageName,
-            ],
-            [
-                'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'Setyawan',
-                'nmr_unik' => '211201201444444',
-                'email' => 'setyawan@students.undip.ac.id',
-                'password' => bcrypt('mountain082'),
-                'role' => 'mahasiswa',
-                'status' => 'alumni',
-                'kota' => 'Blitar',
-                'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 10 - 2010'),
-                'nowa' => '081214549624',
-                'almt_asl' => 'Jl Perkutut No 20 RT 2 RW 3 Beru Kendari',
-                'prd_id' => 3,
-                'catatan_user' => '-',
-                'nama_ibu' => 'Rosa1',
-                'foto' => $imageName,
-            ],
+            // [
+            //     'id' => mt_rand(1000000000000, 9999999999999),
+            //     'nama' => 'Didan',
+            //     'nmr_unik' => '64568775634',
+            //     'email' => 'didan@students.undip.ac.id',
+            //     'password' => bcrypt('`1234567'),
+            //     'role' => 'mahasiswa',
+            //     'status' => 'mahasiswa',
+            //     'kota' => 'leo',
+            //     'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 11 - 2003'),
+            //     'nowa' => '081214549624',
+            //     'almt_asl' => 'Jl Kenari No 20 RT 2 RW 3 Tembalang Semarang',
+            //     'prd_id' => 2,
+            //     'catatan_user' => '-',
+            //     'nama_ibu' => 'leo',
+            //     'foto' => $imageName,
+            // ],
+            // [
+            //     'id' => mt_rand(1000000000000, 9999999999999),
+            //     'nama' => 'Setyawan',
+            //     'nmr_unik' => '211201201444444',
+            //     'email' => 'setyawan@students.undip.ac.id',
+            //     'password' => bcrypt('`1234567'),
+            //     'role' => 'mahasiswa',
+            //     'status' => 'alumni',
+            //     'kota' => 'Blitar',
+            //     'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 10 - 2010'),
+            //     'nowa' => '081214549624',
+            //     'almt_asl' => 'Jl Perkutut No 20 RT 2 RW 3 Beru Kendari',
+            //     'prd_id' => 3,
+            //     'catatan_user' => '-',
+            //     'nama_ibu' => 'Rosa1',
+            //     'foto' => $imageName,
+            // ],
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Andi Prihandoyo, S.T.',
                 'nmr_unik' => 'H.7.197704082021101001',
                 'email' => 'andiprihandoyo01@staff.undip.ac.id',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'admin',
             ],
             [
@@ -195,7 +195,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Luluk Evriyanti, S.E',
                 'nmr_unik' => 'H.7.199504252024052001',
                 'email' => 'lulukevriyanti02@staff.undip.ac.id',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'admin',
             ],
             [
@@ -203,7 +203,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Ex - Admin',
                 'nmr_unik' => 'xxx',
                 'email' => 'admin@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'admin',
             ],
             [
@@ -211,7 +211,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'R M Endhar Priyo Utomo, S.S',
                 'nmr_unik' => '197901102014091002',
                 'email' => 'akademik@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('1234567'),
                 'role' => 'supervisor_akd',
             ],
             [
@@ -219,7 +219,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Suryani, S.E.',
                 'nmr_unik' => 'H.7.198601242009082001',
                 'email' => 'sumber@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'supervisor_sd',
             ],
             [
@@ -227,8 +227,24 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Mia Prameswari, S.E., M.Si',
                 'nmr_unik' => '197901142006042001',
                 'email' => 'manajer@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'manajer',
+            ],
+            [
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Saya WD 1',
+                'nmr_unik' => '1111',
+                'email' => 'wd1@gmail.com',
+                'password' => bcrypt('`1234567'),
+                'role' => 'wd1',
+            ],
+            [
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Saya WD 2',
+                'nmr_unik' => '2222',
+                'email' => 'wd2@gmail.com',
+                'password' => bcrypt('`1234567'),
+                'role' => 'wd2',
             ],
         ];
         foreach ($users as  $user) {
@@ -236,7 +252,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_mhw_asn = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1', 'wd2'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -279,7 +295,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_masih_mhw = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1', 'wd2'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -322,7 +338,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_magang = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1', 'wd2'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -362,7 +378,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_plt = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1', 'wd2'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -411,7 +427,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_pmhn_kmbali_biaya = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1', 'wd2'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -439,7 +455,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_srt_bbs_pnjm = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1', 'wd2'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -471,7 +487,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $faker_lgl = Faker::create('id_ID');
-        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer'];
+        $excluded_roles = ['non_mahasiswa', 'del_mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1', 'wd2'];
         $user_ids = DB::table('users')
             ->whereNotIn('role', $excluded_roles)
             ->pluck('id')
@@ -486,7 +502,7 @@ class DatabaseSeeder extends Seeder
             $random_user_id = $faker_lgl->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
             $nama_mhw = $user->nama;
-            $tanggal_surat = Carbon::now()->toDateString();
+            $tanggal_surat = Carbon::now('Asia/Jakarta')->toDateString();
             $keperluan = $faker_lgl->randomElement($urusan);
             $tanggal_lulus = $faker_lgl->date($format = 'Y-m-d', $max = '2024-08-01', $min = '2019-01-01',);
 
@@ -498,13 +514,13 @@ class DatabaseSeeder extends Seeder
                 'keperluan' => $keperluan,
                 'jenis_lgl' => $faker_lgl->randomElement($jenis_legalisir),
                 'ambil' => 'ditempat',
-                'role_surat' => $faker_lgl->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_lgl->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'wd1']),
                 'prd_id' => $user->prd_id,
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }
 
         $this->call(SurveySeeder::class);
-        
+
     }
 }

@@ -19,6 +19,10 @@ class UsersController extends Controller
             return redirect('/supervisor_sd')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'manajer') {
             return redirect('/manajer')->withErrors('Anda tidak punya akses');
+        } elseif (Auth::user()->role == 'wd1') {
+            return redirect('/manajer')->withErrors('Anda tidak punya akses');
+        } elseif (Auth::user()->role == 'wd2') {
+            return redirect('/manajer')->withErrors('Anda tidak punya akses');
         } elseif (Auth::user()->role == 'non_mahasiswa') {
             return redirect('/non_user')->withErrors('Akun masih belum dicek atau diterima oleh admin, minta admin untuk melakukan approve');
         } elseif (Auth::user()->role == 'del_mahasiswa') {

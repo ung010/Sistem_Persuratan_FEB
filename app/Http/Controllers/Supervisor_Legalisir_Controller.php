@@ -45,10 +45,10 @@ class Supervisor_Legalisir_Controller extends Controller
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'manajer';
+        $legalisir->role_surat = 'wd1';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_dikirim_ijazah')->with('success', 'Legalisir berhasil disetujui dan dilanjutkan ke manajer');
+        return redirect()->route('legalisir_sv.sv_dikirim_ijazah')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
     }
 
     function kirim_transkrip(Request $request)
@@ -88,10 +88,10 @@ class Supervisor_Legalisir_Controller extends Controller
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'manajer';
+        $legalisir->role_surat = 'wd1';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_dikirim_transkrip')->with('success', 'Legalisir berhasil disetujui dan dilanjutkan ke manajer');
+        return redirect()->route('legalisir_sv.sv_dikirim_transkrip')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
     }
 
     function kirim_ijz_trs(Request $request)
@@ -131,10 +131,10 @@ class Supervisor_Legalisir_Controller extends Controller
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'manajer';
+        $legalisir->role_surat = 'wd1';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_dikirim_ijz_trs')->with('success', 'Legalisir berhasil disetujui dan dilanjutkan ke manajer');
+        return redirect()->route('legalisir_sv.sv_dikirim_ijz_trs')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
     }
 
     function ditempat_ijazah(Request $request)
@@ -174,10 +174,10 @@ class Supervisor_Legalisir_Controller extends Controller
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'manajer';
+        $legalisir->role_surat = 'wd1';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_ditempat_ijazah')->with('success', 'Legalisir berhasil disetujui dan dilanjutkan ke manajer');
+        return redirect()->route('legalisir_sv.sv_ditempat_ijazah')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
     }
 
     function ditempat_transkrip(Request $request)
@@ -217,10 +217,10 @@ class Supervisor_Legalisir_Controller extends Controller
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'manajer';
+        $legalisir->role_surat = 'wd1';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_ditempat_transkrip')->with('success', 'Legalisir berhasil disetujui dan dilanjutkan ke manajer');
+        return redirect()->route('legalisir_sv.sv_ditempat_transkrip')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
     }
 
     function ditempat_ijz_trs(Request $request)
@@ -260,9 +260,9 @@ class Supervisor_Legalisir_Controller extends Controller
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'manajer';
+        $legalisir->role_surat = 'wd1';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_ditempat_ijz_trs')->with('success', 'Legalisir berhasil disetujui dan dilanjutkan ke manajer');
+        return redirect()->route('legalisir_sv.sv_ditempat_ijz_trs')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
     }
 }

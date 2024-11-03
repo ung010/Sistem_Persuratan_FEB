@@ -48,19 +48,17 @@
                                     </td>
                                     <td>
                                         @if ($item->role_surat == 'admin')
-                                            Verif Admin
+                                            Menunggu Verifikasi Admin
                                         @elseif ($item->role_surat == 'supervisor_akd')
-                                            Verif Supervisor Akademik
-                                        @elseif ($item->role_surat == 'manajer')
-                                            Verif Manajer
-                                        @elseif ($item->role_surat == 'manajer_sukses')
-                                            Manajer telah verifikasi
+                                            Menunggu Verifikasi Supervisor Akademik
+                                        @elseif ($item->role_surat == 'wd1')
+                                            Supervisor telah melakukann verifikasi
                                         @else
                                             Ditolak
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($item->role_surat == 'manajer_sukses')
+                                        @if ($item->role_surat == 'wd1')
                                             <a href="{{ url('/legalisir/admin/dikirim/ijazah/download/' . $item->id) }}"
                                                 class="btn btn-primary btn-sm">Unduh</a>
                                         @else
@@ -68,7 +66,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($item->role_surat == 'manajer_sukses')
+                                        @if ($item->role_surat == 'wd1')
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#uploadModal" data-id="{{ $item->id }}"
                                                 data-nama="{{ $item->nama_mhw }}">
@@ -128,10 +126,10 @@
             var button = $(event.relatedTarget);
             var id = button.data('id');
             var modal = $(this);
-            
+
             modal.find('#id').val(id);
             modal.find('form').attr('action', '/legalisir/admin/dikirim/ijazah/no_resi/' + id);
-            
+
             $('#diambil_ditempat').change(function() {
                 if (this.checked) {
                     $('#no_resi').val('Diambil Ditempat');

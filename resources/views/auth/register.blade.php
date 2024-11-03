@@ -32,9 +32,9 @@
                     <h1>Isi Data Diri</h1>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="">Email</label>
-                    <input type="email" name="email" placeholder="contoh@students.undip.ac.id"
-                        value="{{ Session::get('email') }}" id="" class="form-control">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="contoh@students.undip.ac.id"
+                        value="{{ Session::get('email') }}" class="form-control">
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Password</label>
@@ -150,6 +150,17 @@
                         });
                     })
                     .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById('email').addEventListener('input', function () {
+            var emailInput = this.value;
+            var domain = '@students.undip.ac.id';
+
+            if (emailInput.includes('@') && emailInput.indexOf(domain) === -1) {
+                this.value = emailInput.split('@')[0] + domain;
             }
         });
     </script>

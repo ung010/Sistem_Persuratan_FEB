@@ -19,9 +19,36 @@ use Hashids;
 
 class srt_pmhn_kmbali_biaya_controller extends Controller
 {
+    private function deleteExpiredSurat()
+    {
+        $expiredSurat = DB::table('srt_pmhn_kmbali_biaya')
+            ->where('created_at', '<', Carbon::now('Asia/Jakarta')->subMonths(6))
+            ->get();
+
+        foreach ($expiredSurat as $surat) {
+            $filePathSkl = public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files/' . $surat->skl);
+            $filePathBuktiBayar = public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files/' . $surat->bukti_bayar);
+            $filePathBukuTabung = public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files/' . $surat->buku_tabung);
+
+            if (File::exists($filePathSkl)) {
+                File::delete($filePathSkl);
+            }
+            if (File::exists($filePathBuktiBayar)) {
+                File::delete($filePathBuktiBayar);
+            }
+            if (File::exists($filePathBukuTabung)) {
+                File::delete($filePathBukuTabung);
+            }
+
+            DB::table('srt_pmhn_kmbali_biaya')->where('id', $surat->id)->delete();
+        }
+    }
+
     public function index(Request $request)
     {
         $user = Auth::user();
+
+        $this->deleteExpiredSurat();
 
         $search = $request->input('search');
 
@@ -108,11 +135,11 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
           ->where('users_id', $user->id)
           ->where('role_surat', '!=', 'mahasiswa')
           ->first();
-  
+
         if ($existingSurat) {
             return redirect()->back()->withErrors(['error' => 'Hanya diperbolehkan satu surat yang diproses hingga surat itu selesai']);
         }
-        
+
         $id_surat = mt_rand(1000000000000, 9999999999999);
 
         DB::table('srt_pmhn_kmbali_biaya')->insert([
@@ -123,8 +150,9 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             'skl' => $nama_skl,
             'bukti_bayar' => $nama_bukti,
             'buku_tabung' => $nama_buku,
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-        ]);                    
+            'tanggal_surat' => Carbon::now('Asia/Jakarta')->format('Y-m-d'),
+            'created_at' => Carbon::now('Asia/Jakarta'),
+        ]);
 
         return redirect()->route('srt_pmhn_kmbali_biaya.index')->with('success', 'Surat berhasil dibuat');
     }
@@ -308,7 +336,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $pdf = Pdf::loadView('srt_pmhn_kmbali_biaya.view', compact('srt_pmhn_kmbali_biaya', 'qrCodePath'));
 
         $namaMahasiswa = $srt_pmhn_kmbali_biaya->nama;
-        $tanggalSurat = Carbon::now()->format('Y-m-d');
+        $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         $fileName = 'Surat_Permohonan_Pengembalian_Biaya_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
         // $mpdf->Output($fileName, 'D');
         return $pdf->download($fileName);

@@ -19,9 +19,18 @@ use Hashids;
 
 class Srt_Bbs_Pnjam_Controller extends Controller
 {
+    private function deletesurat()
+    {
+        DB::table('srt_bbs_pnjm')
+            ->where('created_at', '<', Carbon::now('Asia/Jakarta')->subMonths(6))
+            ->delete();
+    }
+
   public function index(Request $request)
   {
     $user = Auth::user();
+
+    $this->deletesurat();
 
     $search = $request->input('search');
 
@@ -83,7 +92,7 @@ class Srt_Bbs_Pnjam_Controller extends Controller
 
       if ($existingSurat) {
         return redirect()->back()->withErrors(['error' => 'Hanya diperbolehkan satu surat yang diproses hingga surat itu selesai']);
-      }          
+      }
 
       $id_surat = mt_rand(1000000000000, 9999999999999);
 
@@ -94,7 +103,8 @@ class Srt_Bbs_Pnjam_Controller extends Controller
         'nama_mhw' => $user->nama,
         'dosen_wali' => $request->dosen_wali,
         'almt_smg' => $request->almt_smg,
-        'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        'tanggal_surat' => Carbon::now('Asia/Jakarta')->format('Y-m-d'),
+        'created_at' => Carbon::now('Asia/Jakarta'),
       ]);
 
     return redirect()->route('srt_bbs_pnjm.index')->with('success', 'Surat berhasil dibuat');
@@ -189,7 +199,7 @@ class Srt_Bbs_Pnjam_Controller extends Controller
     // $mpdf->WriteHTML($html);
 
     $namaMahasiswa = $srt_bbs_pnjm->nama;
-    $tanggalSurat = Carbon::now()->format('Y-m-d');
+    $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
     $fileName = 'Surat_Bebas_Pinjam_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
     // $mpdf->Output($fileName, 'D');
     return $pdf->download($fileName);
