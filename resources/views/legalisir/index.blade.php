@@ -41,7 +41,7 @@
                             </td>
                             <td>{{ $item->nama_prd }}</td>
                             <td>{{ $item->almt_kirim }}</td>
-                            @include('user.lacak')
+                            @include('user.lacak_legalisir')
                             <td>
                                 @if ($item->role_surat == 'mahasiswa')
                                     <button class="btn btn-success btn-sm" disabled>Berhasil</button>
@@ -264,12 +264,12 @@
 
         kodeposInput.addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9]/g, '');
-            
+
             if (this.value.length > 5) {
                 this.value = this.value.slice(0, 5);
             }
         });
-    </script>    
+    </script>
 @endsection
 
 @section('script')

@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
                 'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
                 'email' => $faker->unique()->userName . '@students.undip.ac.id',
-                'password' => Hash::make('mountain082'),
+                'password' => Hash::make('`1234567'),
                 'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa']),
                 'status' => $faker->randomElement(['mahasiswa', 'alumni']),
                 'nowa' => $faker->phoneNumber,
@@ -136,7 +136,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Raung',
                 'nmr_unik' => '21120120150155',
                 'email' => 'raung@students.undip.ac.id',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'mahasiswa',
                 'status' => 'mahasiswa',
                 'kota' => 'Blitar',
@@ -153,7 +153,7 @@ class DatabaseSeeder extends Seeder
             //     'nama' => 'Didan',
             //     'nmr_unik' => '64568775634',
             //     'email' => 'didan@students.undip.ac.id',
-            //     'password' => bcrypt('mountain082'),
+            //     'password' => bcrypt('`1234567'),
             //     'role' => 'mahasiswa',
             //     'status' => 'mahasiswa',
             //     'kota' => 'leo',
@@ -170,7 +170,7 @@ class DatabaseSeeder extends Seeder
             //     'nama' => 'Setyawan',
             //     'nmr_unik' => '211201201444444',
             //     'email' => 'setyawan@students.undip.ac.id',
-            //     'password' => bcrypt('mountain082'),
+            //     'password' => bcrypt('`1234567'),
             //     'role' => 'mahasiswa',
             //     'status' => 'alumni',
             //     'kota' => 'Blitar',
@@ -187,7 +187,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Andi Prihandoyo, S.T.',
                 'nmr_unik' => 'H.7.197704082021101001',
                 'email' => 'andiprihandoyo01@staff.undip.ac.id',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'admin',
             ],
             [
@@ -195,7 +195,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Luluk Evriyanti, S.E',
                 'nmr_unik' => 'H.7.199504252024052001',
                 'email' => 'lulukevriyanti02@staff.undip.ac.id',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'admin',
             ],
             [
@@ -203,7 +203,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Ex - Admin',
                 'nmr_unik' => 'xxx',
                 'email' => 'admin@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'admin',
             ],
             [
@@ -211,7 +211,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'R M Endhar Priyo Utomo, S.S',
                 'nmr_unik' => '197901102014091002',
                 'email' => 'akademik@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('1234567'),
                 'role' => 'supervisor_akd',
             ],
             [
@@ -219,7 +219,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Suryani, S.E.',
                 'nmr_unik' => 'H.7.198601242009082001',
                 'email' => 'sumber@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'supervisor_sd',
             ],
             [
@@ -227,7 +227,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Mia Prameswari, S.E., M.Si',
                 'nmr_unik' => '197901142006042001',
                 'email' => 'manajer@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'manajer',
             ],
             [
@@ -235,7 +235,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Saya WD 1',
                 'nmr_unik' => '1111',
                 'email' => 'wd1@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'wd1',
             ],
             [
@@ -243,7 +243,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Saya WD 2',
                 'nmr_unik' => '2222',
                 'email' => 'wd2@gmail.com',
-                'password' => bcrypt('mountain082'),
+                'password' => bcrypt('`1234567'),
                 'role' => 'wd2',
             ],
         ];
@@ -291,7 +291,6 @@ class DatabaseSeeder extends Seeder
                 'nip_ortu' => $faker_srt_mhw_asn->unique()->numerify('########'),
                 'ins_ortu' => $faker_srt_mhw_asn->company(),
                 'tanggal_surat' => $tanggal_surat,
-                'created_at' => Carbon::now('Asia/Jakarta'),
             ]);
         }
 
@@ -515,7 +514,7 @@ class DatabaseSeeder extends Seeder
                 'keperluan' => $keperluan,
                 'jenis_lgl' => $faker_lgl->randomElement($jenis_legalisir),
                 'ambil' => 'ditempat',
-                'role_surat' => $faker_lgl->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_lgl->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'wd1']),
                 'prd_id' => $user->prd_id,
                 'tanggal_surat' => $tanggal_surat,
             ]);
