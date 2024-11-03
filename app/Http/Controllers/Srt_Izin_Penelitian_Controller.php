@@ -19,9 +19,19 @@ use Hashids;
 
 class Srt_Izin_Penelitian_Controller extends Controller
 {
+
+    private function deletesurat()
+    {
+        DB::table('srt_izin_plt')
+            ->where('created_at', '<', Carbon::now('Asia/Jakarta')->subMonths(6))
+            ->delete();
+    }
+
     public function index(Request $request)
     {
         $user = Auth::user();
+
+        $this->deletesurat();
 
         $search = $request->input('search');
 
@@ -119,7 +129,8 @@ class Srt_Izin_Penelitian_Controller extends Controller
             'jbt_lmbg' => $request->jbt_lmbg,
             'almt_lmbg' => $request->almt_lmbg,
             'kota_lmbg' => $request->kota_lmbg,
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+            'tanggal_surat' => Carbon::now('Asia/Jakarta')->format('Y-m-d'),
+            "created_at" => Carbon::now('Asia/Jakarta'),
         ]);
 
         return redirect()->route('srt_izin_plt.index')->with('success', 'Surat berhasil dibuat');
@@ -280,7 +291,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
         $pdf = Pdf::loadView('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'));
 
         $namaMahasiswa = $srt_izin_plt->nama;
-        $tanggalSurat = Carbon::now()->format('Y-m-d');
+        $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         $fileName = 'Surat_Izin_Penelitian_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
         // $mpdf->Output($fileName, 'D');
         return $pdf->download($fileName);

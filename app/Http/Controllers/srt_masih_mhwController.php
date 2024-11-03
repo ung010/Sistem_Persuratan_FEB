@@ -19,9 +19,18 @@ use Hashids;
 
 class srt_masih_mhwController extends Controller
 {
+    private function deletesurat()
+    {
+        DB::table('srt_magang')
+            ->where('created_at', '<', Carbon::now('Asia/Jakarta')->subMonths(6))
+            ->delete();
+    }
+
   public function index(Request $request)
   {
     $user = Auth::user();
+
+    $this->deletesurat();
 
     $search = $request->input('search');
 
@@ -92,7 +101,7 @@ class srt_masih_mhwController extends Controller
     ]);
 
     $user = Auth::user();
-    
+
     $existingSurat = DB::table('srt_masih_mhw')
     ->where('users_id', $user->id)
     ->get();
@@ -101,7 +110,7 @@ class srt_masih_mhwController extends Controller
       if ($surat->tujuan_akhir === 'wd' && $request->tujuan_akhir === 'wd' && $surat->role_surat !== 'mahasiswa') {
           return redirect()->back()->withErrors(['error' => 'Surat dengan tujuan akhir Wakil Dekan sudah ada dan belum selesai.']);
       }
-  
+
       if ($surat->tujuan_akhir === 'manajer' && $request->tujuan_akhir === 'manajer' && $surat->role_surat !== 'mahasiswa') {
           return redirect()->back()->withErrors(['error' => 'Surat dengan tujuan akhir Manajer sudah ada dan belum selesai.']);
       }
@@ -120,7 +129,8 @@ class srt_masih_mhwController extends Controller
       'almt_smg' => $request->almt_smg,
       'tujuan_buat_srt' => $request->tujuan_buat_srt,
       'tujuan_akhir' => $request->tujuan_akhir,
-      'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+      'tanggal_surat' => Carbon::now('Asia/Jakarta')->format('Y-m-d'),
+      'created_at' => Carbon::now('Asia/Jakarta'),
     ]);
 
     return redirect()->route('srt_masih_mhw.index')->with('success', 'Surat berhasil dibuat');
@@ -248,7 +258,7 @@ class srt_masih_mhwController extends Controller
     $pdf = Pdf::loadView('srt_masih_mhw.view_manajer', compact('srt_masih_mhw', 'qrCodePath'));
 
     $namaMahasiswa = $srt_masih_mhw->nama;
-    $tanggalSurat = Carbon::now()->format('Y-m-d');
+    $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
     $fileName = 'Surat_Masih_Mahasiswa_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
     return $pdf->download($fileName);
   }
@@ -359,7 +369,7 @@ class srt_masih_mhwController extends Controller
     $pdf = Pdf::loadView('srt_masih_mhw.view_wd', compact('srt_masih_mhw', 'qrCodePath'));
 
     $namaMahasiswa = $srt_masih_mhw->nama;
-    $tanggalSurat = Carbon::now()->format('Y-m-d');
+    $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
     $fileName = 'Surat_Masih_Mahasiswa_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
     // $mpdf->Output($fileName, 'D');
     return $pdf->download($fileName);
@@ -479,7 +489,7 @@ class srt_masih_mhwController extends Controller
         'departement.id as dpt_id',
         'users.nama',
         'users.nmr_unik',
-        'users.almt_asl',        
+        'users.almt_asl',
         DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
         'departement.nama_dpt',
         'prodi.nama_prd',
@@ -574,7 +584,7 @@ class srt_masih_mhwController extends Controller
       )
       ->where('role_surat', 'manajer')
       ->orderBy('tanggal_surat', 'asc');
-      
+
     if ($search) {
       $query->where(function ($q) use ($search) {
         $q->where('nama_mhw', 'like', "%{$search}%")

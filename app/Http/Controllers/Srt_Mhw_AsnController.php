@@ -17,9 +17,18 @@ use Hashids;
 
 class Srt_Mhw_AsnController extends Controller
 {
+    private function deletesurat()
+    {
+        DB::table('srt_mhw_asn')
+            ->where('created_at', '<', Carbon::now('Asia/Jakarta')->subMonths(6))
+            ->delete();
+    }
+
   public function index(Request $request)
   {
     $user = Auth::user();
+
+    $this->deletesurat();
 
     $search = $request->input('search');
 
@@ -80,9 +89,9 @@ class Srt_Mhw_AsnController extends Controller
       'nip_ortu.required' => 'NIP orang tua wajib diisi',
       'ins_ortu.required' => 'Instansi orang tua wajib diisi',
     ]);
-      
+
     $user = Auth::user();
-  
+
     $existingSurat = DB::table('srt_mhw_asn')
         ->where('users_id', $user->id)
         ->where('role_surat', '!=', 'mahasiswa')
@@ -105,12 +114,13 @@ class Srt_Mhw_AsnController extends Controller
         'nama_ortu' => $request->nama_ortu,
         'nip_ortu' => $request->nip_ortu,
         'ins_ortu' => $request->ins_ortu,
-        'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        'created_at' => Carbon::now('Asia/Jakarta'),
+        'tanggal_surat' => Carbon::now('Asia/Jakarta')->format('Y-m-d'),
     ]);
 
     return redirect()->route('srt_mhw_asn.index')->with('success', 'Surat berhasil dibuat');
   }
-  
+
 
   public function edit($id)
   {
@@ -209,7 +219,7 @@ class Srt_Mhw_AsnController extends Controller
     // Return the generated PDF as a download
 
     $namaMahasiswa = $srt_mhw_asn->nama;
-    $tanggalSurat = Carbon::now()->format('Y-m-d');
+    $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
     $fileName = 'Surat_Mahasiswa_Bagi_ASN_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
     return $pdf->download($fileName);
     // $mpdf->Output($fileName, 'D');

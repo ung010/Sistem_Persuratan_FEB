@@ -12,9 +12,38 @@ use Hashids;
 
 class Legalisir_Controller extends Controller
 {
+
+    private function deleteExpiredSurat()
+    {
+        $expiredSurat = DB::table('legalisir')
+            ->where('created_at', '<', Carbon::now('Asia/Jakarta')->subMonths(6))
+            ->get();
+
+        foreach ($expiredSurat as $surat) {
+            if ($surat->file_ijazah) {
+                $filePathIjazah = public_path('storage/pdf/legalisir/ijazah/' . $surat->file_ijazah);
+                if (file_exists($filePathIjazah)) {
+                    unlink($filePathIjazah);
+                }
+            }
+
+            if ($surat->file_transkrip) {
+                $filePathTranskrip = public_path('storage/pdf/legalisir/transkrip/' . $surat->file_transkrip);
+                if (file_exists($filePathTranskrip)) {
+                    unlink($filePathTranskrip);
+                }
+            }
+
+            DB::table('legalisir')->where('id', $surat->id)->delete();
+        }
+    }
+
+
     public function index(Request $request)
     {
         $user = Auth::user();
+
+        $this->deleteExpiredSurat();
 
         $search = $request->input('search');
 
@@ -93,7 +122,7 @@ class Legalisir_Controller extends Controller
         $nama_ijazah = null;
         if ($request->hasFile('file_ijazah')) {
             $file_ijazah = $request->file('file_ijazah');
-            $tanggal_file = Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
+            $tanggal_file = Carbon::now('Asia/Jakarta')->format('Y-m-d_His');
             $nama_ijazah = 'Ijazah_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '_' . $tanggal_file . '.' . $file_ijazah->getClientOriginalExtension();
             $file_ijazah->move(public_path('storage/pdf/legalisir/ijazah'), $nama_ijazah);
         }
@@ -101,7 +130,7 @@ class Legalisir_Controller extends Controller
         $nama_transkrip = null;
         if ($request->hasFile('file_transkrip')) {
             $file_transkrip = $request->file('file_transkrip');
-            $tanggal_file = Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
+            $tanggal_file = Carbon::now('Asia/Jakarta')->format('Y-m-d_His');
             $nama_transkrip = 'Transkrip_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '_' . $tanggal_file . '.' . $file_transkrip->getClientOriginalExtension();
             $file_transkrip->move(public_path('storage/pdf/legalisir/transkrip'), $nama_transkrip);
         }
@@ -109,23 +138,23 @@ class Legalisir_Controller extends Controller
         $existingSurat = DB::table('legalisir')
         ->where('users_id', $user->id)
         ->first();
-    
+
         if ($existingSurat) {
             if ($request->jenis_lgl === 'ijazah' && $existingSurat->jenis_lgl === 'ijazah_transkrip') {
                 return redirect()->back()->withErrors(['error' => 'Anda sudah mengajukan legalisir ijazah dan transkrip, tidak bisa mengajukan lagi.']);
             }
-        
+
             if ($request->jenis_lgl === 'transkrip' && $existingSurat->jenis_lgl === 'ijazah_transkrip') {
                 return redirect()->back()->withErrors(['error' => 'Sudah mengajukan legalisir ijazah dan transkrip, tidak bisa mengajukan lagi.']);
             }
-        
+
             if ($request->jenis_lgl === 'ijazah_transkrip' && in_array($existingSurat->jenis_lgl, ['ijazah', 'transkrip'])) {
                 return redirect()->back()->withErrors(['error' => 'Tidak bisa mengajukan legalisir karena sudah mengajukan sebelumnya']);
             }
         }
-    
+
         $id_lgl = mt_rand(1000000000000, 9999999999999);
-        
+
         $data = [
             'id' => $id_lgl,
             'users_id' => $user->id,
@@ -142,9 +171,10 @@ class Legalisir_Controller extends Controller
             'kota_kirim' => $request->kota_kirim,
             'file_ijazah' => $nama_ijazah,
             'file_transkrip' => $nama_transkrip,
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+            'tanggal_surat' => Carbon::now('Asia/Jakarta')->format('Y-m-d'),
+            'created_at' => Carbon::now('Asia/Jakarta'),
         ];
-        
+
         DB::table('legalisir')->insert($data);
 
         return redirect()->route('legalisir.index')->with('success', 'Legalisir berhasil dibuat');
@@ -196,7 +226,7 @@ class Legalisir_Controller extends Controller
         if ($request->hasFile('file_ijazah')) {
             $file_ijazah = $request->file('file_ijazah');
             $ijazah_extensi = $file_ijazah->extension();
-            $tanggal_file = Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
+            $tanggal_file = Carbon::now('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
             $nama_ijazah = 'Ijazah_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '_' . $tanggal_file . '.' . $ijazah_extensi;
             $file_ijazah->move(public_path('storage/pdf/legalisir/ijazah'), $nama_ijazah);
             $updateData['file_ijazah'] = $nama_ijazah;
@@ -207,7 +237,7 @@ class Legalisir_Controller extends Controller
         if ($request->hasFile('file_transkrip')) {
             $file_transkrip = $request->file('file_transkrip');
             $transkrip_extensi = $file_transkrip->extension();
-            $tanggal_file = Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
+            $tanggal_file = Carbon::now('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
             $nama_transkrip = 'Transkrip_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '_' . $tanggal_file . '.' . $transkrip_extensi;
             $file_transkrip->move(public_path('storage/pdf/legalisir/transkrip'), $nama_transkrip);
             $updateData['file_transkrip'] = $nama_transkrip;
