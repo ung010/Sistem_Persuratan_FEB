@@ -24,7 +24,7 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ];
-        
+
         if(Auth::attempt($infologin)){
 
             if (Auth::user()->role == 'mahasiswa'){
@@ -37,6 +37,10 @@ class LoginController extends Controller
                 return redirect('/supervisor_sd');
             } elseif (Auth::user()->role == 'manajer') {
                 return redirect('/manajer');
+            } elseif (Auth::user()->role == 'wd1') {
+                return redirect('/wd1');
+            } elseif (Auth::user()->role == 'wd2') {
+                return redirect('/wd2');
             } elseif (Auth::user()->role == 'non_mahasiswa') {
                 return redirect('/non_user');
             } elseif (Auth::user()->role == 'del_mahasiswa') {

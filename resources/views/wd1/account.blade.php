@@ -1,4 +1,4 @@
-@extends('template/manajer')
+@extends('template/wd1')
 @section('inti_data')
 <head>
     <title>My Account {{ auth()->user()->nama }}</title>

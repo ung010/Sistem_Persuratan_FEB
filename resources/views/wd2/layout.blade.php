@@ -41,20 +41,10 @@
                         </button>
                         <div class="collapse" id="orders-collapse" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/srt_mhw_asn/manajer" class="link-dark rounded">Keterangan Masih Kuliah (Bagi
-                                    ASN)</a>
-                                <a href="/srt_masih_mhw/manajer" class="link-dark rounded">Keterangan Masih
-                                    Mahasiswa</a>
-                                <a href="/srt_magang/manajer" class="link-dark rounded">Izin Magang</a>
-                                <a href="/srt_izin_plt/manajer" class="link-dark rounded">Izin Penelitian</a>
                                 <a href="/srt_pmhn_kmbali_biaya/manajer" class="link-dark rounded">Permohonan
                                     Pengembalian
                                     Biaya
                                     Pendidikan</a>
-                                <a href="/legalisir/manajer/ditempat/ijazah" class="link-dark rounded">Legalisir Diambil
-                                    di Tempat</a>
-                                <a href="/legalisir/manajer/dikirim/ijazah" class="link-dark rounded">Legalisir
-                                    Dikirim</a>
                             </div>
                         </div>
                     </li>
@@ -67,22 +57,15 @@
 
                         <div class="collapse" id="orders-collapse-riwayat" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/riwayat_srt/manajer/srt_mhw_asn" class="link-dark rounded">Keterangan Masih Kuliah (Bagi
-                                ASN)</a>
-                                <a href="/riwayat_srt/manajer/srt_masih_mhw" class="link-dark rounded">Keterangan Masih
-                                Mahasiswa</a>
-                                <a href="/riwayat_srt/manajer/srt_magang" class="link-dark rounded">Izin Magang</a>
-                                <a href="/riwayat_srt/manajer/srt_izin_plt" class="link-dark rounded">Izin Penelitian</a>
                                 <a href="/riwayat_srt/manajer/srt_pmhn_kmbali_biaya" class="link-dark rounded">Permohonan
                                     Pengembalian Biaya Pendidikan</a>
-                                <a href="/riwayat_srt/manajer/legalisir" class="link-dark rounded">Legalisir</a>
                             </div>
                         </div>
                     </li>
-                    <li class="mb-1">
+                    {{-- <li class="mb-1">
                         <a href="/manajer/manage_spv" class="link-dark"><img src="{{ asset('asset/icons/user.png') }}"
                                 alt="Icon" style="height: 16px;"> Manajemen Supervisor</a>
-                    </li>
+                    </li> --}}
                     <li class="mb-1">
                         <a href="/survey/manajer" class="link-dark"><img src="{{ asset('asset/icons/survey.png') }}"
                                 alt="Icon" style="height: 16px;"> Survey

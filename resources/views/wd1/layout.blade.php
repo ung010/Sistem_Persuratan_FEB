@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajer Page</title>
+    <title>Wakil Dekan 1 Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- DataTables CSS -->
@@ -24,37 +24,26 @@
                 <ul class="list-unstyled ps-0">
                     <li class="border-top my-3 border-dark"></li>
                     <li class="mb-1">
-                        <a href="/manajer" class="link-dark"><img src="{{ asset('asset/icons/admin.png') }}"
+                        <a href="/wd1" class="link-dark"><img src="{{ asset('asset/icons/admin.png') }}"
                                 alt="Icon" style="height: 16px;"> {{ auth()->user()->nama }}</a>
                     </li>
                     <li class="border-top my-3 border-dark"></li>
                     <li class="mb-1">
-                        <a href="/manajer" class="link-dark"><img src="{{ asset('asset/icons/dashboard.png') }}"
+                        <a href="/wd1" class="link-dark"><img src="{{ asset('asset/icons/dashboard.png') }}"
                                 alt="Icon" style="height: 16px;"> Dashboard</a>
                     </li>
                     <li class="mb-1">
                         <button class="btn btn-toggle align-items-center rounded collapsed p-0 link-dark"
                             data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false"><img
                                 src="{{ asset('asset/icons/mail.png') }}" alt="Icon" style="height: 16px;">
-                            Manajemen
-                            Surat
+                            Manajemen Surat
                         </button>
                         <div class="collapse" id="orders-collapse" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/srt_mhw_asn/manajer" class="link-dark rounded">Keterangan Masih Kuliah (Bagi
-                                    ASN)</a>
-                                <a href="/srt_masih_mhw/manajer" class="link-dark rounded">Keterangan Masih
+                                <a href="/srt_masih_mhw/wd1" class="link-dark rounded">Keterangan Masih
                                     Mahasiswa</a>
-                                <a href="/srt_magang/manajer" class="link-dark rounded">Izin Magang</a>
-                                <a href="/srt_izin_plt/manajer" class="link-dark rounded">Izin Penelitian</a>
-                                <a href="/srt_pmhn_kmbali_biaya/manajer" class="link-dark rounded">Permohonan
-                                    Pengembalian
-                                    Biaya
-                                    Pendidikan</a>
-                                <a href="/legalisir/manajer/ditempat/ijazah" class="link-dark rounded">Legalisir Diambil
-                                    di Tempat</a>
-                                <a href="/legalisir/manajer/dikirim/ijazah" class="link-dark rounded">Legalisir
-                                    Dikirim</a>
+                                <a href="/srt_magang/wd1" class="link-dark rounded">Izin Magang</a>
+                                <a href="/srt_izin_plt/wd1" class="link-dark rounded">Izin Penelitian</a>
                             </div>
                         </div>
                     </li>
@@ -67,24 +56,15 @@
 
                         <div class="collapse" id="orders-collapse-riwayat" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/riwayat_srt/manajer/srt_mhw_asn" class="link-dark rounded">Keterangan Masih Kuliah (Bagi
-                                ASN)</a>
-                                <a href="/riwayat_srt/manajer/srt_masih_mhw" class="link-dark rounded">Keterangan Masih
+                                <a href="/riwayat_srt/wd1/srt_masih_mhw" class="link-dark rounded">Keterangan Masih
                                 Mahasiswa</a>
-                                <a href="/riwayat_srt/manajer/srt_magang" class="link-dark rounded">Izin Magang</a>
-                                <a href="/riwayat_srt/manajer/srt_izin_plt" class="link-dark rounded">Izin Penelitian</a>
-                                <a href="/riwayat_srt/manajer/srt_pmhn_kmbali_biaya" class="link-dark rounded">Permohonan
-                                    Pengembalian Biaya Pendidikan</a>
-                                <a href="/riwayat_srt/manajer/legalisir" class="link-dark rounded">Legalisir</a>
+                                <a href="/riwayat_srt/wd1/srt_magang" class="link-dark rounded">Izin Magang</a>
+                                <a href="/riwayat_srt/wd1/srt_izin_plt" class="link-dark rounded">Izin Penelitian</a>
                             </div>
                         </div>
                     </li>
                     <li class="mb-1">
-                        <a href="/manajer/manage_spv" class="link-dark"><img src="{{ asset('asset/icons/user.png') }}"
-                                alt="Icon" style="height: 16px;"> Manajemen Supervisor</a>
-                    </li>
-                    <li class="mb-1">
-                        <a href="/survey/manajer" class="link-dark"><img src="{{ asset('asset/icons/survey.png') }}"
+                        <a href="/survey/wd1" class="link-dark"><img src="{{ asset('asset/icons/survey.png') }}"
                                 alt="Icon" style="height: 16px;"> Survey
                             Kepuasan</a>
                     </li>

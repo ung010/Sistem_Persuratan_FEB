@@ -21,6 +21,7 @@ use App\Http\Controllers\Supervisor_Legalisir_Controller;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\Survey_Controller;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WDController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -151,6 +152,20 @@ Route::middleware('auth')->group(function () {
     middleware('UserAkses:manajer');
     Route::post('/manajer/account/update/{id}', [ManajerController::class, 'update_account'])->name('manajer.update_account')->
     middleware('UserAkses:manajer');
+
+    route::get('/wd1', [WDController::class, 'index_wd1'])->name('wd1.index')->
+    middleware('UserAkses:wd1');
+    Route::get('/wd1/account', [WDController::class, 'edit_account'])->name('wd1.edit_account')->
+    middleware('UserAkses:wd1');
+    Route::post('/wd1/account/update/{id}', [WDController::class, 'update_account'])->name('wd1.update_account')->
+    middleware('UserAkses:wd1');
+
+    route::get('/wd2', [WDController::class, 'index_wd2'])->name('wd2.index')->
+    middleware('UserAkses:wd2');
+    Route::get('/wd2/account', [WDController::class, 'edit_account'])->name('wd2.edit_account')->
+    middleware('UserAkses:wd2');
+    Route::post('/wd2/account/update/{id}', [WDController::class, 'update_account'])->name('wd2.update_account')->
+    middleware('UserAkses:wd2');
 
 
     // Surat Mahasiswa ASN
