@@ -427,8 +427,14 @@ Route::middleware('auth')->group(function () {
     ->middleware('UserAkses:supervisor_sd');
     Route::get('/srt_bbs_pnjm/supervisor/search', [Srt_Bbs_Pnjam_Controller::class, 'supervisor'])->name('srt_bbs_pnjm.sv_search')
     ->middleware('UserAkses:supervisor_sd');
-    Route::post('/srt_bbs_pnjm/supervisor/setuju/{id}',  [Srt_Bbs_Pnjam_Controller::class, 'setuju_sv'])->name('srt_bbs_pnjm.sv_setuju')
+    Route::get('/srt_bbs_pnjm/supervisor/cek_surat/{id}', [Srt_Bbs_Pnjam_Controller::class, 'sv_cek'])->name('srt_bbs_pnjm.sv_cek')
     ->middleware('UserAkses:supervisor_sd');
+    Route::post('/srt_bbs_pnjm/supervisor/setuju/{id}',  [Srt_Bbs_Pnjam_Controller::class, 'sv_setuju'])->name('srt_bbs_pnjm.sv_setuju')
+    ->middleware('UserAkses:supervisor_sd');
+    Route::post('/srt_bbs_pnjm/supervisor/cek_surat/tolak/{id}',  [Srt_Bbs_Pnjam_Controller::class, 'sv_tolak'])->name('srt_bbs_pnjm.sv_tolak')
+    ->middleware('UserAkses:supervisor_sd');
+    // Route::post('/srt_bbs_pnjm/supervisor/setuju/{id}',  [Srt_Bbs_Pnjam_Controller::class, 'setuju_sv'])->name('srt_bbs_pnjm.sv_setuju')
+    // ->middleware('UserAkses:supervisor_sd');
 
     // Legalisir
 

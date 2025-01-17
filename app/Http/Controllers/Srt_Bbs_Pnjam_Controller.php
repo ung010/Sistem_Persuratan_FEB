@@ -317,13 +317,61 @@ class Srt_Bbs_Pnjam_Controller extends Controller
     return view('srt_bbs_pnjm.supervisor', compact('data'));
   }
 
-  function setuju_sv($id)
+  function sv_cek($id)
+  {
+    $srt_bbs_pnjm = DB::table('srt_bbs_pnjm')
+      ->join('prodi', 'srt_bbs_pnjm.prd_id', '=', 'prodi.id')
+      ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+      ->where('srt_bbs_pnjm.id', $id)
+      ->select(
+        'srt_bbs_pnjm.id',
+        'srt_bbs_pnjm.no_surat',
+        'srt_bbs_pnjm.tanggal_surat',
+        'srt_bbs_pnjm.nama_mhw',
+        'users.id as users_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
+        'users.nama',
+        'users.nmr_unik',
+        'users.nowa',
+        'users.foto',
+        'departement.nama_dpt',
+        'prodi.nama_prd',
+        'srt_bbs_pnjm.dosen_wali',
+        'srt_bbs_pnjm.almt_smg',
+        'srt_bbs_pnjm.role_surat',
+      )
+      ->first();
+    return view('srt_bbs_pnjm.cek_sv', compact('srt_bbs_pnjm'));
+  }
+
+  function sv_setuju(Request $request, $id)
   {
     $srt_bbs_pnjm = srt_bbs_pnjm::where('id', $id)->first();
 
     $srt_bbs_pnjm->role_surat = 'mahasiswa';
 
     $srt_bbs_pnjm->save();
-    return redirect()->back()->with('success', 'Surat berhasil disetujui');
+    return redirect()->route('srt_bbs_pnjm.supervisor')->with('success', 'Surat telah disetujui');
   }
+
+  function sv_tolak(Request $request, $id)
+  {
+    $srt_bbs_pnjm = srt_bbs_pnjm::where('id', $id)->first();
+
+    $request->validate([
+      'catatan_surat' => 'required',
+    ], [
+      'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+    ]);
+
+    $srt_bbs_pnjm->catatan_surat = $request->catatan_surat . ' - Supervisor Sumber Daya';
+    $srt_bbs_pnjm->catatan_surat = $request->catatan_surat;
+    $srt_bbs_pnjm->role_surat = 'tolak';
+
+    $srt_bbs_pnjm->save();
+    return redirect()->route('srt_bbs_pnjm.supervisor')->with('success', 'Alasan penolakan telah dikirimkan');
+  }
+
 }
