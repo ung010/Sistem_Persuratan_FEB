@@ -148,6 +148,23 @@ class DatabaseSeeder extends Seeder
                 'nama_ibu' => 'Rosa0',
                 'foto' => $imageName,
             ],
+            [
+                'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Aung',
+                'nmr_unik' => '21120120160155',
+                'email' => 'satu@gmail.com',
+                'password' => bcrypt('1234567'),
+                'role' => 'mahasiswa',
+                'status' => 'mahasiswa',
+                'kota' => 'Wonosobo',
+                'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 11 - 2001'),
+                'nowa' => '081214549624',
+                'almt_asl' => 'Jl Kenari No 20 RT 2 RW 3 Wonosobo Jawa Timur',
+                'prd_id' => 1,
+                'catatan_user' => '-',
+                'nama_ibu' => 'Zahra',
+                'foto' => $imageName,
+            ],
             // [
             //     'id' => mt_rand(1000000000000, 9999999999999),
             //     'nama' => 'Didan',
@@ -302,7 +319,7 @@ class DatabaseSeeder extends Seeder
             ->toArray();
 
         $alasan_acak = ['sakit', 'berpegian', 'menjenguk', 'acara keluarga', 'urusan pribadi'];
-        $list_role = ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'];
+        $list_role = ['admin', 'supervisor_akd', 'manajer', 'wd1'];
 
         foreach (range(1, 50) as $index) {
 
@@ -367,7 +384,7 @@ class DatabaseSeeder extends Seeder
                 'ipk' => $ipk,
                 'sksk' => $sksk,
                 'jbt_lmbg' => $jbt_lmbg,
-                'role_surat' => $faker_srt_magang->randomElement(['admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_srt_magang->randomElement(['admin', 'supervisor_akd', 'manajer', 'wd1']),
                 'nama_lmbg' => $faker_srt_magang->company(),
                 'kota_lmbg' => $faker_srt_magang->city(),
                 'almt_lmbg' => $faker_srt_magang->address(),
@@ -417,7 +434,7 @@ class DatabaseSeeder extends Seeder
                 'lampiran' => $lampiran,
                 'jbt_lmbg' => $jbt_lmbg,
                 'jenis_surat' => $jenis_surat,
-                'role_surat' => $faker_srt_plt->randomElement(['admin', 'supervisor_akd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_srt_plt->randomElement(['admin', 'supervisor_akd', 'manajer', 'wd1']),
                 'nama_lmbg' => $faker_srt_plt->company(),
                 'kota_lmbg' => $faker_srt_plt->city(),
                 'almt_lmbg' => $faker_srt_plt->address(),
@@ -449,7 +466,7 @@ class DatabaseSeeder extends Seeder
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
-                'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['admin', 'supervisor_sd', 'manajer', 'manajer_sukses']),
+                'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['admin', 'supervisor_sd', 'manajer', 'wd2']),
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }

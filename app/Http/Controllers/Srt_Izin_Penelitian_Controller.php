@@ -219,8 +219,8 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'nama_mhw',
                 'role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
-            ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'wd1'])
+            ->orderByRaw("FIELD(role_surat, 'admin', 'supervisor_akd', 'manajer', 'wd1')")
             ->orderBy('tanggal_surat', 'asc');
 
         if ($search) {
@@ -235,106 +235,106 @@ class Srt_Izin_Penelitian_Controller extends Controller
         return view('srt_izin_plt.admin', compact('data'));
     }
 
-    function admin_unduh($id)
-    {
-        $srt_izin_plt = DB::table('srt_izin_plt')
-            ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
-            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
-            ->where('srt_izin_plt.id', $id)
-            ->select(
-                'srt_izin_plt.id',
-                'srt_izin_plt.no_surat',
-                'srt_izin_plt.tanggal_surat',
-                'srt_izin_plt.nama_mhw',
-                'users.id as users_id',
-                'prodi.id as prodi_id',
-                'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
-                'users.nowa',
-                'users.email',
-                'users.almt_asl',
-                'departement.nama_dpt',
-                'prodi.nama_prd',
-                'srt_izin_plt.semester',
-                'srt_izin_plt.judul_data',
-                'srt_izin_plt.nama_lmbg',
-                'srt_izin_plt.jbt_lmbg',
-                'srt_izin_plt.kota_lmbg',
-                'srt_izin_plt.almt_lmbg',
-                'srt_izin_plt.role_surat',
-            )
-            ->first();
+    // function admin_unduh($id)
+    // {
+    //     $srt_izin_plt = DB::table('srt_izin_plt')
+    //         ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
+    //         ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
+    //         ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+    //         ->where('srt_izin_plt.id', $id)
+    //         ->select(
+    //             'srt_izin_plt.id',
+    //             'srt_izin_plt.no_surat',
+    //             'srt_izin_plt.tanggal_surat',
+    //             'srt_izin_plt.nama_mhw',
+    //             'users.id as users_id',
+    //             'prodi.id as prodi_id',
+    //             'departement.id as dpt_id',
+    //             'users.nama',
+    //             'users.nmr_unik',
+    //             'users.nowa',
+    //             'users.email',
+    //             'users.almt_asl',
+    //             'departement.nama_dpt',
+    //             'prodi.nama_prd',
+    //             'srt_izin_plt.semester',
+    //             'srt_izin_plt.judul_data',
+    //             'srt_izin_plt.nama_lmbg',
+    //             'srt_izin_plt.jbt_lmbg',
+    //             'srt_izin_plt.kota_lmbg',
+    //             'srt_izin_plt.almt_lmbg',
+    //             'srt_izin_plt.role_surat',
+    //         )
+    //         ->first();
 
-        if (!$srt_izin_plt) {
-            return redirect()->back()->with('error', 'Data not found');
-        }
+    //     if (!$srt_izin_plt) {
+    //         return redirect()->back()->with('error', 'Data not found');
+    //     }
 
-        if ($srt_izin_plt->tanggal_surat) {
-            $srt_izin_plt->tanggal_surat = Carbon::parse($srt_izin_plt->tanggal_surat)->format('d-m-Y');
-        }
+    //     if ($srt_izin_plt->tanggal_surat) {
+    //         $srt_izin_plt->tanggal_surat = Carbon::parse($srt_izin_plt->tanggal_surat)->format('d-m-Y');
+    //     }
 
-        $qrUrl = url('/legal/srt_izin_plt/' . $srt_izin_plt->id);
-        $qrCodePath = 'storage/qrcodes/qr-' . $srt_izin_plt->id . '.png';
-        $qrCodeFullPath = public_path($qrCodePath);
+    //     $qrUrl = url('/legal/srt_izin_plt/' . $srt_izin_plt->id);
+    //     $qrCodePath = 'storage/qrcodes/qr-' . $srt_izin_plt->id . '.png';
+    //     $qrCodeFullPath = public_path($qrCodePath);
 
-        if (!File::exists(dirname($qrCodeFullPath))) {
-            File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
-        }
+    //     if (!File::exists(dirname($qrCodeFullPath))) {
+    //         File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
+    //     }
 
-        QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
+    //     QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
 
-        // $mpdf = new Mpdf();
-        // $html = View::make('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'))->render();
-        // $mpdf->WriteHTML($html);
-        $pdf = Pdf::loadView('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'));
+    //     // $mpdf = new Mpdf();
+    //     // $html = View::make('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'))->render();
+    //     // $mpdf->WriteHTML($html);
+    //     $pdf = Pdf::loadView('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'));
 
-        $namaMahasiswa = $srt_izin_plt->nama;
-        $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-        $fileName = 'Surat_Izin_Penelitian_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
-        // $mpdf->Output($fileName, 'D');
-        return $pdf->download($fileName);
-    }
+    //     $namaMahasiswa = $srt_izin_plt->nama;
+    //     $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+    //     $fileName = 'Surat_Izin_Penelitian_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+    //     // $mpdf->Output($fileName, 'D');
+    //     return $pdf->download($fileName);
+    // }
 
-    public function admin_unggah(Request $request, $id)
-    {
-        $request->validate([
-            'srt_izin_plt' => 'required|mimes:pdf'
-        ], [
-            'srt_izin_plt.required' => 'Surat wajib diisi',
-            'srt_izin_plt.mimes' => 'Surat wajib berbentuk / berekstensi PDF',
-        ]);
+    // public function admin_unggah(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'srt_izin_plt' => 'required|mimes:pdf'
+    //     ], [
+    //         'srt_izin_plt.required' => 'Surat wajib diisi',
+    //         'srt_izin_plt.mimes' => 'Surat wajib berbentuk / berekstensi PDF',
+    //     ]);
 
-        $srt_izin_plt = DB::table('srt_izin_plt')
-            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
-            ->where('srt_izin_plt.id', $id)
-            ->select(
-                'srt_izin_plt.id',
-                'users.nama',
-                'srt_izin_plt.tanggal_surat'
-            )
-            ->first();
+    //     $srt_izin_plt = DB::table('srt_izin_plt')
+    //         ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
+    //         ->where('srt_izin_plt.id', $id)
+    //         ->select(
+    //             'srt_izin_plt.id',
+    //             'users.nama',
+    //             'srt_izin_plt.tanggal_surat'
+    //         )
+    //         ->first();
 
-        if (!$srt_izin_plt) {
-            return redirect()->back()->withErrors('Data surat tidak ditemukan.');
-        }
+    //     if (!$srt_izin_plt) {
+    //         return redirect()->back()->withErrors('Data surat tidak ditemukan.');
+    //     }
 
-        $tanggal_surat = Carbon::parse($srt_izin_plt->tanggal_surat)->format('d-m-Y');
-        $nama_mahasiswa = Str::slug($srt_izin_plt->nama);
+    //     $tanggal_surat = Carbon::parse($srt_izin_plt->tanggal_surat)->format('d-m-Y');
+    //     $nama_mahasiswa = Str::slug($srt_izin_plt->nama);
 
-        $file = $request->file('srt_izin_plt');
-        $surat_extensi = $file->extension();
-        $nama_surat = "Surat_Izin_Penelitian_{$tanggal_surat}_{$nama_mahasiswa}." . $surat_extensi;
-        $file->move(public_path('storage/pdf/srt_izin_plt'), $nama_surat);
+    //     $file = $request->file('srt_izin_plt');
+    //     $surat_extensi = $file->extension();
+    //     $nama_surat = "Surat_Izin_Penelitian_{$tanggal_surat}_{$nama_mahasiswa}." . $surat_extensi;
+    //     $file->move(public_path('storage/pdf/srt_izin_plt'), $nama_surat);
 
-        srt_izin_penelitian::where('id', $id)->update([
-            'file_pdf' => $nama_surat,
-            'role_surat' => 'mahasiswa',
-        ]);
+    //     srt_izin_penelitian::where('id', $id)->update([
+    //         'file_pdf' => $nama_surat,
+    //         'role_surat' => 'mahasiswa',
+    //     ]);
 
-        return redirect()->back()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
-    }
+    //     return redirect()->back()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
+    // }
 
     function admin_cek($id)
     {
@@ -481,7 +481,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
     {
         $srt_izin_plt = srt_izin_penelitian::where('id', $id)->first();
 
-        $srt_izin_plt->role_surat = 'manajer_sukses';
+        $srt_izin_plt->role_surat = 'wd1';
 
         $srt_izin_plt->save();
         return redirect()->route('srt_izin_plt.manajer')->with('success', 'Surat berhasil disetujui');

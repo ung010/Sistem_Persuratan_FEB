@@ -27,8 +27,8 @@
                                 <th>Nama Mahasiswa</th>
                                 <th>Cek Data</th>
                                 <th>Status</th>
-                                <th>Unduh</th>
-                                <th>Dikirim</th>
+                                {{-- <th>Unduh</th>
+                                <th>Dikirim</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -52,13 +52,13 @@
                                         Verif Supervisor Akademik
                                     @elseif ($item->role_surat == 'manajer')
                                         Verif Manajer
-                                    @elseif ($item->role_surat == 'manajer_sukses')
-                                        Manajer telah verifikasi
+                                    @elseif ($item->role_surat == 'wd1')
+                                        Verif Wakil Dekan 1
                                     @else
                                         Ditolak
                                     @endif
                                 </td>
-                                <td>
+                                {{-- <td>
                                     @if ($item->role_surat == 'manajer_sukses')
                                         <a href='{{ url('/srt_masih_mhw/manajer_wd/download/' . $item->id) }}'
                                             class="btn btn-primary btn-sm">Unduh</a>
@@ -76,8 +76,7 @@
                                     @else
                                         <button class="btn btn-secondary btn-sm" disabled>Unggah</button>
                                     @endif
-
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                         </tbody>

@@ -62,10 +62,6 @@
                             </div>
                         </div>
                     </li>
-                    {{-- <li class="mb-1">
-                        <a href="/manajer/manage_spv" class="link-dark"><img src="{{ asset('asset/icons/user.png') }}"
-                                alt="Icon" style="height: 16px;"> Manajemen Supervisor</a>
-                    </li> --}}
                     <li class="mb-1">
                         <a href="/survey/manajer" class="link-dark"><img src="{{ asset('asset/icons/survey.png') }}"
                                 alt="Icon" style="height: 16px;"> Survey

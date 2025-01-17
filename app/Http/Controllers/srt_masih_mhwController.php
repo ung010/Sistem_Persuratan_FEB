@@ -298,8 +298,8 @@ class srt_masih_mhwController extends Controller
         'role_surat',
         'tujuan_akhir'
       )
-      ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
-      ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+      ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'wd1'])
+      ->orderByRaw("FIELD(role_surat, 'admin', 'supervisor_akd', 'manajer', 'wd1')")
       ->orderBy('tanggal_surat', 'asc')
       ->where('tujuan_akhir', 'wd');
 
@@ -315,104 +315,104 @@ class srt_masih_mhwController extends Controller
     return view('srt_masih_mhw.wd', compact('data'));
   }
 
-  function wd_unduh($id)
-  {
-    $srt_masih_mhw = DB::table('srt_masih_mhw')
-      ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
-      ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
-      ->where('srt_masih_mhw.id', $id)
-      ->select(
-        'srt_masih_mhw.id',
-        'users.id as users_id',
-        'prodi.id as prd_id',
-        'departement.id as dpt_id',
-        'users.nama',
-        'srt_masih_mhw.nama_mhw',
-        'srt_masih_mhw.no_surat',
-        'users.nmr_unik',
-        'departement.nama_dpt',
-        'prodi.nama_prd',
-        'srt_masih_mhw.thn_awl',
-        'srt_masih_mhw.thn_akh',
-        'srt_masih_mhw.almt_smg',
-        'users.nowa',
-        DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
-        'srt_masih_mhw.tujuan_buat_srt',
-        'srt_masih_mhw.role_surat',
-        'srt_masih_mhw.tujuan_akhir',
-        'srt_masih_mhw.tanggal_surat'
-      )
-      ->first();
+//   function wd_unduh($id)
+//   {
+//     $srt_masih_mhw = DB::table('srt_masih_mhw')
+//       ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
+//       ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
+//       ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+//       ->where('srt_masih_mhw.id', $id)
+//       ->select(
+//         'srt_masih_mhw.id',
+//         'users.id as users_id',
+//         'prodi.id as prd_id',
+//         'departement.id as dpt_id',
+//         'users.nama',
+//         'srt_masih_mhw.nama_mhw',
+//         'srt_masih_mhw.no_surat',
+//         'users.nmr_unik',
+//         'departement.nama_dpt',
+//         'prodi.nama_prd',
+//         'srt_masih_mhw.thn_awl',
+//         'srt_masih_mhw.thn_akh',
+//         'srt_masih_mhw.almt_smg',
+//         'users.nowa',
+//         DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+//         'srt_masih_mhw.tujuan_buat_srt',
+//         'srt_masih_mhw.role_surat',
+//         'srt_masih_mhw.tujuan_akhir',
+//         'srt_masih_mhw.tanggal_surat'
+//       )
+//       ->first();
 
-    if (!$srt_masih_mhw) {
-      return redirect()->back()->with('error', 'Data not found');
-    }
+//     if (!$srt_masih_mhw) {
+//       return redirect()->back()->with('error', 'Data not found');
+//     }
 
-    if ($srt_masih_mhw->tanggal_surat) {
-      $srt_masih_mhw->tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->format('d-m-Y');
-    }
+//     if ($srt_masih_mhw->tanggal_surat) {
+//       $srt_masih_mhw->tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->format('d-m-Y');
+//     }
 
-    $qrUrl = url('/legal/srt_masih_mhw/' . $srt_masih_mhw->id);
-    $qrCodePath = 'storage/qrcodes/qr-' . $srt_masih_mhw->id . '.png';
-    $qrCodeFullPath = public_path($qrCodePath);
+//     $qrUrl = url('/legal/srt_masih_mhw/' . $srt_masih_mhw->id);
+//     $qrCodePath = 'storage/qrcodes/qr-' . $srt_masih_mhw->id . '.png';
+//     $qrCodeFullPath = public_path($qrCodePath);
 
-    if (!File::exists(dirname($qrCodeFullPath))) {
-      File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
-    }
+//     if (!File::exists(dirname($qrCodeFullPath))) {
+//       File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
+//     }
 
-    QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
+//     QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
 
-    // $mpdf = new Mpdf();
-    // $html = View::make('srt_masih_mhw.view_wd', compact('srt_masih_mhw', 'qrCodePath'))->render();
-    // $mpdf->WriteHTML($html);
-    $pdf = Pdf::loadView('srt_masih_mhw.view_wd', compact('srt_masih_mhw', 'qrCodePath'));
+//     // $mpdf = new Mpdf();
+//     // $html = View::make('srt_masih_mhw.view_wd', compact('srt_masih_mhw', 'qrCodePath'))->render();
+//     // $mpdf->WriteHTML($html);
+//     $pdf = Pdf::loadView('srt_masih_mhw.view_wd', compact('srt_masih_mhw', 'qrCodePath'));
 
-    $namaMahasiswa = $srt_masih_mhw->nama;
-    $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-    $fileName = 'Surat_Masih_Mahasiswa_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
-    // $mpdf->Output($fileName, 'D');
-    return $pdf->download($fileName);
-  }
+//     $namaMahasiswa = $srt_masih_mhw->nama;
+//     $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+//     $fileName = 'Surat_Masih_Mahasiswa_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+//     // $mpdf->Output($fileName, 'D');
+//     return $pdf->download($fileName);
+//   }
 
-  public function wd_unggah(Request $request, $id)
-  {
-    $request->validate([
-      'srt_masih_mhw' => 'required|mimes:pdf'
-    ], [
-      'srt_masih_mhw.required' => 'Surat wajib diisi',
-      'srt_masih_mhw.mimes' => 'Surat wajib berbentuk / berekstensi PDF',
-    ]);
+//   public function wd_unggah(Request $request, $id)
+//   {
+//     $request->validate([
+//       'srt_masih_mhw' => 'required|mimes:pdf'
+//     ], [
+//       'srt_masih_mhw.required' => 'Surat wajib diisi',
+//       'srt_masih_mhw.mimes' => 'Surat wajib berbentuk / berekstensi PDF',
+//     ]);
 
-    $srt_masih_mhw = DB::table('srt_masih_mhw')
-      ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
-      ->where('srt_masih_mhw.id', $id)
-      ->select(
-        'srt_masih_mhw.id',
-        'users.nama',
-        'srt_masih_mhw.tanggal_surat'
-      )
-      ->first();
+//     $srt_masih_mhw = DB::table('srt_masih_mhw')
+//       ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
+//       ->where('srt_masih_mhw.id', $id)
+//       ->select(
+//         'srt_masih_mhw.id',
+//         'users.nama',
+//         'srt_masih_mhw.tanggal_surat'
+//       )
+//       ->first();
 
-    if (!$srt_masih_mhw) {
-      return redirect()->back()->withErrors('Data surat tidak ditemukan.');
-    }
+//     if (!$srt_masih_mhw) {
+//       return redirect()->back()->withErrors('Data surat tidak ditemukan.');
+//     }
 
-    $tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->format('d-m-Y');
-    $nama_mahasiswa = Str::slug($srt_masih_mhw->nama);
+//     $tanggal_surat = Carbon::parse($srt_masih_mhw->tanggal_surat)->format('d-m-Y');
+//     $nama_mahasiswa = Str::slug($srt_masih_mhw->nama);
 
-    $file = $request->file('srt_masih_mhw');
-    $surat_extensi = $file->extension();
-    $nama_surat = "Surat_Masih_Mahasiswa_{$tanggal_surat}_{$nama_mahasiswa}." . $surat_extensi;
-    $file->move(public_path('storage/pdf/srt_masih_mahasiswa/wd'), $nama_surat);
+//     $file = $request->file('srt_masih_mhw');
+//     $surat_extensi = $file->extension();
+//     $nama_surat = "Surat_Masih_Mahasiswa_{$tanggal_surat}_{$nama_mahasiswa}." . $surat_extensi;
+//     $file->move(public_path('storage/pdf/srt_masih_mahasiswa/wd'), $nama_surat);
 
-    srt_masih_mhw::where('id', $id)->update([
-      'file_pdf' => $nama_surat,
-      'role_surat' => 'mahasiswa',
-    ]);
+//     srt_masih_mhw::where('id', $id)->update([
+//       'file_pdf' => $nama_surat,
+//       'role_surat' => 'mahasiswa',
+//     ]);
 
-    return redirect()->back()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
-  }
+//     return redirect()->back()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
+//   }
 
   function wd_cek($id)
   {
@@ -601,7 +601,7 @@ class srt_masih_mhwController extends Controller
   {
     $srt_masih_mhw = srt_masih_mhw::where('id', $id)->first();
 
-    $srt_masih_mhw->role_surat = 'manajer_sukses';
+    $srt_masih_mhw->role_surat = 'wd1';
 
     $srt_masih_mhw->save();
     return redirect()->route('srt_masih_mhw.manajer')->with('success', 'Surat berhasil disetujui');

@@ -21,7 +21,7 @@
                 $noAction = 0;
                 break;
 
-            case 'manajer_sukses':
+            case 'wd2':
                 $noAction = 5;
                 break;
 

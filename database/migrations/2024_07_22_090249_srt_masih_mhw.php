@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('catatan_surat')->nullable()->default('-');
             $table->string('file_pdf')->nullable();
             $table->enum('tujuan_akhir', ['manajer' ,'wd']);
-            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'manajer_sukses'])->default('admin');
+            $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();

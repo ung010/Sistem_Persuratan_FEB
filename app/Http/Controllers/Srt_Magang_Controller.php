@@ -231,8 +231,8 @@ class Srt_Magang_Controller extends Controller
         'nama_mhw',
         'role_surat',
       )
-      ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'manajer_sukses'])
-      ->orderByRaw("FIELD(role_surat, 'manajer_sukses', 'admin', 'supervisor_akd', 'manajer')")
+      ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'wd1'])
+      ->orderByRaw("FIELD(role_surat, 'admin', 'supervisor_akd', 'manajer', 'wd1')")
       ->orderBy('tanggal_surat', 'asc');
 
     if ($search) {
@@ -247,109 +247,109 @@ class Srt_Magang_Controller extends Controller
     return view('srt_magang.admin', compact('data'));
   }
 
-  function admin_unduh($id)
-  {
-    $srt_magang = DB::table('srt_magang')
-      ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
-      ->join('users', 'srt_magang.users_id', '=', 'users.id')
-      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
-      ->where('srt_magang.id', $id)
-      ->select(
-        'srt_magang.id',
-        'srt_magang.no_surat',
-        'srt_magang.tanggal_surat',
-        'srt_magang.nama_mhw',
-        'users.id as users_id',
-        'prodi.id as prodi_id',
-        'departement.id as departement_id',
-        'users.nama',
-        'users.nmr_unik',
-        'users.nowa',
-        'users.email',
-        'departement.nama_dpt',
-        'prodi.nama_prd',
-        'srt_magang.semester',
-        'srt_magang.ipk',
-        'srt_magang.sksk',
-        'srt_magang.nama_lmbg',
-        'srt_magang.jbt_lmbg',
-        'srt_magang.kota_lmbg',
-        'srt_magang.almt_lmbg',
-        'srt_magang.almt_smg',
-        'srt_magang.role_surat',
-      )
-      ->first();
+//   function admin_unduh($id)
+//   {
+//     $srt_magang = DB::table('srt_magang')
+//       ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
+//       ->join('users', 'srt_magang.users_id', '=', 'users.id')
+//       ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+//       ->where('srt_magang.id', $id)
+//       ->select(
+//         'srt_magang.id',
+//         'srt_magang.no_surat',
+//         'srt_magang.tanggal_surat',
+//         'srt_magang.nama_mhw',
+//         'users.id as users_id',
+//         'prodi.id as prodi_id',
+//         'departement.id as departement_id',
+//         'users.nama',
+//         'users.nmr_unik',
+//         'users.nowa',
+//         'users.email',
+//         'departement.nama_dpt',
+//         'prodi.nama_prd',
+//         'srt_magang.semester',
+//         'srt_magang.ipk',
+//         'srt_magang.sksk',
+//         'srt_magang.nama_lmbg',
+//         'srt_magang.jbt_lmbg',
+//         'srt_magang.kota_lmbg',
+//         'srt_magang.almt_lmbg',
+//         'srt_magang.almt_smg',
+//         'srt_magang.role_surat',
+//       )
+//       ->first();
 
-    if (!$srt_magang) {
-      return redirect()->back()->with('error', 'Data not found');
-    }
+//     if (!$srt_magang) {
+//       return redirect()->back()->with('error', 'Data not found');
+//     }
 
-    if ($srt_magang->tanggal_surat) {
-      $srt_magang->tanggal_surat = Carbon::parse($srt_magang->tanggal_surat)->format('d-m-Y');
-    }
+//     if ($srt_magang->tanggal_surat) {
+//       $srt_magang->tanggal_surat = Carbon::parse($srt_magang->tanggal_surat)->format('d-m-Y');
+//     }
 
-    $qrUrl = url('/legal/srt_magang/' . $srt_magang->id);
-    $qrCodePath = 'storage/qrcodes/qr-' . $srt_magang->id . '.png';
-    $qrCodeFullPath = public_path($qrCodePath);
+//     $qrUrl = url('/legal/srt_magang/' . $srt_magang->id);
+//     $qrCodePath = 'storage/qrcodes/qr-' . $srt_magang->id . '.png';
+//     $qrCodeFullPath = public_path($qrCodePath);
 
-    if (!File::exists(dirname($qrCodeFullPath))) {
-      File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
-    }
+//     if (!File::exists(dirname($qrCodeFullPath))) {
+//       File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
+//     }
 
-    QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
+//     QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
 
-    // $mpdf = new Mpdf();
-    // $html = View::make('srt_magang.view', compact('srt_magang', 'qrCodePath'))->render();
-    // $mpdf->WriteHTML($html);
-    $pdf = Pdf::loadView('srt_magang.view', compact('srt_magang', 'qrCodePath'));
+//     // $mpdf = new Mpdf();
+//     // $html = View::make('srt_magang.view', compact('srt_magang', 'qrCodePath'))->render();
+//     // $mpdf->WriteHTML($html);
+//     $pdf = Pdf::loadView('srt_magang.view', compact('srt_magang', 'qrCodePath'));
 
-    $namaMahasiswa = $srt_magang->nama;
-    $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-    $fileName = 'Surat_Magang_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
-    // $mpdf->Output($fileName, 'D');
-    return $pdf->download($fileName);
-  }
+//     $namaMahasiswa = $srt_magang->nama;
+//     $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+//     $fileName = 'Surat_Magang_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+//     // $mpdf->Output($fileName, 'D');
+//     return $pdf->download($fileName);
+//   }
 
-  public function admin_unggah(Request $request, $id)
-  {
-    $request->validate([
-      'srt_magang' => 'required|mimes:pdf'
-    ], [
-      'srt_magang.required' => 'Surat wajib diisi',
-      'srt_magang.mimes' => 'Surat wajib berbentuk / berekstensi PDF',
-    ]);
+//   public function admin_unggah(Request $request, $id)
+//   {
+//     $request->validate([
+//       'srt_magang' => 'required|mimes:pdf'
+//     ], [
+//       'srt_magang.required' => 'Surat wajib diisi',
+//       'srt_magang.mimes' => 'Surat wajib berbentuk / berekstensi PDF',
+//     ]);
 
-    $srt_magang = DB::table('srt_magang')
-      ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
-      ->join('users', 'srt_magang.users_id', '=', 'users.id')
-      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
-      ->where('srt_magang.id', $id)
-      ->select(
-        'srt_magang.id',
-        'users.nama',
-        'srt_magang.tanggal_surat'
-      )
-      ->first();
+//     $srt_magang = DB::table('srt_magang')
+//       ->join('prodi', 'srt_magang.prd_id', '=', 'prodi.id')
+//       ->join('users', 'srt_magang.users_id', '=', 'users.id')
+//       ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+//       ->where('srt_magang.id', $id)
+//       ->select(
+//         'srt_magang.id',
+//         'users.nama',
+//         'srt_magang.tanggal_surat'
+//       )
+//       ->first();
 
-    if (!$srt_magang) {
-      return redirect()->back()->withErrors('Data surat tidak ditemukan.');
-    }
+//     if (!$srt_magang) {
+//       return redirect()->back()->withErrors('Data surat tidak ditemukan.');
+//     }
 
-    $tanggal_surat = Carbon::parse($srt_magang->tanggal_surat)->format('d-m-Y');
-    $nama_mahasiswa = Str::slug($srt_magang->nama);
+//     $tanggal_surat = Carbon::parse($srt_magang->tanggal_surat)->format('d-m-Y');
+//     $nama_mahasiswa = Str::slug($srt_magang->nama);
 
-    $file = $request->file('srt_magang');
-    $surat_extensi = $file->extension();
-    $nama_surat = "Surat_Magang_{$tanggal_surat}_{$nama_mahasiswa}." . $surat_extensi;
-    $file->move(public_path('storage/pdf/srt_magang'), $nama_surat);
+//     $file = $request->file('srt_magang');
+//     $surat_extensi = $file->extension();
+//     $nama_surat = "Surat_Magang_{$tanggal_surat}_{$nama_mahasiswa}." . $surat_extensi;
+//     $file->move(public_path('storage/pdf/srt_magang'), $nama_surat);
 
-    Srt_Magang::where('id', $id)->update([
-      'file_pdf' => $nama_surat,
-      'role_surat' => 'mahasiswa',
-    ]);
+//     Srt_Magang::where('id', $id)->update([
+//       'file_pdf' => $nama_surat,
+//       'role_surat' => 'mahasiswa',
+//     ]);
 
-    return redirect()->back()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
-  }
+//     return redirect()->back()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
+//   }
 
   function admin_cek($id)
   {
@@ -498,7 +498,7 @@ class Srt_Magang_Controller extends Controller
   {
     $srt_magang = Srt_Magang::where('id', $id)->first();
 
-    $srt_magang->role_surat = 'manajer_sukses';
+    $srt_magang->role_surat = 'wd1';
 
     $srt_magang->save();
     return redirect()->route('srt_magang.manajer')->with('success', 'Surat berhasil disetujui');
