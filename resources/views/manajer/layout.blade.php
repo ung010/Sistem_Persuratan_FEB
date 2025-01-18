@@ -51,10 +51,6 @@
                                     Pengembalian
                                     Biaya
                                     Pendidikan</a>
-                                {{-- <a href="/legalisir/manajer/ditempat/ijazah" class="link-dark rounded">Legalisir Diambil
-                                    di Tempat</a>
-                                <a href="/legalisir/manajer/dikirim/ijazah" class="link-dark rounded">Legalisir
-                                    Dikirim</a> --}}
                             </div>
                         </div>
                     </li>

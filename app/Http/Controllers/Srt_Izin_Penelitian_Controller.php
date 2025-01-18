@@ -105,10 +105,10 @@ class Srt_Izin_Penelitian_Controller extends Controller
         $user = Auth::user();
 
         $existingSurat = DB::table('srt_izin_plt')
-        ->where('users_id', $user->id)
-        ->where('role_surat', '!=', 'mahasiswa')
-        ->where('jenis_surat', $request->jenis_surat)
-        ->first();
+            ->where('users_id', $user->id)
+            ->where('role_surat', '!=', 'mahasiswa')
+            ->where('jenis_surat', $request->jenis_surat)
+            ->first();
 
         if ($existingSurat) {
             return redirect()->back()->withErrors(['error' => 'Hanya diperbolehkan mengajukan satu surat dengan permohonan data yang sama sampai surat selesai.']);
@@ -191,22 +191,63 @@ class Srt_Izin_Penelitian_Controller extends Controller
     function download($id)
     {
         $srt_izin_plt = DB::table('srt_izin_plt')
+            ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_izin_plt.id', $id)
-            ->select('srt_izin_plt.file_pdf', 'users.nama')
+            ->select(
+                'srt_izin_plt.id',
+                'srt_izin_plt.no_surat',
+                'srt_izin_plt.tanggal_surat',
+                'srt_izin_plt.nama_mhw',
+                'users.id as users_id',
+                'prodi.id as prodi_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.email',
+                'users.almt_asl',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'srt_izin_plt.semester',
+                'srt_izin_plt.judul_data',
+                'srt_izin_plt.nama_lmbg',
+                'srt_izin_plt.jbt_lmbg',
+                'srt_izin_plt.kota_lmbg',
+                'srt_izin_plt.almt_lmbg',
+                'srt_izin_plt.role_surat',
+            )
             ->first();
 
-        if (!$srt_izin_plt || !$srt_izin_plt->file_pdf) {
-            return redirect()->back()->with('error', 'File tidak ditemukan.');
+        if (!$srt_izin_plt) {
+            return redirect()->back()->with('error', 'Data not found');
         }
 
-        $filePath = public_path('storage/pdf/srt_izin_plt/' . $srt_izin_plt->file_pdf);
-
-        if (!file_exists($filePath)) {
-            return redirect()->back()->with('error', 'File tidak ditemukan.');
+        if ($srt_izin_plt->tanggal_surat) {
+            $srt_izin_plt->tanggal_surat = Carbon::parse($srt_izin_plt->tanggal_surat)->format('d-m-Y');
         }
 
-        return response()->download($filePath, $srt_izin_plt->file_pdf);
+        $qrUrl = url('/legal/srt_izin_plt/' . $srt_izin_plt->id);
+        $qrCodePath = 'storage/qrcodes/qr-' . $srt_izin_plt->id . '.png';
+        $qrCodeFullPath = public_path($qrCodePath);
+
+        if (!File::exists(dirname($qrCodeFullPath))) {
+            File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
+        }
+
+        QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
+
+        // $mpdf = new Mpdf();
+        // $html = View::make('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'))->render();
+        // $mpdf->WriteHTML($html);
+        $pdf = Pdf::loadView('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'));
+
+        $namaMahasiswa = $srt_izin_plt->nama;
+        $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $fileName = 'Surat_Izin_Penelitian_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+        // $mpdf->Output($fileName, 'D');
+        return $pdf->download($fileName);
     }
 
     function admin(Request $request)
@@ -423,9 +464,9 @@ class Srt_Izin_Penelitian_Controller extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
-                ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                ->orWhere('users.nmr_unik', 'like', "%{$search}%")
-                ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
+                    ->orWhere('nama_lmbg', 'like', "%{$search}%")
+                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 
@@ -466,9 +507,9 @@ class Srt_Izin_Penelitian_Controller extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mhw', 'like', "%{$search}%")
-                ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                ->orWhere('users.nmr_unik', 'like', "%{$search}%")
-                ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
+                    ->orWhere('nama_lmbg', 'like', "%{$search}%")
+                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
 

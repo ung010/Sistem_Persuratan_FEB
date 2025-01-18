@@ -240,23 +240,59 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
 
     function download($id)
     {
-        $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
+            $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
             ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
             ->where('srt_pmhn_kmbali_biaya.id', $id)
-            ->select('srt_pmhn_kmbali_biaya.file_pdf', 'users.nama')
+            ->select(
+                'srt_pmhn_kmbali_biaya.id',
+                'srt_pmhn_kmbali_biaya.no_surat',
+                'srt_pmhn_kmbali_biaya.tanggal_surat',
+                'srt_pmhn_kmbali_biaya.nama_mhw',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.email',
+                'users.almt_asl',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+                'srt_pmhn_kmbali_biaya.role_surat',
+            )
             ->first();
 
-        if (!$srt_pmhn_kmbali_biaya || !$srt_pmhn_kmbali_biaya->file_pdf) {
-            return redirect()->back()->with('error', 'File tidak ditemukan.');
+        if (!$srt_pmhn_kmbali_biaya) {
+            return redirect()->back()->with('error', 'Data not found');
         }
 
-        $filePath = public_path('storage/pdf/srt_pmhn_kmbali_biaya/' . $srt_pmhn_kmbali_biaya->file_pdf);
-
-        if (!file_exists($filePath)) {
-            return redirect()->back()->with('error', 'File tidak ditemukan.');
+        if ($srt_pmhn_kmbali_biaya->tanggal_surat) {
+            $srt_pmhn_kmbali_biaya->tanggal_surat = Carbon::parse($srt_pmhn_kmbali_biaya->tanggal_surat)->format('d-m-Y');
         }
 
-        return response()->download($filePath, $srt_pmhn_kmbali_biaya->file_pdf);
+        $qrUrl = url('/legal/srt_pmhn_kmbali_biaya/' . $srt_pmhn_kmbali_biaya->id);
+        $qrCodePath = 'storage/qrcodes/qr-' . $srt_pmhn_kmbali_biaya->id . '.png';
+        $qrCodeFullPath = public_path($qrCodePath);
+
+        if (!File::exists(dirname($qrCodeFullPath))) {
+            File::makeDirectory(dirname($qrCodeFullPath), 0755, true);
+        }
+
+        QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
+
+        // $mpdf = new Mpdf();
+        // $html = View::make('srt_pmhn_kmbali_biaya.view', compact('srt_pmhn_kmbali_biaya', 'qrCodePath'))->render();
+        // $mpdf->WriteHTML($html);
+        $pdf = Pdf::loadView('srt_pmhn_kmbali_biaya.view', compact('srt_pmhn_kmbali_biaya', 'qrCodePath'));
+
+        $namaMahasiswa = $srt_pmhn_kmbali_biaya->nama;
+        $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $fileName = 'Surat_Permohonan_Pengembalian_Biaya_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+        // $mpdf->Output($fileName, 'D');
+        return $pdf->download($fileName);
     }
 
     function admin(Request $request)

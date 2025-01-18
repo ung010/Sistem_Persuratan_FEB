@@ -1,4 +1,4 @@
-@extends('manajer.layout')
+@extends('wd1.layout')
 
 @section('content')
     <div class="container-fluid p-5">
@@ -34,7 +34,7 @@
                                     <td>{{ $item->nama_prd }}</td>
                                     <td>{{ $item->nama_lmbg }}</td>
                                     <td>
-                                        <a href='{{ url('/srt_magang/manajer/cek_surat/' . $item->id) }}'
+                                        <a href='{{ url('/srt_magang/wd1/cek_surat/' . $item->id) }}'
                                             class="btn btn-warning btn-sm">Cek Data</a>
                                     </td>
                                 </tr>
