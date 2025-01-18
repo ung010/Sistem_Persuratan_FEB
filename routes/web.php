@@ -197,14 +197,22 @@ Route::middleware('auth')->group(function () {
     ->middleware('UserAkses:supervisor_akd');
     Route::get('/srt_mhw_asn/supervisor/search', [Srt_Mhw_AsnController::class, 'supervisor_akd'])->name('srt_mhw_asn.sv_search')
     ->middleware('UserAkses:supervisor_akd');
-    Route::post('/srt_mhw_asn/supervisor/setuju/{id}',  [Srt_Mhw_AsnController::class, 'supervisor_setuju'])->name('srt_mhw_asn.sv_setuju')
+    Route::get('/srt_mhw_asn/supervisor/cek_surat/{id}', [Srt_Mhw_AsnController::class, 'cek_sv'])->name('srt_mhw_asn.cek_sv')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/srt_mhw_asn/supervisor/cek_surat/setuju/{id}',  [Srt_Mhw_AsnController::class, 'setuju_sv'])->name('srt_mhw_asn.setuju_sv')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/srt_mhw_asn/supervisor/cek_surat/tolak/{id}',  [Srt_Mhw_AsnController::class, 'tolak_sv'])->name('srt_mhw_asn.tolak_sv')
     ->middleware('UserAkses:supervisor_akd');
 
     route::get('/srt_mhw_asn/manajer', [Srt_Mhw_AsnController::class, 'manajer'])->name('srt_mhw_asn.manajer')
     ->middleware('UserAkses:manajer');
     Route::get('/srt_mhw_asn/manajer/search', [Srt_Mhw_AsnController::class, 'manajer'])->name('srt_mhw_asn.manajer_search')
     ->middleware('UserAkses:manajer');
-    Route::post('/srt_mhw_asn/manajer/setuju/{id}',  [Srt_Mhw_AsnController::class, 'manajer_setuju'])->name('srt_mhw_asn.manajer_setuju')
+    Route::get('/srt_mhw_asn/manajer/cek_surat/{id}', [Srt_Mhw_AsnController::class, 'cek_manajer'])->name('srt_mhw_asn.cek_manajer')
+    ->middleware('UserAkses:manajer');
+    Route::post('/srt_mhw_asn/manajer/cek_surat/setuju/{id}',  [Srt_Mhw_AsnController::class, 'setuju_manajer'])->name('srt_mhw_asn.setuju_manajer')
+    ->middleware('UserAkses:manajer');
+    Route::post('/srt_mhw_asn/manajer/cek_surat/tolak/{id}',  [Srt_Mhw_AsnController::class, 'tolak_manajer'])->name('srt_mhw_asn.tolak_manajer')
     ->middleware('UserAkses:manajer');
 
     // Surat Masih Mahasiswa
@@ -755,6 +763,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayat_srt/manajer/legalisir/search', [Riwayat_Surat_Controller::class, 'manajer_legalisir'])->name('riwayat_manajer.legalisir_search')->
     middleware('UserAkses:manajer');
 
+    // Riwayat Wakil Dekan 1
+
+
+
+    // Riwayat Wakil Dekan 2
+
+    Route::get('/riwayat_srt/wd2/srt_pmhn_kmbali_biaya', [Riwayat_Surat_Controller::class, 'wd2_srt_pmhn_kmbali_biaya'])->name('riwayat_wd2.srt_pmhn_kmbali_biaya')->
+    middleware('UserAkses:wd2');
+    Route::get('/riwayat_srt/wd2/srt_pmhn_kmbali_biaya/search', [Riwayat_Surat_Controller::class, 'wd2_srt_pmhn_kmbali_biaya'])->name('riwayat_wd2.srt_pmhn_kmbali_biaya_search')->
+    middleware('UserAkses:wd2');
+
     // Survey
     Route::get('/survey', [Survey_Controller::class, 'mahasiswa'])->name('survey.mahasiswa')->
     middleware('UserAkses:mahasiswa');
@@ -768,6 +787,10 @@ Route::middleware('auth')->group(function () {
     middleware('UserAkses:supervisor_sd');
     Route::get('/survey/manajer', [Survey_Controller::class, 'manajer'])->name('survey.manajer')->
     middleware('UserAkses:manajer');
+    Route::get('/survey/wd1', [Survey_Controller::class, 'wd1'])->name('survey.wd1')->
+    middleware('UserAkses:wd1');
+    Route::get('/survey/wd2', [Survey_Controller::class, 'wd2'])->name('survey.wd2')->
+    middleware('UserAkses:wd2');
 });
 
 

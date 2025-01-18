@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </a>
-            <a href="/legalisir/manajer/ditempat/ijazah" class="card flex-even" style="background-color: #FAEEAF; text-decoration: none;">
+            {{-- <a href="/legalisir/manajer/ditempat/ijazah" class="card flex-even" style="background-color: #FAEEAF; text-decoration: none;">
                 <div class="card-body row">
                     <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
                         <h4 class="card-title">Legalisir</h4>
@@ -100,7 +100,7 @@
                         <h5 class="m-0 card-title">Jumlah Surat Masuk</h5>
                     </div>
                 </div>
-            </a>
+            </a> --}}
             <a href="/riwayat_srt/manajer/srt_mhw_asn" class="card flex-even" style="background-color: #C7FAB9; text-decoration: none;">
                 <div class="card-body row">
                     <div class="d-flex align-items-center justify-content-center gap-3 mb-3">

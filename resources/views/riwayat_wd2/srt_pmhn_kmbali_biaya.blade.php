@@ -1,4 +1,4 @@
-@extends('manajer.layout')
+@extends('wd2.layout')
 
 @section('content')
     <div class="container-fluid p-5">
@@ -7,7 +7,7 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">SURAT KETERANGAN MASIH KULIAH (BAGI ASN)</p>
+                        <p class="heading-card">RIWAYAT SURAT PENGEMBALIAN BIAYA</p>
                     </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                             <tr>
                                 <th class="col-md-1">No</th>
                                 <th class="col-md-1">Nama Mahasiswa</th>
-                                <th class="col-md-1">Cek Data</th>
+                                <th class="col-md-1">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,8 +28,7 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
                                     <td>
-                                        <a href='{{ url('/srt_mhw_asn/manajer/cek_surat/' . $item->id) }}'
-                                            class="btn btn-warning btn-sm">Cek</a>
+                                        <button class="btn btn-primary btn-sm" disabled>Selesai</button>
                                     </td>
                                 </tr>
                             @endforeach

@@ -57,34 +57,6 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Manajemen Legalisir
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Legalisir Diambil Ditempat</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/legalisir/manajer/ditempat/ijazah">Ijazah</a></li>
-                                    <li><a class="dropdown-item" href="/legalisir/manajer/ditempat/transkrip">Transkrip</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="/legalisir/manajer/ditempat/ijz_trs">Ijazah
-                                            dan Transkrip</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Legalisir Dikirim</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/legalisir/manajer/dikirim/ijazah">Ijazah</a></li>
-                                    <li><a class="dropdown-item" href="/legalisir/manajer/dikirim/transkrip">Transkrip</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="/legalisir/manajer/dikirim/ijz_trs">Ijazah
-                                            dan Transkrip</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="/manajer/manage_spv">
                             Manajemen Supervisor
                         </a>
@@ -136,12 +108,12 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var dropdownSubmenus = document.querySelectorAll('.dropdown-submenu');
-    
+
                 dropdownSubmenus.forEach(function (submenu) {
                     submenu.addEventListener('mouseover', function () {
                         this.querySelector('.dropdown-menu').classList.add('show');
                     });
-    
+
                     submenu.addEventListener('mouseleave', function () {
                         this.querySelector('.dropdown-menu').classList.remove('show');
                     });

@@ -51,10 +51,10 @@
                                     Pengembalian
                                     Biaya
                                     Pendidikan</a>
-                                <a href="/legalisir/manajer/ditempat/ijazah" class="link-dark rounded">Legalisir Diambil
+                                {{-- <a href="/legalisir/manajer/ditempat/ijazah" class="link-dark rounded">Legalisir Diambil
                                     di Tempat</a>
                                 <a href="/legalisir/manajer/dikirim/ijazah" class="link-dark rounded">Legalisir
-                                    Dikirim</a>
+                                    Dikirim</a> --}}
                             </div>
                         </div>
                     </li>
@@ -75,7 +75,7 @@
                                 <a href="/riwayat_srt/manajer/srt_izin_plt" class="link-dark rounded">Izin Penelitian</a>
                                 <a href="/riwayat_srt/manajer/srt_pmhn_kmbali_biaya" class="link-dark rounded">Permohonan
                                     Pengembalian Biaya Pendidikan</a>
-                                <a href="/riwayat_srt/manajer/legalisir" class="link-dark rounded">Legalisir</a>
+                                {{-- <a href="/riwayat_srt/manajer/legalisir" class="link-dark rounded">Legalisir</a> --}}
                             </div>
                         </div>
                     </li>

@@ -446,4 +446,26 @@ class Riwayat_Surat_Controller extends Controller
 
         return view('riwayat_sv_akd.srt_magang', compact('data'));
     }
+
+    function wd2_srt_pmhn_kmbali_biaya(Request $request) {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_pmhn_kmbali_biaya')
+            ->select(
+                'id',
+                'nama_mhw',
+                'role_surat',
+            )
+            ->Where('role_surat', 'mahasiswa');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->get();
+
+        return view('riwayat_wd2.srt_pmhn_kmbali_biaya', compact('data'));
+    }
 }

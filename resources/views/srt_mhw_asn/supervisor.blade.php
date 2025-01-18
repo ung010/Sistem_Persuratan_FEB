@@ -28,12 +28,8 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
                                     <td>
-                                        <form action="{{ route('srt_mhw_asn.sv_setuju', $item->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
-                                        </form>
-                                        {{-- <a href='{{ route('srt_mhw_asn.sv_setuju', $item->id) }}' class="btn btn-success btn-sm">Disetujui</a> --}}
+                                        <a href='{{ url('/srt_mhw_asn/supervisor/cek_surat/' . $item->id) }}'
+                                            class="btn btn-warning btn-sm">Cek</a>
                                     </td>
                                 </tr>
                             @endforeach

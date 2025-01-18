@@ -335,14 +335,62 @@ class Srt_Mhw_AsnController extends Controller
     return view('srt_mhw_asn.supervisor', compact('data'));
   }
 
-  function supervisor_setuju($id)
+  function cek_sv($id)
+  {
+    $srt_mhw_asn = DB::table('srt_mhw_asn')
+      ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
+      ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+      ->where('srt_mhw_asn.id', $id)
+      ->select(
+        'srt_mhw_asn.id',
+        'users.id as users_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
+        'users.nama',
+        'users.nmr_unik',
+        'departement.nama_dpt',
+        'prodi.nama_prd',
+        'srt_mhw_asn.thn_awl',
+        'srt_mhw_asn.thn_akh',
+        'users.almt_asl',
+        'users.nowa',
+        'users.email',
+        'srt_mhw_asn.nama_ortu',
+        'srt_mhw_asn.nip_ortu',
+        'srt_mhw_asn.ins_ortu',
+        'users.foto',
+      )
+      ->first();
+    return view('srt_mhw_asn.cek_sv', compact('srt_mhw_asn'));
+  }
+
+  function setuju_sv(Request $request, $id)
   {
     $srt_mhw_asn = srt_mhw_asn::where('id', $id)->first();
 
     $srt_mhw_asn->role_surat = 'manajer';
 
     $srt_mhw_asn->save();
-    return redirect()->back()->with('success', 'Surat berhasil disetujui');
+    return redirect()->route('srt_mhw_asn.supervisor')->with('success', 'Surat berhasil disetujui');
+  }
+
+  function tolak_sv(Request $request, $id)
+  {
+    $srt_mhw_asn = srt_mhw_asn::where('id', $id)->first();
+
+    $request->validate([
+      'catatan_surat' => 'required',
+    ], [
+      'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+    ]);
+
+    $srt_mhw_asn->catatan_surat = $request->catatan_surat . ' - Supervisor Akademik';
+    $srt_mhw_asn->catatan_surat = $request->catatan_surat;
+    $srt_mhw_asn->role_surat = 'tolak';
+
+    $srt_mhw_asn->save();
+    return redirect()->route('srt_mhw_asn.supervisor')->with('success', 'Alasan penolakan telah dikirimkan');
   }
 
   function manajer(Request $request)
@@ -368,7 +416,37 @@ class Srt_Mhw_AsnController extends Controller
     return view('srt_mhw_asn.manajer', compact('data'));
   }
 
-  function manajer_setuju($id)
+  function cek_manajer($id)
+  {
+    $srt_mhw_asn = DB::table('srt_mhw_asn')
+      ->join('prodi', 'srt_mhw_asn.prd_id', '=', 'prodi.id')
+      ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
+      ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+      ->where('srt_mhw_asn.id', $id)
+      ->select(
+        'srt_mhw_asn.id',
+        'users.id as users_id',
+        'prodi.id as prd_id',
+        'departement.id as dpt_id',
+        'users.nama',
+        'users.nmr_unik',
+        'departement.nama_dpt',
+        'prodi.nama_prd',
+        'srt_mhw_asn.thn_awl',
+        'srt_mhw_asn.thn_akh',
+        'users.almt_asl',
+        'users.nowa',
+        'users.email',
+        'srt_mhw_asn.nama_ortu',
+        'srt_mhw_asn.nip_ortu',
+        'srt_mhw_asn.ins_ortu',
+        'users.foto',
+      )
+      ->first();
+    return view('srt_mhw_asn.cek_manajer', compact('srt_mhw_asn'));
+  }
+
+  function setuju_manajer(Request $request, $id)
   {
     $srt_mhw_asn = srt_mhw_asn::where('id', $id)->first();
 
@@ -378,8 +456,21 @@ class Srt_Mhw_AsnController extends Controller
     return redirect()->route('srt_mhw_asn.manajer')->with('success', 'Surat berhasil disetujui');
   }
 
-  function delete()
+  function tolak_manajer(Request $request, $id)
   {
-    //
+    $srt_mhw_asn = srt_mhw_asn::where('id', $id)->first();
+
+    $request->validate([
+      'catatan_surat' => 'required',
+    ], [
+      'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+    ]);
+
+    $srt_mhw_asn->catatan_surat = $request->catatan_surat . ' - Manajer';
+    $srt_mhw_asn->catatan_surat = $request->catatan_surat;
+    $srt_mhw_asn->role_surat = 'tolak';
+
+    $srt_mhw_asn->save();
+    return redirect()->route('srt_mhw_asn.manajer')->with('success', 'Alasan penolakan telah dikirimkan');
   }
 }
