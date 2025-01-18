@@ -361,24 +361,43 @@ Route::middleware('auth')->group(function () {
     ->middleware('UserAkses:admin');
     Route::post('/srt_izin_plt/admin/cek_surat/tolak/{id}',  [Srt_Izin_Penelitian_Controller::class, 'admin_tolak'])->name('srt_izin_plt.admin_tolak')
     ->middleware('UserAkses:admin');
-    Route::post('/srt_izin_plt/admin/unggah/{id}', [Srt_Izin_Penelitian_Controller::class, 'admin_unggah'])->name('srt_izin_plt.admin_unggah')->
-    middleware('UserAkses:admin');
-    Route::get('/srt_izin_plt/admin/download/{id}', [Srt_Izin_Penelitian_Controller::class, 'admin_unduh'])->name('srt_izin_plt.admin_download')->
-    middleware('UserAkses:admin');
+    // Route::post('/srt_izin_plt/admin/unggah/{id}', [Srt_Izin_Penelitian_Controller::class, 'admin_unggah'])->name('srt_izin_plt.admin_unggah')->
+    // middleware('UserAkses:admin');
+    // Route::get('/srt_izin_plt/admin/download/{id}', [Srt_Izin_Penelitian_Controller::class, 'admin_unduh'])->name('srt_izin_plt.admin_download')->
+    // middleware('UserAkses:admin');
 
     route::get('/srt_izin_plt/supervisor', [Srt_Izin_Penelitian_Controller::class, 'supervisor'])->name('srt_izin_plt.supervisor')
     ->middleware('UserAkses:supervisor_akd');
     Route::get('/srt_izin_plt/supervisor/search', [Srt_Izin_Penelitian_Controller::class, 'supervisor'])->name('srt_izin_plt.sv_search')
     ->middleware('UserAkses:supervisor_akd');
-    Route::post('/srt_izin_plt/supervisor/setuju/{id}',  [Srt_Izin_Penelitian_Controller::class, 'setuju_sv'])->name('srt_izin_plt.sv_setuju')
+    Route::get('/srt_izin_plt/supervisor/cek_surat/{id}', [Srt_Izin_Penelitian_Controller::class, 'cek_sv'])->name('srt_izin_plt.cek_sv')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/srt_izin_plt/supervisor/cek_surat/setuju/{id}',  [Srt_Izin_Penelitian_Controller::class, 'setuju_sv'])->name('srt_izin_plt.setuju_sv')
+    ->middleware('UserAkses:supervisor_akd');
+    Route::post('/srt_izin_plt/supervisor/cek_surat/tolak/{id}',  [Srt_Izin_Penelitian_Controller::class, 'tolak_sv'])->name('srt_izin_plt.tolak_sv')
     ->middleware('UserAkses:supervisor_akd');
 
     route::get('/srt_izin_plt/manajer', [Srt_Izin_Penelitian_Controller::class, 'manajer'])->name('srt_izin_plt.manajer')
     ->middleware('UserAkses:manajer');
     Route::get('/srt_izin_plt/manajer/search', [Srt_Izin_Penelitian_Controller::class, 'manajer'])->name('srt_izin_plt.manajer_search')
     ->middleware('UserAkses:manajer');
-    Route::post('/srt_izin_plt/manajer/setuju/{id}',  [Srt_Izin_Penelitian_Controller::class, 'setuju_manajer'])->name('srt_izin_plt.manajer_setuju')
+    Route::get('/srt_izin_plt/manajer/cek_surat/{id}', [Srt_Izin_Penelitian_Controller::class, 'cek_manajer'])->name('srt_izin_plt.cek_manajer')
     ->middleware('UserAkses:manajer');
+    Route::post('/srt_izin_plt/manajer/cek_surat/setuju/{id}',  [Srt_Izin_Penelitian_Controller::class, 'setuju_manajer'])->name('srt_izin_plt.setuju_manajer')
+    ->middleware('UserAkses:manajer');
+    Route::post('/srt_izin_plt/manajer/cek_surat/tolak/{id}',  [Srt_Izin_Penelitian_Controller::class, 'tolak_manajer'])->name('srt_izin_plt.tolak_manajer')
+    ->middleware('UserAkses:manajer');
+
+    route::get('/srt_izin_plt/wd1', [Srt_Izin_Penelitian_Controller::class, 'wd1'])->name('srt_izin_plt.wd1')
+    ->middleware('UserAkses:wd1');
+    Route::get('/srt_izin_plt/wd1/search', [Srt_Izin_Penelitian_Controller::class, 'wd1'])->name('srt_izin_plt.wd1_search')
+    ->middleware('UserAkses:wd1');
+    Route::get('/srt_izin_plt/wd1/cek_surat/{id}', [Srt_Izin_Penelitian_Controller::class, 'cek_wd1'])->name('srt_izin_plt.cek_wd1')
+    ->middleware('UserAkses:wd1');
+    Route::post('/srt_izin_plt/wd1/cek_surat/setuju/{id}',  [Srt_Izin_Penelitian_Controller::class, 'setuju_wd1'])->name('srt_izin_plt.setuju_wd1')
+    ->middleware('UserAkses:wd1');
+    Route::post('/srt_izin_plt/wd1/cek_surat/tolak/{id}',  [Srt_Izin_Penelitian_Controller::class, 'tolak_wd1'])->name('srt_izin_plt.tolak_wd1')
+    ->middleware('UserAkses:wd1');
 
     // Surat Pengembalian Biaya
 

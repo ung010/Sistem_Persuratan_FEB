@@ -34,11 +34,8 @@
                                     <td>{{ $item->nama_prd }}</td>
                                     <td>{{ $item->nama_lmbg }}</td>
                                     <td>
-                                        <form action="{{ route('srt_izin_plt.manajer_setuju', $item->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
-                                        </form>
+                                        <a href='{{ url('/srt_izin_plt/manajer/cek_surat/' . $item->id) }}'
+                                            class="btn btn-warning btn-sm">Cek Data</a>
                                     </td>
                                 </tr>
                             @endforeach

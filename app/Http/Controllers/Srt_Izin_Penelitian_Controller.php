@@ -475,14 +475,63 @@ class Srt_Izin_Penelitian_Controller extends Controller
         return view('srt_izin_plt.supervisor', compact('data'));
     }
 
-    function setuju_sv($id)
+    function cek_sv($id)
+    {
+        $srt_izin_plt = DB::table('srt_izin_plt')
+            ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_izin_plt.id', $id)
+            ->select(
+                'srt_izin_plt.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'users.foto',
+                'users.email',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'srt_izin_plt.lampiran',
+                'srt_izin_plt.nama_lmbg',
+                'srt_izin_plt.jbt_lmbg',
+                'srt_izin_plt.kota_lmbg',
+                'srt_izin_plt.almt_lmbg',
+                'srt_izin_plt.role_surat',
+            )
+            ->first();
+        return view('srt_izin_plt.cek_sv', compact('srt_izin_plt'));
+    }
+
+    function setuju_sv(Request $request, $id)
     {
         $srt_izin_plt = srt_izin_penelitian::where('id', $id)->first();
 
         $srt_izin_plt->role_surat = 'manajer';
 
         $srt_izin_plt->save();
-        return redirect()->back()->with('success', 'Surat berhasil disetujui');
+        return redirect()->route('srt_izin_plt.supervisor')->with('success', 'Surat berhasil disetujui');
+    }
+
+    function tolak_sv(Request $request, $id)
+    {
+        $srt_izin_plt = srt_izin_penelitian::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_izin_plt->catatan_surat = $request->catatan_surat . '- Supervisor Akademik';
+        $srt_izin_plt->catatan_surat = $request->catatan_surat;
+        $srt_izin_plt->role_surat = 'tolak';
+
+        $srt_izin_plt->save();
+        return redirect()->route('srt_izin_plt.supervisor')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 
     function manajer(Request $request)
@@ -518,7 +567,38 @@ class Srt_Izin_Penelitian_Controller extends Controller
         return view('srt_izin_plt.manajer', compact('data'));
     }
 
-    function setuju_manajer($id)
+    function cek_manajer($id)
+    {
+        $srt_izin_plt = DB::table('srt_izin_plt')
+            ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_izin_plt.id', $id)
+            ->select(
+                'srt_izin_plt.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'users.foto',
+                'users.email',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'srt_izin_plt.lampiran',
+                'srt_izin_plt.nama_lmbg',
+                'srt_izin_plt.jbt_lmbg',
+                'srt_izin_plt.kota_lmbg',
+                'srt_izin_plt.almt_lmbg',
+                'srt_izin_plt.role_surat',
+            )
+            ->first();
+        return view('srt_izin_plt.cek_manajer', compact('srt_izin_plt'));
+    }
+
+    function setuju_manajer(Request $request, $id)
     {
         $srt_izin_plt = srt_izin_penelitian::where('id', $id)->first();
 
@@ -526,5 +606,115 @@ class Srt_Izin_Penelitian_Controller extends Controller
 
         $srt_izin_plt->save();
         return redirect()->route('srt_izin_plt.manajer')->with('success', 'Surat berhasil disetujui');
+    }
+
+    function tolak_manajer(Request $request, $id)
+    {
+        $srt_izin_plt = srt_izin_penelitian::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_izin_plt->catatan_surat = $request->catatan_surat . '- Manajer';
+        $srt_izin_plt->catatan_surat = $request->catatan_surat;
+        $srt_izin_plt->role_surat = 'tolak';
+
+        $srt_izin_plt->save();
+        return redirect()->route('srt_izin_plt.manajer')->with('success', 'Alasan penolakan telah dikirimkan');
+    }
+
+    function wd1(Request $request)
+    {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_izin_plt')
+            ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('role_surat', 'wd1')
+            ->orderBy('tanggal_surat', 'asc')
+            ->select(
+                'srt_izin_plt.id',
+                'srt_izin_plt.nama_mhw',
+                'srt_izin_plt.tanggal_surat',
+                'srt_izin_plt.nama_lmbg',
+                'users.nmr_unik',
+                'prodi.nama_prd',
+            );
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%")
+                    ->orWhere('nama_lmbg', 'like', "%{$search}%")
+                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                    ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->get();
+
+        return view('srt_izin_plt.wd1', compact('data'));
+    }
+
+    function cek_wd1($id)
+    {
+        $srt_izin_plt = DB::table('srt_izin_plt')
+            ->join('prodi', 'srt_izin_plt.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_izin_plt.id', $id)
+            ->select(
+                'srt_izin_plt.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'users.foto',
+                'users.email',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'srt_izin_plt.lampiran',
+                'srt_izin_plt.nama_lmbg',
+                'srt_izin_plt.jbt_lmbg',
+                'srt_izin_plt.kota_lmbg',
+                'srt_izin_plt.almt_lmbg',
+                'srt_izin_plt.role_surat',
+            )
+            ->first();
+        return view('srt_izin_plt.cek_wd1', compact('srt_izin_plt'));
+    }
+
+    function setuju_wd1(Request $request, $id)
+    {
+        $srt_izin_plt = srt_izin_penelitian::where('id', $id)->first();
+
+        $srt_izin_plt->role_surat = 'mahasiswa';
+
+        $srt_izin_plt->save();
+        return redirect()->route('srt_izin_plt.wd1')->with('success', 'Surat berhasil disetujui');
+    }
+
+    function tolak_wd1(Request $request, $id)
+    {
+        $srt_izin_plt = srt_izin_penelitian::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_izin_plt->catatan_surat = $request->catatan_surat . '- Wakil Dekan 1';
+        $srt_izin_plt->catatan_surat = $request->catatan_surat;
+        $srt_izin_plt->role_surat = 'tolak';
+
+        $srt_izin_plt->save();
+        return redirect()->route('srt_izin_plt.wd1')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 }
