@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid p-0">
         <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center">
-            <a href="/srt_pmhn_kmbali_biaya/manajer" class="card flex-even" style="background-color: #DDE5E9; text-decoration: none;">
+            <a href="/srt_pmhn_kmbali_biaya/wd2" class="card flex-even" style="background-color: #DDE5E9; text-decoration: none;">
                 <div class="card-body row">
                     <div class="d-flex align-items-center  gap-3 mb-3">
                         <h4 class="card-title">Surat Permohonan Pengembalian Biaya Pendidikan</h4>

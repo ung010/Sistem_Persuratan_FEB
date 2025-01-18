@@ -46,48 +46,9 @@
                             Manajemen Surat
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/srt_mhw_asn/wd2">Surat keterangan untuk anak ASN</a>
-                            </li>
-                            <li><a class="dropdown-item" href="/srt_masih_mhw/wd2">Surat Keterangan Masih
-                                    Mahasiswa</a></li>
-                            {{-- <li><a class="dropdown-item" href="/srt_magang/wd2">Surat Magang</a></li> --}}
-                            <li><a class="dropdown-item" href="/srt_izin_plt/wd2">Surat Izin Penelitian</a></li>
                             <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya/wd2">Surat Permohonan
                                     Pengembalian Biaya Pendidikan</a></li>
                         </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Manajemen Legalisir
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Legalisir Diambil Ditempat</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/legalisir/wd2/ditempat/ijazah">Ijazah</a></li>
-                                    <li><a class="dropdown-item" href="/legalisir/wd2/ditempat/transkrip">Transkrip</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="/legalisir/wd2/ditempat/ijz_trs">Ijazah
-                                            dan Transkrip</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Legalisir Dikirim</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/legalisir/wd2/dikirim/ijazah">Ijazah</a></li>
-                                    <li><a class="dropdown-item" href="/legalisir/wd2/dikirim/transkrip">Transkrip</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="/legalisir/wd2/dikirim/ijz_trs">Ijazah
-                                            dan Transkrip</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/wd2/manage_spv">
-                            Manajemen Supervisor
-                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="/wd2/account">
@@ -100,15 +61,8 @@
                             Riwayat Surat
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/riwayat_srt/wd2/srt_mhw_asn">Surat keterangan untuk anak ASN</a>
-                            </li>
-                            <li><a class="dropdown-item" href="/riwayat_srt/wd2/srt_masih_mhw">Surat Keterangan Masih
-                                    Mahasiswa</a></li>
-                            <li><a class="dropdown-item" href="/riwayat_srt/wd2/srt_magang">Surat Magang</a></li>
-                            <li><a class="dropdown-item" href="/riwayat_srt/wd2/srt_izin_plt">Surat Izin Penelitian</a></li>
                             <li><a class="dropdown-item" href="/riwayat_srt/wd2/srt_pmhn_kmbali_biaya">Surat Permohonan
                                     Pengembalian Biaya Pendidikan</a></li>
-                            <li><a class="dropdown-item" href="/riwayat_srt/wd2/legalisir">Legalisir</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

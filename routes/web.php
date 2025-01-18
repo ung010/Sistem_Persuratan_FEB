@@ -378,24 +378,43 @@ Route::middleware('auth')->group(function () {
     ->middleware('UserAkses:admin');
     Route::post('/srt_pmhn_kmbali_biaya/admin/cek_surat/tolak/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'admin_tolak'])->name('srt_pmhn_kmbali_biaya.admin_tolak')
     ->middleware('UserAkses:admin');
-    Route::post('/srt_pmhn_kmbali_biaya/admin/unggah/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'admin_unggah'])->name('srt_pmhn_kmbali_biaya.admin_unggah')->
-    middleware('UserAkses:admin');
-    Route::get('/srt_pmhn_kmbali_biaya/admin/download/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'admin_unduh'])->name('srt_pmhn_kmbali_biaya.admin_download')->
-    middleware('UserAkses:admin');
+    // Route::post('/srt_pmhn_kmbali_biaya/admin/unggah/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'admin_unggah'])->name('srt_pmhn_kmbali_biaya.admin_unggah')->
+    // middleware('UserAkses:admin');
+    // Route::get('/srt_pmhn_kmbali_biaya/admin/download/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'admin_unduh'])->name('srt_pmhn_kmbali_biaya.admin_download')->
+    // middleware('UserAkses:admin');
 
     route::get('/srt_pmhn_kmbali_biaya/supervisor', [srt_pmhn_kmbali_biaya_controller::class, 'supervisor'])->name('srt_pmhn_kmbali_biaya.supervisor')
     ->middleware('UserAkses:supervisor_sd');
     Route::get('/srt_pmhn_kmbali_biaya/supervisor/search', [srt_pmhn_kmbali_biaya_controller::class, 'supervisor'])->name('srt_pmhn_kmbali_biaya.sv_search')
     ->middleware('UserAkses:supervisor_sd');
-    Route::post('/srt_pmhn_kmbali_biaya/supervisor/setuju/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'setuju_sv'])->name('srt_pmhn_kmbali_biaya.sv_setuju')
+    Route::get('/srt_pmhn_kmbali_biaya/supervisor/cek_surat/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'sv_cek'])->name('srt_pmhn_kmbali_biaya.sv_cek')
+    ->middleware('UserAkses:supervisor_sd');
+    Route::post('/srt_pmhn_kmbali_biaya/supervisor/cek_surat/setuju/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'sv_setuju'])->name('srt_pmhn_kmbali_biaya.sv_setuju')
+    ->middleware('UserAkses:supervisor_sd');
+    Route::post('/srt_pmhn_kmbali_biaya/supervisor/cek_surat/tolak/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'sv_tolak'])->name('srt_pmhn_kmbali_biaya.sv_tolak')
     ->middleware('UserAkses:supervisor_sd');
 
     route::get('/srt_pmhn_kmbali_biaya/manajer', [srt_pmhn_kmbali_biaya_controller::class, 'manajer'])->name('srt_pmhn_kmbali_biaya.manajer')
     ->middleware('UserAkses:manajer');
     Route::get('/srt_pmhn_kmbali_biaya/manajer/search', [srt_pmhn_kmbali_biaya_controller::class, 'manajer'])->name('srt_pmhn_kmbali_biaya.manajer_search')
     ->middleware('UserAkses:manajer');
-    Route::post('/srt_pmhn_kmbali_biaya/manajer/setuju/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'setuju_manajer'])->name('srt_pmhn_kmbali_biaya.manajer_setuju')
+    Route::get('/srt_pmhn_kmbali_biaya/manajer/cek_surat/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'manajer_cek'])->name('srt_pmhn_kmbali_biaya.manajer_cek')
     ->middleware('UserAkses:manajer');
+    Route::post('/srt_pmhn_kmbali_biaya/manajer/cek_surat/setuju/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'manajer_setuju'])->name('srt_pmhn_kmbali_biaya.manajer_setuju')
+    ->middleware('UserAkses:manajer');
+    Route::post('/srt_pmhn_kmbali_biaya/manajer/cek_surat/tolak/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'manajer_tolak'])->name('srt_pmhn_kmbali_biaya.manajer_tolak')
+    ->middleware('UserAkses:manajer');
+
+    route::get('/srt_pmhn_kmbali_biaya/wd2', [srt_pmhn_kmbali_biaya_controller::class, 'wd2'])->name('srt_pmhn_kmbali_biaya.wd2')
+    ->middleware('UserAkses:wd2');
+    Route::get('/srt_pmhn_kmbali_biaya/wd2/search', [srt_pmhn_kmbali_biaya_controller::class, 'wd2'])->name('srt_pmhn_kmbali_biaya.wd2_search')
+    ->middleware('UserAkses:wd2');
+    Route::get('/srt_pmhn_kmbali_biaya/wd2/cek_surat/{id}', [srt_pmhn_kmbali_biaya_controller::class, 'wd2_cek'])->name('srt_pmhn_kmbali_biaya.wd2_cek')
+    ->middleware('UserAkses:wd2');
+    Route::post('/srt_pmhn_kmbali_biaya/wd2/cek_surat/setuju/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'wd2_setuju'])->name('srt_pmhn_kmbali_biaya.wd2_setuju')
+    ->middleware('UserAkses:wd2');
+    Route::post('/srt_pmhn_kmbali_biaya/wd2/cek_surat/tolak/{id}',  [srt_pmhn_kmbali_biaya_controller::class, 'wd2_tolak'])->name('srt_pmhn_kmbali_biaya.wd2_tolak')
+    ->middleware('UserAkses:wd2');
 
     // Surat Bebas Pinjam
 
@@ -433,8 +452,6 @@ Route::middleware('auth')->group(function () {
     ->middleware('UserAkses:supervisor_sd');
     Route::post('/srt_bbs_pnjm/supervisor/cek_surat/tolak/{id}',  [Srt_Bbs_Pnjam_Controller::class, 'sv_tolak'])->name('srt_bbs_pnjm.sv_tolak')
     ->middleware('UserAkses:supervisor_sd');
-    // Route::post('/srt_bbs_pnjm/supervisor/setuju/{id}',  [Srt_Bbs_Pnjam_Controller::class, 'setuju_sv'])->name('srt_bbs_pnjm.sv_setuju')
-    // ->middleware('UserAkses:supervisor_sd');
 
     // Legalisir
 

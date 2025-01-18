@@ -30,11 +30,10 @@
                                     <td>{{ $item->nama_mhw }}</td>
                                     <td>{{ $item->nmr_unik }}</td>
                                     <td>
-                                        <form action="{{ route('srt_pmhn_kmbali_biaya.sv_setuju', $item->id) }}"
-                                            method="POST" style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
-                                        </form>
+                                        <td>
+                                            <a href='{{ url('/srt_pmhn_kmbali_biaya/supervisor/cek_surat/' . $item->id) }}'
+                                                class="btn btn-warning btn-sm">Cek</a>
+                                        </td>
                                     </td>
                                 </tr>
                             @endforeach

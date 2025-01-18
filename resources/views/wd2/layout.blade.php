@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajer Page</title>
+    <title>Wakil Dekan 2 Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- DataTables CSS -->
@@ -24,12 +24,12 @@
                 <ul class="list-unstyled ps-0">
                     <li class="border-top my-3 border-dark"></li>
                     <li class="mb-1">
-                        <a href="/manajer" class="link-dark"><img src="{{ asset('asset/icons/admin.png') }}"
+                        <a href="/wd2" class="link-dark"><img src="{{ asset('asset/icons/admin.png') }}"
                                 alt="Icon" style="height: 16px;"> {{ auth()->user()->nama }}</a>
                     </li>
                     <li class="border-top my-3 border-dark"></li>
                     <li class="mb-1">
-                        <a href="/manajer" class="link-dark"><img src="{{ asset('asset/icons/dashboard.png') }}"
+                        <a href="/wd2" class="link-dark"><img src="{{ asset('asset/icons/dashboard.png') }}"
                                 alt="Icon" style="height: 16px;"> Dashboard</a>
                     </li>
                     <li class="mb-1">
@@ -41,7 +41,7 @@
                         </button>
                         <div class="collapse" id="orders-collapse" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/srt_pmhn_kmbali_biaya/manajer" class="link-dark rounded">Permohonan
+                                <a href="/srt_pmhn_kmbali_biaya/wd2" class="link-dark rounded">Permohonan
                                     Pengembalian
                                     Biaya
                                     Pendidikan</a>
@@ -57,13 +57,13 @@
 
                         <div class="collapse" id="orders-collapse-riwayat" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/riwayat_srt/manajer/srt_pmhn_kmbali_biaya" class="link-dark rounded">Permohonan
+                                <a href="/riwayat_srt/wd2/srt_pmhn_kmbali_biaya" class="link-dark rounded">Permohonan
                                     Pengembalian Biaya Pendidikan</a>
                             </div>
                         </div>
                     </li>
                     <li class="mb-1">
-                        <a href="/survey/manajer" class="link-dark"><img src="{{ asset('asset/icons/survey.png') }}"
+                        <a href="/survey/wd2" class="link-dark"><img src="{{ asset('asset/icons/survey.png') }}"
                                 alt="Icon" style="height: 16px;"> Survey
                             Kepuasan</a>
                     </li>

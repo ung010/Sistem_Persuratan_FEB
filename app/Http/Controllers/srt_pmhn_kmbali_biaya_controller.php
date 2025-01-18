@@ -473,14 +473,63 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         return view('srt_pmhn_kmbali_biaya.supervisor', compact('data'));
     }
 
-    function setuju_sv($id)
+    function sv_cek($id)
+    {
+        $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_pmhn_kmbali_biaya.id', $id)
+            ->select(
+                'srt_pmhn_kmbali_biaya.id',
+                'users.id as users_id',
+                'prodi.id as prodi_id',
+                'departement.id as dpt_id',
+                'srt_pmhn_kmbali_biaya.nama_mhw',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'users.foto',
+                'users.email',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'srt_pmhn_kmbali_biaya.skl',
+                'srt_pmhn_kmbali_biaya.bukti_bayar',
+                'srt_pmhn_kmbali_biaya.buku_tabung',
+                DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+                'srt_pmhn_kmbali_biaya.role_surat',
+            )
+            ->first();
+        return view('srt_pmhn_kmbali_biaya.cek_sv', compact('srt_pmhn_kmbali_biaya'));
+    }
+
+    function sv_tolak(Request $request, $id)
+    {
+        $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_pmhn_kmbali_biaya->catatan_surat = $request->catatan_surat . ' - Supervisor Sumber Daya';
+        $srt_pmhn_kmbali_biaya->catatan_surat = $request->catatan_surat;
+        $srt_pmhn_kmbali_biaya->role_surat = 'tolak';
+
+        $srt_pmhn_kmbali_biaya->save();
+        return redirect()->route('srt_pmhn_kmbali_biaya.supervisor')->with('success', 'Alasan penolakan telah dikirimkan');
+    }
+
+
+    function sv_setuju($id)
     {
         $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('id', $id)->first();
 
         $srt_pmhn_kmbali_biaya->role_surat = 'manajer';
 
         $srt_pmhn_kmbali_biaya->save();
-        return redirect()->back()->with('success', 'Surat berhasil disetujui');
+        return redirect()->route('srt_pmhn_kmbali_biaya.supervisor')->with('success', 'Surat berhasil disetujui');
     }
 
     function manajer(Request $request)
@@ -510,7 +559,55 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         return view('srt_pmhn_kmbali_biaya.manajer', compact('data'));
     }
 
-    function setuju_manajer($id)
+    function manajer_cek($id)
+    {
+        $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_pmhn_kmbali_biaya.id', $id)
+            ->select(
+                'srt_pmhn_kmbali_biaya.id',
+                'users.id as users_id',
+                'prodi.id as prodi_id',
+                'departement.id as dpt_id',
+                'srt_pmhn_kmbali_biaya.nama_mhw',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'users.foto',
+                'users.email',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'srt_pmhn_kmbali_biaya.skl',
+                'srt_pmhn_kmbali_biaya.bukti_bayar',
+                'srt_pmhn_kmbali_biaya.buku_tabung',
+                DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+                'srt_pmhn_kmbali_biaya.role_surat',
+            )
+            ->first();
+        return view('srt_pmhn_kmbali_biaya.cek_manajer', compact('srt_pmhn_kmbali_biaya'));
+    }
+
+    function manajer_tolak(Request $request, $id)
+    {
+        $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_pmhn_kmbali_biaya->catatan_surat = $request->catatan_surat . ' - Manajer';
+        $srt_pmhn_kmbali_biaya->catatan_surat = $request->catatan_surat;
+        $srt_pmhn_kmbali_biaya->role_surat = 'tolak';
+
+        $srt_pmhn_kmbali_biaya->save();
+        return redirect()->route('srt_pmhn_kmbali_biaya.manajer')->with('success', 'Alasan penolakan telah dikirimkan');
+    }
+
+    function manajer_setuju($id)
     {
         $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('id', $id)->first();
 
@@ -518,5 +615,90 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
 
         $srt_pmhn_kmbali_biaya->save();
         return redirect()->route('srt_pmhn_kmbali_biaya.manajer')->with('success', 'Surat berhasil disetujui');
+    }
+
+    function wd2(Request $request)
+    {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
+            ->where('role_surat', 'wd2')
+            ->orderBy('tanggal_surat', 'asc')
+            ->select(
+                'srt_pmhn_kmbali_biaya.id',
+                'srt_pmhn_kmbali_biaya.nama_mhw',
+                'users.nmr_unik',
+            );
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%")
+                    ->orWhere('users.nmr_unik', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->get();
+
+        return view('srt_pmhn_kmbali_biaya.wd2', compact('data'));
+    }
+
+    function wd2_cek($id)
+    {
+        $srt_pmhn_kmbali_biaya = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('prodi', 'srt_pmhn_kmbali_biaya.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_pmhn_kmbali_biaya.id', $id)
+            ->select(
+                'srt_pmhn_kmbali_biaya.id',
+                'users.id as users_id',
+                'prodi.id as prodi_id',
+                'departement.id as dpt_id',
+                'srt_pmhn_kmbali_biaya.nama_mhw',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'users.foto',
+                'users.email',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'srt_pmhn_kmbali_biaya.skl',
+                'srt_pmhn_kmbali_biaya.bukti_bayar',
+                'srt_pmhn_kmbali_biaya.buku_tabung',
+                DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+                'srt_pmhn_kmbali_biaya.role_surat',
+            )
+            ->first();
+        return view('srt_pmhn_kmbali_biaya.cek_wd2', compact('srt_pmhn_kmbali_biaya'));
+    }
+
+    function wd2_tolak(Request $request, $id)
+    {
+        $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_pmhn_kmbali_biaya->catatan_surat = $request->catatan_surat . ' - Wakil Dekan';
+        $srt_pmhn_kmbali_biaya->catatan_surat = $request->catatan_surat;
+        $srt_pmhn_kmbali_biaya->role_surat = 'tolak';
+
+        $srt_pmhn_kmbali_biaya->save();
+        return redirect()->route('srt_pmhn_kmbali_biaya.wd2')->with('success', 'Alasan penolakan telah dikirimkan');
+    }
+
+    function wd2_setuju($id)
+    {
+        $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('id', $id)->first();
+
+        $srt_pmhn_kmbali_biaya->role_surat = 'mahasiswa';
+
+        $srt_pmhn_kmbali_biaya->save();
+        return redirect()->route('srt_pmhn_kmbali_biaya.wd2')->with('success', 'Surat berhasil disetujui');
     }
 }
