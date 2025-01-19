@@ -1,7 +1,7 @@
-<div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
+<div class="modal fade" id="tolakwdModal" tabindex="-1" aria-labelledby="tolakwdModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('srt_masih_mhw.tolak_manajer', $srt_masih_mhw->id) }}" method="POST" id="tolakForm">
+            <form action="{{ route('srt_masih_mhw.tolak_manajer_wd', $srt_masih_mhw->id) }}" method="POST" id="tolakForm">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">

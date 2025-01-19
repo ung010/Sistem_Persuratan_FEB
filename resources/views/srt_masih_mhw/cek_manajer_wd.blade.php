@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('manajer.layout')
 
 @section('content')
     <div class="container-fluid p-5">
@@ -10,12 +10,12 @@
                 </div>
             </div>
             <br>
-            <div class="card d-inline-block">
+            {{-- <div class="card d-inline-block">
                 <div class="card-header d-flex align-items-center gap-2">
                     <a href="/srt_masih_mhw/admin" class="btn btn-secondary btn-fixed-size-one">MANAJER</a>
                     <a href="/srt_masih_mhw/manajer_wd" class="btn btn-secondary btn-fixed-size-one">WAKIL DEKAN</a>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="card mt-3">
             <div class="card-body my-3 px-5">
@@ -38,13 +38,16 @@
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Tolak</button>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setujuModal">Setuju</button>
+                    <form action="{{ route('srt_masih_mhw.setuju_manajer_wd', $srt_masih_mhw->id) }}" method="POST">
+                        @csrf
+                        <button class="btn btn-success" type="submit">Setujui</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    @include('srt_masih_mhw.modal')
+    @include('srt_masih_mhw.modal_manajer_wd')
 @endsection
 
 @section('script')

@@ -1,4 +1,4 @@
-@extends('manajer.layout')
+@extends('wd1.layout')
 
 @section('content')
     <div class="container-fluid p-5">
@@ -19,7 +19,6 @@
                                 <th class="col-md-1">No</th>
                                 <th class="col-md-1">Nama Mahasiswa</th>
                                 <th class="col-md-1">Keperluan</th>
-                                <th class="col-md-1">Tujuan Surat</th>
                                 <th class="col-md-1">Cek Data</th>
                             </tr>
                         </thead>
@@ -29,22 +28,12 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
-                                    <td>{{ $item->tujuan_buat_srt }}</td>
                                     <td>
-                                        @if ($item->tujuan_akhir === 'wd')
-                                            Wakil Dekan
-                                        @elseif ($item->tujuan_akhir === 'manajer')
-                                            Manajer
-                                        @endif
+                                        {{ $item->tujuan_buat_srt }}
                                     </td>
                                     <td>
-                                        @if ($item->tujuan_akhir == 'manajer')
-                                            <a href='{{ url('/srt_masih_mhw/manajer/cek_surat/' . $item->id) }}'
-                                                class="btn btn-warning btn-sm">Cek Data</a>
-                                        @elseif($item->tujuan_akhir == 'wd')
-                                            <a href='{{ url('/srt_masih_mhw/manajer/wd/cek_surat/' . $item->id) }}'
-                                                class="btn btn-warning btn-sm">Cek Data</a>
-                                        @endif
+                                        <a href='{{ url('/srt_masih_mhw/wd1/cek_surat/' . $item->id) }}'
+                                            class="btn btn-warning btn-sm">Cek Data</a>
                                     </td>
                                 </tr>
                             @endforeach

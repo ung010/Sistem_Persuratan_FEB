@@ -600,14 +600,59 @@ class srt_masih_mhwController extends Controller
         return view('srt_masih_mhw.supervisor', compact('data'));
     }
 
-    function setuju_sv($id)
+    function cek_sv($id)
+    {
+        $srt_masih_mhw = DB::table('srt_masih_mhw')
+            ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_masih_mhw.id', $id)
+            ->select(
+                'srt_masih_mhw.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.almt_asl',
+                DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'users.nowa',
+                'users.foto',
+                'srt_masih_mhw.tujuan_buat_srt',
+                'srt_masih_mhw.tujuan_akhir'
+            )
+            ->first();
+        return view('srt_masih_mhw.cek_sv', compact('srt_masih_mhw'));
+    }
+
+    function setuju_sv(Request $request, $id)
     {
         $srt_masih_mhw = srt_masih_mhw::where('id', $id)->first();
 
         $srt_masih_mhw->role_surat = 'manajer';
 
         $srt_masih_mhw->save();
-        return redirect()->back()->with('success', 'Surat berhasil disetujui');
+        return redirect()->route('srt_masih_mhw.supervisor')->with('success', 'Surat berhasil disetujui');
+    }
+
+    function tolak_sv(Request $request, $id)
+    {
+        $srt_masih_mhw = srt_masih_mhw::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_masih_mhw->catatan_surat = $request->catatan_surat . '- Supervisor Akademik';
+        $srt_masih_mhw->catatan_surat = $request->catatan_surat;
+        $srt_masih_mhw->role_surat = 'tolak';
+
+        $srt_masih_mhw->save();
+        return redirect()->route('srt_masih_mhw.supervisor')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 
     function manajer(Request $request)
@@ -636,7 +681,89 @@ class srt_masih_mhwController extends Controller
         return view('srt_masih_mhw.manajer', compact('data'));
     }
 
-    function setuju_wd($id)
+    function cek_manajer($id)
+    {
+        $srt_masih_mhw = DB::table('srt_masih_mhw')
+            ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_masih_mhw.id', $id)
+            ->select(
+                'srt_masih_mhw.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.almt_asl',
+                DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'users.nowa',
+                'users.foto',
+                'srt_masih_mhw.tujuan_buat_srt',
+                'srt_masih_mhw.tujuan_akhir'
+            )
+            ->first();
+        return view('srt_masih_mhw.cek_manajer', compact('srt_masih_mhw'));
+    }
+
+    function setuju_manajer(Request $request, $id)
+    {
+        $srt_masih_mhw = srt_masih_mhw::where('id', $id)->first();
+
+        $srt_masih_mhw->role_surat = 'mahasiswa';
+
+        $srt_masih_mhw->save();
+        return redirect()->route('srt_masih_mhw.manajer')->with('success', 'Surat berhasil disetujui');
+    }
+
+    function tolak_manajer(Request $request, $id)
+    {
+        $srt_masih_mhw = srt_masih_mhw::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_masih_mhw->catatan_surat = $request->catatan_surat . '- Manajer';
+        $srt_masih_mhw->catatan_surat = $request->catatan_surat;
+        $srt_masih_mhw->role_surat = 'tolak';
+
+        $srt_masih_mhw->save();
+        return redirect()->route('srt_masih_mhw.manajer')->with('success', 'Alasan penolakan telah dikirimkan');
+    }
+
+    function cek_manajer_wd($id)
+    {
+        $srt_masih_mhw = DB::table('srt_masih_mhw')
+            ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_masih_mhw.id', $id)
+            ->select(
+                'srt_masih_mhw.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.almt_asl',
+                DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'users.nowa',
+                'users.foto',
+                'srt_masih_mhw.tujuan_buat_srt',
+                'srt_masih_mhw.tujuan_akhir'
+            )
+            ->first();
+        return view('srt_masih_mhw.cek_manajer', compact('srt_masih_mhw'));
+    }
+
+    function setuju_manajer_wd(Request $request, $id)
     {
         $srt_masih_mhw = srt_masih_mhw::where('id', $id)->first();
 
@@ -646,13 +773,102 @@ class srt_masih_mhwController extends Controller
         return redirect()->route('srt_masih_mhw.manajer')->with('success', 'Surat berhasil disetujui');
     }
 
-    function setuju_manajer($id)
+    function tolak_manajer_wd(Request $request, $id)
+    {
+        $srt_masih_mhw = srt_masih_mhw::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_masih_mhw->catatan_surat = $request->catatan_surat . '- Manajer';
+        $srt_masih_mhw->catatan_surat = $request->catatan_surat;
+        $srt_masih_mhw->role_surat = 'tolak';
+
+        $srt_masih_mhw->save();
+        return redirect()->route('srt_masih_mhw.manajer')->with('success', 'Alasan penolakan telah dikirimkan');
+    }
+
+    function wd1(Request $request)
+    {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_masih_mhw')
+            ->select(
+                'id',
+                'nama_mhw',
+                'tujuan_buat_srt',
+                'tujuan_akhir'
+            )
+            ->where('role_surat', 'wd1')
+            ->orderBy('tanggal_surat', 'asc');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%")
+                    ->orWhere('tujuan_buat_srt', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->get();
+
+        return view('srt_masih_mhw.wd1', compact('data'));
+    }
+
+    function cek_wd1($id)
+    {
+        $srt_masih_mhw = DB::table('srt_masih_mhw')
+            ->join('prodi', 'srt_masih_mhw.prd_id', '=', 'prodi.id')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('srt_masih_mhw.id', $id)
+            ->select(
+                'srt_masih_mhw.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.almt_asl',
+                DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'users.nowa',
+                'users.foto',
+                'srt_masih_mhw.tujuan_buat_srt',
+                'srt_masih_mhw.tujuan_akhir'
+            )
+            ->first();
+        return view('srt_masih_mhw.cek_wd1', compact('srt_masih_mhw'));
+    }
+
+    function setuju_wd1(Request $request, $id)
     {
         $srt_masih_mhw = srt_masih_mhw::where('id', $id)->first();
 
         $srt_masih_mhw->role_surat = 'mahasiswa';
 
         $srt_masih_mhw->save();
-        return redirect()->route('srt_masih_mhw.manajer')->with('success', 'Surat berhasil disetujui');
+        return redirect()->route('srt_masih_mhw.wd1')->with('success', 'Surat berhasil disetujui');
+    }
+
+    function tolak_wd1(Request $request, $id)
+    {
+        $srt_masih_mhw = srt_masih_mhw::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $srt_masih_mhw->catatan_surat = $request->catatan_surat . '- Wakil Dekan 1';
+        $srt_masih_mhw->catatan_surat = $request->catatan_surat;
+        $srt_masih_mhw->role_surat = 'tolak';
+
+        $srt_masih_mhw->save();
+        return redirect()->route('srt_masih_mhw.wd1')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 }

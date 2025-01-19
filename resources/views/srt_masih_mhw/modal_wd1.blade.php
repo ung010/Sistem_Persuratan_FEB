@@ -1,7 +1,7 @@
 <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('srt_masih_mhw.tolak_manajer', $srt_masih_mhw->id) }}" method="POST" id="tolakForm">
+            <form action="{{ route('srt_masih_mhw.tolak_wd1', $srt_masih_mhw->id) }}" method="POST" id="tolakForm">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -17,11 +17,10 @@
         </div>
     </div>
 </div>
-
 <script>
     document.getElementById('tolakForm').addEventListener('submit', function(e) {
         let textarea = document.getElementById('catatan_surat');
-        let suffix = " - Manajer";
+        let suffix = " - Wakil Dekan 1";
 
         if (!textarea.value.includes(suffix)) {
             textarea.value += suffix;

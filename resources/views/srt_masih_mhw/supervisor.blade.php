@@ -32,11 +32,8 @@
                                         {{ $item->tujuan_buat_srt }}
                                     </td>
                                     <td>
-                                        <form action="{{ route('srt_masih_mhw.sv_setuju', $item->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
-                                        </form>
+                                        <a href='{{ url('/srt_masih_mhw/supervisor/cek_surat/' . $item->id) }}'
+                                            class="btn btn-warning btn-sm">Cek Data</a>
                                     </td>
                                 </tr>
                             @endforeach
