@@ -20,11 +20,12 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('jenis_lgl', 'ijazah')
             ->orderBy('tanggal_surat', 'asc')
             ->select(
-                'users.nmr_unik',
+
                 'legalisir.id',
                 'legalisir.nama_mhw',
                 'legalisir.keperluan',
-                'prodi.nama_prd'
+                'prodi.nama_prd',
+                'users.nmr_unik'
             );
 
         if ($search) {
@@ -41,14 +42,70 @@ class Supervisor_Legalisir_Controller extends Controller
         return view('legalisir_sv.sv_dikirim_ijazah', compact('data'));
     }
 
-    function setuju_kirim_ijazah($id)
+    function cek_sv_dikirim_ijazah($id)
+    {
+        $legalisir = DB::table('legalisir')
+            ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('legalisir.id', $id)
+            ->select(
+                'legalisir.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'legalisir.no_resi',
+                'legalisir.ambil',
+                'legalisir.jenis_lgl',
+                'legalisir.keperluan',
+                'legalisir.tgl_lulus',
+                'legalisir.almt_kirim',
+                'legalisir.kcmt_kirim',
+                'legalisir.kdps_kirim',
+                'legalisir.klh_kirim',
+                'legalisir.kota_kirim',
+                'legalisir.file_ijazah',
+                'legalisir.file_transkrip',
+                'legalisir.role_surat',
+            )
+            ->first();
+        return view('legalisir_sv.cek_sv_dikirim_ijazah', compact('legalisir'));
+    }
+
+    function setuju_sv_dikirim_ijazah(Request $request, $id)
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'wd1';
+        $legalisir->role_surat = 'dekan';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_dikirim_ijazah')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
+        return redirect()->route('legalisir_sv.sv_dikirim_ijazah')
+        ->with('success', 'Legalisir berhasil disetujui');
+
+    }
+
+    function tolak_sv_dikirim_ijazah(Request $request, $id)
+    {
+        $legalisir = legalisir::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $legalisir->catatan_surat = $request->catatan_surat . ' - Supervisor Akademik';
+        $legalisir->catatan_surat = $request->catatan_surat;
+        $legalisir->role_surat = 'tolak';
+
+        $legalisir->save();
+        return redirect()->route('legalisir_sv.sv_dikirim_ijazah')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 
     function kirim_transkrip(Request $request)
@@ -84,14 +141,68 @@ class Supervisor_Legalisir_Controller extends Controller
         return view('legalisir_sv.sv_dikirim_transkrip', compact('data'));
     }
 
-    function setuju_kirim_transkrip($id)
+    function cek_sv_dikirim_transkrip($id)
+    {
+        $legalisir = DB::table('legalisir')
+            ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('legalisir.id', $id)
+            ->select(
+                'legalisir.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'legalisir.no_resi',
+                'legalisir.ambil',
+                'legalisir.jenis_lgl',
+                'legalisir.keperluan',
+                'legalisir.tgl_lulus',
+                'legalisir.almt_kirim',
+                'legalisir.kcmt_kirim',
+                'legalisir.kdps_kirim',
+                'legalisir.klh_kirim',
+                'legalisir.kota_kirim',
+                'legalisir.file_ijazah',
+                'legalisir.file_transkrip',
+                'legalisir.role_surat',
+            )
+            ->first();
+        return view('legalisir_sv.cek_sv_dikirim_transkrip', compact('legalisir'));
+    }
+
+    function setuju_sv_dikirim_transkrip($id)
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'wd1';
+        $legalisir->role_surat = 'dekan';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_dikirim_transkrip')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
+        return redirect()->route('legalisir_sv.sv_dikirim_transkrip')->with('success', 'Legalisir berhasil disetujui');
+    }
+
+    function tolak_sv_dikirim_transkrip(Request $request, $id)
+    {
+        $legalisir = legalisir::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $legalisir->catatan_surat = $request->catatan_surat . ' - Supervisor Akademik';
+        $legalisir->catatan_surat = $request->catatan_surat;
+        $legalisir->role_surat = 'tolak';
+
+        $legalisir->save();
+        return redirect()->route('legalisir_sv.sv_dikirim_transkrip')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 
     function kirim_ijz_trs(Request $request)
@@ -127,14 +238,68 @@ class Supervisor_Legalisir_Controller extends Controller
         return view('legalisir_sv.sv_dikirim_ijz_trs', compact('data'));
     }
 
-    function setuju_kirim_ijz_trs($id)
+    function cek_sv_dikirim_ijz_trs($id)
+    {
+        $legalisir = DB::table('legalisir')
+            ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('legalisir.id', $id)
+            ->select(
+                'legalisir.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'legalisir.no_resi',
+                'legalisir.ambil',
+                'legalisir.jenis_lgl',
+                'legalisir.keperluan',
+                'legalisir.tgl_lulus',
+                'legalisir.almt_kirim',
+                'legalisir.kcmt_kirim',
+                'legalisir.kdps_kirim',
+                'legalisir.klh_kirim',
+                'legalisir.kota_kirim',
+                'legalisir.file_ijazah',
+                'legalisir.file_transkrip',
+                'legalisir.role_surat',
+            )
+            ->first();
+        return view('legalisir_sv.cek_sv_dikirim_ijz_trs', compact('legalisir'));
+    }
+
+    function setuju_sv_dikirim_ijz_trs($id)
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'wd1';
+        $legalisir->role_surat = 'dekan';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_dikirim_ijz_trs')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
+        return redirect()->route('legalisir_sv.sv_dikirim_ijz_trs')->with('success', 'Legalisir berhasil disetujui');
+    }
+
+    function tolak_sv_dikirim_ijz_trs(Request $request, $id)
+    {
+        $legalisir = legalisir::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $legalisir->catatan_surat = $request->catatan_surat . ' - Supervisor Akademik';
+        $legalisir->catatan_surat = $request->catatan_surat;
+        $legalisir->role_surat = 'tolak';
+
+        $legalisir->save();
+        return redirect()->route('legalisir_sv.sv_dikirim_ijz_trs')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 
     function ditempat_ijazah(Request $request)
@@ -170,14 +335,67 @@ class Supervisor_Legalisir_Controller extends Controller
         return view('legalisir_sv.sv_ditempat_ijazah', compact('data'));
     }
 
-    function setuju_ditempat_ijazah($id)
+    function cek_sv_ditempat_ijazah($id)
+    {
+        $legalisir = DB::table('legalisir')
+            ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('legalisir.id', $id)
+            ->select(
+                'legalisir.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'legalisir.no_resi',
+                'legalisir.ambil',
+                'legalisir.jenis_lgl',
+                'legalisir.keperluan',
+                'legalisir.tgl_lulus',
+                'legalisir.almt_kirim',
+                'legalisir.kcmt_kirim',
+                'legalisir.kdps_kirim',
+                'legalisir.klh_kirim',
+                'legalisir.kota_kirim',
+                'legalisir.file_ijazah',
+                'legalisir.file_transkrip',
+                'legalisir.role_surat',
+            )
+            ->first();
+        return view('legalisir_sv.cek_sv_ditempat_ijazah', compact('legalisir'));
+    }
+
+    function setuju_sv_ditempat_ijazah($id)
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'wd1';
+        $legalisir->role_surat = 'dekan';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_ditempat_ijazah')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
+        return redirect()->route('legalisir_sv.sv_ditempat_ijazah')->with('success', 'Legalisir berhasil disetujui');
+    }
+
+    function tolak_sv_ditempat_ijazah(Request $request, $id)
+    {
+        $legalisir = legalisir::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $legalisir->catatan_surat = $request->catatan_surat;
+        $legalisir->role_surat = 'tolak';
+
+        $legalisir->save();
+        return redirect()->route('legalisir_sv.sv_ditempat_ijazah')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 
     function ditempat_transkrip(Request $request)
@@ -213,14 +431,67 @@ class Supervisor_Legalisir_Controller extends Controller
         return view('legalisir_sv.sv_ditempat_transkrip', compact('data'));
     }
 
-    function setuju_ditempat_transkrip($id)
+    function cek_sv_ditempat_transkrip($id)
+    {
+        $legalisir = DB::table('legalisir')
+            ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('legalisir.id', $id)
+            ->select(
+                'legalisir.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'legalisir.no_resi',
+                'legalisir.ambil',
+                'legalisir.jenis_lgl',
+                'legalisir.keperluan',
+                'legalisir.tgl_lulus',
+                'legalisir.almt_kirim',
+                'legalisir.kcmt_kirim',
+                'legalisir.kdps_kirim',
+                'legalisir.klh_kirim',
+                'legalisir.kota_kirim',
+                'legalisir.file_ijazah',
+                'legalisir.file_transkrip',
+                'legalisir.role_surat',
+            )
+            ->first();
+        return view('legalisir_sv.cek_sv_ditempat_transkrip', compact('legalisir'));
+    }
+
+    function setuju_sv_ditempat_transkrip($id)
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'wd1';
+        $legalisir->role_surat = 'dekan';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_ditempat_transkrip')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
+        return redirect()->route('legalisir_sv.sv_ditempat_transkrip')->with('success', 'Legalisir berhasil disetujui');
+    }
+
+    function tolak_sv_ditempat_transkrip(Request $request, $id)
+    {
+        $legalisir = legalisir::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $legalisir->catatan_surat = $request->catatan_surat;
+        $legalisir->role_surat = 'tolak';
+
+        $legalisir->save();
+        return redirect()->route('legalisir_sv.sv_ditempat_transkrip')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 
     function ditempat_ijz_trs(Request $request)
@@ -256,13 +527,66 @@ class Supervisor_Legalisir_Controller extends Controller
         return view('legalisir_sv.sv_ditempat_ijz_trs', compact('data'));
     }
 
-    function setuju_ditempat_ijz_trs($id)
+    function cek_sv_ditempat_ijz_trs($id)
+    {
+        $legalisir = DB::table('legalisir')
+            ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->join('departement', 'prodi.dpt_id', '=', 'departement.id')
+            ->where('legalisir.id', $id)
+            ->select(
+                'legalisir.id',
+                'users.id as users_id',
+                'prodi.id as prd_id',
+                'departement.id as dpt_id',
+                'users.nama',
+                'users.nmr_unik',
+                'users.nowa',
+                'users.almt_asl',
+                'departement.nama_dpt',
+                'prodi.nama_prd',
+                'legalisir.no_resi',
+                'legalisir.ambil',
+                'legalisir.jenis_lgl',
+                'legalisir.keperluan',
+                'legalisir.tgl_lulus',
+                'legalisir.almt_kirim',
+                'legalisir.kcmt_kirim',
+                'legalisir.kdps_kirim',
+                'legalisir.klh_kirim',
+                'legalisir.kota_kirim',
+                'legalisir.file_ijazah',
+                'legalisir.file_transkrip',
+                'legalisir.role_surat',
+            )
+            ->first();
+        return view('legalisir_sv.cek_sv_ditempat_ijz_trs', compact('legalisir'));
+    }
+
+    function setuju_sv_ditempat_ijz_trs($id)
     {
         $legalisir = legalisir::where('id', $id)->first();
 
-        $legalisir->role_surat = 'wd1';
+        $legalisir->role_surat = 'dekan';
 
         $legalisir->save();
-        return redirect()->route('legalisir_sv.sv_ditempat_ijz_trs')->with('success', 'Legalisir berhasil disetujui dan dikembalikan ke admin untuk proses selanjutnya');
+        return redirect()->route('legalisir_sv.sv_ditempat_ijz_trs')->with('success', 'Legalisir berhasil disetujui');
+    }
+
+    function tolak_sv_ditempat_ijz_trs(Request $request, $id)
+    {
+        $legalisir = legalisir::where('id', $id)->first();
+
+        $request->validate([
+            'catatan_surat' => 'required',
+        ], [
+            'catatan_surat.required' => 'Alasan penolakan wajib diisi',
+        ]);
+
+        $legalisir->catatan_surat = $request->catatan_surat;
+        $legalisir->role_surat = 'tolak';
+
+        $legalisir->save();
+        return redirect()->route('legalisir_sv.sv_ditempat_ijz_trs')->with('success', 'Alasan penolakan telah dikirimkan');
     }
 }

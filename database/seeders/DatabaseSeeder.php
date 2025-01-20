@@ -102,7 +102,7 @@ class DatabaseSeeder extends Seeder
         $imageDirectory = public_path('storage/foto/mahasiswa');
         $imageFiles = File::files($imageDirectory);
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 100) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
             $randomImage = $faker->randomElement($imageFiles);
             $imageName = basename($randomImage);
@@ -514,7 +514,7 @@ class DatabaseSeeder extends Seeder
         $jenis_legalisir = ['ijazah', 'transkrip', 'ijazah_transkrip'];
 
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 95) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_lgl->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -530,8 +530,8 @@ class DatabaseSeeder extends Seeder
                 'tgl_lulus' => $tanggal_lulus,
                 'keperluan' => $keperluan,
                 'jenis_lgl' => $faker_lgl->randomElement($jenis_legalisir),
-                'ambil' => 'ditempat',
-                'role_surat' => $faker_lgl->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'wd1']),
+                'ambil' => $faker_lgl->randomElement(['ditempat', 'dikirim']),
+                'role_surat' => $faker_lgl->randomElement(['admin', 'supervisor_akd', 'dekan']),
                 'prd_id' => $user->prd_id,
                 'tanggal_surat' => $tanggal_surat,
             ]);

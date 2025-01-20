@@ -42,11 +42,8 @@
                                     <td>{{ $item->nama_prd }}</td>
                                     <td>{{ $item->keperluan }}</td>
                                     <td>
-                                        <form action="{{ route('legalisir_sv.sv_ditempat_transkrip_setuju', $item->id) }}"
-                                            method="POST" style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
-                                        </form>
+                                        <a href="{{ url('/legalisir/sv/ditempat/transkrip/cek_legal/' . $item->id) }}"
+                                            class="btn btn-warning btn-sm">Cek Data</a>
                                     </td>
                                 </tr>
                             @endforeach

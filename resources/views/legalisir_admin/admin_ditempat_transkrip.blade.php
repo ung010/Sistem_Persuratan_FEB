@@ -51,14 +51,14 @@
                                             Menunggu Verifikasi Admin
                                         @elseif ($item->role_surat == 'supervisor_akd')
                                             Menunggu Verifikasi Supervisor Akademik
-                                        @elseif ($item->role_surat == 'wd1')
+                                        @elseif ($item->role_surat == 'dekan')
                                             Supervisor telah melakukann verifikasi
                                         @else
                                             Ditolak
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($item->role_surat == 'wd1')
+                                        @if ($item->role_surat == 'dekan')
                                             <a href="{{ url('/legalisir/admin/ditempat/transkrip/download/' . $item->id) }}"
                                                 class="btn btn-primary btn-sm">Unduh</a>
                                         @else
@@ -66,7 +66,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($item->role_surat == 'wd1')
+                                        @if ($item->role_surat == 'dekan')
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#uploadModal" data-id="{{ $item->id }}"
                                                 data-nama="{{ $item->nama_mhw }}">
