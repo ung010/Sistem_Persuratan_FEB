@@ -98,4 +98,30 @@ class Survey_Controller extends Controller
 
         return view('survey.manajer', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
+
+    function wd1()
+    {
+        $sangat_puas = DB::table('survey')->where('rating', 'sangat_puas')->count();
+        $puas = DB::table('survey')->where('rating', 'puas')->count();
+        $netral = DB::table('survey')->where('rating', 'netral')->count();
+        $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
+        $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
+
+        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
+
+        return view('survey.wd1', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
+    }
+
+    function wd2()
+    {
+        $sangat_puas = DB::table('survey')->where('rating', 'sangat_puas')->count();
+        $puas = DB::table('survey')->where('rating', 'puas')->count();
+        $netral = DB::table('survey')->where('rating', 'netral')->count();
+        $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
+        $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
+
+        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
+
+        return view('survey.wd2', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
+    }
 }

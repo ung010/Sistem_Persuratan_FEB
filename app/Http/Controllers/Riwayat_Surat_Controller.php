@@ -468,4 +468,93 @@ class Riwayat_Surat_Controller extends Controller
 
         return view('riwayat_wd2.srt_pmhn_kmbali_biaya', compact('data'));
     }
+
+    function wd1_srt_izin_plt(Request $request) {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_izin_plt')
+            ->select(
+                'id',
+                'nama_mhw',
+                'role_surat',
+            )
+            ->Where('role_surat', 'mahasiswa');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->get();
+
+        return view('riwayat_wd1.srt_izin_plt', compact('data'));
+    }
+
+    function wd1_srt_pmhn_kmbali_biaya(Request $request) {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_pmhn_kmbali_biaya')
+            ->select(
+                'id',
+                'nama_mhw',
+                'role_surat',
+            )
+            ->Where('role_surat', 'mahasiswa');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->get();
+
+        return view('riwayat_wd1.srt_pmhn_kmbali_biaya', compact('data'));
+    }
+
+    function wd1_srt_magang(Request $request) {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_magang')
+            ->select(
+                'id',
+                'nama_mhw',
+                'role_surat',
+            )
+            ->Where('role_surat', 'mahasiswa');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->get();
+
+        return view('riwayat_wd1.srt_magang', compact('data'));
+    }
+
+    function wd1_srt_masih_mhw(Request $request) {
+        $search = $request->input('search');
+
+        $query = DB::table('srt_masih_mhw')
+            ->select(
+                'id',
+                'nama_mhw',
+                'role_surat',
+            )
+            ->Where('role_surat', 'mahasiswa')
+            ->where('tujuan_akhir', 'wd');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mhw', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->get();
+
+        return view('riwayat_wd1.srt_masih_mhw', compact('data'));
+    }
 }

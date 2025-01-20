@@ -1,5 +1,5 @@
-@extends('template/wd1')
-@section('inti_data')
+@extends('wd1.layout')
+@section('content')
 <head>
     <title>My Account {{ auth()->user()->nama }}</title>
 </head>
@@ -7,7 +7,7 @@
     <div class="container py-5">
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <h1>Edit Account</h1>
-            <form action='{{ route('manajer.update_account', $user->id) }}' method='post' enctype="multipart/form-data">
+            <form action='{{ route('wd1.update_account', $user->id) }}' method='post' enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="nama" class="form-label">Nama</label>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="mb-3 d-grid">
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href='/manajer' class="btn btn-info">Kembali</a>
+                    <a href='/wd1' class="btn btn-info">Kembali</a>
                 </div>
             </form>
         </div>

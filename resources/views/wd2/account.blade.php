@@ -1,5 +1,5 @@
-@extends('template/wd2')
-@section('inti_data')
+@extends('wd2.layout')
+@section('content')
 <head>
     <title>My Account {{ auth()->user()->nama }}</title>
 </head>

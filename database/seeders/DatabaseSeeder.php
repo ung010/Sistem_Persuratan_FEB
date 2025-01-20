@@ -319,9 +319,9 @@ class DatabaseSeeder extends Seeder
             ->toArray();
 
         $alasan_acak = ['sakit', 'berpegian', 'menjenguk', 'acara keluarga', 'urusan pribadi'];
-        $list_role = ['admin', 'supervisor_akd', 'manajer', 'wd1'];
+        $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'wd1'];
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 95) as $index) {
 
             $random_user_id = $faker_srt_masih_mhw->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -384,7 +384,7 @@ class DatabaseSeeder extends Seeder
                 'ipk' => $ipk,
                 'sksk' => $sksk,
                 'jbt_lmbg' => $jbt_lmbg,
-                'role_surat' => $faker_srt_magang->randomElement(['admin', 'supervisor_akd', 'manajer', 'wd1']),
+                'role_surat' => $faker_srt_magang->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'wd1']),
                 'nama_lmbg' => $faker_srt_magang->company(),
                 'kota_lmbg' => $faker_srt_magang->city(),
                 'almt_lmbg' => $faker_srt_magang->address(),
@@ -434,7 +434,7 @@ class DatabaseSeeder extends Seeder
                 'lampiran' => $lampiran,
                 'jbt_lmbg' => $jbt_lmbg,
                 'jenis_surat' => $jenis_surat,
-                'role_surat' => $faker_srt_plt->randomElement(['admin', 'supervisor_akd', 'manajer', 'wd1']),
+                'role_surat' => $faker_srt_plt->randomElement(['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'wd1']),
                 'nama_lmbg' => $faker_srt_plt->company(),
                 'kota_lmbg' => $faker_srt_plt->city(),
                 'almt_lmbg' => $faker_srt_plt->address(),
@@ -466,7 +466,7 @@ class DatabaseSeeder extends Seeder
                 'users_id' => $random_user_id,
                 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
-                'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['admin', 'supervisor_sd', 'manajer', 'wd2']),
+                'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['mahasiswa', 'admin', 'supervisor_sd', 'manajer', 'wd2']),
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }

@@ -155,16 +155,16 @@ Route::middleware('auth')->group(function () {
 
     route::get('/wd1', [WDController::class, 'index_wd1'])->name('wd1.index')->
     middleware('UserAkses:wd1');
-    Route::get('/wd1/account', [WDController::class, 'edit_account'])->name('wd1.edit_account')->
+    Route::get('/wd1/account', [WDController::class, 'edit_wd1_account'])->name('wd1.edit_account')->
     middleware('UserAkses:wd1');
-    Route::post('/wd1/account/update/{id}', [WDController::class, 'update_account'])->name('wd1.update_account')->
+    Route::post('/wd1/account/update/{id}', [WDController::class, 'update_wd1_account'])->name('wd1.update_account')->
     middleware('UserAkses:wd1');
 
     route::get('/wd2', [WDController::class, 'index_wd2'])->name('wd2.index')->
     middleware('UserAkses:wd2');
-    Route::get('/wd2/account', [WDController::class, 'edit_account'])->name('wd2.edit_account')->
+    Route::get('/wd2/account', [WDController::class, 'edit_wd2_account'])->name('wd2.edit_account')->
     middleware('UserAkses:wd2');
-    Route::post('/wd2/account/update/{id}', [WDController::class, 'update_account'])->name('wd2.update_account')->
+    Route::post('/wd2/account/update/{id}', [WDController::class, 'update_wd2_account'])->name('wd2.update_account')->
     middleware('UserAkses:wd2');
 
 
@@ -843,14 +843,25 @@ Route::middleware('auth')->group(function () {
     middleware('UserAkses:manajer');
     Route::get('/riwayat_srt/manajer/srt_pmhn_kmbali_biaya/search', [Riwayat_Surat_Controller::class, 'manajer_srt_pmhn_kmbali_biaya'])->name('riwayat_manajer.srt_pmhn_kmbali_biaya_search')->
     middleware('UserAkses:manajer');
-    Route::get('/riwayat_srt/manajer/legalisir', [Riwayat_Surat_Controller::class, 'manajer_legalisir'])->name('riwayat_manajer.legalisir')->
-    middleware('UserAkses:manajer');
-    Route::get('/riwayat_srt/manajer/legalisir/search', [Riwayat_Surat_Controller::class, 'manajer_legalisir'])->name('riwayat_manajer.legalisir_search')->
-    middleware('UserAkses:manajer');
+    // Route::get('/riwayat_srt/manajer/legalisir', [Riwayat_Surat_Controller::class, 'manajer_legalisir'])->name('riwayat_manajer.legalisir')->
+    // middleware('UserAkses:manajer');
+    // Route::get('/riwayat_srt/manajer/legalisir/search', [Riwayat_Surat_Controller::class, 'manajer_legalisir'])->name('riwayat_manajer.legalisir_search')->
+    // middleware('UserAkses:manajer');
 
     // Riwayat Wakil Dekan 1
 
-
+    Route::get('/riwayat_srt/wd1/srt_masih_mhw', [Riwayat_Surat_Controller::class, 'wd1_srt_masih_mhw'])->name('riwayat_wd1.srt_masih_mhw')->
+    middleware('UserAkses:wd1');
+    Route::get('/riwayat_srt/wd1/srt_masih_mhw/search', [Riwayat_Surat_Controller::class, 'wd1_srt_masih_mhw'])->name('riwayat_wd1.srt_masih_mhw_search')->
+    middleware('UserAkses:wd1');
+    Route::get('/riwayat_srt/wd1/srt_izin_plt', [Riwayat_Surat_Controller::class, 'wd1_srt_izin_plt'])->name('riwayat_wd1.srt_izin_plt')->
+    middleware('UserAkses:wd1');
+    Route::get('/riwayat_srt/wd1/srt_izin_plt/search', [Riwayat_Surat_Controller::class, 'wd1_srt_izin_plt'])->name('riwayat_wd1.srt_izin_plt_search')->
+    middleware('UserAkses:wd1');
+    Route::get('/riwayat_srt/wd1/srt_magang', [Riwayat_Surat_Controller::class, 'wd1_srt_magang'])->name('riwayat_wd1.srt_magang')->
+    middleware('UserAkses:wd1');
+    Route::get('/riwayat_srt/wd1/srt_magang/search', [Riwayat_Surat_Controller::class, 'wd1_srt_magang'])->name('riwayat_wd1.srt_magang_search')->
+    middleware('UserAkses:wd1');
 
     // Riwayat Wakil Dekan 2
 

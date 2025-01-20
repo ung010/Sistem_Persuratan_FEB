@@ -1,5 +1,5 @@
-@extends('template/manajer')
-@section('inti_data')
+@extends('manajer.layout')
+@section('content')
 <head>
     <title>My Account {{ auth()->user()->nama }}</title>
 </head>

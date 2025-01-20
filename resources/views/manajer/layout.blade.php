@@ -24,7 +24,7 @@
                 <ul class="list-unstyled ps-0">
                     <li class="border-top my-3 border-dark"></li>
                     <li class="mb-1">
-                        <a href="/manajer" class="link-dark"><img src="{{ asset('asset/icons/admin.png') }}"
+                        <a href="/manajer/account" class="link-dark"><img src="{{ asset('asset/icons/admin.png') }}"
                                 alt="Icon" style="height: 16px;"> {{ auth()->user()->nama }}</a>
                     </li>
                     <li class="border-top my-3 border-dark"></li>

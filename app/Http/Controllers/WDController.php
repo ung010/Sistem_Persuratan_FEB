@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\srt_izin_penelitian;
 use App\Models\Srt_Magang;
@@ -28,9 +32,44 @@ class WDController extends Controller
     ));
   }
 
+  function edit_wd1_account()
+  {
+    $user = Auth::user();
+    return view('wd1.account', compact('user'));
+  }
+
+  function update_wd1_account(Request $request, $id)
+  {
+    $user = User::findOrFail($id);
+
+    $request->validate([
+      'nama' => 'required',
+      'nmr_unik' => 'required|unique:users,nmr_unik,' . $user->id,
+      'email' => 'required|email|unique:users,email,' . $user->id,
+    ], [
+      'nama.required' => 'Nama wajib diisi',
+      'nmr_unik.required' => 'NIM wajib diisi',
+      'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+      'email.required' => 'Email wajib diisi',
+      'email.email' => 'Email harus valid',
+      'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
+    ]);
+
+    $user->nama = $request->nama;
+    $user->nmr_unik = $request->nmr_unik;
+    $user->email = $request->email;
+
+    if ($request->filled('password')) {
+      $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+    return redirect()->back()->with('success', 'Data diri telah diperbarui');
+  }
+
   public function index_wd2()
   {
-    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'manajer')->count();
+    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'wd2')->count();
     $total_surat =
       srt_pmhn_kmbali_biaya::where('role_surat', 'mahasiswa')->count();
 
@@ -38,5 +77,40 @@ class WDController extends Controller
       'srt_pmhn_kmbali_biaya',
       'total_surat'
     ));
+  }
+
+  function edit_wd2_account()
+  {
+    $user = Auth::user();
+    return view('wd2.account', compact('user'));
+  }
+
+  function update_wd2_account(Request $request, $id)
+  {
+    $user = User::findOrFail($id);
+
+    $request->validate([
+      'nama' => 'required',
+      'nmr_unik' => 'required|unique:users,nmr_unik,' . $user->id,
+      'email' => 'required|email|unique:users,email,' . $user->id,
+    ], [
+      'nama.required' => 'Nama wajib diisi',
+      'nmr_unik.required' => 'NIM wajib diisi',
+      'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+      'email.required' => 'Email wajib diisi',
+      'email.email' => 'Email harus valid',
+      'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
+    ]);
+
+    $user->nama = $request->nama;
+    $user->nmr_unik = $request->nmr_unik;
+    $user->email = $request->email;
+
+    if ($request->filled('password')) {
+      $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+    return redirect()->back()->with('success', 'Data diri telah diperbarui');
   }
 }

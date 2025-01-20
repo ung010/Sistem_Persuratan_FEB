@@ -19,7 +19,6 @@
                         <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/srt_izin_plt">Penelitian</a>
                         <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/srt_pmhn_kmbali_biaya">Pengembalian Biaya
                             Pendidikan</a>
-                        <a class="btn btn-secondary btn-fixed-size" href="/riwayat_srt/manajer/legalisir">Legalisir</a>
                     </div>
                 </div>
             </div>
