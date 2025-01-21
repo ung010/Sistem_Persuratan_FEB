@@ -7,7 +7,7 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">Tracking Surat Supervisor Sumber Daya</p>
+                        <p class="heading-card">Tracking Surat Manajer</p>
                     </div>
                 </div>
                 <br>
@@ -22,30 +22,14 @@
                 </div>
             </div>
             <div class="card-body my-3">
-                <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center px-5 mx-5">
+                <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center mb-5">
                     <div class="card flex-even" style="background-color: #DDE5E9">
                         <div class="card-body row">
-                            <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
                                 <p class="tracking">Surat Permohonan Pengembalian Biaya Pendidikan</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
                                 <p>{{ $srt_pmhn_kmbali_biaya }}</p>
-                            </div>
-                            <div class="container-fluid">
-                                <div class="border-top my-3 border-dark"></div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center">
-                                <p class="m-0 tracking">Jumlah Surat Masuk</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card flex-even" style="background-color: #FAEEAF">
-                        <div class="card-body row">
-                            <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
-                                <p class="tracking">Surat Keterangan Bebas Pinjam</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center">
-                                <p>{{ $srt_bbs_pnjm }}</p>
                             </div>
                             <div class="container-fluid">
                                 <div class="border-top my-3 border-dark"></div>

@@ -753,6 +753,10 @@ Route::middleware('auth')->group(function () {
     middleware('UserAkses:admin');
     Route::get('/tracking/sv_sd', [AdminController::class, 'track_srt_sv_sd'])->name('track_srt.sv_sd')->
     middleware('UserAkses:admin');
+    Route::get('/tracking/wd1', [AdminController::class, 'track_srt_wd1'])->name('track_srt.wd1')->
+    middleware('UserAkses:admin');
+    Route::get('/tracking/wd2', [AdminController::class, 'track_srt_wd2'])->name('track_srt.wd2')->
+    middleware('UserAkses:admin');
 
     // Riwayat Surat Admin
 

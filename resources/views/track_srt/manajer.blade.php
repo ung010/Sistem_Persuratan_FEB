@@ -16,6 +16,8 @@
                         <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/sv_akd">Supervisor Akademik</a>
                         <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/sv_sd">Supervisor Sumber Daya</a>
                         <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/manajer">Manajer Tata Usaha</a>
+                        <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/wd1">Wakil Dekan 1</a>
+                        <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/wd2">Wakil Dekan 2</a>
                     </div>
                 </div>
             </div>
@@ -94,22 +96,6 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
                                 <p>{{ $srt_pmhn_kmbali_biaya }}</p>
-                            </div>
-                            <div class="container-fluid">
-                                <div class="border-top my-3 border-dark"></div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center">
-                                <p class="m-0 tracking">Jumlah Surat Masuk</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card flex-even" style="background-color: #FAEEAF">
-                        <div class="card-body row">
-                            <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
-                                <p class="tracking">Legalisir</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center">
-                                <p>{{ $legalisir }}</p>
                             </div>
                             <div class="container-fluid">
                                 <div class="border-top my-3 border-dark"></div>

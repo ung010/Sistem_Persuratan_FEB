@@ -64,9 +64,11 @@
 
                         <div class="collapse" id="orders-collapse-tracking" style="margin-left: 20px">
                             <div class="d-flex flex-column gap-1 ml-2">
-                                <a href="/tracking/manajer" class="link-dark rounded">Manajer</a>
                                 <a href="/tracking/sv_akd" class="link-dark rounded">Supervisor Akademik</a>
                                 <a href="/tracking/sv_sd" class="link-dark rounded">Supervisor Sumber Daya</a>
+                                <a href="/tracking/manajer" class="link-dark rounded">Manajer</a>
+                                <a href="/tracking/wd1" class="link-dark rounded">Wakil Dekan 1</a>
+                                <a href="/tracking/wd2" class="link-dark rounded">Wakil Dekan 2</a>
                             </div>
                     </li>
                     <li class="mb-1">

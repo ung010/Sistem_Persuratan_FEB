@@ -16,6 +16,8 @@
                         <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/sv_akd">Supervisor Akademik</a>
                         <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/sv_sd">Supervisor Sumber Daya</a>
                         <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/manajer">Manajer Tata Usaha</a>
+                        <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/wd1">Wakil Dekan 1</a>
+                        <a class="btn btn-secondary btn-fixed-sized-one" href="/tracking/wd2">Wakil Dekan 2</a>
                     </div>
                 </div>
             </div>

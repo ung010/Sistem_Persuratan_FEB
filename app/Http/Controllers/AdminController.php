@@ -83,8 +83,6 @@ class AdminController extends Controller
     $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'manajer')->count();
     $srt_magang = Srt_Magang::where('role_surat', 'manajer')->count();
     $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'manajer')->count();
-    $legalisir = legalisir::where('role_surat', 'manajer')->count();
-    $srt_bbs_pnjm = srt_bbs_pnjm::where('role_surat', 'manajer')->count();
 
     return view('track_srt.manajer', compact(
       'srt_mhw_asn',
@@ -92,8 +90,28 @@ class AdminController extends Controller
       'srt_izin_plt',
       'srt_magang',
       'srt_pmhn_kmbali_biaya',
-      'legalisir',
-      'srt_bbs_pnjm',
+    ));
+  }
+
+  function track_srt_wd1()
+  {
+    $srt_masih_mhw = srt_masih_mhw::where('role_surat', 'wd1')->count();
+    $srt_izin_plt = srt_izin_penelitian::where('role_surat', 'wd1')->count();
+    $srt_magang = Srt_Magang::where('role_surat', 'wd1')->count();
+
+    return view('track_srt.wd1', compact(
+      'srt_masih_mhw',
+      'srt_izin_plt',
+      'srt_magang',
+    ));
+  }
+
+  function track_srt_wd2()
+  {
+    $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'wd2')->count();
+
+    return view('track_srt.wd2', compact(
+      'srt_pmhn_kmbali_biaya',
     ));
   }
 
