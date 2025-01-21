@@ -27,6 +27,7 @@ class AdminController extends Controller
     $srt_magang = Srt_Magang::where('role_surat', 'admin')->count();
     $srt_pmhn_kmbali_biaya = srt_pmhn_kmbali_biaya::where('role_surat', 'admin')->count();
     $legalisir = legalisir::where('role_surat', 'admin')->count();
+    $verif_akun = User::where('role', 'non_mahasiswa')->count();
     $total_surat =
       srt_mhw_asn::where('role_surat', 'mahasiswa')->count() +
       srt_masih_mhw::where('role_surat', 'mahasiswa')->count() +
@@ -44,6 +45,7 @@ class AdminController extends Controller
       'srt_magang',
       'srt_pmhn_kmbali_biaya',
       'legalisir',
+      'verif_akun',
       'total_surat'
     ));
   }
